@@ -1,10 +1,7 @@
-import { useActionData, MetaFunction } from "react-router";
+import { useActionData, MetaFunction, Form, useNavigation } from "react-router";
 import { configAuthSupportedForm } from "~/utils/config";
 import {
-	Form,
 	Errors as FormErrors,
-	SubmitButton,
-	FieldErrorsStandard,
 } from "~/frontend/form";
 import { formStringData } from "~/utils/httputil";
 import { authAction, authActionGetAuth } from "~/utils/auth";
@@ -14,17 +11,16 @@ import {
 } from "~/backend.server/models/user/password";
 import { redirectWithMessage } from "~/utils/session";
 import { MainContainer } from "~/frontend/container";
-import PasswordInput from "~/components/PasswordInput";
-import { useState, useEffect, ChangeEvent } from "react";
 import { redirectLangFromRoute } from "~/utils/url.backend";
 import { LoaderFunctionArgs } from "react-router";
 
 import { ViewContext } from "~/frontend/context";
 
-
-import { LangLink } from "~/utils/link";
 import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";
+import { Card } from "primereact/card";
+import { Button } from "primereact/button";
+import { Password } from "primereact/password";
 
 // Add loader to check if form auth is supported
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
@@ -32,9 +28,7 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	if (!configAuthSupportedForm()) {
 		return redirectLangFromRoute(loaderArgs, "/user/settings"); // or wherever appropriate
 	}
-	return {
-
-	};
+	return {};
 };
 
 export const action = authAction(
@@ -61,11 +55,11 @@ export const action = authAction(
 			return { ok: false, data, errors: res.errors };
 		}
 
-		return redirectWithMessage(actionArgs, "/user/settings", {
+		return redirectWithMessage(actionArgs, "/hazardous-event", {
 			type: "info",
-			text: ctx.t({ "code": "user.password_changed", "msg": "Password changed." }),
+			text: ctx.t({ code: "user.password_changed", msg: "Password changed." }),
 		});
-	}
+	},
 );
 
 export const meta: MetaFunction = () => {
@@ -73,18 +67,21 @@ export const meta: MetaFunction = () => {
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.reset_password",
-				"msg": "Reset Password"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "nav.change_password",
+					msg: "Change Password",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.changing_password",
-				"msg": "Changing password"
+				code: "meta.changing_password",
+				msg: "Changing password",
 			}),
-		}
+		},
 	];
 };
 
@@ -109,144 +106,189 @@ export default function Screen() {
 	const actionData = useActionData<typeof action>();
 	const errors = actionData?.errors || {};
 	const data = actionData?.data || changePasswordFieldsCreateEmpty();
-
-	const [currentPassword, setCurrentPassword] = useState(
-		data?.currentPassword || ""
-	);
-	const [newPassword, setNewPassword] = useState(data?.newPassword || "");
-	const [confirmPassword, setConfirmPassword] = useState(
-		data?.confirmPassword || ""
-	);
-
-	const isFormValid = () => {
-		const hasUppercase = /[A-Z]/.test(newPassword);
-		const hasLowercase = /[a-z]/.test(newPassword);
-		const hasNumber = /\d/.test(newPassword);
-		const hasSpecialChar = /[@$!%*?&_]/.test(newPassword);
-
-		const hasTwoOfTheFollowing =
-			[hasUppercase, hasLowercase, hasNumber, hasSpecialChar].filter(Boolean)
-				.length >= 2;
-
-		return (
-			currentPassword &&
-			newPassword &&
-			confirmPassword &&
-			newPassword === confirmPassword &&
-			hasTwoOfTheFollowing &&
-			newPassword.length >= 12 &&
-			newPassword !== currentPassword
-		);
-	};
-
-	useEffect(() => {
-		const submitButton = document.querySelector(
-			"button[type='submit']"
-		) as HTMLButtonElement;
-		if (submitButton) {
-			submitButton.disabled = !isFormValid();
-		}
-	}, [currentPassword, newPassword, confirmPassword]);
+	const navigation = useNavigation();
+	const isSubmitting = navigation.state === "submitting";
 
 	return (
-		<MainContainer title={ctx.t({ "code": "user.reset_password", "msg": "Reset password" })}>
-			<div className="mg-container">
-				<Form ctx={ctx} className="dts-form dts-form--vertical" errors={errors}>
-					<div className="dts-form__header">
-						<LangLink
-							lang={ctx.lang}
-							to="/user/settings"
-							className="mg-button mg-button--small mg-button-system"
-						>
-							{ctx.t({ "code": "common.back", "msg": "Back" })}
-						</LangLink>
-					</div>
+		<MainContainer
+			title={ctx.t({ code: "nav.change_password", msg: "Change password" })}
+		>
+			<div className="flex min-h-screen items-center justify-center px-4 py-10">
+				<Card className="w-full max-w-xl rounded-2xl shadow-xl p-8">
 
-					<div className="dts-form__intro">
-						<p>
-							{ctx.t({ "code": "user.enter_current_and_new_password", "msg": "Please enter current and new password in the input field below." })}
+					{/* Intro */}
+					<div className="mb-6 space-y-2">
+						<p className="text-gray-700">
+							{ctx.t({
+								code: "user.enter_current_and_new_password",
+								msg: "Please enter current and new password in the input field below.",
+							})}
+						</p>
+
+						<p className="text-sm text-red-500">
+							*{" "}
+							{ctx.t({
+								code: "common.required_info",
+								msg: "Required information",
+							})}
 						</p>
 					</div>
 
-					<div className="dts-form__body">
-						<p>* {ctx.t({ "code": "common.required_info", "msg": "Required information" })}</p>
-						<div className="dts-form-component">
-							<label>
-								<div className="dts-form-component__pwd">
-									<PasswordInput
-										placeholder={ctx.t({ "code": "user.current_password_required", "msg": "Current password" }) + " *"}
-										name="currentPassword"
-										defaultValue={data?.currentPassword}
-										errors={errors}
-										onChange={(e: ChangeEvent<HTMLInputElement>) =>
-											setCurrentPassword(e.target.value)
-										}
-									/>
-								</div>
-								<FieldErrorsStandard errors={errors} field="currentPassword" />
+					<Form method="post" className="space-y-6">
+
+						{/* Current Password */}
+						<div className="flex flex-col gap-2">
+							<label className="font-semibold">
+								{ctx.t({ code: "user.current_password_required", msg: "Current password" })}
+								<span className="text-red-500"> *</span>
 							</label>
+
+							<div className="p-inputgroup login-inputgroup w-full">
+								<span className="p-inputgroup-addon">
+									<i className="pi pi-lock"></i>
+								</span>
+								<Password
+									name="currentPassword"
+									className="w-full"
+									style={{ width: "100%", flex: 1 }}
+									inputClassName="w-full"
+									inputStyle={{ width: "100%" }}
+									toggleMask
+									feedback={false}
+									defaultValue={data?.currentPassword}
+									pt={{
+										root: { className: "w-full", style: { width: "100%", flex: 1 } },
+										iconField: { root: { className: "w-full" } },
+										input: { className: "w-full" },
+										hideIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+										showIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+									}}
+									invalid={!!errors?.fields?.currentPassword}
+								/>
+							</div>
+
+							{errors?.fields?.currentPassword?.[0] && (
+								<small className="text-sm text-red-500">
+									{typeof errors.fields.currentPassword[0] === "string"
+										? errors.fields.currentPassword[0]
+										: errors.fields.currentPassword[0].message}
+								</small>
+							)}
 						</div>
 
-						<div className="dts-form-component">
-							<label>
-								<div className="dts-form-component__pwd">
-									<PasswordInput
-										placeholder={ctx.t({ "code": "user.new_password_required", "msg": "New password" }) + " *"}
-										name="newPassword"
-										defaultValue={data?.newPassword}
-										errors={errors}
-										onChange={(e: ChangeEvent<HTMLInputElement>) =>
-											setNewPassword(e.target.value)
-										}
-									/>
-								</div>
-								<FieldErrorsStandard errors={errors} field="newPassword" />
+						{/* New Password */}
+						<div className="flex flex-col gap-2">
+							<label className="font-semibold">
+								{ctx.t({ code: "user.new_password_required", msg: "New password" })}
+								<span className="text-red-500"> *</span>
 							</label>
+
+							<div className="p-inputgroup login-inputgroup w-full">
+								<span className="p-inputgroup-addon">
+									<i className="pi pi-lock"></i>
+								</span>
+								<Password
+									name="newPassword"
+									className="w-full"
+									style={{ width: "100%", flex: 1 }}
+									inputClassName="w-full"
+									inputStyle={{ width: "100%" }}
+									toggleMask
+									feedback={false}
+									defaultValue={data?.newPassword}
+									pt={{
+										root: { className: "w-full", style: { width: "100%", flex: 1 } },
+										iconField: { root: { className: "w-full" } },
+										input: { className: "w-full" },
+										hideIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+										showIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+									}}
+									invalid={!!errors?.fields?.newPassword}
+								/>
+							</div>
+
+							{errors?.fields?.newPassword?.[0] && (
+								<small className="text-sm text-red-500">
+									{typeof errors.fields.newPassword[0] === "string"
+										? errors.fields.newPassword[0]
+										: errors.fields.newPassword[0].message}
+								</small>
+							)}
 						</div>
 
-						<div className="dts-form-component">
-							<label>
-								<div className="dts-form-component__pwd">
-									<PasswordInput
-										placeholder={ctx.t({ "code": "user.confirm_password_required", "msg": "Confirm password" }) + " *"}
-										name="confirmPassword"
-										defaultValue={data?.confirmPassword}
-										errors={errors}
-										onChange={(e: ChangeEvent<HTMLInputElement>) =>
-											setConfirmPassword(e.target.value)
-										}
-									/>
-								</div>
-								<FieldErrorsStandard errors={errors} field="confirmPassword" />
+						{/* Confirm Password */}
+						<div className="flex flex-col gap-2">
+							<label className="font-semibold">
+								{ctx.t({ code: "user.confirm_password_required", msg: "Confirm password" })}
+								<span className="text-red-500"> *</span>
 							</label>
+
+							<div className="p-inputgroup login-inputgroup w-full">
+								<span className="p-inputgroup-addon">
+									<i className="pi pi-lock"></i>
+								</span>
+								<Password
+									name="confirmPassword"
+									className="w-full"
+									style={{ width: "100%", flex: 1 }}
+									inputClassName="w-full"
+									inputStyle={{ width: "100%" }}
+									toggleMask
+									feedback={false}
+									defaultValue={data?.confirmPassword}
+									pt={{
+										root: { className: "w-full", style: { width: "100%", flex: 1 } },
+										iconField: { root: { className: "w-full" } },
+										input: { className: "w-full" },
+										hideIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+										showIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+									}}
+									invalid={!!errors?.fields?.confirmPassword}
+								/>
+							</div>
+
+							{errors?.fields?.confirmPassword?.[0] && (
+								<small className="text-sm text-red-500">
+									{typeof errors.fields.confirmPassword[0] === "string"
+										? errors.fields.confirmPassword[0]
+										: errors.fields.confirmPassword[0].message}
+								</small>
+							)}
 						</div>
-					</div>
 
-					<div className="dts-form-component__hint">
-						<ul id="passwordDescription">
-							<li>{ctx.t({ "code": "user.password_requirements.at_least_12_characters_long", "msg": "At least 12 characters long" })}</li>
-							<li>
-								{ctx.t({ "code": "user.password_requirements.must_include_two_of_following", "msg": "Must include two of the following:" })}
-								<ul>
-									<li>{ctx.t({ "code": "user.password_requirements.uppercase_letters", "msg": "Uppercase letters" })}</li>
-									<li>{ctx.t({ "code": "user.password_requirements.lowercase_letters", "msg": "Lowercase letters" })}</li>
-									<li>{ctx.t({ "code": "user.password_requirements.numbers", "msg": "Numbers" })}</li>
-									<li>{ctx.t({ "code": "user.password_requirements.special_characters", "msg": "Special characters" })}</li>
-								</ul>
-							</li>
-							<li>{ctx.t({ "code": "user.password_requirements.must_be_different_from_default", "msg": "Must be different from the default password" })}</li>
-							<li>{ctx.t({ "code": "user.password_requirements.cannot_be_same_as_username", "msg": "Cannot be the same as the username" })}</li>
-							<li>{ctx.t({ "code": "user.password_requirements.should_not_be_simple_or_common", "msg": "Should not be a simple or commonly used password" })}</li>
-						</ul>
-					</div>
+						{/* Password Rules */}
+						<div className="rounded-lg bg-gray-50 p-4 text-sm text-gray-700">
+							<ul className="list-disc space-y-1 pl-5">
+								<li>{ctx.t({ code: "user.password_requirements.at_least_12_characters_long", msg: "At least 12 characters long" })}</li>
+								<li>
+									{ctx.t({ code: "user.password_requirements.must_include_two_of_following", msg: "Must include two of the following:" })}
+									<ul className="list-disc pl-5 mt-1 space-y-1">
+										<li>{ctx.t({ code: "user.password_requirements.uppercase_letters", msg: "Uppercase letters" })}</li>
+										<li>{ctx.t({ code: "user.password_requirements.lowercase_letters", msg: "Lowercase letters" })}</li>
+										<li>{ctx.t({ code: "user.password_requirements.numbers", msg: "Numbers" })}</li>
+										<li>{ctx.t({ code: "user.password_requirements.special_characters", msg: "Special characters" })}</li>
+									</ul>
+								</li>
+								<li>{ctx.t({ code: "user.password_requirements.must_be_different_from_default", msg: "Must be different from the default password" })}</li>
+								<li>{ctx.t({ code: "user.password_requirements.cannot_be_same_as_username", msg: "Cannot be the same as the username" })}</li>
+								<li>{ctx.t({ code: "user.password_requirements.should_not_be_simple_or_common", msg: "Should not be a simple or commonly used password" })}</li>
+							</ul>
+						</div>
 
-					<div className="dts-form__actions">
-						<SubmitButton
-							className="mg-button mg-button-primary"
-							label={ctx.t({ "code": "user.reset_password", "msg": "Reset password" })}
+						{/* Submit */}
+						<Button
+							type="submit"
+							label={ctx.t({
+								code: "meta.change_password",
+								msg: "Change password",
+							})}
+							icon="pi pi-lock-open"
+							className="w-full"
+							loading={isSubmitting}
+							disabled={isSubmitting}
 						/>
-					</div>
-				</Form>
+					</Form>
+				</Card>
 			</div>
 		</MainContainer>
 	);

@@ -257,10 +257,10 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 			expandByDefault = false,
 			showActionFooter = null,
 		},
-		ref: any
+		ref: any,
 	) => {
 		if (ctx == null) {
-			throw new Error("ViewContext is required")
+			throw new Error("ViewContext is required");
 		}
 
 		const expandedNodesRef = useRef<{ [key: string]: boolean }>({});
@@ -277,7 +277,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 		useEffect(() => {
 			setCheckedItems((prev) => {
 				const newCheckedItems = Object.fromEntries(
-					defaultSelectedIds.map((id) => [id, true])
+					defaultSelectedIds.map((id) => [id, true]),
 				);
 
 				// Only update state if it's different from the current state
@@ -298,10 +298,10 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 		useEffect(() => {
 			const allNodes = treeData.flatMap((node) => getAllNodes(node)); // Get all nodes in the tree
 			const allExpanded = allNodes.every(
-				(node) => expandedNodesRef.current[node.id]
+				(node) => expandedNodesRef.current[node.id],
 			);
 			const anyExpanded = allNodes.some(
-				(node) => expandedNodesRef.current[node.id]
+				(node) => expandedNodesRef.current[node.id],
 			);
 
 			setIsExpandDisabled(allExpanded);
@@ -334,7 +334,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 			setIsCollapseDisabled(false);
 
 			treeData.forEach((node) =>
-				expandRecursive(node, expandedNodesRef.current)
+				expandRecursive(node, expandedNodesRef.current),
 			);
 			setExpandedNodes({ ...expandedNodesRef.current }); // ✅ Triggers re-render only once
 		};
@@ -388,7 +388,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 		const filterTree = (
 			nodes: any[],
 			query: string,
-			expandedState: { [key: string]: boolean }
+			expandedState: { [key: string]: boolean },
 		): any[] => {
 			if (!query) return nodes;
 
@@ -420,7 +420,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 				...node,
 				dataIds: currentIds,
 				children: node.children.map((child: any) =>
-					getFullLineage(child, currentIds)
+					getFullLineage(child, currentIds),
 				),
 			};
 		};
@@ -444,10 +444,10 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 				let arrHiddenData = [] as any[];
 				arrDataIds.forEach((id: any) => {
 					const getSpan = dialogRefCurrent.querySelector(
-						`li[data-id="${id}"] span`
+						`li[data-id="${id}"] span`,
 					) as HTMLElement;
 					const textAreas = dialogRefCurrent.querySelectorAll(
-						`li[data-id="${id}"] textarea[data-id="${id}"]`
+						`li[data-id="${id}"] textarea[data-id="${id}"]`,
 					) as NodeListOf<HTMLTextAreaElement>;
 					arrLocation.push(getSpan?.textContent || "");
 					let arrHiddenDataItem = {} as any;
@@ -458,7 +458,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 				});
 
 				const treeFooterSpan = dialogRefCurrent.querySelector(
-					".tree-footer div"
+					".tree-footer div",
 				) as HTMLElement;
 				if (treeFooterSpan) {
 					treeFooterSpan.setAttribute("selected-name", selectedName);
@@ -505,7 +505,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 
 					treeFooterSpan.setAttribute("data-ids", dataIds);
 					const treeHiddenData = dialogRefCurrent.querySelector(
-						".tree-hidden-data"
+						".tree-hidden-data",
 					) as HTMLTextAreaElement;
 					if (treeHiddenData)
 						treeHiddenData.value = JSON.stringify(arrHiddenData);
@@ -600,7 +600,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 												defaultValue={value ? JSON.stringify(value) : ""}
 												style={{ display: "none" }}
 											/>
-										)
+										),
 									)}
 									{expandedNodes[enrichedNode.id] &&
 										renderTree(enrichedNode.children, enrichedNode.dataIds)}
@@ -641,7 +641,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 												defaultValue={value ? JSON.stringify(value) : ""}
 												style={{ display: "none" }}
 											/>
-										)
+										),
 									)}
 								</>
 							)}
@@ -658,7 +658,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 			const dialogCurrent = dialogRef.current;
 			if (dialogCurrent) {
 				const treeFooterSpan = dialogCurrent.querySelector(
-					".tree-footer div"
+					".tree-footer div",
 				) as HTMLElement;
 				if (treeFooterSpan) {
 					treeFooterSpan.textContent = "";
@@ -667,13 +667,13 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 					treeFooterSpan.setAttribute("selected-name", "");
 				}
 				const treeHiddenData = dialogCurrent.querySelector(
-					".tree-hidden-data"
+					".tree-hidden-data",
 				) as HTMLTextAreaElement;
 				if (treeHiddenData) treeHiddenData.value = "";
 			}
 
 			const dtsFormBody = dialogCurrent?.querySelector(
-				".dts-form__body"
+				".dts-form__body",
 			) as HTMLElement | null;
 			if (dtsFormBody) {
 				dtsFormBody.style.height = "";
@@ -695,32 +695,32 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 				contHeight[0] =
 					(
 						dialogRef.current.querySelector(
-							".dts-dialog__content"
+							".dts-dialog__content",
 						) as HTMLElement | null
 					)?.offsetHeight || 0;
 				contHeight[1] =
 					(
 						dialogRef.current.querySelector(
-							".dts-dialog__header"
+							".dts-dialog__header",
 						) as HTMLElement | null
 					)?.offsetHeight || 0;
 				contHeight[2] =
 					(
 						dialogRef.current.querySelector(
-							".tree-filters"
+							".tree-filters",
 						) as HTMLElement | null
 					)?.offsetHeight || 0;
 				contHeight[3] =
 					(
 						dialogRef.current.querySelector(
-							".tree-footer"
+							".tree-footer",
 						) as HTMLElement | null
 					)?.offsetHeight || 0;
 				let getHeight =
 					contHeight[0] - contHeight[1] - contHeight[2] - contHeight[3] - 16;
 
 				const dtsFormBody = dialogRef.current.querySelector(
-					".dts-form__body"
+					".dts-form__body",
 				) as HTMLElement | null;
 				if (dtsFormBody) {
 					dtsFormBody.style.height = `${window.innerHeight - getHeight}px`;
@@ -747,13 +747,13 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 
 			if (dialogRef.current) {
 				const treeFooterSpan = dialogRef.current.querySelector(
-					".tree-footer div"
+					".tree-footer div",
 				) as HTMLElement;
 				const treeHiddenData = dialogRef.current.querySelector(
-					".tree-hidden-data"
+					".tree-hidden-data",
 				) as HTMLTextAreaElement;
 				const treeFooterSpanSelectedName = treeFooterSpan.querySelector(
-					".selected span"
+					".selected span",
 				) as HTMLElement;
 				const selectedItems = {
 					dataIds: treeFooterSpan.getAttribute("data-ids"),
@@ -787,7 +787,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 
 		const findNamesByIds = (
 			nodes: any[],
-			checkedIds: any[]
+			checkedIds: any[],
 		): { id: string; name: string }[] => {
 			let selectedItems: { id: string; name: string }[] = [];
 
@@ -812,7 +812,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 				Object.keys(checkedItems).filter((key) => checkedItems[key]), // Get only checked IDs
 			getCheckedItemNames: () => {
 				const checkedIds = Object.keys(checkedItems).filter(
-					(key) => checkedItems[key]
+					(key) => checkedItems[key],
 				); // Filter only checked items
 
 				return findNamesByIds(treeData, checkedIds); // Now returns [{ id, name }, ...]
@@ -837,7 +837,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 								opacity: isExpandDisabled ? 0.5 : 1,
 							}}
 						>
-							{ctx.t({ "code": "common.expand_all", "msg": "Expand All" })}
+							{ctx.t({ code: "common.expand_all", msg: "Expand All" })}
 						</a>
 						<a
 							className="mg-button mg-button--small mg-button-system"
@@ -848,7 +848,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 								opacity: isCollapseDisabled ? 0.5 : 1,
 							}}
 						>
-							{ctx.t({ "code": "common.collapse_all", "msg": "Collapse All" })}
+							{ctx.t({ code: "common.collapse_all", msg: "Collapse All" })}
 						</a>
 						{search && (
 							<input
@@ -856,8 +856,8 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 								name="search"
 								type="text"
 								placeholder={ctx.t({
-									"code": "common.search_placeholder_dotdotdot",
-									"msg": "Search..."
+									code: "common.search_placeholder_dotdotdot",
+									msg: "Search...",
 								})}
 								value={searchTerm}
 								onChange={(e) => setSearchTerm(e.target.value)}
@@ -873,8 +873,8 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 						) : (
 							<p className="tree">
 								{ctx.t({
-									"code": "common.no_results_found",
-									"msg": "No results found"
+									code: "common.no_results_found",
+									msg: "No results found",
 								})}
 							</p>
 						)}
@@ -981,7 +981,7 @@ export const TreeView = forwardRef<HTMLDivElement, TreeViewProps>(
 				)}
 			</>
 		);
-	}
+	},
 );
 
 export const buildTree = (
@@ -990,7 +990,7 @@ export const buildTree = (
 	parentKey: string,
 	nameKey: string,
 	priorityKey?: string | null,
-	additionalFields?: string[] // Array of field keys for hidden data
+	additionalFields?: string[], // Array of field keys for hidden data
 ) => {
 	const map = new Map();
 
@@ -1058,7 +1058,7 @@ export const buildTree = (
 		node.path = parentPath ? `${parentPath} / ${node.name}` : node.name; // Spaces added around '/'
 		node.ids = parentIds ? `${parentIds},${node.id}` : `${node.id}`; // Comma-separated hierarchy of IDs
 		node.children.forEach((child: any) =>
-			setPathsAndIds(child, node.path, node.ids)
+			setPathsAndIds(child, node.path, node.ids),
 		);
 	};
 

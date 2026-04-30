@@ -1,94 +1,79 @@
-import { divisionTable } from '~/drizzle/schema';
-import { dr } from '~/db.server';
-import { asc, eq } from 'drizzle-orm';
-import { authLoaderWithPerm } from '~/utils/auth';
-import { stringifyCSV } from '~/utils/csv';
-import { getCountryAccountsIdFromSession } from '~/utils/session';
+import { authLoaderWithPerm } from "~/utils/auth";
+import { stringifyCSV } from "~/utils/csv";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
+import { DivisionRepository } from "~/db/queries/divisonRepository";
 
 // Create a custom loader that enforces tenant isolation
-export const loader = authLoaderWithPerm('ManageCountrySettings', async (loaderArgs) => {
-    const { request } = loaderArgs;
+export const loader = authLoaderWithPerm(
+	"ManageCountrySettings",
+	async (loaderArgs) => {
+		const { request } = loaderArgs;
 
-    const countryAccountsId = await getCountryAccountsIdFromSession(request);
+		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-    // Get divisions with tenant filtering
-    let rows = await dr.query.divisionTable.findMany({
-        columns: {
-            id: true,
-            importId: true,
-            parentId: true,
-            name: true,
-        },
-        where: eq(divisionTable.countryAccountsId, countryAccountsId),
-        orderBy: [asc(divisionTable.id)],
-    });
+		const rows = (
+			await DivisionRepository.getByCountryAccountsId(countryAccountsId)
+		)
+			.map((row) => ({
+				id: row.id,
+				importId: row.importId,
+				parentId: row.parentId,
+				name: row.name,
+			}))
+			.sort((a, b) => a.id.localeCompare(b.id));
 
-    // Format data for CSV export
-    const url = new URL(request.url);
-    const parts = url.pathname.split('/').filter((s) => s !== '');
-    const typeName = parts.length > 1 ? parts[parts.length - 2] : '';
+		// Format data for CSV export
+		const url = new URL(request.url);
+		const parts = url.pathname.split("/").filter((s) => s !== "");
+		const typeName = parts.length > 1 ? parts[parts.length - 2] : "";
 
-    if (!rows.length) {
-        return new Response(`No data for ${typeName}`, {
-            headers: { 'Content-Type': 'text/plain' },
-        });
-    }
+		if (!rows.length) {
+			return new Response(`No data for ${typeName}`, {
+				headers: { "Content-Type": "text/plain" },
+			});
+		}
 
-    // Transform data for CSV format
-    let res: any[] = [];
-    for (let row of rows) {
-        let r: any = {};
-        for (let k in row) {
-            if (k === 'name') {
-                continue;
-            }
-            r[k] = (row as any)[k];
-        }
-        for (let k in row['name']) {
-            r['lang_' + k] = row['name'][k];
-        }
-        res.push(r);
-    }
+		const csvData: Array<Record<string, string>> = rows.map((row) => {
+			const names = (row.name || {}) as Record<string, string>;
+			const item: Record<string, string> = {
+				id: valueToCsvString(row.id),
+				importId: valueToCsvString(row.importId),
+				parentId: valueToCsvString(row.parentId),
+			};
 
-    // Generate CSV
-    let headers: string[] = [];
-    let csvRows: string[][] = [];
+			for (const [lang, value] of Object.entries(names)) {
+				item[`lang_${lang}`] = valueToCsvString(value);
+			}
 
-    for (const k in res[0]) {
-        if (k == 'spatialFootprint' || k == 'attachments') {
-            continue;
-        }
-        headers.push(k);
-    }
+			return item;
+		});
 
-    for (const item of res) {
-        let csvRow: string[] = [];
-        for (const h of headers) {
-            csvRow.push(valueToCsvString(item[h]));
-        }
-        csvRows.push(csvRow);
-    }
+		const headers = Object.keys(csvData[0]).filter(
+			(key) => key !== "spatialFootprint" && key !== "attachments",
+		);
+		const csvRows = csvData.map((item) =>
+			headers.map((header) => item[header] || ""),
+		);
+		const all = [headers, ...csvRows];
+		const csv = await stringifyCSV(all);
 
-    let all = [headers, ...csvRows];
-
-    let csv = await stringifyCSV(all);
-
-    return new Response(csv, {
-        status: 200,
-        headers: {
-            'Content-Type': 'text/csv',
-            'Content-Disposition': `attachment; filename="${typeName}.csv"`,
-        },
-    });
-});
+		return new Response(csv, {
+			status: 200,
+			headers: {
+				"Content-Type": "text/csv",
+				"Content-Disposition": `attachment; filename="${typeName}.csv"`,
+			},
+		});
+	},
+);
 
 // Helper function to convert values to CSV string format
-function valueToCsvString(value: any): string {
-    if (value === null || value === undefined) {
-        return '';
-    }
-    if (typeof value === 'object') {
-        return JSON.stringify(value);
-    }
-    return String(value);
+function valueToCsvString(value: unknown): string {
+	if (value === null || value === undefined) {
+		return "";
+	}
+	if (typeof value === "object") {
+		return JSON.stringify(value);
+	}
+	return String(value);
 }

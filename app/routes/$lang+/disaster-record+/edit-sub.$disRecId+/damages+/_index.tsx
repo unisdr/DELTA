@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router";
 
-import { damagesTable } from "~/drizzle/schema";
+import { damagesTable } from "~/drizzle/schema/damagesTable";
 
 import { dr } from "~/db.server";
 
@@ -22,11 +22,10 @@ import {
 } from "~/utils/session";
 import { ViewContext } from "~/frontend/context";
 
-
 import { LangLink } from "~/utils/link";
 import { BackendContext } from "~/backend.server/context";
-import { assetTable, sectorTable } from "~/drizzle/schema";
-
+import { sectorTable } from "~/drizzle/schema/sectorTable";
+import { assetTable } from "~/drizzle/schema/assetTable";
 
 export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	let ctx = new BackendContext(loaderArgs);
@@ -67,19 +66,21 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 					WHEN ${assetTable.isBuiltIn} THEN dts_jsonb_localized(${assetTable.builtInName}, ${ctx.lang})
           ELSE ${assetTable.customName}
         END
-      `.as('name'),
+      `.as("name"),
 					},
 				},
 				sector: {
 					columns: { id: true },
 					extras: {
-						name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as('name'),
+						name: sql<string>`dts_jsonb_localized(${sectorTable.name}, ${ctx.lang})`.as(
+							"name",
+						),
 					},
 				},
 			},
 			where: and(
 				eq(damagesTable.sectorId, sectorId),
-				eq(damagesTable.recordId, recordId!)
+				eq(damagesTable.recordId, recordId!),
 			),
 			orderBy: [desc(damagesTable.id)],
 		});
@@ -90,8 +91,8 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 			damagesTable,
 			and(
 				eq(damagesTable.sectorId, sectorId),
-				eq(damagesTable.recordId, recordId!)
-			)
+				eq(damagesTable.recordId, recordId!),
+			),
 		);
 	};
 
@@ -108,7 +109,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 		recordId,
 		sectorId,
 		sectorFullPath,
-		instanceName
+		instanceName,
 	};
 });
 
@@ -123,27 +124,30 @@ export default function Data() {
 		headerElement: (
 			<LangLink lang={ctx.lang} to={"/disaster-record/edit/" + ld.recordId}>
 				{ctx.t({
-					"code": "disaster_records.back_to_disaster_record",
-					"msg": "Back to disaster record"
+					code: "disaster_records.back_to_disaster_record",
+					msg: "Back to disaster record",
 				})}
 			</LangLink>
 		),
-		title: ctx.t({
-			"code": "disaster_record.damages_sector_effects_path",
-			"desc": "Plural label for damages, showing the sector path. {path} is replaced with the full sector path.",
-			"msg": "Damages: Sector effects: {path}"
-		}, { path: ld.sectorFullPath }),
+		title: ctx.t(
+			{
+				code: "disaster_record.damages_sector_effects_path",
+				desc: "Plural label for damages, showing the sector path. {path} is replaced with the full sector path.",
+				msg: "Damages: Sector effects: {path}",
+			},
+			{ path: ld.sectorFullPath },
+		),
 		addNewLabel: ctx.t({
-			"code": "disaster_record.damages.add_new",
-			"msg": "Add new damage"
+			code: "disaster_record.damages.add_new",
+			msg: "Add new damage",
 		}),
 		baseRoute: route2(ld.recordId),
 		searchParams: new URLSearchParams([["sectorId", String(ld.sectorId)]]),
 		columns: [
-			ctx.t({ "code": "common.id", "msg": "ID" }),
-			ctx.t({ "code": "disaster_record.asset", "msg": "Asset" }),
-			ctx.t({ "code": "common.sector", "msg": "Sector" }),
-			ctx.t({ "code": "common.actions", "msg": "Actions" })
+			ctx.t({ code: "common.id", msg: "ID" }),
+			ctx.t({ code: "disaster_record.asset", msg: "Asset" }),
+			ctx.t({ code: "common.sector", msg: "Sector" }),
+			ctx.t({ code: "common.actions", msg: "Actions" }),
 		],
 		listName: "damages",
 		instanceName: ld.instanceName,
@@ -155,7 +159,9 @@ export default function Data() {
 		renderRow: (item, route) => (
 			<tr key={item.id}>
 				<td>
-					<LangLink lang={ctx.lang} to={`${route}/${item.id}`}>{item.id.slice(0, 8)}</LangLink>
+					<LangLink lang={ctx.lang} to={`${route}/${item.id}`}>
+						{item.id.slice(0, 8)}
+					</LangLink>
 				</td>
 				<td>{item.asset.name}</td>
 				<td>{item.sector.name}</td>

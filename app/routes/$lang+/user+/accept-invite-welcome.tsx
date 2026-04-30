@@ -1,21 +1,23 @@
 import { LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 
-import { configAuthSupportedAzureSSOB2C, configAuthSupportedForm } from "~/utils/config";
+import {
+	configAuthSupportedAzureSSOB2C,
+	configAuthSupportedForm,
+} from "~/utils/config";
 
 import { validateInviteCode } from "~/backend.server/models/user/invite";
 
 import { LangLink } from "~/utils/link";
 import { ViewContext } from "~/frontend/context";
-
+import { Button } from "primereact/button";
 
 export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	const { request } = loaderArgs;
 
 	const confAuthSupportedAzureSSOB2C: boolean =
 		configAuthSupportedAzureSSOB2C();
-	const confAuthSupportedForm: boolean =
-		configAuthSupportedForm();
+	const confAuthSupportedForm: boolean = configAuthSupportedForm();
 	const url = new URL(request.url);
 	const inviteCode = url.searchParams.get("inviteCode") || "";
 	const state = url.searchParams.get("state") || "";
@@ -23,7 +25,6 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	const res = await validateInviteCode(inviteCode);
 
 	return {
-
 		inviteCode: inviteCode,
 		inviteCodeValidation: res,
 		code: queryStringCode,
@@ -49,35 +50,44 @@ export default function Screen() {
 
 	return (
 		<>
-			<div className="mg-container">
-				<form className="dts-form dts-form--vertical">
-					<div className="dts-form__header">&nbsp;</div>
-					<div className="dts-form__intro">
-						<h1 className="dts-heading-1">
+			<div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
+				<form className="w-full max-w-2xl rounded-2xl bg-white p-8 shadow-xl">
+
+					{/* Intro */}
+					<div className="mb-8 text-center">
+						<h1 className="mb-4 text-3xl font-bold text-gray-900">
 							{ctx.t({
-								"code": "user.welcome_to_delta_resilience",
-								"msg": "Welcome to the DELTA Resilience system."
+								code: "user.welcome_to_delta_resilience",
+								msg: "Welcome to the DELTA Resilience system.",
 							})}
 						</h1>
-						<p>
+
+						<p className="text-gray-600 leading-relaxed">
 							{ctx.t({
-								"code": "user.track_disaster_impacts_description",
-								"msg": "Track disaster impacts, including damages, losses, and human effects, to support better recovery and resilience."
+								code: "user.track_disaster_impacts_description",
+								msg: "Track disaster impacts, including damages, losses, and human effects, to support better recovery and resilience.",
 							})}
 						</p>
 					</div>
 
-					<div className="dts-form__actions">
+					{/* Actions */}
+					<div className="flex flex-col items-center gap-4">
+
 						{loaderData.confAuthSupportedForm && (
 							<LangLink
 								lang={ctx.lang}
-								className="mg-button mg-button-primary"
 								to={`/user/accept-invite?inviteCode=${inviteCode}`}
+								className="w-full max-w-sm"
 							>
-								{ctx.t({
-									"code": "user.setup_account",
-									"msg": "Set up account"
-								})}
+								<Button
+									type="button"
+									label={ctx.t({
+										code: "user.setup_account",
+										msg: "Set up account",
+									})}
+									icon="pi pi-user-plus"
+									className="w-full"
+								/>
 							</LangLink>
 						)}
 
@@ -85,18 +95,25 @@ export default function Screen() {
 							<>
 								<LangLink
 									lang={ctx.lang}
-									className="mg-button mg-button-outline"
 									to={`/sso/azure-b2c/invite?inviteCode=${inviteCode}&action=sso_azure_b2c-register`}
+									className="w-full max-w-sm"
 								>
-									{ctx.t({
-										"code": "user.setup_using_sso",
-										"msg": "Set up using SSO"
-									})}
+									<Button
+										type="button"
+										label={ctx.t({
+											code: "user.setup_using_sso",
+											msg: "Set up using SSO",
+										})}
+										icon="pi pi-sign-in"
+										outlined
+										className="w-full"
+									/>
 								</LangLink>
-								<p>
+
+								<p className="mt-2 max-w-md text-center text-sm text-gray-500">
 									{ctx.t({
-										"code": "user.setup_sso_email_requirement_please_use_same_email_as_invitation",
-										"msg": "Note: For setup using SSO, please use the same email address where you received the invitation email."
+										code: "user.setup_sso_email_requirement_please_use_same_email_as_invitation",
+										msg: "Note: For setup using SSO, please use the same email address where you received the invitation email.",
 									})}
 								</p>
 							</>

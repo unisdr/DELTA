@@ -49,11 +49,14 @@ x - random
 
 ## Code
 
-```
-Definition (drizze schema)
+```ts
+// Drizzle schema — all entity tables use the ourRandomUUID() helper from app/utils/drizzleUtil.ts
+import { ourRandomUUID } from "~/utils/drizzleUtil";
+
 export const eventTable = pgTable("event", {
-	id: uuid("id").primaryKey().default(sql`gen_random_uuid()`)
-
-This uses postgres gen_random_uuid function for id generation.
-
+  id: ourRandomUUID(),
+  // ...
+});
 ```
+
+`ourRandomUUID()` is a project-level wrapper that returns `uuid("id").primaryKey().default(sql\`gen_random_uuid()\`)`. Use the wrapper rather than the raw Postgres function directly in schema definitions.

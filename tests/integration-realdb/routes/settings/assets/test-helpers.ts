@@ -1,0 +1,126 @@
+import { dr } from "~/db.server";
+import { assetTable } from "~/drizzle/schema/assetTable";
+import { countryAccountsTable } from "~/drizzle/schema/countryAccountsTable";
+import { countriesTable } from "~/drizzle/schema/countriesTable";
+import { damagesTable } from "~/drizzle/schema/damagesTable";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { sectorTable } from "~/drizzle/schema/sectorTable";
+import { inArray } from "drizzle-orm";
+import { randomUUID } from "crypto";
+
+export const createdAssetIds: string[] = [];
+export const createdCountryAccountIds: string[] = [];
+export const createdDamageRecordIds: string[] = [];
+export const createdCountryIds: string[] = [];
+
+export async function createTestAsset(
+	countryAccountId: string,
+	overrides: Record<string, any> = {},
+) {
+	const [asset] = await dr
+		.insert(assetTable)
+		.values({
+			id: randomUUID(),
+			sectorIds: "",
+			isBuiltIn: false,
+			customName: "Test Asset",
+			countryAccountsId: countryAccountId,
+			...overrides,
+		})
+		.returning();
+	createdAssetIds.push(asset.id);
+	return asset;
+}
+
+export async function createOtherTenant() {
+	const countryId = randomUUID();
+	const id = randomUUID();
+	await dr.insert(countriesTable).values({
+		id: countryId,
+		name: `Other Tenant Country ${countryId.slice(0, 8)}`,
+	});
+	await dr.insert(countryAccountsTable).values({
+		id,
+		shortDescription: "Other Tenant",
+		countryId,
+		status: 1,
+		type: "Training",
+	});
+	createdCountryIds.push(countryId);
+	createdCountryAccountIds.push(id);
+	return id;
+}
+
+export async function createTestDamageRecord(
+	countryAccountId: string,
+	assetId: string,
+) {
+	const [disasterRecord] = await dr
+		.insert(disasterRecordsTable)
+		.values({
+			id: randomUUID(),
+			countryAccountsId: countryAccountId,
+			originatorRecorderInst: "Test Institution",
+			validatedBy: "Test Validator",
+			startDate: "2023-01-01",
+			endDate: "2023-01-02",
+		})
+		.returning();
+
+	const [sector] = await dr
+		.select({ id: sectorTable.id })
+		.from(sectorTable)
+		.limit(1);
+
+	if (!sector) {
+		throw new Error("No sector found in database");
+	}
+
+	const [damage] = await dr
+		.insert(damagesTable)
+		.values({
+			id: randomUUID(),
+			recordId: disasterRecord.id,
+			sectorId: sector.id,
+			assetId: assetId,
+		})
+		.returning();
+
+	createdDamageRecordIds.push(damage.id);
+	return damage;
+}
+
+export async function cleanupTestAssets() {
+	if (createdDamageRecordIds.length > 0) {
+		try {
+			await dr
+				.delete(damagesTable)
+				.where(inArray(damagesTable.id, createdDamageRecordIds));
+		} catch (e) {}
+	}
+	if (createdAssetIds.length > 0) {
+		try {
+			await dr
+				.delete(assetTable)
+				.where(inArray(assetTable.id, createdAssetIds));
+		} catch (e) {}
+	}
+	if (createdCountryAccountIds.length > 0) {
+		try {
+			await dr
+				.delete(countryAccountsTable)
+				.where(inArray(countryAccountsTable.id, createdCountryAccountIds));
+		} catch (e) {}
+	}
+	if (createdCountryIds.length > 0) {
+		try {
+			await dr
+				.delete(countriesTable)
+				.where(inArray(countriesTable.id, createdCountryIds));
+		} catch (e) {}
+	}
+	createdDamageRecordIds.length = 0;
+	createdAssetIds.length = 0;
+	createdCountryAccountIds.length = 0;
+	createdCountryIds.length = 0;
+}

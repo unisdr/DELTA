@@ -6,7 +6,7 @@ export const VALID_LANGUAGES = ["ar", "zh", "en", "fr", "ru", "es"];
 
 export const DEFAULT_LANGUAGE = "en";
 
-const DEBUG_SUFFIX = "-debug"
+const DEBUG_SUFFIX = "-debug";
 
 // Checks if the language is valid, optionally with -debug suffix.
 function isValidLanguage(lang: string | undefined): lang is string {

@@ -1,31 +1,32 @@
-import { dr } from "~/db.server";
-import { eq, and } from "drizzle-orm";
-
-import { superAdminUsers, userTable } from "~/drizzle/schema";
-import { passwordHashCompare } from "./password";
+import { passwordHashCompare } from "~/utils/passwordUtil";
 import { isValidTotp } from "./totp";
-import { getUserById } from "~/db/queries/user";
+import { UserRepository } from "~/db/queries/UserRepository";
+import {
+	getSuperAdminUserByEmail,
+	updateSuperAdminUser,
+} from "~/db/queries/superAdminUsers";
 
 export type LoginResult =
-	| { ok: true; userId: string; countryAccountId?: string | null; role?: string }
+	| {
+			ok: true;
+			userId: string;
+			countryAccountId?: string | null;
+			role?: string;
+	  }
 	| { ok: false };
 
 export type SuperAdminLoginResult =
-	| { ok: true; superAdminId: string; }
+	| { ok: true; superAdminId: string }
 	| { ok: false };
 
 export async function login(
 	email: string,
-	password: string
+	password: string,
 ): Promise<LoginResult> {
-	const res = await dr
-		.select()
-		.from(userTable)
-		.where(eq(userTable.email, email));
-	if (res.length == 0) {
+	const user = await UserRepository.getByEmail(email);
+	if (!user) {
 		return { ok: false };
 	}
-	const user = res[0];
 	const isPasswordValid = await passwordHashCompare(password, user.password);
 	if (isPasswordValid) {
 		return {
@@ -39,21 +40,20 @@ export async function login(
 
 export async function superAdminLogin(
 	email: string,
-	password: string
+	password: string,
 ): Promise<SuperAdminLoginResult> {
-	const res = await dr
-		.select()
-		.from(superAdminUsers)
-		.where(eq(superAdminUsers.email, email));
-	if (res.length == 0) {
+	const superAdminUser = await getSuperAdminUserByEmail(email);
+	if (!superAdminUser) {
 		return { ok: false };
 	}
-	const superadminUser = res[0];
-	const isPasswordValid = await passwordHashCompare(password, superadminUser.password);
+	const isPasswordValid = await passwordHashCompare(
+		password,
+		superAdminUser.password,
+	);
 	if (isPasswordValid) {
 		return {
 			ok: true,
-			superAdminId: superadminUser.id,
+			superAdminId: superAdminUser.id,
 		};
 	}
 
@@ -67,31 +67,24 @@ export type LoginAzureB2CResult =
 export async function registerAzureB2C(
 	pEmail: string,
 	pFirstName: string,
-	pLastName: string
+	pLastName: string,
 ): Promise<LoginAzureB2CResult> {
-	const res = await dr
-		.select()
-		.from(userTable)
-		.where(and(eq(userTable.email, pEmail)));
+	const user = await UserRepository.getByEmail(pEmail);
 
-	if (!res || res.length === 0) {
+	if (!user) {
 		return { ok: false, error: "Email address doesn't exists" };
 	}
 	if (!pFirstName || pFirstName.length === 0) {
 		return { ok: false, error: "User first name is required" };
 	}
-	const user = res[0];
 
-	await dr
-		.update(userTable)
-		.set({
-			firstName: pFirstName,
-			lastName: pLastName,
-			emailVerified: true,
-			authType: "sso_azure_b2c",
-			inviteCode: "",
-		})
-		.where(eq(userTable.email, pEmail));
+	await UserRepository.updateById(user.id, {
+		firstName: pFirstName,
+		lastName: pLastName,
+		emailVerified: true,
+		authType: "sso_azure_b2c",
+		inviteCode: "",
+	});
 
 	return { ok: true, userId: user.id };
 }
@@ -99,34 +92,25 @@ export async function registerAzureB2C(
 export async function loginAzureB2C(
 	pEmail: string,
 	pFirstName: string,
-	pLastName: string
+	pLastName: string,
 ): Promise<LoginAzureB2CResult> {
-	const res = await dr
-		.select()
-		.from(userTable)
-		.where(eq(userTable.email, pEmail));
+	const user = await UserRepository.getByEmail(pEmail);
 
-	if (!res || res.length === 0) {
+	if (!user) {
 		return { ok: false, error: "User not found" };
 	}
 	if (!pFirstName || pFirstName.length === 0) {
 		return { ok: false, error: "User first name is required" };
 	}
-	const user = res[0];
-
-	// console.log(user);
 
 	if (user.emailVerified == false) {
 		return { ok: false, error: "Email address is not yet verified." };
 	}
 
-	await dr
-		.update(userTable)
-		.set({
-			firstName: pFirstName,
-			lastName: pLastName,
-		})
-		.where(eq(userTable.email, pEmail));
+	await UserRepository.updateById(user.id, {
+		firstName: pFirstName,
+		lastName: pLastName,
+	});
 
 	return { ok: true, userId: user.id };
 }
@@ -139,20 +123,17 @@ export type LoginTotpResult = { ok: true } | { ok: false; error: string };
  * @returns Result with superAdminId if found
  */
 export async function checkSuperAdminByEmail(
-	email: string
+	email: string,
 ): Promise<SuperAdminLoginResult> {
-	const res = await dr
-		.select()
-		.from(superAdminUsers)
-		.where(eq(superAdminUsers.email, email));
+	const superAdminUser = await getSuperAdminUserByEmail(email);
 
-	if (res.length === 0) {
+	if (!superAdminUser) {
 		return { ok: false };
 	}
 
 	return {
 		ok: true,
-		superAdminId: res[0].id,
+		superAdminId: superAdminUser.id,
 	};
 }
 
@@ -166,14 +147,11 @@ export async function checkSuperAdminByEmail(
 export async function loginSuperAdminAzureB2C(
 	email: string,
 	firstName: string,
-	lastName: string
+	lastName: string,
 ): Promise<SuperAdminLoginResult> {
-	const res = await dr
-		.select()
-		.from(superAdminUsers)
-		.where(eq(superAdminUsers.email, email));
+	const superAdminUser = await getSuperAdminUserByEmail(email);
 
-	if (res.length === 0) {
+	if (!superAdminUser) {
 		return { ok: false };
 	}
 
@@ -183,15 +161,12 @@ export async function loginSuperAdminAzureB2C(
 		if (firstName) updateData.firstName = firstName;
 		if (lastName) updateData.lastName = lastName;
 
-		await dr
-			.update(superAdminUsers)
-			.set(updateData)
-			.where(eq(superAdminUsers.email, email));
+		await updateSuperAdminUser(updateData.id, updateData);
 	}
 
 	return {
 		ok: true,
-		superAdminId: res[0].id,
+		superAdminId: superAdminUser.id,
 	};
 }
 
@@ -200,7 +175,7 @@ export async function loginTotp(
 	token: string,
 	totpIssuer: string,
 ): Promise<LoginTotpResult> {
-	const user = await getUserById(userId)
+	const user = await UserRepository.getById(userId);
 	if (!user) {
 		return { ok: false, error: "Application error. User not found." };
 	}
@@ -220,5 +195,3 @@ export async function loginTotp(
 
 	return { ok: true };
 }
-
-

@@ -1,124 +1,118 @@
-import {
-	organizationCreate,
-	organizationUpdate,
-	organizationById,
-	organizationByIdTx,
-	getFieldsDef,
-} from "~/backend.server/models/organization";
+import { useState } from "react";
+import { Form, useActionData, useLoaderData, useNavigate, useNavigation } from "react-router";
+import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
+import { InputText } from "primereact/inputtext";
 
-import { OrganizationForm, route } from "~/frontend/organization";
-
-import { formScreen } from "~/frontend/form";
-
-import { createOrUpdateAction } from "~/backend.server/handlers/form/form";
-import { getTableName } from "drizzle-orm";
-import { organizationTable } from "~/drizzle/schema";
-import { useLoaderData } from "react-router";
-import { authLoaderWithPerm } from "~/utils/auth";
-
-import { ActionFunctionArgs } from "react-router";
-import { getCountryAccountsIdFromSession } from "~/utils/session";
-
-import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
+import { OrganizationRepository } from "~/db/queries/organizationRepository";
+import { OrganizationService } from "~/services/organizationService";
+import { authActionWithPerm, authLoaderPublicOrWithPerm } from "~/utils/auth";
+import { getCountryAccountsIdFromSession, redirectWithMessage } from "~/utils/session";
+import { ViewContext } from "~/frontend/context";
 
-export const action = async (args: ActionFunctionArgs) => {
-	const { request } = args;
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+export const loader = authLoaderPublicOrWithPerm(
+	"ManageOrganizations",
+	async (loaderArgs) => {
+		const { request } = loaderArgs;
+		const countryAccountsId = (await getCountryAccountsIdFromSession(request))!;
+		const selectedOrganization =
+			(await OrganizationRepository.getById(loaderArgs.params.id!)) ?? null;
 
-	if (!countryAccountsId) {
-		throw new Response("Unauthorized access", { status: 401 });
-	}
-
-	let ctx = new BackendContext(args);
-
-	return createOrUpdateAction(
-		{
-			fieldsDef: () => getFieldsDef(ctx),
-			create: organizationCreate,
-			update: organizationUpdate,
-			getById: organizationByIdTx,
-			redirectTo: (id) => `${route}/${id}`,
-			tableName: getTableName(organizationTable),
-			action: (isCreate) => (isCreate ? "Create organization" : "Update organization"),
-			countryAccountsId
-		},
-	)(args).catch((err) => {
-		let message: string = "Unknown error";
-		if (err instanceof Response) return err;
-
-		if (err.code && err.code === '23505') {
-			message = `An organization with the same name already exists.`;
-			//throw new Response(message, { status: 400 });
-			return new Response(JSON.stringify({ error: message }), {
-				status: 400,
-				headers: { "Content-Type": "application/json" },
-			});
+		if (
+			!selectedOrganization ||
+			selectedOrganization.countryAccountsId !== countryAccountsId
+		) {
+			throw new Response("Not Found", { status: 404 });
 		}
 
-		message = err instanceof Error ? err.message : "Unknown error";
-		//throw new Response(message, { status: 400 });
-		return new Response(JSON.stringify({ error: message }), {
-			status: 400,
-			headers: { "Content-Type": "application/json" },
-		});
+		return { selectedOrganization };
+	},
+);
+
+export const action = authActionWithPerm("ManageOrganizations", async (args) => {
+	const { request } = args;
+	const formData = await request.formData();
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const backendCtx = new BackendContext(args);
+
+	formData.set("intent", "update");
+	if (args.params.id) {
+		formData.set("id", args.params.id);
+	}
+
+	const result = await OrganizationService.organizationAction({
+		backendCtx,
+		countryAccountsId,
+		formData,
 	});
-};
 
-export const loader = authLoaderWithPerm("ManageOrganizations", async (args) => {
-	const { request, params } = args;
-	if (!params.id) throw new Error("Missing id param");
-	const countryAccountsId = await getCountryAccountsIdFromSession(request)
-	if (!countryAccountsId) {
-		throw new Response("Unauthorized access", { status: 401 });
-	}
-	let ctx = new BackendContext(args);
-	let url = new URL(request.url);
-	let sectorId = url.searchParams.get("sectorId") || null;
-	let extra = {
-		fieldsDef: await getFieldsDef(ctx),
-		sectorId,
-	};
-	if (params.id === "new") return {
-
-		item: null,
-		...extra
-	};
-
-	let item = await organizationById(ctx, params.id);
-	if (!item) throw new Response("Not Found", { status: 404 });
-	if (item.countryAccountsId !== countryAccountsId) {
-		throw new Response("Unauthorized access", { status: 401 });
+	if (result.ok) {
+		return redirectWithMessage(args, "/settings/organizations", {
+			type: "success",
+			text: backendCtx.t({ code: "common.changes_saved", msg: "Changes saved" }),
+		});
 	}
 
-	return {
-
-		item,
-		...extra
-	};
+	return result;
 });
 
-export default function Screen() {
-	let ld = useLoaderData<typeof loader>();
-	let ctx = new ViewContext()
+export default function OrganizationsEditPage() {
+	const ld = useLoaderData<typeof loader>();
+	const ctx = new ViewContext();
+	const actionData = useActionData<typeof action>();
+	const navigate = useNavigate();
+	const navigation = useNavigation();
+	const isSubmitting = navigation.state === "submitting";
+	const selectedItem = ld.selectedOrganization;
+	const nameError = actionData && !actionData.ok ? actionData.error : "";
+	const [editName, setEditName] = useState(selectedItem?.name ?? "");
 
-	let fieldsInitial = ld.item ? { ...ld.item } : {};
-	if ("sectorId" in fieldsInitial && !fieldsInitial.sectorId && ld.sectorId) {
-		fieldsInitial.sectorId = ld.sectorId;
-	}
-
-	// @ts-ignore
-	const selectedDisplay = ld?.selectedDisplay || {};
-
-	return formScreen({
-		ctx,
-		extraData: {
-			fieldDef: ld.fieldsDef,
-			selectedDisplay,
-		},
-		fieldsInitial,
-		form: OrganizationForm,
-		edit: !!ld.item,
-		id: ld.item?.id || undefined,
-	});
+	return (
+		<Dialog
+			header={ctx.t({ code: "organizations.edit", msg: "Edit organization" })}
+			visible
+			modal
+			onHide={() => navigate(ctx.url("/settings/organizations/"))}
+			className="w-[32rem] max-w-full"
+		>
+			<Form method="post" className="flex flex-col" noValidate>
+				<p className="mb-3 text-red-700">* Required information</p>
+				<div className="mb-3 flex flex-col gap-2">
+					<label htmlFor="edit-organization-name">
+						<span className="inline-flex gap-1">
+							<span>{ctx.t({ code: "common.name", msg: "Name" })}</span>
+							<span className="text-red-700">*</span>
+						</span>
+					</label>
+					<InputText
+						id="edit-organization-name"
+						name="name"
+						value={editName}
+						invalid={!!nameError}
+						aria-invalid={nameError ? true : false}
+						onChange={(e) => {
+							setEditName(e.target.value);
+						}}
+					/>
+					{nameError ? <small className="text-red-700">{nameError}</small> : null}
+				</div>
+				<div className="mt-4 flex justify-end gap-2">
+					<Button
+						type="button"
+						outlined
+						label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
+						onClick={() => navigate(ctx.url("/settings/organizations/"))}
+					/>
+					<Button
+						type="submit"
+						label={ctx.t({ code: "common.save", msg: "Save" })}
+						icon="pi pi-check"
+						loading={isSubmitting}
+						disabled={isSubmitting}
+					/>
+				</div>
+			</Form>
+		</Dialog>
+	);
 }

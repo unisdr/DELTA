@@ -12,7 +12,7 @@ const Tag = ({ value, severity = "info" }: TagProps) => {
 		fontWeight: 500,
 		fontSize: "0.86rem",
 		textAlign: "center",
-		margin:"2px"
+		margin: "2px",
 	};
 	const style: React.CSSProperties = {
 		...baseStyle,

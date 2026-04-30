@@ -1,4 +1,4 @@
-import { divisionTable } from "~/drizzle/schema";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 
 import { dr } from "~/db.server";
 
@@ -20,7 +20,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		async () => {
 			return dr.$count(
 				divisionTable,
-				eq(divisionTable.countryAccountsId, countryAccountsId)
+				eq(divisionTable.countryAccountsId, countryAccountsId),
 			);
 		},
 		async (offsetLimit) => {
@@ -36,12 +36,12 @@ export const loader = async (args: LoaderFunctionArgs) => {
 				where: eq(divisionTable.countryAccountsId, countryAccountsId),
 				extras: {
 					hasGeoData: sql`${divisionTable.geojson} IS NOT NULL`.as(
-						"hasGeoData"
+						"hasGeoData",
 					),
 				},
 				...offsetLimit,
 				orderBy: [desc(divisionTable.id)],
 			});
-		}
+		},
 	)(args);
 };

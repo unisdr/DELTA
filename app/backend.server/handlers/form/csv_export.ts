@@ -1,72 +1,76 @@
-import { BackendContext } from '~/backend.server/context';
-import { authLoaderWithPerm } from '~/utils/auth';
-import { stringifyCSV } from '~/utils/csv';
+import { BackendContext } from "~/backend.server/context";
+import { authLoaderWithPerm } from "~/utils/auth";
+import { stringifyCSV } from "~/utils/csv";
 
 interface csvExportLoaderArgs<T> {
-    table: any;
-    fetchData: (ctx: BackendContext, request: Request) => Promise<T[]>;
+	table: any;
+	fetchData: (ctx: BackendContext, request: Request) => Promise<T[]>;
 }
 
 export function csvExportLoader<T>(args: csvExportLoaderArgs<T>) {
-    return authLoaderWithPerm('ViewData', async (loaderArgs) => {
-        const ctx = new BackendContext(loaderArgs);
+	return authLoaderWithPerm("ViewData", async (loaderArgs) => {
+		const ctx = new BackendContext(loaderArgs);
 
-        const { request } = loaderArgs;
-        const url = new URL(request.url);
+		const { request } = loaderArgs;
+		const url = new URL(request.url);
 
-        const parts = url.pathname.split('/').filter((s) => s !== '');
-        const typeName = parts.length > 1 ? parts[parts.length - 2] : '';
+		const parts = url.pathname.split("/").filter((s) => s !== "");
+		const typeName = parts.length > 1 ? parts[parts.length - 2] : "";
 
-        if (!typeName || !/^[a-zA-Z0-9_-]+$/.test(typeName)) {
-            return new Response('Invalid or missing type name', {
-                status: 400,
-                headers: { 'Content-Type': 'text/plain' },
-            });
-        }
+		if (!typeName || !/^[a-zA-Z0-9_-]+$/.test(typeName)) {
+			return new Response("Invalid or missing type name", {
+				status: 400,
+				headers: { "Content-Type": "text/plain" },
+			});
+		}
 
-        let data = await args.fetchData(ctx, request);
-        if (!data.length) {
-            return new Response(`No data for ${typeName}`, {
-                headers: { 'Content-Type': 'text/plain' },
-            });
-        }
-        let headers: string[] = [];
-        let rows: string[][] = [];
-        for (const k in data[0]) {
-            if (k == 'spatialFootprint' || k == 'attachments') {
-                continue;
-            }
-            headers.push(k);
-        }
-        for (const item of data as Record<string, any>[]) {
-            let row: string[] = [];
-            for (const h of headers) {
-                row.push(valueToCsvString(item[h]));
-            }
-            rows.push(row);
-        }
-        let all = [headers, ...rows];
-        let csv = await stringifyCSV(all);
+		let data = await args.fetchData(ctx, request);
+		if (!data.length) {
+			return new Response(`No data for ${typeName}`, {
+				headers: { "Content-Type": "text/plain" },
+			});
+		}
+		let headers: string[] = [];
+		let rows: string[][] = [];
+		for (const k in data[0]) {
+			if (k == "spatialFootprint" || k == "attachments") {
+				continue;
+			}
+			headers.push(k);
+		}
+		for (const item of data as Record<string, any>[]) {
+			let row: string[] = [];
+			for (const h of headers) {
+				row.push(valueToCsvString(item[h]));
+			}
+			rows.push(row);
+		}
+		let all = [headers, ...rows];
+		let csv = await stringifyCSV(all);
 
-        return new Response(csv, {
-            status: 200,
-            headers: {
-                'Content-Type': 'text/csv',
-                'Content-Disposition': `attachment; filename="${typeName}.csv"`,
-            },
-        });
-    });
+		return new Response(csv, {
+			status: 200,
+			headers: {
+				"Content-Type": "text/csv",
+				"Content-Disposition": `attachment; filename="${typeName}.csv"`,
+			},
+		});
+	});
 }
 
 function valueToCsvString(value: any): string {
-    if (value instanceof Date) {
-        return value.toISOString();
-    }
-    if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
-        return String(value);
-    }
-    if (value === null || value === undefined) {
-        return '';
-    }
-    return JSON.stringify(value);
+	if (value instanceof Date) {
+		return value.toISOString();
+	}
+	if (
+		typeof value === "string" ||
+		typeof value === "number" ||
+		typeof value === "boolean"
+	) {
+		return String(value);
+	}
+	if (value === null || value === undefined) {
+		return "";
+	}
+	return JSON.stringify(value);
 }

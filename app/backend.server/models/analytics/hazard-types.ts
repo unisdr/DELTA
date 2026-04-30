@@ -1,8 +1,7 @@
-
 import { sql, eq } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
 import { dr } from "~/db.server";
-import { hipTypeTable } from "~/drizzle/schema";
+import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
 
 export interface HazardType {
 	id: string;
@@ -14,13 +13,15 @@ export interface HazardType {
  * @returns Array of hazard types.
  */
 export const fetchHazardTypes = async (
-	ctx: BackendContext
+	ctx: BackendContext,
 ): Promise<HazardType[]> => {
 	try {
 		const hazardTypes = await dr
 			.select({
 				id: hipTypeTable.id,
-				name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as('name'),
+				name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as(
+					"name",
+				),
 			})
 			.from(hipTypeTable)
 			.orderBy(sql`name`);
@@ -32,11 +33,16 @@ export const fetchHazardTypes = async (
 };
 
 // Fetches a hazard type record by its ID.
-export async function getHazardTypeById(ctx: BackendContext, hazardTypeId: string) {
+export async function getHazardTypeById(
+	ctx: BackendContext,
+	hazardTypeId: string,
+) {
 	const result = await dr
 		.select({
 			id: hipTypeTable.id,
-			name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as('name'),
+			name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as(
+				"name",
+			),
 		})
 		.from(hipTypeTable)
 		.where(eq(hipTypeTable.id, hazardTypeId));

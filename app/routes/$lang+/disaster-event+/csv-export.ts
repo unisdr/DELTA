@@ -1,30 +1,30 @@
-import { disasterEventTable } from '~/drizzle/schema';
+import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
 
-import { dr } from '~/db.server';
+import { dr } from "~/db.server";
 
-import { asc, eq } from 'drizzle-orm';
+import { asc, eq } from "drizzle-orm";
 
-import { csvExportLoader } from '~/backend.server/handlers/form/csv_export';
+import { csvExportLoader } from "~/backend.server/handlers/form/csv_export";
 
-import { authLoaderWithPerm } from '~/utils/auth';
-import { getCountryAccountsIdFromSession } from '~/utils/session';
+import { authLoaderWithPerm } from "~/utils/auth";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
 
-export const loader = authLoaderWithPerm('EditData', async (loaderArgs) => {
-    const { request } = loaderArgs;
-    const countryAccountsId = await getCountryAccountsIdFromSession(request);
+export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
+	const { request } = loaderArgs;
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-    const fetchDataWithTenant = async () => {
-        return dr.query.disasterEventTable.findMany({
-            where: eq(disasterEventTable.countryAccountsId, countryAccountsId),
-            orderBy: [asc(disasterEventTable.id)],
-        });
-    };
+	const fetchDataWithTenant = async () => {
+		return dr.query.disasterEventTable.findMany({
+			where: eq(disasterEventTable.countryAccountsId, countryAccountsId),
+			orderBy: [asc(disasterEventTable.id)],
+		});
+	};
 
-    // Use csvExportLoader with tenant-aware data fetcher
-    const exportLoader = csvExportLoader({
-        table: disasterEventTable,
-        fetchData: fetchDataWithTenant,
-    });
+	// Use csvExportLoader with tenant-aware data fetcher
+	const exportLoader = csvExportLoader({
+		table: disasterEventTable,
+		fetchData: fetchDataWithTenant,
+	});
 
-    return exportLoader(loaderArgs);
+	return exportLoader(loaderArgs);
 });

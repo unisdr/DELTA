@@ -26,6 +26,8 @@ dts_shared_binary/
 .env.*
 .env.local
 
+# AI Tool files
+.claude/settings.*
 
 # Drizzle files
 app/drizzle/migrations/meta/*
@@ -58,6 +60,9 @@ Thumbs.db
 .parcel-cache
 tmp/
 temp/
+
+# AI Tools
+.claude/*.json
 
 # Test suite files and directories (local testing only)
 app/tests/

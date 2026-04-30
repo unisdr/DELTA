@@ -1,12 +1,6 @@
-import {
-	fieldsDefApi,
-} from "~/frontend/events/hazardeventform";
-import {
-	authLoaderApiDocs,
-} from "~/utils/auth";
-import {
-	jsonApiDocs,
-} from "~/backend.server/handlers/form/form_api";
+import { fieldsDefApi } from "~/frontend/events/hazardeventform";
+import { authLoaderApiDocs } from "~/utils/auth";
+import { jsonApiDocs } from "~/backend.server/handlers/form/form_api";
 import { BackendContext } from "~/backend.server/context";
 
 export const loader = authLoaderApiDocs(async (requestArgs) => {
@@ -16,7 +10,7 @@ export const loader = authLoaderApiDocs(async (requestArgs) => {
 		ctx,
 		baseUrl: "hazardous-event",
 		fieldsDef: fieldsDefApi(ctx),
-	})
+	});
 
 	return new Response(docs, {
 		status: 200,

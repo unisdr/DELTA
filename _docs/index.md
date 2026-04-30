@@ -1,4 +1,12 @@
+New to the project? Start with [Code structure](code-structure/code-structure.md) and the [README](../readme.md) for orientation.
+
 # Developer documentation
+
+DELTA Resilience (**D**isaster & Hazardous **E**vents, **L**osses and Damages **T**racking & **A**nalysis) is a full-stack TypeScript application built on React Router v7, Vite, and PostgreSQL/PostGIS. See the [README](../readme.md) for quick start and the [CONTRIBUTING guide](../CONTRIBUTING.md) for branch/PR conventions.
+
+## Development workflows
+
+- [Spec-driven development with OpenSpec](workflows/openspec.md) — how to propose, implement, and archive changes using the SDD + TDD workflow
 
 ## General
 
@@ -7,12 +15,17 @@
   - [Handlers](code-structure/handlers.md)
   - [Routes](code-structure/routes.md)
   - [Frontend](code-structure/frontend.md)
-- [Form CSV API](code-structure/form-csv-api.md)
+  - [Testing](code-structure/testing.md)
+  - [Form CSV API](code-structure/form-csv-api.md)
+- [Creating a new type linked to a form](creating-a-new-type-linked-to-a-form.md) - step-by-step guide for adding a new entity type
 
-- [Dependencies](code-structure/dependencies.md)
+- [Dependencies](dependencies.md)
+
+- [Scripts](../scripts/README.md) - install, upgrade, and operational scripts
 
 - [Human direct effects](human-direct-effects.md)
-- [Translations](translations/index)
+- [Translations](translations/index.md)
+- [MCP](mcp.md)
 
 ## Requirements
 
@@ -29,17 +42,36 @@
 
 ## Geographic divisions
 
-- [Division Import Guide](division/import_guide.md)
-- [Division Technical Implementation](division/technical_implementation.md)
+- [Division import guide](division/division_import_guide.md)
+- [Division technical implementation](division/division_technical_implementation.md)
+- [Bundled GeoJSON assessment](division/division_bundled_geojson_assessment.md)
 
-## Analytics
+## Installation
 
-- [Dashboard visualization requirements](Dashboard_Visualization_Requirements.md)
+- [Shared instance installation](installation/shared-instance-installation.md)
+- [Health check best practices](installation/health-check-best-practices.md)
+
+## Security
+
+- [API key – user relationship guide](security/api-key-user-relationship-guide.md)
+- [API key – user assignment developer guide](security/api-key-user-assignment-developer-guide.md)
+- [Tenant isolation file storage testing guide](tenant-isolation-file-storage-testing-guide.md) *(file is at `_docs/` root, not under `_docs/security/`)*
+
+## Maps & dashboards
+
+- [Custom map integration guide](custom-map/custom-map-integration-guide.md)
+- [Color scheme strategies](custom-map/color-scheme-strategies.md)
+- [Sectors dashboard user guide](dashboards/sectors/user-guide.md) *(draft)*
+- [Sectors dashboard developer guide](dashboards/sectors/developer-guide.md)
+
+## High availability
+
+- [HA analysis report](<High Availability (HA)/01-HA-Analysis-Report.md>)
+
+## Assessments & proposals
+
+- [Google Analytics integration assessment](google-analytics-integration-assessment.md)
 
 ## LICENSE
 
 - [License](License/INDEX.md)
-
-## TODO
-
-- [Technical documentation](technical-documentation.md)

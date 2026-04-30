@@ -1,7 +1,12 @@
-import "./user/password_check_test.ts"
-import "./disaster_event_test.ts"
-import "./disaster_record_test.ts"
-import "./event_test.ts"
-import "./hip_test.ts"
-import "./human_effects_test.ts"
-
+import "./user/password_check_test.ts";
+import "./disaster_event_test.ts";
+import "./disaster_record_test.ts";
+import "./event/event_test.ts";
+import "./hip_test.ts";
+import "./human_effects/crud_test.ts";
+import "./human_effects/category_presence_test.ts";
+import "./human_effects/total_group_test.ts";
+import "./human_effects/total_data_test.ts";
+import "./human_effects/calc_total_test.ts";
+import "./human_effects/builtin_columns_test.ts";
+import "./human_effects/custom_config_test.ts";

@@ -14,7 +14,8 @@ Based on the actual `division` table schema, the system stores:
 export const divisionTable = pgTable("division", {
 	id: ourRandomUUID(),
 	importId: text("import_id"),
-	nationalId: text("national_id").unique(),
+	nationalId: text("national_id"),
+	// uniqueness is tenant-scoped: uniqueIndex("tenant_national_id_idx").on(table.countryAccountsId, table.nationalId)
 	parentId: uuid("parent_id").references(() => divisionTable.id),
 	countryAccountsId: uuid("country_accounts_id"),
 	name: zeroStrMap("name"),
@@ -42,12 +43,12 @@ Analysis of `division.ts` reveals **production-grade enterprise capabilities**:
 ```typescript
 export async function importZip(
 	zipBytes: Uint8Array,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	// 1. Parse CSV metadata with comprehensive validation
 	// 2. Extract GeoJSON files with case-insensitive filename mapping
 	// 3. Process hierarchically (roots first, then children)
-	// 4. Parallel batch processing (10 batches, 2 concurrent operations)
+	// 4. Sequential batch processing (divisions processed one at a time to ensure idMap is updated before children need it)
 	// 5. Transaction management with comprehensive rollback
 	// 6. Manual PostGIS geometry processing
 	// 7. Detailed error tracking and reporting
@@ -57,7 +58,7 @@ export async function importZip(
 **Critical Architectural Strengths (VERIFIED):**
 
 - **Advanced Hierarchical Processing:** Parent-before-children with circular reference detection
-- **Production-Grade Batch Processing:** Configurable parallel processing with progress tracking
+- **Sequential Batch Processing:** Divisions are processed sequentially to ensure parent records exist in `idMap` before children are inserted
 - **Enterprise Transaction Management:** Comprehensive rollback with detailed error context
 - **Multi-Tenant Architecture:** Full tenant isolation with `countryAccountsId`
 - **Comprehensive Validation Framework:** Multiple validation layers with structured error types
@@ -69,7 +70,7 @@ export async function importZip(
 - **File Format Support:** ZIP archives with CSV + multiple GeoJSON files
 - **Intelligent Mapping:** Case-insensitive filename normalization and lookup
 - **Comprehensive Validation:** CSV structure, GeoJSON geometry, hierarchical relationships
-- **Performance Optimization:** Parallel processing with configurable concurrency
+- **Sequential Processing:** Divisions processed one at a time to maintain correct `idMap` ordering for parent-child dependencies
 - **Error Recovery:** Transaction rollback with detailed failure reporting
 
 ### Automatic PostGIS Processing Architecture
@@ -84,7 +85,7 @@ await tx.execute(sql`
     geojson = ${JSON.stringify(featureToProcess.geometry)}::jsonb,
     geom = ST_GeomFromGeoJSON(${JSON.stringify(featureToProcess.geometry)}),
     bbox = ST_Envelope(ST_GeomFromGeoJSON(${JSON.stringify(
-			featureToProcess.geometry
+			featureToProcess.geometry,
 		)}))
   WHERE id = ${divisionId}
 `);
@@ -162,12 +163,14 @@ Based on comprehensive analysis of Cape Verde, Cameroon, DRC, and Nigeria:
 
 **Minimal Implementation Required:**
 
+> ⚠️ **This function does not exist in the current codebase.** This section describes a proposed implementation that has not yet been built.
+
 ```typescript
 // Extend existing importZip() function
 async function processSALBFormat(
 	csvBytes: Uint8Array,
 	geojsonBytes: Uint8Array,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	return await dr.transaction(async (tx) => {
 		// 1. Reuse existing parseCSV() function
@@ -192,10 +195,10 @@ async function processSALBFormat(
 						importId,
 						idMap,
 						countryAccountsId,
-						JSON.stringify(feature)
+						JSON.stringify(feature),
 					);
 				}
-			}
+			},
 		);
 
 		// 4. Leverage existing spatial index updates
@@ -246,7 +249,7 @@ Examples from validation data:
 // Handle variable GADM levels (2-3 files)
 async function processGADMFormat(
 	levelFiles: Record<number, Uint8Array>,
-	countryAccountsId: string
+	countryAccountsId: string,
 ) {
 	return await dr.transaction(async (tx) => {
 		const gadmIdMap = new Map(); // GID → UUID mappings
@@ -291,10 +294,10 @@ async function processGADMFormat(
 							feature.properties[`GID_${level}`],
 							gadmIdMap,
 							countryAccountsId,
-							JSON.stringify(feature)
+							JSON.stringify(feature),
 						);
 					}
-				}
+				},
 			);
 		}
 	});
@@ -427,13 +430,11 @@ switch (importFormat) {
 **Phase 2: Implementation (3 weeks)**
 
 - Week 1: Format Detection and SALB Integration
-
   - Day 1-2: Extend `importZip()` with format detection logic
   - Day 3-4: Implement SALB bundled GeoJSON processing
   - Day 5: Integration testing with existing validation framework
 
 - Week 2: GADM Integration
-
   - Day 1-2: Implement GADM level-based processing using existing batch system
   - Day 3-4: Add GID-based hierarchy mapping to existing parent-child validation
   - Day 5: Performance testing with existing monitoring infrastructure

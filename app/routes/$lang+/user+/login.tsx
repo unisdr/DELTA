@@ -1,15 +1,14 @@
 import type { MetaFunction } from "react-router";
-import { ActionFunctionArgs, LoaderFunctionArgs, redirectDocument } from "react-router";
-import { useLoaderData, useActionData } from "react-router";
-import { useEffect } from "react";
 import {
-	Form,
-	Field,
-	Errors as FormErrors,
-	SubmitButton,
-	validateFormAndToggleSubmitButton,
-	errorToString,
-} from "~/frontend/form";
+	ActionFunctionArgs,
+	Link,
+	LoaderFunctionArgs,
+	redirectDocument,
+	useNavigate,
+	useNavigation,
+} from "react-router";
+import { useLoaderData, useActionData } from "react-router";
+import { errorToString, Form, Errors as FormErrors } from "~/frontend/form";
 import { formStringData } from "~/utils/httputil";
 import {
 	getUserFromSession,
@@ -22,19 +21,25 @@ import {
 	configAuthSupportedAzureSSOB2C,
 	configAuthSupportedForm,
 } from "~/utils/config";
-import PasswordInput from "~/components/PasswordInput";
-import { getCountryAccountWithCountryById } from "~/db/queries/countryAccounts";
-import { countryAccountStatuses } from "~/drizzle/schema";
-import Messages from "~/components/Messages";
-import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts";
-import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
+import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
+import { UserCountryAccountRepository } from "~/db/queries/userCountryAccountsRepository";
+import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
+import { UserRepository } from "~/db/queries/UserRepository";
 import { createCSRFToken } from "~/utils/csrf";
 import { redirectLangFromRoute, replaceLang } from "~/utils/url.backend";
 import { ViewContext } from "~/frontend/context";
 
-import { LangLink } from "~/utils/link";
+
 import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";
+import { InputText } from "primereact/inputtext";
+import { Password } from "primereact/password";
+import { Button } from "primereact/button";
+import { Message } from "primereact/message";
+import { Divider } from "primereact/divider";
+import { urlLang } from "~/utils/url";
+import { countryAccountStatuses } from "~/drizzle/schema";
+import { Card } from "primereact/card";
 
 interface LoginFields {
 	email: string;
@@ -55,7 +60,7 @@ type LoaderData = {
 };
 
 export const action = async (routeArgs: ActionFunctionArgs) => {
-	let { request } = routeArgs
+	let { request } = routeArgs;
 	const ctx = new BackendContext(routeArgs);
 
 	// Check if form authentication is supported
@@ -69,7 +74,7 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 					],
 				},
 			},
-			{ status: 400 }
+			{ status: 400 },
 		);
 	}
 
@@ -89,54 +94,34 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 				errors: {
 					general: [
 						ctx.t({
-							"code": "common.csrf_validation_failed",
-							"msg": "CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again."
-						})
+							code: "common.csrf_validation_failed",
+							msg: "CSRF validation failed. Please ensure you're submitting the form from a valid session. For your security, please restart your browser and try again.",
+						}),
 					],
 				},
 			},
-			{ status: 400 }
+			{ status: 400 },
 		);
 	}
-
 
 	const res = await login(data.email, data.password);
 	if (!res.ok) {
 		let errors: FormErrors<LoginFields> = {
-			fields: {
-				email: [
-					ctx.t({
-						"code": "user_login.email_or_password_do_not_match",
-						"msg": "Email or password do not match"
-					})
-				],
-				password: [
-					ctx.t({
-						"code": "user_login.email_or_password_do_not_match",
-						"msg": "Email or password do not match"
-					})
-				],
-			},
+			general: [
+				ctx.t({
+					code: "user_login.email_or_password_do_not_match",
+					msg: "Email or password do not match",
+				}),
+			],
 		};
 		return Response.json({ data, errors }, { status: 400 });
-	}
-
-	// --- PATCH: Check if user is pending activation and redirect to verify-email ---
-	const userSession = await getUserFromSession(request);
-	if (
-		userSession &&
-		userSession.user &&
-		userSession.user.emailVerified === false
-	) {
-		return redirectLangFromRoute(routeArgs, "/user/verify-email")
 	}
 
 	// Check if user's country accounts is inactive, then show error message and redirect to login
 	const countryAccountId = res.countryAccountId;
 	if (countryAccountId) {
-		const countryAccount = await getCountryAccountWithCountryById(
-			countryAccountId
-		);
+		const countryAccount =
+			await CountryAccountsRepository.getByIdWithCountry(countryAccountId);
 		if (
 			countryAccount &&
 			countryAccount.status === countryAccountStatuses.INACTIVE
@@ -146,46 +131,60 @@ export const action = async (routeArgs: ActionFunctionArgs) => {
 					data,
 					errors: { general: ["Your country account is inactive"] },
 				},
-				{ status: 400 }
+				{ status: 400 },
 			);
 		}
 	}
 
 	//check if he has more than one instance assosiated, redirect to select-instance page,
 	//otherwise take him to first page.
-	const userCountryAccounts = await getUserCountryAccountsByUserId(res.userId);
+	const userCountryAccounts = await UserCountryAccountRepository.getByUserId(res.userId);
 	const headerSession = await createUserSession(res.userId);
+	const user = await UserRepository.getById(res.userId);
 
 	const url = new URL(request.url);
 	let redirectTo = url.searchParams.get("redirectTo");
 	redirectTo = getSafeRedirectTo(ctx, redirectTo);
 
+	if (user?.totpEnabled) {
+		return redirectLangFromRoute(
+			routeArgs,
+			`/user/totp-login?redirectTo=${encodeURIComponent(redirectTo)}`,
+			{ headers: headerSession },
+		);
+	}
+
 	if (userCountryAccounts && userCountryAccounts.length === 1) {
-		const countrySettings = await getInstanceSystemSettingsByCountryAccountId(
-			userCountryAccounts[0].countryAccountsId
+		const countrySettings = await InstanceSystemSettingRepository.getByCountryAccountId(
+			userCountryAccounts[0].countryAccountsId,
 		);
 
 		const session = await sessionCookie().getSession(
-			headerSession["Set-Cookie"]
+			headerSession["Set-Cookie"],
 		);
 		session.set("countryAccountsId", userCountryAccounts[0].countryAccountsId);
-		session.set("userRole", userCountryAccounts[0].role);
 		session.set("countrySettings", countrySettings);
 		const setCookie = await sessionCookie().commitSession(session);
 
-		redirectTo = replaceLang(redirectTo, countrySettings?.language || "en")
+		redirectTo =
+			replaceLang(redirectTo, countrySettings?.language || "en")
+		console.log("redirectTo=", redirectTo)
 		return redirectDocument(redirectTo, {
 			headers: { "Set-Cookie": setCookie },
 		});
 	} else if (userCountryAccounts && userCountryAccounts.length > 1) {
-		return redirectLangFromRoute(routeArgs, "/user/select-instance", { headers: headerSession });
+		return redirectLangFromRoute(routeArgs, "/user/select-instance", {
+			headers: headerSession,
+		});
 	}
-	return redirectLangFromRoute(routeArgs, redirectTo, { headers: headerSession });
+	return redirectDocument(redirectTo, {
+		headers: headerSession,
+	});
 };
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const ctx = new BackendContext(args);
-	const { request } = args
+	const { request } = args;
 
 	const user = await getUserFromSession(request);
 
@@ -203,13 +202,15 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	const setCookie = await sessionCookie().commitSession(session);
 
 	if (user) {
-		const userCountryAccounts = await getUserCountryAccountsByUserId(
-			user.user.id
+		const userCountryAccounts = await UserCountryAccountRepository.getByUserId(
+			user.user.id,
 		);
 		if (userCountryAccounts.length > 1) {
 			const countryAccountsId = await getCountryAccountsIdFromSession(request);
 			if (countryAccountsId) {
-				return redirectLangFromRoute(args, redirectTo, { headers: { "Set-Cookie": setCookie } });
+				return redirectDocument(redirectTo, {
+					headers: { "Set-Cookie": setCookie },
+				});
 			} else {
 				return redirectLangFromRoute(args, "/user/select-instance", {
 					headers: { "Set-Cookie": setCookie },
@@ -217,7 +218,9 @@ export const loader = async (args: LoaderFunctionArgs) => {
 			}
 		}
 
-		return redirectLangFromRoute(args, redirectTo, { headers: { "Set-Cookie": setCookie } });
+		return redirectDocument(redirectTo, {
+			headers: { "Set-Cookie": setCookie },
+		});
 	}
 
 	const isFormAuthSupported = configAuthSupportedForm();
@@ -226,19 +229,18 @@ export const loader = async (args: LoaderFunctionArgs) => {
 	// If no authentication methods are configured, show error
 	if (!isFormAuthSupported && !isSSOAuthSupported) {
 		throw new Error(
-			"No authentication methods configured. Please check AUTHENTICATION_SUPPORTED environment variable."
+			"No authentication methods configured. Please check AUTHENTICATION_SUPPORTED environment variable.",
 		);
 	}
 
 	return Response.json(
 		{
-
 			redirectTo: redirectTo,
 			isFormAuthSupported: isFormAuthSupported,
 			isSSOAuthSupported: isSSOAuthSupported,
 			csrfToken: csrfToken,
 		},
-		{ headers: { "Set-Cookie": setCookie } }
+		{ headers: { "Set-Cookie": setCookie } },
 	);
 };
 
@@ -249,7 +251,7 @@ export function getSafeRedirectTo(
 	if (redirectTo && redirectTo.startsWith("/")) {
 		return redirectTo;
 	}
-	return ctx.url("")
+	return ctx.url("/");
 }
 
 export const meta: MetaFunction = () => {
@@ -257,18 +259,21 @@ export const meta: MetaFunction = () => {
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "common.sign-in",
-				"msg": "Sign-in"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "common.sign-in",
+					msg: "Sign-in",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "common.login",
-				"msg": "Login"
+				code: "common.login",
+				msg: "Login",
 			}),
-		}
+		},
 	];
 };
 
@@ -278,243 +283,217 @@ export default function Screen() {
 	const actionData = useActionData<ActionData>();
 
 	const errors = actionData?.errors || {};
-	const data = actionData?.data;
+	const navigation = useNavigation();
+	const isSubmitting =
+		navigation.state === "submitting" &&
+		navigation.formData?.get("email") != null;
 
+	const navigate = useNavigate();
 	const { isFormAuthSupported, isSSOAuthSupported } = loaderData;
 
-	useEffect(() => {
-		// Submit button enabling only when required fields are filled (only if form is supported)
-		if (isFormAuthSupported) {
-			const submitButton = document.querySelector(
-				"[id='login-button']"
-			) as HTMLButtonElement;
-			if (submitButton) {
-				submitButton.disabled = true;
-				validateFormAndToggleSubmitButton("login-form", "login-button");
-			}
-		}
-	}, [isFormAuthSupported]);
-
 	return (
-		<div className="dts-page-container">
-			<main className="dts-main-container">
-				<div className="mg-container">
-					<div className="dts-form__intro dts-form dts-form--vertical">
-						{errors.general && <Messages messages={errors.general} />}
-						<h2 className="dts-heading-1">
-							{ctx.t({
-								"code": "user_login.sign_in",
-								"msg": "Sign in"
-							})}
-						</h2>
-						{isFormAuthSupported && isSSOAuthSupported && (
-							<>
-								<p>{ctx.t({
-									"code": "user_login.intro",
-									"desc": "Login page intro text",
-									"msg": "Enter your credentials or use SSO to access your account."
-								})}</p>
-								<p style={{ marginBottom: "2px" }}>*
-									{ctx.t({
-										"code": "common.required_information",
-										"desc": "Indicates required information on login form",
-										"msg": "Required information"
-									})}
-								</p>
-							</>
-						)}
-						{isFormAuthSupported && !isSSOAuthSupported && (
-							<>
-								<p>{ctx.t({
-									"code": "user_login.intro_form_only",
-									"desc": "Login page intro text when only form auth is supported",
-									"msg": "Enter your credentials to access your account."
-								})}</p>
-								<p style={{ marginBottom: "2px" }}>*
-									{ctx.t({
-										"code": "common.required_information",
-										"desc": "Indicates required information on login form",
-										"msg": "Required information"
-									})}
-								</p>
-							</>
-						)}
-						{!isFormAuthSupported && isSSOAuthSupported && (
-							<p>
-								{ctx.t({
-									"code": "user_login.intro_sso_only",
-									"desc": "Login page intro text when only SSO auth is supported",
-									"msg": "Use your organization's Single Sign-On to access your account."
-								})}
-							</p>
-						)}
+		<div className="flex items-center justify-center min-h-screen  bg-gray-50 px-4">
+			<div className="w-full md:w-1/2 lg:w-1/3">
+				<div className="flex flex-col gap-4">
+					<div className="flex items-center justify-center gap-3 mb-4">
+						{/* <div
+							className="w-12 h-12 rounded-lg flex items-center justify-center"
+							style={{ backgroundColor: "#004F91" }}
+						>
+							<i className="pi pi-globe text-white" style={{ fontSize: "1.5rem" }}></i>
+						</div> */}
+						<div className="flex flex-col">
+							<span className="font-bold text-2xl leading-none tracking-tight text-[#004F91]">
+								DELTA
+							</span>
+							<span className="text-xs uppercase font-bold text-gray-500 tracking-[0.1em] mt-0.5">
+								Resilience
+							</span>
+						</div>
 					</div>
 					{isFormAuthSupported && (
-						<Form
-							ctx={ctx}
-							id="login-form"
-							className="dts-form dts-form--vertical"
-							errors={errors}
-						>
-							<input
-								type="hidden"
-								name="redirectTo"
-								value={loaderData.redirectTo}
-							/>
-							<input
-								type="hidden"
-								name="csrfToken"
-								value={loaderData.csrfToken}
-							/>
+						<Card className="w-full drop-shadow-xl rounded-2xl">
+							<div className="text-center mb-4">
+								<h2 className="text-2xl font-semibold mb-2">
+									{ctx.t({
+										code: "user_login.welcome_back",
+										msg: "Welcome back",
+									})}
+								</h2>
+								<p className="text-sm text-gray-500">
+									{ctx.t({
+										code: "user_login.sign_in_to_continue",
+										msg: "Sign in to your account to continue",
+									})}
+								</p>
+							</div>
 
-							<div className="dts-form__body" style={{ marginBottom: "5px" }}>
-								<div
-									className="dts-form-component"
-									style={{ marginBottom: "10px" }}
-								>
-									<Field label="">
-										<input
-											type="email"
-											autoComplete="off"
-											name="email"
-											placeholder={`*${ctx.t({
-												"code": "user_login.email_address",
-												"msg": "Email address"
-											})}`}
-											defaultValue={data?.email}
-											required
-											className={
-												errors?.fields?.email && errors.fields.email.length > 0
-													? "input-error"
-													: "input-normal"
-											}
-											style={{
-												paddingInlineEnd: "2.5rem",
-												width: "100%",
-											}}
-										/>
-									</Field>
-								</div>
-								<div className="dts-form-component">
-									<Field label="">
-										<PasswordInput
-											name="password"
-											placeholder={`*${ctx.t({
-												"code": "user_login.password",
-												"msg": "Password"
-											})}`}
-											defaultValue={data?.password}
-											errors={errors}
-											required={true}
-										/>
+							<div className="flex flex-col gap-1 items-start text-left w-full mb-2">
+								{errors.general && (
+									<Message
+										className="mb-2"
+										severity="error"
+										text={errors.general}
+									/>
+								)}
+							</div>
+
+							<Form ctx={ctx} id="login-form" errors={errors}>
+								<div className="flex flex-col gap-4">
+									<input type="hidden" name="redirectTo" value={loaderData.redirectTo} />
+									<input type="hidden" name="csrfToken" value={loaderData.csrfToken} />
+
+									{/* Email */}
+									<div className="flex flex-col gap-2">
+										<label htmlFor="email" className="font-semibold">
+											{ctx.t({ code: "user_login.email_address", msg: "Email address" })}
+										</label>
+
+										<div className="p-inputgroup login-inputgroup">
+											<span className="p-inputgroup-addon">
+												<i className="pi pi-envelope"></i>
+											</span>
+											<InputText
+												id="email"
+												type="email"
+												name="email"
+												className="w-full"
+												placeholder={ctx.t({
+													code: "user_login.enter_your_email",
+													msg: "Enter your email",
+												})}
+												required
+											/>
+										</div>
+
+										{errors?.fields?.email && (
+											<div className="text-sm text-red-500">
+												{errorToString(errors.fields.email[0])}
+											</div>
+										)}
+									</div>
+
+									{/* Password */}
+									<div className="flex flex-col gap-2">
+										<label htmlFor="password" className="font-semibold">
+											{ctx.t({ code: "user_login.password", msg: "Password" })}
+										</label>
+
+										<div className="p-inputgroup login-inputgroup">
+											<span className="p-inputgroup-addon">
+												<i className="pi pi-lock"></i>
+											</span>
+											<Password
+												id="password"
+												name="password"
+												className="w-full"
+												style={{ width: "100%", flex: 1 }}
+												inputClassName="w-full"
+												inputStyle={{ width: "100%" }}
+												toggleMask
+												autoComplete="true"
+												pt={{
+													root: { className: "w-full", style: { width: "100%", flex: 1 } },
+													iconField: { root: { className: "w-full" } },
+													input: { className: "w-full" },
+													hideIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+													showIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+												}}
+												feedback={false}
+												placeholder={ctx.t({
+													code: "user_login.enter_your_password",
+													msg: "Enter your password",
+												})}
+												required
+											/>
+										</div>
+
 										{errors?.fields?.password && (
-											<div className="dts-form-component__hint--error">
+											<div className="text-sm text-red-500">
 												{errorToString(errors.fields.password[0])}
 											</div>
 										)}
-									</Field>
+									</div>
+
+									<div className="self-end text-end">
+										<Button
+											link
+											type="button"
+											label={ctx.t({
+												code: "user_login.forgot_password",
+												msg: "Forgot password?",
+											})}
+											onClick={() => navigate(`/${ctx.lang}/user/forgot-password`)}
+										/>
+									</div>
+
+									<Button
+										type="submit"
+										label={ctx.t({ code: "user_login.sign_in", msg: "Sign in" })}
+										icon="pi pi-sign-in"
+										loading={isSubmitting}
+										className="w-full mt-2"
+									/>
 								</div>
-							</div>
-							<u>
-								{isFormAuthSupported && (
-									<LangLink lang={ctx.lang} to="/user/forgot-password">
+							</Form>
+
+							{/* Divider */}
+							{isSSOAuthSupported && (
+								<Divider align="center">
+									<span>
 										{ctx.t({
-											"code": "user_login.forgot_password",
-											"desc": "Link text for forgot password on login form",
-											"msg": "Forgot password"
-										})}?
-									</LangLink>
-								)}
-							</u>
-							<div
-								style={{
-									display: "flex",
-									flexDirection: "column",
-									alignItems: "center",
-									gap: "0.8rem",
-									marginTop: "2rem",
-								}}
-							>
-								<SubmitButton
-									className="mg-button mg-button-primary"
-									label={`${ctx.t({
-										"code": "user_login.sign_in",
-										"msg": "Sign in"
-									})}`}
-									id="login-button"
-									style={{
-										width: "100%",
-										padding: "10px 20px",
-										marginBottom: "10px",
-									}}
-								/>
-							</div>
-						</Form>
-					)}
+											code: "common.or",
+											msg: "Or",
+										})}
+									</span>
+								</Divider>
+							)}
 
-					{/* Divider */}
-					{isFormAuthSupported && isSSOAuthSupported && (
-						<div className="dts-form dts-form--vertical">
-							<div
-								style={{
-									width: "100%",
-									textAlign: "center",
-									margin: "10px 0",
-									position: "relative",
-								}}
-							>
-								<hr
-									style={{
-										border: "none",
-										borderTop: "1px solid #ccc",
-										margin: "0",
-									}}
-								/>
-								<span className="text-upper"
-									style={{
-										position: "absolute",
-										top: "-10px",
-										left: "50%",
-										transform: "translateX(-50%)",
-										backgroundColor: "white",
-										padding: "0 15px",
-										color: "#666",
-										fontSize: "14px",
-										textTransform: "uppercase"
-									}}
-								>
+							{isSSOAuthSupported && (
+								<div className="flex flex-col gap-4 text-center mb-5">
 									{ctx.t({
-										"code": "common.or",
-										"msg": "Or"
+										code: "user_login.intro_sso_only",
+										msg: "Use your organization's Single Sign-On to access your account.",
 									})}
-								</span>
-							</div>
-						</div>
+
+									<Link to={urlLang(ctx.lang, "/sso/azure-b2c/login")}>
+										<Button
+											label={ctx.t({
+												code: "user_login.sign_in_with_azure_b2c_sso",
+												msg: "Sign in with Azure B2C SSO",
+											})}
+											severity="secondary"
+											className="w-full"
+											outlined
+										/>
+									</Link>
+								</div>
+							)}
+						</Card>
 					)}
 
-					{isSSOAuthSupported && (
-						<div className="dts-form dts-form--vertical">
-							<LangLink
-								lang={ctx.lang}
-								className="mg-button mg-button-outline"
-								to="/sso/azure-b2c/login"
-								style={{
-									width: "100%",
-									padding: "10px 20px",
-									textAlign: "center",
-									textDecoration: "none",
-								}}
-							>
-								{ctx.t({
-									"code": "user_login.sign_in_with_azure_b2c_sso",
-									"desc": "Button text for sign in with Azure B2C SSO",
-									"msg": "Sign in with Azure B2C SSO"
-								})}
-							</LangLink>
+					{!isFormAuthSupported && isSSOAuthSupported && (
+						<div className="flex flex-col gap-4 text-center mb-5">
+							{ctx.t({
+								code: "user_login.intro_sso_only",
+								msg: "Use your organization's Single Sign-On to access your account.",
+							})}
+
+							<Link to={urlLang(ctx.lang, "/sso/azure-b2c/login")}>
+								<Button
+									label={ctx.t({
+										code: "user_login.sign_in_with_azure_b2c_sso",
+										msg: "Sign in with Azure B2C SSO",
+									})}
+									severity="secondary"
+									className="w-full"
+									outlined
+								/>
+							</Link>
 						</div>
 					)}
 				</div>
-			</main>
+			</div>
 		</div>
 	);
 }

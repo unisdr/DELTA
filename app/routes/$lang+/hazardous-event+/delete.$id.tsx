@@ -6,7 +6,7 @@ import {
 	hazardousEventById,
 	hazardousEventDelete,
 } from "~/backend.server/models/event";
-import { hazardousEventTable } from "~/drizzle/schema";
+import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { ActionFunction } from "react-router";
@@ -21,13 +21,13 @@ export const action: ActionFunction = async (args) => {
 	}
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	if (!countryAccountsId) {
-		throw new Response("No instance selected", { status: 500 });
+		throw new Response("No instance selected", { status: 400 });
 	}
 
 	return createDeleteActionWithCountryAccounts({
 		baseRoute: "/hazardous-event",
 		delete: async (id: string) => {
-			return hazardousEventDelete(ctx, id);
+			return hazardousEventDelete(ctx, id, countryAccountsId);
 		},
 		tableName: getTableName(hazardousEventTable),
 		getById: hazardousEventById,

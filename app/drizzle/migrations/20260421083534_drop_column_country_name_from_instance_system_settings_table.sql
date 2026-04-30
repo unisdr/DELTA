@@ -1,0 +1,2 @@
+ALTER TABLE instance_system_settings
+DROP COLUMN country_name;

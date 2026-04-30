@@ -4,10 +4,10 @@
 
 // Log levels
 export enum LogLevel {
-	DEBUG = 'debug',
-	INFO = 'info',
-	WARN = 'warn',
-	ERROR = 'error',
+	DEBUG = "debug",
+	INFO = "info",
+	WARN = "warn",
+	ERROR = "error",
 }
 
 // Log entry structure
@@ -27,7 +27,8 @@ interface LoggerConfig {
 
 // Default configuration
 const defaultConfig: LoggerConfig = {
-	minLevel: process.env.NODE_ENV === 'production' ? LogLevel.INFO : LogLevel.DEBUG,
+	minLevel:
+		process.env.NODE_ENV === "production" ? LogLevel.INFO : LogLevel.DEBUG,
 	enableConsole: true,
 };
 
@@ -52,7 +53,7 @@ function formatLogEntry(entry: LogEntry): string {
 	let formattedMessage = `[${timestamp}] [${level.toUpperCase()}] [${module}] ${message}`;
 
 	if (entry.details) {
-		if (typeof entry.details === 'object') {
+		if (typeof entry.details === "object") {
 			try {
 				const detailsStr = JSON.stringify(entry.details, null, 2);
 				formattedMessage += `\nDetails: ${detailsStr}`;
@@ -74,7 +75,12 @@ function formatLogEntry(entry: LogEntry): string {
  * @param message - Log message
  * @param details - Optional details object
  */
-function log(level: LogLevel, module: string, message: string, details?: any): void {
+function log(
+	level: LogLevel,
+	module: string,
+	message: string,
+	details?: any,
+): void {
 	// Skip if below minimum level
 	if (!shouldLog(level)) {
 		return;
@@ -131,9 +137,13 @@ function shouldLog(level: LogLevel): boolean {
  */
 export function createLogger(module: string) {
 	return {
-		debug: (message: string, details?: any) => log(LogLevel.DEBUG, module, message, details),
-		info: (message: string, details?: any) => log(LogLevel.INFO, module, message, details),
-		warn: (message: string, details?: any) => log(LogLevel.WARN, module, message, details),
-		error: (message: string, details?: any) => log(LogLevel.ERROR, module, message, details),
+		debug: (message: string, details?: any) =>
+			log(LogLevel.DEBUG, module, message, details),
+		info: (message: string, details?: any) =>
+			log(LogLevel.INFO, module, message, details),
+		warn: (message: string, details?: any) =>
+			log(LogLevel.WARN, module, message, details),
+		error: (message: string, details?: any) =>
+			log(LogLevel.ERROR, module, message, details),
 	};
 }

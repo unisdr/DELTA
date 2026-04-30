@@ -7,35 +7,38 @@ Last done: 2025-12-26
 - Access to http://tools.undrr.org/weblate
 - Admin rights to DELTA Resilience project in weblate
 - Commit rights to the weblate branch in git repo
-- 
+-
+
 ## Setup instructions
 
 We will be setting up two components. Repeat the below process for both of them. Only name and file locations differen between two.
 
-### App/UI  
+### App/UI
+
 Static interface text (e.g., buttons, labels, messages, emails).
 
 ```
 Name: DELTA App/UI
 URL slug: delta-app
 File mask:
-app/locales/app/*.json
+locales/app/*.json
 Monolingual base language file:
-app/locales/app/en.json
+locales/app/en.json
 ```
 
-### Content (HIPs, Sectors, Assets) 
+### Content (HIPs, Sectors, Assets)
+
 Localized seeded content from the database.
 
 ```
 Name: DELTA Content (HIPs, Sectors, Assets)
 URL slug: delta-content
 File mask:
-app/locales/content/*.json
+locales/content/*.json
 Monolingual base language file:
-app/locales/content/en.json
+locales/content/en.json
 ```
-	
+
 ### Initial import
 
 Select project
@@ -63,9 +66,9 @@ go-i18n v1 JSON file
 	(note v2 does not work in weblate even though it says supported with version 5.6)
 
 File mask
-app/locales/[SEE ABOVE]/*.json
+locales/[SEE ABOVE]/*.json
 Monolingual base language file
-app/locales/[SEE ABOVE]/en.json
+locales/[SEE ABOVE]/en.json
 Edit base file
 Uncheck
 Translation license
@@ -97,8 +100,6 @@ Age of changes to commit
 By the default commits every 24 hours, but could press commit sooner
 This seems fine as default
 
-
-
 ### Setting up github access
 
 #### via personal account
@@ -114,7 +115,4 @@ Give repo access and nothing else.
 The format with token will look like this:
 https://username:token@github.com/unisdr/delta
 
-github non classic tokens won't work for this
-
-since repo access only possible for repos you own
-
+Use a **classic PAT** with `repo` scope — fine-grained PATs are not supported by Weblate's URL-embedded authentication method.

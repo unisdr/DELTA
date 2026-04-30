@@ -8,7 +8,6 @@ export interface DContext {
 }
 
 export function createTestDContext(): DContext {
-
 	const t = createMockTranslator();
 
 	return {

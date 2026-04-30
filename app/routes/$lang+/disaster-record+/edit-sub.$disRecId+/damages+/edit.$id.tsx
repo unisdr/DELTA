@@ -1,34 +1,39 @@
 import {
 	damagesCreate,
-	damagesUpdate,
-	damagesById,
+	damagesUpdateByIdAndCountryAccountsId,
+	damagesByIdAndCountryAccountsId,
 	fieldsDef,
 	DamagesViewModel,
 	DamagesFields,
-	damagesByIdTx,
+	damagesByIdAndCountryAccountsIdTx,
 } from "~/backend.server/models/damages";
 
 import { DamagesForm, route } from "~/frontend/damages";
 
 import { formScreen } from "~/frontend/form";
 
-import { createActionWithoutCountryAccountsId } from "~/backend.server/handlers/form/form";
+import { createActionWithCountryAccountsId } from "~/backend.server/handlers/form/form";
 import { getTableName, eq, isNull, and, isNotNull } from "drizzle-orm";
-import { damagesTable } from "~/drizzle/schema";
+import { isValidUUID } from "~/utils/id";
+import { damagesTable } from "~/drizzle/schema/damagesTable";
+import { sectorTable } from "~/drizzle/schema/sectorTable";
 import { authLoaderWithPerm } from "~/utils/auth";
 import { useLoaderData } from "react-router";
 import { assetsForSector } from "~/backend.server/models/asset";
 
 import { dr } from "~/db.server";
 
-import { divisionTable } from "~/drizzle/schema";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 
 import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 } from "~/utils/session";
-import { DISASTER_RECORDS_DAMAGES_UPLOAD_PATH, TEMP_UPLOAD_PATH } from "~/utils/paths";
+import {
+	DISASTER_RECORDS_DAMAGES_UPLOAD_PATH,
+	TEMP_UPLOAD_PATH,
+} from "~/utils/paths";
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
@@ -43,9 +48,11 @@ async function getResponseData(
 	ctryIso3?: string,
 	currencies?: string[],
 	divisionGeoJSON?: any[],
-	_p0?: any[]
+	_p0?: any[],
 ) {
-	let assets = (await assetsForSector(ctx, dr, sectorId, countryAccountsId)).map((a: any) => {
+	let assets = (
+		await assetsForSector(ctx, dr, sectorId, countryAccountsId)
+	).map((a: any) => {
 		return {
 			id: a.id,
 			label: a.name,
@@ -78,7 +85,6 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		throw new Response("Unauthorized, no selected instance", { status: 401 });
 	}
 
-
 	let ctryIso3: string = "";
 	let currencies: string[] = [];
 	const settings = await getCountrySettingsFromSession(request);
@@ -87,22 +93,36 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		ctryIso3 = settings.dtsInstanceCtryIso3;
 		currencies = [settings.currencyCode];
 	}
-	const divisionGeoJSON = await dr.select({ id: divisionTable.id, name: divisionTable.name, geojson: divisionTable.geojson })
+	const divisionGeoJSON = await dr
+		.select({
+			id: divisionTable.id,
+			name: divisionTable.name,
+			geojson: divisionTable.geojson,
+		})
 		.from(divisionTable)
-		.where(and(
-			isNull(divisionTable.parentId),
-			isNotNull(divisionTable.geojson),
-			eq(divisionTable.countryAccountsId, countryAccountsId)
-		));
+		.where(
+			and(
+				isNull(divisionTable.parentId),
+				isNotNull(divisionTable.geojson),
+				eq(divisionTable.countryAccountsId, countryAccountsId),
+			),
+		);
 
 	if (params.id === "new") {
 		let url = new URL(request.url);
-		let sectorId = url.searchParams.get("sectorId") || "0";
-		if (!sectorId) {
+		let sectorId = url.searchParams.get("sectorId");
+		if (!sectorId || !isValidUUID(sectorId)) {
+			throw new Response("Not Found", { status: 404 });
+		}
+		const sector = await dr
+			.select({ id: sectorTable.id })
+			.from(sectorTable)
+			.where(eq(sectorTable.id, sectorId))
+			.limit(1);
+		if (!sector || sector.length === 0) {
 			throw new Response("Not Found", { status: 404 });
 		}
 		return {
-
 			...(await getResponseData(
 				ctx,
 				null,
@@ -112,11 +132,11 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 				[],
 				ctryIso3,
 				currencies,
-				divisionGeoJSON
-			))
+				divisionGeoJSON,
+			)),
 		};
 	}
-	const item = await damagesById(ctx, params.id);
+	const item = await damagesByIdAndCountryAccountsId(ctx, params.id, countryAccountsId);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
@@ -131,16 +151,16 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			[],
 			ctryIso3,
 			currencies,
-			divisionGeoJSON
-		))
+			divisionGeoJSON,
+		)),
 	};
 });
 
-export const action = createActionWithoutCountryAccountsId({
+export const action = createActionWithCountryAccountsId({
 	fieldsDef: fieldsDef,
 	create: damagesCreate,
-	update: damagesUpdate,
-	getById: damagesByIdTx,
+	update: damagesUpdateByIdAndCountryAccountsId,
+	getById: damagesByIdAndCountryAccountsIdTx,
 	redirectTo: (id) => `${route}/${id}`,
 	tableName: getTableName(damagesTable),
 	postProcess: async (id, data) => {
@@ -156,7 +176,7 @@ export const action = createActionWithoutCountryAccountsId({
 		const processedAttachments = ContentRepeaterUploadFile.save(
 			attachmentsArray,
 			save_path_temp,
-			save_path
+			save_path,
 		);
 
 		// Update the `attachments` field in the database

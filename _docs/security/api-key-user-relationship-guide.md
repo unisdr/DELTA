@@ -31,25 +31,7 @@ In the DELTA Resilience system, API key management is restricted by user role:
 - **Admin** users can create and manage API keys for themselves and others
 - **Regular users** (Data Viewer, Data Collector, Data Validator) cannot create or manage API keys
 
-This permission is controlled by the `EditAPIKeys` permission, which is only granted to admin roles.
-
-### For Admin Users
-
-As an admin user, you can create API keys for your own use:
-
-1. Navigate to **Settings > API Keys**
-2. Click **Add new API key**
-3. Enter a name for your API key
-4. Click **Create API Key**
-
-The key will automatically be linked to your account and will only be valid while your account is active.
-
-### Managing Your API Keys
-
-- You can view all API keys in the system
-- You can edit the names of your keys
-- You can delete your keys when no longer needed
-- Your keys will automatically be disabled if your account is deactivated
+This permission is controlled by the `EditAPIKeys` permission, which is only granted to the `admin` role. The `super_admin` role does **not** have `EditAPIKeys` — super admins manage cross-tenant country accounts, not API keys.
 
 ## For Administrators
 
@@ -60,7 +42,15 @@ As an administrator, you can:
 1. Create API keys for yourself
 2. Create API keys and assign them to other users
 
-To create a key and assign it to a user:
+To create a key for your own use:
+
+1. Navigate to **Settings > API Keys**
+2. Click **Add new API key**
+3. Enter a name for your API key
+4. Leave the **Assign to User** dropdown empty
+5. Click **Create API Key**
+
+To create a key and assign it to another user:
 
 1. Navigate to **Settings > API Keys**
 2. Click **Add new API key**
@@ -70,7 +60,7 @@ To create a key and assign it to a user:
 
 ### Key Management
 
-- You can view all API keys in the system
+- You can view all API keys for your organisation
 - You can edit any API key
 - You can reassign keys to different users
 - You can see which keys are disabled due to user inactivity
@@ -121,7 +111,7 @@ To check which user an API key is assigned to:
 This feature implements the following requirements from the GitHub ticket:
 
 1. API keys are linked to responsible users (not always the admin)
-2. Only admin and super admin users can create API keys
+2. Only admin users (role: `admin`) can create API keys — `super_admin` does not have this permission
 3. Admins can create keys for other users with a user selection dropdown
 4. When a user is disabled, their linked API keys become unusable
 5. The API key list shows disabled keys with appropriate status

@@ -9,18 +9,21 @@ export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.access_denied",
-				"msg": "Access Denied"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "meta.access_denied",
+					msg: "Access Denied",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.unauthorized_access_error_page",
-				"msg": "Unauthorized access error page."
+				code: "meta.unauthorized_access_error_page",
+				msg: "Unauthorized access error page.",
 			}),
-		}
+		},
 	];
 };
 
@@ -86,7 +89,7 @@ export default function UnauthorizedError() {
 				} role privileges.`;
 			errorDetails = currentRole
 				? `Your current role (${getRoleLabel(
-					currentRole
+					currentRole,
 				)}) does not have sufficient permissions.`
 				: "Please contact your administrator if you believe you should have access.";
 			break;

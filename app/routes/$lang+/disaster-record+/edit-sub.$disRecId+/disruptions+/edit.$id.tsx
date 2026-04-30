@@ -1,32 +1,35 @@
 import {
 	disruptionCreate,
-	disruptionUpdate,
-	disruptionById,
-	disruptionByIdTx,
+	disruptionUpdateByIdAndCountryAccountsId,
+	disruptionByIdAndCountryAccountsId,
 	getFieldsDef,
 	DisruptionViewModel,
 	DisruptionFields,
+	disruptionByIdAndCountryAccountsIdTx,
 } from "~/backend.server/models/disruption";
 
 import { DisruptionForm, route } from "~/frontend/disruption";
 
 import { FormInputDef, formScreen } from "~/frontend/form";
 
-import { createActionWithoutCountryAccountsId } from "~/backend.server/handlers/form/form";
+import { createActionWithCountryAccountsId } from "~/backend.server/handlers/form/form";
 import { getTableName, eq, and, isNull, isNotNull } from "drizzle-orm";
-import { disruptionTable } from "~/drizzle/schema";
+import { disruptionTable } from "~/drizzle/schema/disruptionTable";
 import { authLoaderWithPerm } from "~/utils/auth";
 import { useLoaderData } from "react-router";
 
 import { dr } from "~/db.server";
-import { divisionTable } from "~/drizzle/schema";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 
 import { ContentRepeaterUploadFile } from "~/components/ContentRepeater/UploadFile";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
 } from "~/utils/session";
-import { DISASTER_RECORDS_DISRUPTIONS_UPLOAD_PATH, TEMP_UPLOAD_PATH } from "~/utils/paths";
+import {
+	DISASTER_RECORDS_DISRUPTIONS_UPLOAD_PATH,
+	TEMP_UPLOAD_PATH,
+} from "~/utils/paths";
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 
@@ -82,8 +85,8 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			and(
 				isNull(divisionTable.parentId),
 				isNotNull(divisionTable.geojson),
-				eq(divisionTable.countryAccountsId, countryAccountsId)
-			)
+				eq(divisionTable.countryAccountsId, countryAccountsId),
+			),
 		);
 
 	if (params.id === "new") {
@@ -93,7 +96,6 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			throw new Response("Not Found", { status: 404 });
 		}
 		let res: LoaderRes = {
-
 			item: null,
 			fieldDef: getFieldsDef(ctx, currencies),
 			recordId: params.disRecId,
@@ -104,13 +106,12 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		};
 		return res;
 	}
-	const item = await disruptionById(ctx, params.id);
+	const item = await disruptionByIdAndCountryAccountsId(ctx, params.id, countryAccountsId);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
 
 	let res: LoaderRes = {
-
 		item: item,
 		fieldDef: getFieldsDef(ctx, currencies),
 		recordId: item.recordId,
@@ -122,13 +123,13 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	return res;
 });
 
-export const action = createActionWithoutCountryAccountsId({
+export const action = createActionWithCountryAccountsId({
 	fieldsDef: async (ctx: BackendContext) => {
-		return getFieldsDef(ctx)
+		return getFieldsDef(ctx);
 	},
 	create: disruptionCreate,
-	update: disruptionUpdate,
-	getById: disruptionByIdTx,
+	update: disruptionUpdateByIdAndCountryAccountsId,
+	getById: disruptionByIdAndCountryAccountsIdTx,
 	redirectTo: (id) => `${route}/${id}`,
 	tableName: getTableName(disruptionTable),
 	postProcess: async (id, data) => {
@@ -144,7 +145,7 @@ export const action = createActionWithoutCountryAccountsId({
 		const processedAttachments = ContentRepeaterUploadFile.save(
 			attachmentsArray,
 			save_path_temp,
-			save_path
+			save_path,
 		);
 
 		// Update the `attachments` field in the database

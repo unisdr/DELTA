@@ -1,16 +1,20 @@
-import { LoaderFunctionArgs } from "react-router";
+import { ActionFunctionArgs } from "react-router";
 
 import { logout } from "~/utils/auth";
 import { redirectLangFromRoute } from "~/utils/url.backend";
 
-export const loader = async (loaderArgs: LoaderFunctionArgs) => {
-	const { request } = loaderArgs;
+export const action = async (actionArgs: ActionFunctionArgs) => {
+	const { request } = actionArgs;
 
 	try {
 		const headers = await logout(request);
-		return redirectLangFromRoute(loaderArgs, "/", { headers });
+		const url = new URL(request.url);
+		const redirectTo = url.searchParams.get("redirectTo");
+		if (redirectTo && redirectTo.startsWith("/")) {
+			return redirectLangFromRoute(actionArgs, redirectTo, { headers });
+		}
+		return redirectLangFromRoute(actionArgs, "/", { headers });
 	} catch (error) {
-		return redirectLangFromRoute(loaderArgs, "/user/login/");
+		return redirectLangFromRoute(actionArgs, "/user/login/");
 	}
 };
-

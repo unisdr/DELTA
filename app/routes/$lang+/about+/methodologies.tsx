@@ -1,6 +1,6 @@
 import type { MetaFunction } from "react-router";
 
-import { NavSettings } from "~/routes/$lang+/settings/nav";
+import { NavSettings } from "~/frontend/components/NavSettings";
 import { MainContainer } from "~/frontend/container";
 
 import { loadMarkdownContent } from "~/utils/loadMarkdownContent";
@@ -12,13 +12,12 @@ import { htmlTitle } from "~/utils/htmlmeta";
 
 export const loader = async () => {
 	// load .md file and its append file if exist
-	const { fullContent, appendContent } = await loadMarkdownContent(
-		"methodologies"
-	);
+	const { fullContent, appendContent } =
+		await loadMarkdownContent("methodologies");
 
 	return {
 		fullContent,
-		appendContent
+		appendContent,
 	};
 };
 
@@ -27,18 +26,21 @@ export const meta: MetaFunction = () => {
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.methodologies",
-				"msg": "Methodologies"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "meta.methodologies",
+					msg: "Methodologies",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.methodologies",
-				"msg": "Methodologies"
+				code: "meta.methodologies",
+				msg: "Methodologies",
 			}),
-		}
+		},
 	];
 };
 
@@ -48,7 +50,10 @@ export default function Methodologies() {
 	const ctx = new ViewContext();
 	const { fullContent, appendContent } = ld;
 	return (
-		<MainContainer title="Methodologies" headerExtra={<NavSettings ctx={ctx} />}>
+		<MainContainer
+			title="Methodologies"
+			headerExtra={<NavSettings ctx={ctx} />}
+		>
 			<>
 				<section className="dts-page-section">
 					<div className="wip-message">

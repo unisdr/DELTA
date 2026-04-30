@@ -1,21 +1,38 @@
-import { dr } from '~/db.server'
-import {sql} from 'drizzle-orm'
+import { dr } from "~/db.server";
+import { sql } from "drizzle-orm";
 
-import { hipTypeTable, hipClusterTable, hipHazardTable } from '~/drizzle/schema'
+import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
+import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
+import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
+import { userTable } from "~/drizzle/schema/userTable";
+
+export async function createTestUser() {
+	const [user] = await dr
+		.insert(userTable)
+		.values({
+			id: "00000000-0000-0000-0000-000000000001",
+			email: "test@example.com",
+		})
+		.onConflictDoNothing()
+		.returning({ id: userTable.id });
+	return user?.id;
+}
 
 export async function createTestData() {
-	await dr.execute(sql`TRUNCATE ${hipTypeTable}, ${hipClusterTable}, ${hipHazardTable} CASCADE`)
+	await dr.execute(
+		sql`TRUNCATE ${hipTypeTable}, ${hipClusterTable}, ${hipHazardTable} CASCADE`,
+	);
 
-	let id = 0
+	let id = 0;
 
 	const [tp] = await dr
 		.insert(hipTypeTable)
-		.values({ id: "type1", name: {en: 'Test Type'} })
+		.values({ id: "type1", name: { en: "Test Type" } })
 		.onConflictDoUpdate({
 			target: hipTypeTable.id,
-			set: { name: {en: 'Test Type'} },
+			set: { name: { en: "Test Type" } },
 		})
-		.returning({ id: hipTypeTable.id })
+		.returning({ id: hipTypeTable.id });
 
 	for (let i = 1; i <= 2; i++) {
 		const [cluster] = await dr
@@ -23,21 +40,18 @@ export async function createTestData() {
 			.values({
 				id: "cluster" + i,
 				typeId: tp.id,
-				name: {en: `Test Cluster ${i}`},
+				name: { en: `Test Cluster ${i}` },
 			})
-			.returning({ id: hipClusterTable.id })
+			.returning({ id: hipClusterTable.id });
 
 		for (let j = 1; j <= 3; j++) {
-			id++
-			await dr
-				.insert(hipHazardTable)
-				.values({
-					id: `hazard${id}`,
-					clusterId: cluster.id,
-					name: {en: `Test Hazard ${i}-${j}`},
-					description: {en: `Description for Hazard ${i}-${j}`},
-				})
+			id++;
+			await dr.insert(hipHazardTable).values({
+				id: `hazard${id}`,
+				clusterId: cluster.id,
+				name: { en: `Test Hazard ${i}-${j}` },
+				description: { en: `Description for Hazard ${i}-${j}` },
+			});
 		}
 	}
 }
-

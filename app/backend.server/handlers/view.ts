@@ -1,105 +1,119 @@
-import { eq } from 'drizzle-orm';
+import { eq } from "drizzle-orm";
 
-import { OffsetLimit } from '~/frontend/pagination/api.server';
-import { authLoaderWithPerm, authLoaderApi } from '~/utils/auth';
-import { executeQueryForPagination3 } from '~/frontend/pagination/api.server';
-import { BackendContext } from '../context';
+import { OffsetLimit } from "~/frontend/pagination/api.server";
+import { authLoaderWithPerm, authLoaderApi } from "~/utils/auth";
+import { executeQueryForPagination3 } from "~/frontend/pagination/api.server";
+import { BackendContext } from "../context";
 
-export async function getItemNumberId(params: Record<string, any>, q: any, table: any) {
-    const id = params['id'];
+export async function getItemNumberId(
+	params: Record<string, any>,
+	q: any,
+	table: any,
+) {
+	const id = params["id"];
 
-    if (!id) {
-        throw new Response('Missing item ID', { status: 400 });
-    }
+	if (!id) {
+		throw new Response("Missing item ID", { status: 400 });
+	}
 
-    const res = await q.where(eq(table.id, Number(id)));
+	const res = await q.where(eq(table.id, Number(id)));
 
-    if (!res || res.length === 0) {
-        throw new Response('Item not found', { status: 404 });
-    }
+	if (!res || res.length === 0) {
+		throw new Response("Item not found", { status: 404 });
+	}
 
-    if (res.length > 1) {
-        throw new Response('More than 1 item found', { status: 400 });
-    }
+	if (res.length > 1) {
+		throw new Response("More than 1 item found", { status: 400 });
+	}
 
-    return res[0];
+	return res[0];
 }
 
 export async function getItem2<T>(
-    ctx: BackendContext,
-    params: Record<string, any>,
-    q: (ctx: BackendContext, id: any) => T,
+	ctx: BackendContext,
+	params: Record<string, any>,
+	q: (ctx: BackendContext, id: any) => T,
 ): Promise<T> {
-    const id = params['id'];
+	const id = params["id"];
 
-    if (!id) {
-        throw new Response('Missing item ID', { status: 400 });
-    }
+	if (!id) {
+		throw new Response("Missing item ID", { status: 400 });
+	}
 
-    const res = await q(ctx, id);
+	const res = await q(ctx, id);
 
-    if (!res) {
-        throw new Response('Item not found', { status: 404 });
-    }
+	if (!res) {
+		throw new Response("Item not found", { status: 404 });
+	}
 
-    return res;
+	return res;
 }
 export async function getItem1<T>(
-    ctx: BackendContext,
-    params: Record<string, any>,
-    q: (ctx: BackendContext, id: any) => T,
+	ctx: BackendContext,
+	params: Record<string, any>,
+	q: (ctx: BackendContext, id: any) => T,
 ): Promise<T> {
-    const id = params['id'];
+	const id = params["id"];
 
-    if (!id) {
-        throw new Response('Missing item ID', { status: 400 });
-    }
+	if (!id) {
+		throw new Response("Missing item ID", { status: 400 });
+	}
 
-    const res = await q(ctx, id);
+	const res = await q(ctx, id);
 
-    if (!res) {
-        throw new Response('Item not found', { status: 404 });
-    }
+	if (!res) {
+		throw new Response("Item not found", { status: 404 });
+	}
 
-    return res;
+	return res;
 }
 
 export function createPaginatedLoader<T>(
-    // table: any,
-    fetchData: (offsetLimit: OffsetLimit) => Promise<T[]>,
-    count: number,
+	// table: any,
+	fetchData: (offsetLimit: OffsetLimit) => Promise<T[]>,
+	count: number,
 ) {
-    return authLoaderWithPerm('ViewData', async (loaderArgs) => {
-        const { request } = loaderArgs;
+	return authLoaderWithPerm("ViewData", async (loaderArgs) => {
+		const { request } = loaderArgs;
 
-        // const count = await dr.$count(table);
+		// const count = await dr.$count(table);
 
-        const dataFetcher = async (offsetLimit: OffsetLimit) => {
-            return await fetchData(offsetLimit);
-        };
+		const dataFetcher = async (offsetLimit: OffsetLimit) => {
+			return await fetchData(offsetLimit);
+		};
 
-        const res = await executeQueryForPagination3(request, count, dataFetcher, []);
+		const res = await executeQueryForPagination3(
+			request,
+			count,
+			dataFetcher,
+			[],
+		);
 
-        return {
-            data: res,
-        };
-    });
+		return {
+			data: res,
+		};
+	});
 }
 
 export function createApiListLoader<T>(
-    countTotalItems: () => Promise<number>,
-    fetchData: (offsetLimit: OffsetLimit) => Promise<T[]>,
+	countTotalItems: () => Promise<number>,
+	fetchData: (offsetLimit: OffsetLimit) => Promise<T[]>,
 ) {
-    return authLoaderApi(async (loaderArgs) => {
-        const { request } = loaderArgs;
+	return authLoaderApi(async (loaderArgs) => {
+		const { request } = loaderArgs;
 
-        const totalItems = await countTotalItems();
-        const dataFetcher = async (offsetLimit: OffsetLimit) => {
-            return await fetchData(offsetLimit);
-        };
+		const totalItems = await countTotalItems();
+		const dataFetcher = async (offsetLimit: OffsetLimit) => {
+			return await fetchData(offsetLimit);
+		};
 
-        const res = await executeQueryForPagination3(request, totalItems, dataFetcher, []);
+		const res = await executeQueryForPagination3(
+			request,
+			totalItems,
+			dataFetcher,
+			[],
+		);
 
-        return Response.json({ data: res });
-    });
+		return Response.json({ data: res });
+	});
 }

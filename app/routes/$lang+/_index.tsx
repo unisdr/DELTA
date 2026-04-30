@@ -1,8 +1,5 @@
-import { LoaderFunctionArgs } from "react-router";
-import { redirectLangFromRoute } from "~/utils/url.backend";
+import { redirectDefaultLang } from "~/utils/url.backend";
 
-export const loader = async (args: LoaderFunctionArgs) => {
-	return redirectLangFromRoute(args, "/hazardous-event")
+export const loader = async () => {
+	return redirectDefaultLang("/hazardous-event");
 };
-
-

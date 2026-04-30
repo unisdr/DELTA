@@ -1,41 +1,120 @@
-import { ActionFunction } from "react-router";
-import { getTableName } from "drizzle-orm";
-import { createDeleteAction } from "~/backend.server/handlers/form/form";
-import { organizationById, organizationDeleteById } from "~/backend.server/models/organization";
-import { organizationTable } from "~/drizzle/schema";
+import { useEffect, useRef, useState } from "react";
+import { Form, useActionData, useLoaderData, useNavigate, useNavigation } from "react-router";
+import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
+import { Toast } from "primereact/toast";
 
-import { route } from "~/frontend/organization";
-import { requireUser } from "~/utils/auth";
-import { getCountryAccountsIdFromSession } from "~/utils/session";
-import { authLoaderWithPerm } from "~/utils/auth";
+import { BackendContext } from "~/backend.server/context";
+import { OrganizationRepository } from "~/db/queries/organizationRepository";
+import { OrganizationService } from "~/services/organizationService";
+import { authActionWithPerm, authLoaderPublicOrWithPerm } from "~/utils/auth";
+import { getCountryAccountsIdFromSession, redirectWithMessage } from "~/utils/session";
+import { ViewContext } from "~/frontend/context";
 
-export const loader = authLoaderWithPerm("ManageOrganizations", async (args) => {
-	const { request, params } = args;
-	if (!params.id) throw new Error("Missing id param");
-	const countryAccountsId = await getCountryAccountsIdFromSession(request)
-	if (!countryAccountsId) {
-		throw new Response("Unauthorized access", { status: 401 });
+export const loader = authLoaderPublicOrWithPerm(
+	"ManageOrganizations",
+	async (loaderArgs) => {
+		const { request } = loaderArgs;
+		const countryAccountsId = (await getCountryAccountsIdFromSession(request))!;
+		const selectedOrganization =
+			(await OrganizationRepository.getById(loaderArgs.params.id!)) ?? null;
+
+		if (
+			!selectedOrganization ||
+			selectedOrganization.countryAccountsId !== countryAccountsId
+		) {
+			throw new Response("Not Found", { status: 404 });
+		}
+
+		return { selectedOrganization };
+	},
+);
+
+export const action = authActionWithPerm("ManageOrganizations", async (args) => {
+	const { request } = args;
+	const formData = await request.formData();
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const backendCtx = new BackendContext(args);
+
+	formData.set("intent", "delete");
+	if (args.params.id) {
+		formData.set("id", args.params.id);
 	}
 
-	return {};
+	const result = await OrganizationService.organizationAction({
+		backendCtx,
+		countryAccountsId,
+		formData,
+	});
+
+	if (result.ok) {
+		return redirectWithMessage(args, "/settings/organizations", {
+			type: "success",
+			text: backendCtx.t({ code: "common.record_deleted", msg: "Record deleted" }),
+		});
+	}
+
+	return result;
 });
 
-export const action: ActionFunction = async (args) => {
-	const { request } = args;
-	const userSession = await requireUser(args);
-	if (!userSession) {
-		throw new Response("Unauthorized", { status: 401 });
-	}
+export default function OrganizationsDeletePage() {
+	const ld = useLoaderData<typeof loader>();
+	const ctx = new ViewContext();
+	const actionData = useActionData<typeof action>();
+	const navigate = useNavigate();
+	const navigation = useNavigation();
+	const isSubmitting = navigation.state === "submitting";
+	const selectedItem = ld.selectedOrganization;
+	const toast = useRef<Toast>(null);
+	const [dialogVisible, setDialogVisible] = useState(true);
 
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	useEffect(() => {
+		if (actionData && !actionData.ok) {
+			toast.current?.show({
+				severity: "error",
+				summary: ctx.t({ code: "common.error", msg: "Error" }),
+				detail: actionData.error,
+				life: 6000,
+			});
+		}
+	}, [actionData]);
 
-	return createDeleteAction({
-		baseRoute: route,
-		delete: async (id: string) => {
-			return organizationDeleteById(id, countryAccountsId);
-		},
-		tableName: getTableName(organizationTable),
-		getById: organizationById
-	})(args);
-};
-
+	return (
+		<>
+			<Toast ref={toast} />
+			<Dialog
+				header={ctx.t({ code: "common.record_deletion", msg: "Record Deletion" })}
+				visible={dialogVisible}
+				modal
+				onHide={() => navigate(ctx.url("/settings/organizations/"))}
+				className="w-[30rem] max-w-full"
+			>
+				<Form method="post" onSubmit={() => setDialogVisible(false)}>
+					<p>
+						{ctx.t({
+							code: "common.confirm_deletion",
+							msg: "Please confirm deletion.",
+						})}
+					</p>
+					{selectedItem?.name ? <p>{selectedItem.name}</p> : null}
+					<div className="mt-4 flex justify-end gap-2">
+						<Button
+							type="button"
+							outlined
+							label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
+							onClick={() => navigate(ctx.url("/settings/organizations/"))}
+						/>
+						<Button
+							type="submit"
+							severity="danger"
+							label={ctx.t({ code: "common.delete", msg: "Delete" })}
+							icon="pi pi-trash"
+							loading={isSubmitting}
+							disabled={isSubmitting}
+						/>
+					</div>
+				</Form>
+			</Dialog>
+		</>
+	);
+}

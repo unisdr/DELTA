@@ -1,11 +1,14 @@
-import { hazardousEventTable } from "~/drizzle/schema";
+import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import { dr } from "~/db.server";
 import { sql, desc, eq } from "drizzle-orm";
 import { createApiListLoader } from "~/backend.server/handlers/view";
 import { LoaderFunctionArgs } from "react-router";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { BackendContext } from "~/backend.server/context";
-import { hipClusterTable, hipHazardTable, hipTypeTable } from "~/drizzle/schema";
+import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
+import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
+import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
+import { HazardousEventRepository } from "~/db/queries/hazardousEventRepository";
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const ctx = new BackendContext(args);
@@ -18,9 +21,8 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	return createApiListLoader(
 		async () => {
-			return dr.$count(
-				hazardousEventTable,
-				eq(hazardousEventTable.countryAccountsId, countryAccountsId)
+			return HazardousEventRepository.countByCountryAccountsId(
+				countryAccountsId,
 			);
 		},
 		async (offsetLimit) => {
@@ -32,30 +34,36 @@ export const loader = async (args: LoaderFunctionArgs) => {
 					hipHazard: {
 						columns: { id: true, code: true },
 						extras: {
-							name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as('name'),
+							name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as(
+								"name",
+							),
 						},
 					},
 					hipCluster: {
 						columns: { id: true },
 						extras: {
-							name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as('name'),
+							name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as(
+								"name",
+							),
 						},
 					},
 					hipType: {
 						columns: { id: true },
 						extras: {
-							name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as('name'),
+							name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as(
+								"name",
+							),
 						},
 					},
 					event: {
 						columns: {},
 						with: {
 							ps: true,
-							cs: true
-						}
-					}
+							cs: true,
+						},
+					},
 				},
 			});
-		}
+		},
 	)(args);
 };

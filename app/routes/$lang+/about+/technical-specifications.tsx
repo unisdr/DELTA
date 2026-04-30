@@ -1,6 +1,6 @@
 import type { MetaFunction } from "react-router";
 
-import { NavSettings } from "~/routes/$lang+/settings/nav";
+import { NavSettings } from "~/frontend/components/NavSettings";
 import { MainContainer } from "~/frontend/container";
 import { useLoaderData } from "react-router";
 import PreventionWebLandingPageWidget from "~/components/PreventionWebLandingPageWidget";
@@ -11,12 +11,12 @@ import { htmlTitle } from "~/utils/htmlmeta";
 
 export const loader = async () => {
 	const { fullContent, appendContent } = await loadMarkdownContent(
-		"technical-specifications"
+		"technical-specifications",
 	);
 
 	return {
 		fullContent,
-		appendContent
+		appendContent,
 	};
 };
 
@@ -25,18 +25,21 @@ export const meta: MetaFunction = () => {
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.technical_specifications",
-				"msg": "Technical Specifications"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "meta.technical_specifications",
+					msg: "Technical Specifications",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.technical_specifications",
-				"msg": "Technical Specifications"
+				code: "meta.technical_specifications",
+				msg: "Technical Specifications",
 			}),
-		}
+		},
 	];
 };
 

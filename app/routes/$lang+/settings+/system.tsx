@@ -3,34 +3,37 @@ import { Form, useActionData, useLoaderData } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import { authLoaderWithPerm } from "~/utils/auth";
 import { configApplicationEmail, configPublicUrl } from "~/utils/config";
-import { NavSettings } from "~/routes/$lang+/settings/nav";
+import { NavSettings } from "~/frontend/components/NavSettings";
 import { MainContainer } from "~/frontend/container";
 import { getSystemInfo } from "~/db/queries/dtsSystemInfo";
 
-import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
-import Dialog from "~/components/Dialog";
+import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
-import { getCountryAccountById } from "~/db/queries/countryAccounts";
-import { getCountryById } from "~/db/queries/countries";
+import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
+import { CountryRepository } from "~/db/queries/countriesRepository";
 import {
+	SettingsService,
 	SettingsValidationError,
-	updateSettingsService,
 } from "~/services/settingsService";
-import Messages from "~/components/Messages";
-import { Toast, ToastRef } from "~/components/Toast";
+import { Toast } from "primereact/toast";
 import { getCurrencyList } from "~/utils/currency";
-import { sessionCookie } from "~/utils/session";
+import { getUserRoleFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
 import { htmlTitle } from "~/utils/htmlmeta";
 import { getAvailableLanguages } from "~/backend.server/translations";
+
+import { Dialog } from "primereact/dialog";
+import { InputText } from "primereact/inputtext";
+import { Dropdown } from "primereact/dropdown";
+import { Button } from "primereact/button";
 
 type ActionSuccess = {
 	success: "ok";
 };
 
 type ActionError = {
-	errors: string[];
+	errors: Record<string, string>;
 };
 
 type ActionData = ActionSuccess | ActionError;
@@ -41,13 +44,12 @@ export const loader = authLoaderWithPerm(
 		const { request } = loaderArgs;
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-		const settings = await getInstanceSystemSettingsByCountryAccountId(
-			countryAccountsId
-		);
-		const countryAccount = await getCountryAccountById(countryAccountsId);
+		const settings =
+			await InstanceSystemSettingRepository.getByCountryAccountId(countryAccountsId);
+		const countryAccount = await CountryAccountsRepository.getById(countryAccountsId);
 		let country = null;
 		if (countryAccount) {
-			country = await getCountryById(countryAccount.countryId);
+			country = await CountryRepository.getById(countryAccount.countryId);
 		}
 		const dtsSystemInfo = await getSystemInfo();
 
@@ -58,11 +60,7 @@ export const loader = authLoaderWithPerm(
 
 		const confEmailObj = configApplicationEmail();
 
-		const session = await sessionCookie().getSession(
-			request.headers.get("Cookie")
-		);
-
-		const userRole = session.get("userRole");
+		const userRole = await getUserRoleFromSession(request);
 
 		return {
 			publicURL: configPublicUrl(),
@@ -73,10 +71,10 @@ export const loader = authLoaderWithPerm(
 			instanceSystemSettings: settings,
 			dtsSystemInfo,
 			country,
-			userRole: userRole,
+			userRole: userRole || "",
 			countryAccountType: countryAccount?.type,
 		};
-	}
+	},
 );
 
 export const action: ActionFunction = authLoaderWithPerm(
@@ -95,7 +93,7 @@ export const action: ActionFunction = authLoaderWithPerm(
 		const currency = formData.get("currency") as string;
 		const language = formData.get("language") as string;
 		try {
-			await updateSettingsService(
+			await SettingsService.updateSettings(
 				id,
 				privacyUrl,
 				termsUrl,
@@ -104,7 +102,7 @@ export const action: ActionFunction = authLoaderWithPerm(
 				approvedRecordsArePublic,
 				totpIssuer,
 				currency,
-				language
+				language,
 			);
 			return { success: "ok" };
 		} catch (error) {
@@ -117,7 +115,7 @@ export const action: ActionFunction = authLoaderWithPerm(
 			}
 			return { ...errors };
 		}
-	}
+	},
 );
 
 export const meta: MetaFunction = () => {
@@ -125,25 +123,37 @@ export const meta: MetaFunction = () => {
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.system_settings",
-				"msg": "System Settings"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "meta.system_settings",
+					msg: "System Settings",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.system_settings",
-				"msg": "System Settings"
+				code: "meta.system_settings",
+				msg: "System Settings",
 			}),
-		}
+		},
 	];
 };
 
 export default function Settings() {
+
 	const loaderData = useLoaderData<typeof loader>();
 	const ctx = new ViewContext();
 	const actionData = useActionData<ActionData>();
+
+	// const fieldError = (field: string) => {
+	// 	if (actionData && "errors" in actionData) {
+	// 		const errs: any = actionData.errors;
+	// 		return errs?.[field];
+	// 	}
+	// 	return null;
+	// };
 
 	const [privacyUrl, setPrivacyUrl] = useState("");
 	const [termsUrl, setTermsUrl] = useState("");
@@ -156,39 +166,23 @@ export default function Settings() {
 	const [totpIssuer, setTotpIssuer] = useState("");
 
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
-	const toast = useRef<ToastRef>(null);
+	const toast = useRef<Toast>(null);
 	const formRef = useRef<HTMLFormElement>(null);
-	const footerContent = (
-		<>
-			<button
-				type="submit"
-				form="addCountryAccountForm"
-				className="mg-button mg-button-primary"
-			>
-				{ctx.t({ "code": "common.save", "msg": "Save" })}
-			</button>
-			<button
-				type="button"
-				className="mg-button mg-button-outline"
-				onClick={() => setIsDialogOpen(false)}
-			>
-				{ctx.t({ "code": "common.cancel", "msg": "Cancel" })}
-			</button>
-		</>
-	);
+	const [errors, setErrors] = useState<Record<string, string>>({});
+
 
 	function showEditSettings() {
 		if (loaderData.instanceSystemSettings) {
 			setPrivacyUrl(
-				loaderData.instanceSystemSettings.footerUrlPrivacyPolicy || ""
+				loaderData.instanceSystemSettings.footerUrlPrivacyPolicy || "",
 			);
 			setTermsUrl(
-				loaderData.instanceSystemSettings.footerUrlTermsConditions || ""
+				loaderData.instanceSystemSettings.footerUrlTermsConditions || "",
 			);
 			setWebsiteLogoUrl(loaderData.instanceSystemSettings.websiteLogo || "");
 			setWebsiteName(loaderData.instanceSystemSettings.websiteName || "");
 			setApprovedRecordsArePublic(
-				loaderData.instanceSystemSettings.approvedRecordsArePublic
+				loaderData.instanceSystemSettings.approvedRecordsArePublic,
 			);
 			setTotpIssuer(loaderData.instanceSystemSettings.totpIssuer || "");
 			setCurrency(loaderData.instanceSystemSettings.currencyCode);
@@ -200,284 +194,442 @@ export default function Settings() {
 		if (actionData && "success" in actionData) {
 			setIsDialogOpen(false);
 
-			if (toast.current) {
-				toast.current.show({
-					severity: "info",
-					summary: ctx.t({ "code": "common.success", "msg": "Success" }),
-					detail:
-						ctx.t({
-							"code": "settings.system.updated_successfully",
-							"msg": "System settings updated successfully. Changes will take effect after you login again."
-						}),
-				});
-			}
+			toast.current?.show({
+				severity: "success",
+				summary: ctx.t({ code: "common.success", msg: "Success" }),
+				detail: ctx.t({
+					code: "settings.system.updated_successfully",
+					msg: "System settings updated successfully. Changes will take effect after you login again.",
+				}),
+				life: 4000,
+			});
 		}
 	}, [actionData]);
+
+	useEffect(() => {
+		if (actionData && "errors" in actionData) {
+			setErrors(actionData.errors);
+		}
+	}, [actionData]);
+
+	const handleCloseDialog = () => {
+		setIsDialogOpen(false);
+		setErrors({});
+	};
 
 	const navSettings = <NavSettings ctx={ctx} userRole={loaderData.userRole} />;
 
 	return (
-		<MainContainer title={ctx.t({ "code": "nav.system_settings", "msg": "System settings" })} headerExtra={navSettings}>
+		<MainContainer
+			title={ctx.t({ code: "nav.system_settings", msg: "System settings" })}
+			headerExtra={navSettings}
+		>
 			<Toast ref={toast} />
 			<div className="mg-container">
 				<div className="dts-page-intro">
 					<div className="dts-additional-actions">
-						<button
+						<Button
 							type="button"
-							className="mg-button mg-button-primary"
-							onClick={() => showEditSettings()}
-						>
-							{ctx.t({ "code": "settings.system.edit_settings", "msg": "Edit Settings" })}
-						</button>
+							icon="pi pi-pencil"
+							label={ctx.t({
+								code: "settings.system.edit_settings",
+								msg: "Edit Settings",
+							})}
+							onClick={() => showEditSettings()}>
+						</Button>
 					</div>
 				</div>
 
+				<div className="flex flex-col gap-6">
 
-				<ul style={{ paddingLeft: 20 }}>
-					<li>
-						<strong>{ctx.t({ "code": "common.country_instance", "msg": "Country instance" })}:</strong>
-						<ul>
-							<li>
-								<strong>{ctx.t({ "code": "common.country", "msg": "Country" })}:</strong> {loaderData.country?.name}
-							</li>
-							<li>
-								<strong>{ctx.t({ "code": "common.type", "msg": "Type" })}:</strong> {loaderData.countryAccountType} instance
-							</li>
-							<li>
-								<strong>{ctx.t({ "code": "settings.system.iso_3", "msg": "ISO 3" })}:</strong>{" "}
-								{loaderData.instanceSystemSettings?.dtsInstanceCtryIso3}
-							</li>
-							<li>
-								<strong>{ctx.t({ "code": "settings.system.instance_type", "msg": "Instance type" })}:</strong>{" "}
-								{loaderData.instanceSystemSettings?.approvedRecordsArePublic
-									? ctx.t({ "code": "common.public", "msg": "Public" })
-									: ctx.t({ "code": "common.private", "msg": "Private" })}
-							</li>
-							<li>
-								<strong>{ctx.t({ "code": "common.language", "msg": "Language" })}:</strong>{" "}
-								{loaderData.instanceSystemSettings?.language}
-							</li>
-							<li>
-								<strong>{ctx.t({ "code": "common.currency", "msg": "Currency" })}:</strong>{" "}
-								{loaderData.instanceSystemSettings?.currencyCode}
-							</li>
-						</ul>
-					</li>
-					<li>
-						<strong>{ctx.t({ "code": "settings.system.delta_resilience_software_application_version", "msg": "DELTA Resilience software application version" })}:</strong>{" "}
-						{loaderData.dtsSystemInfo?.versionNo ?? ""}
-					</li>
-					<li>
-						<strong>{ctx.t({ "code": "settings.system.system_email_routing_configuration", "msg": "System email routing configuration" })}:</strong>
-						<ul>
-							<li>
-								<strong>{ctx.t({ "code": "settings.system.transport", "msg": "Transport" })}:</strong>{" "}
-								{loaderData.confEmailObj.EMAIL_TRANSPORT}
-							</li>
-							{loaderData.confEmailObj.EMAIL_TRANSPORT === "smtp" && (
-								<>
-									<li>
-										<strong>{ctx.t({ "code": "settings.system.host", "msg": "Host" })}:</strong>{" "}
-										{loaderData.confEmailObj.SMTP_HOST ?? "Not set"}
-									</li>
-									<li>
-										<strong>{ctx.t({ "code": "settings.system.port", "msg": "Port" })}:</strong>{" "}
-										{loaderData.confEmailObj.SMTP_PORT ?? "Not set"}
-									</li>
-									<li>
-										<strong>{ctx.t({ "code": "settings.system.secure", "msg": "Secure" })}:</strong>{" "}
-										{loaderData.confEmailObj.SMTP_SECURE ? ctx.t({ "code": "common.yes", "msg": "Yes" }) : ctx.t({ "code": "common.no", "msg": "No" })}
-									</li>
-								</>
-							)}
-						</ul>
-					</li>
-					<li>
-						<strong>{ctx.t({ "code": "settings.system.instance_name", "msg": "Instance Name" })}:</strong>{" "}
-						{loaderData.instanceSystemSettings?.websiteName}{" "}
-					</li>
-					<li>
-						<strong>{ctx.t({ "code": "settings.system.instance_logo_url", "msg": "Instance Logo URL" })}:</strong>{" "}
-						{loaderData.instanceSystemSettings?.websiteLogo}{" "}
-					</li>
-					<li>
-						<strong>{ctx.t({ "code": "settings.system.page_footer_privacy_policy_url", "msg": "Page Footer for Privacy Policy URL" })}:</strong>{" "}
-						{loaderData.instanceSystemSettings?.footerUrlPrivacyPolicy}{" "}
-					</li>
-					<li>
-						<strong>{ctx.t({ "code": "settings.system.page_footer_terms_and_conditions_url", "msg": "Page Footer for Terms and Conditions URL" })}:</strong>{" "}
-						{loaderData.instanceSystemSettings?.footerUrlTermsConditions}{" "}
-					</li>
-					<li>
-						<strong>{ctx.t({ "code": "settings.system.application_url", "msg": "Application URL" })}:</strong>{" "}
-						{loaderData.publicURL}{" "}
-					</li>
-					<li>
-						<strong>{ctx.t({ "code": "settings.system.2fa_totp_issuer_name", "msg": "2FA/TOTP Issuer Name" })}:</strong>{" "}
-						{loaderData.instanceSystemSettings?.totpIssuer}
-					</li>
-				</ul>
+					{/* Country Instance */}
+					<section className="border border-gray-200 rounded-lg overflow-hidden">
+						<div className="flex items-center gap-2 bg-gray-50 border-b border-gray-200 px-5 py-3">
+							<i className="pi pi-globe text-[#004F91]" />
+							<span className="font-semibold text-gray-700">
+								{ctx.t({ code: "common.country_instance", msg: "Country instance" })}
+							</span>
+						</div>
+						<dl className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
+							{[
+								{
+									label: ctx.t({ code: "common.country", msg: "Country" }),
+									value: loaderData.country?.name,
+								},
+								{
+									label: ctx.t({ code: "common.type", msg: "Type" }),
+									value: loaderData.countryAccountType ? `${loaderData.countryAccountType} instance` : undefined,
+								},
+								{
+									label: ctx.t({ code: "settings.system.iso_3", msg: "ISO 3" }),
+									value: loaderData.instanceSystemSettings?.dtsInstanceCtryIso3,
+								},
+								{
+									label: ctx.t({ code: "settings.system.instance_type", msg: "Instance type" }),
+									value: loaderData.instanceSystemSettings?.approvedRecordsArePublic
+										? ctx.t({ code: "common.public", msg: "Public" })
+										: ctx.t({ code: "common.private", msg: "Private" }),
+								},
+								{
+									label: ctx.t({ code: "common.language", msg: "Language" }),
+									value: loaderData.instanceSystemSettings?.language,
+								},
+								{
+									label: ctx.t({ code: "common.currency", msg: "Currency" }),
+									value: loaderData.instanceSystemSettings?.currencyCode,
+								},
+							].map(({ label, value }) => (
+								<div key={label} className="flex flex-col gap-1 px-5 py-4">
+									<dt className="text-xs font-medium text-gray-500 uppercase tracking-wide">{label}</dt>
+									<dd className="text-sm font-semibold text-gray-900">{value ?? <span className="text-gray-400 font-normal">—</span>}</dd>
+								</div>
+							))}
+						</dl>
+					</section>
+
+					{/* Instance configuration */}
+					<section className="border border-gray-200 rounded-lg overflow-hidden">
+						<div className="flex items-center gap-2 bg-gray-50 border-b border-gray-200 px-5 py-3">
+							<i className="pi pi-cog text-[#004F91]" />
+							<span className="font-semibold text-gray-700">
+								{ctx.t({ code: "settings.system.instance_configuration", msg: "Instance configuration" })}
+							</span>
+						</div>
+						<dl className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
+							{[
+								{
+									label: ctx.t({ code: "settings.system.instance_name", msg: "Instance Name" }),
+									value: loaderData.instanceSystemSettings?.websiteName,
+								},
+								{
+									label: ctx.t({ code: "settings.system.application_url", msg: "Application URL" }),
+									value: loaderData.publicURL,
+								},
+								{
+									label: ctx.t({ code: "settings.system.instance_logo_url", msg: "Instance Logo URL" }),
+									value: loaderData.instanceSystemSettings?.websiteLogo,
+								},
+								{
+									label: ctx.t({ code: "settings.system.2fa_totp_issuer_name", msg: "2FA/TOTP Issuer Name" }),
+									value: loaderData.instanceSystemSettings?.totpIssuer,
+								},
+								{
+									label: ctx.t({ code: "settings.system.page_footer_privacy_policy_url", msg: "Privacy Policy URL" }),
+									value: loaderData.instanceSystemSettings?.footerUrlPrivacyPolicy,
+								},
+								{
+									label: ctx.t({ code: "settings.system.page_footer_terms_and_conditions_url", msg: "Terms & Conditions URL" }),
+									value: loaderData.instanceSystemSettings?.footerUrlTermsConditions,
+								},
+							].map(({ label, value }) => (
+								<div key={label} className="flex flex-col gap-1 px-5 py-4">
+									<dt className="text-xs font-medium text-gray-500 uppercase tracking-wide">{label}</dt>
+									<dd className="text-sm font-semibold text-gray-900 break-all">{value ?? <span className="text-gray-400 font-normal">—</span>}</dd>
+								</div>
+							))}
+						</dl>
+					</section>
+
+					{/* Software & Email */}
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+						{/* Software version */}
+						<section className="border border-gray-200 rounded-lg overflow-hidden">
+							<div className="flex items-center gap-2 bg-gray-50 border-b border-gray-200 px-5 py-3">
+								<i className="pi pi-info-circle text-[#004F91]" />
+								<span className="font-semibold text-gray-700">
+									{ctx.t({ code: "settings.system.software", msg: "Software" })}
+								</span>
+							</div>
+							<div className="flex flex-col gap-1 px-5 py-4">
+								<dt className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+									{ctx.t({ code: "settings.system.delta_resilience_software_application_version", msg: "DELTA Resilience version" })}
+								</dt>
+								<dd className="text-sm font-semibold text-gray-900">
+									{loaderData.dtsSystemInfo?.versionNo ?? <span className="text-gray-400 font-normal">—</span>}
+								</dd>
+							</div>
+						</section>
+
+						{/* Email routing */}
+						<section className="border border-gray-200 rounded-lg overflow-hidden">
+							<div className="flex items-center gap-2 bg-gray-50 border-b border-gray-200 px-5 py-3">
+								<i className="pi pi-envelope text-[#004F91]" />
+								<span className="font-semibold text-gray-700">
+									{ctx.t({ code: "settings.system.system_email_routing_configuration", msg: "Email routing" })}
+								</span>
+							</div>
+							<dl className="divide-y divide-gray-100">
+								{[
+									{
+										label: ctx.t({ code: "settings.system.transport", msg: "Transport" }),
+										value: loaderData.confEmailObj.EMAIL_TRANSPORT,
+									},
+									...(loaderData.confEmailObj.EMAIL_TRANSPORT === "smtp" ? [
+										{
+											label: ctx.t({ code: "settings.system.host", msg: "Host" }),
+											value: loaderData.confEmailObj.SMTP_HOST ?? "Not set",
+										},
+										{
+											label: ctx.t({ code: "settings.system.port", msg: "Port" }),
+											value: loaderData.confEmailObj.SMTP_PORT ?? "Not set",
+										},
+										{
+											label: ctx.t({ code: "settings.system.secure", msg: "Secure" }),
+											value: loaderData.confEmailObj.SMTP_SECURE
+												? ctx.t({ code: "common.yes", msg: "Yes" })
+												: ctx.t({ code: "common.no", msg: "No" }),
+										},
+									] : []),
+								].map(({ label, value }) => (
+									<div key={label} className="flex flex-col gap-1 px-5 py-4">
+										<dt className="text-xs font-medium text-gray-500 uppercase tracking-wide">{label}</dt>
+										<dd className="text-sm font-semibold text-gray-900">{value ?? <span className="text-gray-400 font-normal">—</span>}</dd>
+									</div>
+								))}
+							</dl>
+						</section>
+
+					</div>
+				</div>
 
 				{/* dialog for editing system variables */}
 				<Dialog
+					header={ctx.t({
+						code: "settings.system.edit_settings",
+						msg: "Edit Settings",
+					})}
 					visible={isDialogOpen}
-					header={ctx.t({ "code": "settings.system.edit_settings", "msg": "Edit Settings" })}
-					onClose={() => setIsDialogOpen(false)}
-					footer={footerContent}
+					onHide={handleCloseDialog}
+					modal
+					className="w-[32rem] max-w-full"
 				>
-					<Form
-						method="post"
-						id="addCountryAccountForm"
-						className="dts-form"
-						ref={formRef}
-					>
-						{actionData && "errors" in actionData && (
-							<Messages header="Errors" messages={actionData.errors} />
-						)}
-						<div className="dts-form__body">
-							<input
-								type="hidden"
-								name="id"
-								value={loaderData.instanceSystemSettings?.id || ""}
+					<Form method="post" id="addCountryAccountForm" ref={formRef}>
+						<input
+							type="hidden"
+							name="id"
+							value={loaderData.instanceSystemSettings?.id || ""}
+						/>
+
+						<div className="space-y-4">
+
+							{/* Required fields notice */}
+							<div className="text-sm text-red-600">
+								{`* ${ctx.t({
+									code: "common.required_information",
+									msg: "Required information",
+								})}`}
+							</div>
+
+							{/* Language */}
+							<div className="flex flex-col gap-1">
+								<label className="font-semibold">
+									{ctx.t({ code: "common.language", msg: "Language" })}
+									<span className="text-red-500 ml-1">*</span>
+								</label>
+
+								<Dropdown
+									name="language"
+									value={language}
+									options={loaderData.availableLanguages}
+									onChange={(e) => setLanguage(e.value)}
+									className="w-full"
+									invalid={!!errors.language}
+								/>
+
+								{errors.language && (
+									<small className="text-red-500">{errors.language}</small>
+								)}
+							</div>
+
+							{/* Privacy URL */}
+							<div className="flex flex-col gap-1">
+								<label className="font-semibold">
+									{ctx.t({
+										code: "settings.system.privacy_policy_url",
+										msg: "Privacy Policy URL",
+									})}
+								</label>
+
+								<InputText
+									name="privacyUrl"
+									value={privacyUrl}
+									onChange={(e) => setPrivacyUrl(e.target.value)}
+									placeholder="https://example.com/privacy"
+									invalid={!!errors.privacyUrl}
+								/>
+
+								{errors.privacyUrl && (
+									<small className="text-red-500">{errors.privacyUrl}</small>
+								)}
+							</div>
+
+							{/* Terms URL */}
+							<div className="flex flex-col gap-1">
+								<label className="font-semibold">
+									{ctx.t({
+										code: "settings.system.terms_and_conditions_url",
+										msg: "Terms and Conditions URL",
+									})}
+								</label>
+
+								<InputText
+									name="termsUrl"
+									value={termsUrl}
+									onChange={(e) => setTermsUrl(e.target.value)}
+									placeholder="https://example.com/terms"
+									invalid={!!errors.termsUrl}
+								/>
+
+								{errors.termsUrl && (
+									<small className="text-red-500">{errors.termsUrl}</small>
+								)}
+							</div>
+
+							{/* Logo URL */}
+							<div className="flex flex-col gap-1">
+								<label className="font-semibold">
+									{ctx.t({
+										code: "settings.system.website_logo_url",
+										msg: "Website Logo URL",
+									})}
+									<span className="text-red-500 ml-1">*</span>
+								</label>
+
+								<InputText
+									name="websiteLogoUrl"
+									value={websiteLogoUrl}
+									onChange={(e) => setWebsiteLogoUrl(e.target.value)}
+									placeholder="https://example.com/logo.svg"
+									invalid={!!errors.websiteLogoUrl}
+								/>
+
+								{errors.websiteLogoUrl && (
+									<small className="text-red-500">
+										{errors.websiteLogoUrl}
+									</small>
+								)}
+							</div>
+
+							{/* Website name */}
+							<div className="flex flex-col gap-1">
+								<label className="font-semibold">
+									{ctx.t({
+										code: "settings.system.website_name",
+										msg: "Website Name",
+									})}
+									<span className="text-red-500 ml-1">*</span>
+								</label>
+
+								<InputText
+									name="websiteName"
+									value={websiteName}
+									onChange={(e) => setWebsiteName(e.target.value)}
+									placeholder="Enter website name"
+									invalid={!!errors.websiteName}
+								/>
+
+								{errors.websiteName && (
+									<small className="text-red-500">{errors.websiteName}</small>
+								)}
+							</div>
+
+							{/* Visibility */}
+							<div className="flex flex-col gap-1">
+								<label className="font-semibold">
+									{ctx.t({
+										code: "settings.system.approved_records_visibility",
+										msg: "Approved records visibility",
+									})}
+									<span className="text-red-500 ml-1">*</span>
+								</label>
+
+								<Dropdown
+									name="approvedRecordsArePublic"
+									value={approvedRecordsArePublic ? "true" : "false"}
+									options={[
+										{
+											label: ctx.t({ code: "common.public", msg: "Public" }),
+											value: "true",
+										},
+										{
+											label: ctx.t({ code: "common.private", msg: "Private" }),
+											value: "false",
+										},
+									]}
+									onChange={(e) =>
+										setApprovedRecordsArePublic(e.value === "true")
+									}
+									invalid={!!errors.approvedRecordsArePublic}
+								/>
+
+								{errors.approvedRecordsArePublic && (
+									<small className="text-red-500">
+										{errors.approvedRecordsArePublic}
+									</small>
+								)}
+							</div>
+
+							{/* Currency */}
+							<div className="flex flex-col gap-1">
+								<label className="font-semibold">
+									{ctx.t({ code: "common.currency", msg: "Currency" })}
+									<span className="text-red-500 ml-1">*</span>
+								</label>
+
+								<Dropdown
+									name="currency"
+									value={currency}
+									options={getCurrencyList()}
+									onChange={(e) => setCurrency(e.value)}
+									invalid={!!errors.currency}
+								/>
+
+								{errors.currency && (
+									<small className="text-red-500">{errors.currency}</small>
+								)}
+							</div>
+
+							{/* TOTP Issuer */}
+							<div className="flex flex-col gap-1">
+								<label className="font-semibold">
+									{ctx.t({
+										code: "settings.system.totp_issuer",
+										msg: "Totp Issuer",
+									})}
+									<span className="text-red-500 ml-1">*</span>
+								</label>
+
+								<InputText
+									name="totpIssuer"
+									value={totpIssuer}
+									onChange={(e) => setTotpIssuer(e.target.value)}
+									placeholder="Enter Totp Issuer"
+									invalid={!!errors.totpIssuer}
+								/>
+
+								{errors.totpIssuer && (
+									<small className="text-red-500">
+										{errors.totpIssuer}
+									</small>
+								)}
+							</div>
+						</div>
+
+						{/* Footer */}
+						<div className="flex justify-end gap-2 mt-6">
+							<Button
+								label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
+								outlined
+								type="button"
+								onClick={handleCloseDialog}
 							/>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__label">
-										<span>* {ctx.t({ "code": "common.language", "msg": "Language" })}</span>
-									</div>
-									<select
-										name="language"
-										value={language}
-										onChange={(e) => {
-											setLanguage(e.target.value);
-										}}
-									>
-										{loaderData.availableLanguages.map((lang: string) => (
-											<option key={lang} value={lang}>
-												{lang}
-											</option>
-										))}
-									</select>
-								</label>
-							</div>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__label">
-										<span>{ctx.t({ "code": "settings.system.privacy_policy_url", "msg": "Privacy Policy URL" })}</span>
-									</div>
-									<input
-										type="url"
-										name="privacyUrl"
-										aria-label="Privacy URL"
-										placeholder="https://example.com/privacy"
-										value={privacyUrl}
-										onChange={(e) => setPrivacyUrl(e.target.value)}
-									></input>
-								</label>
-							</div>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__label">
-										<span>{ctx.t({ "code": "settings.system.terms_and_conditions_url", "msg": "Terms and Conditions URL" })}</span>
-									</div>
-									<input
-										type="url"
-										name="termsUrl"
-										aria-label="Terms and Conditions URL"
-										placeholder="https://example.com/terms"
-										value={termsUrl}
-										onChange={(e) => setTermsUrl(e.target.value)}
-									></input>
-								</label>
-							</div>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__label">
-										<span>* {ctx.t({ "code": "settings.system.website_logo_url", "msg": "Website Logo URL" })}</span>
-									</div>
-									<input
-										type="text"
-										name="websiteLogoUrl"
-										aria-label="Website Logo URL"
-										placeholder="https://example.com/logo.svg"
-										value={websiteLogoUrl}
-										onChange={(e) => setWebsiteLogoUrl(e.target.value)}
-									></input>
-								</label>
-							</div>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__label">
-										<span>* {ctx.t({ "code": "settings.system.website_name", "msg": "Website Name" })}</span>
-									</div>
-									<input
-										type="text"
-										name="websiteName"
-										aria-label="Website Name"
-										placeholder="Enter website name"
-										value={websiteName}
-										onChange={(e) => setWebsiteName(e.target.value)}
-									></input>
-								</label>
-							</div>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__label">
-										<span>* {ctx.t({ "code": "settings.system.approved_records_visibility", "msg": "Approved records visibility" })}</span>
-									</div>
-									<select
-										name="approvedRecordsArePublic"
-										value={approvedRecordsArePublic ? "true" : "false"}
-										onChange={(e) => {
-											console.log("e.target.value = ", e.target.value);
-											console.log(typeof e.target.value);
-											setApprovedRecordsArePublic(e.target.value === "true");
-										}}
-									>
-										<option key={1} value="true">
-											{ctx.t({ "code": "common.public", "msg": "Public" })}
-										</option>
-										<option key={2} value="false">
-											{ctx.t({ "code": "common.private", "msg": "Private" })}
-										</option>
-									</select>
-								</label>
-							</div>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__label">
-										<span>* {ctx.t({ "code": "common.currency", "msg": "Currency" })}</span>
-									</div>
-									<select
-										name="currency"
-										value={currency}
-										onChange={(e) => {
-											setCurrency(e.target.value);
-										}}
-									>
-										{getCurrencyList().map((currency) => (
-											<option key={currency} value={currency}>
-												{currency}
-											</option>
-										))}
-									</select>
-								</label>
-							</div>
-							<div className="dts-form-component">
-								<label>
-									<div className="dts-form-component__label">
-										<span>* {ctx.t({ "code": "settings.system.totp_issuer", "msg": "Totp Issuer" })}</span>
-									</div>
-									<input
-										type="text"
-										name="totpIssuer"
-										aria-label="Totp Issuer"
-										placeholder="Enter Totp Issuer"
-										value={totpIssuer}
-										onChange={(e) => setTotpIssuer(e.target.value)}
-									></input>
-								</label>
-							</div>
+
+							<Button
+								label={ctx.t({ code: "common.save", msg: "Save" })}
+								type="submit"
+								icon="pi pi-check"
+							/>
 						</div>
 					</Form>
 				</Dialog>

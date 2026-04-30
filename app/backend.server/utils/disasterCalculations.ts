@@ -21,16 +21,16 @@
  *    - Production Loss Calculation Guidelines
  */
 
-import { sql } from 'drizzle-orm';
-import { dr as db } from '~/db.server';
+import { sql } from "drizzle-orm";
+import { dr as db } from "~/db.server";
 import type {
-    DisasterImpactMetadata,
-    AssessmentType,
-    ConfidenceLevel,
-    FaoAgriSubsector,
-    FaoAgriculturalDamage,
-    FaoAgriculturalLoss,
-} from '~/types/disasterCalculations';
+	DisasterImpactMetadata,
+	AssessmentType,
+	ConfidenceLevel,
+	FaoAgriSubsector,
+	FaoAgriculturalDamage,
+	FaoAgriculturalLoss,
+} from "~/types/disasterCalculations";
 
 /**
  * Creates standardized metadata for disaster impact assessments
@@ -41,17 +41,17 @@ import type {
  * @returns Standardized metadata object
  */
 export const createAssessmentMetadata = async (
-    assessmentType: AssessmentType = 'rapid',
-    confidenceLevel: ConfidenceLevel = 'medium',
+	assessmentType: AssessmentType = "rapid",
+	confidenceLevel: ConfidenceLevel = "medium",
 ): Promise<DisasterImpactMetadata> => {
-    return {
-        assessmentType,
-        confidenceLevel,
-        currency: 'USD', // Use first configured currency or USD as fallback
-        assessmentDate: new Date().toISOString(),
-        assessedBy: 'DELTA Resilience Analytics System',
-        notes: 'Automatically generated assessment based on database records',
-    };
+	return {
+		assessmentType,
+		confidenceLevel,
+		currency: "USD", // Use first configured currency or USD as fallback
+		assessmentDate: new Date().toISOString(),
+		assessedBy: "DELTA Resilience Analytics System",
+		notes: "Automatically generated assessment based on database records",
+	};
 };
 
 /**
@@ -63,34 +63,34 @@ export const createAssessmentMetadata = async (
  * @returns Structured agricultural damages data
  */
 export const calculateFaoAgriculturalDamage = async (
-    table: any,
-    subsector: FaoAgriSubsector,
+	table: any,
+	subsector: FaoAgriSubsector,
 ): Promise<FaoAgriculturalDamage> => {
-    type AssetDamages = {
-        machinery: string;
-        equipment: string;
-        facilities: string;
-        irrigation: string;
-        storage: string;
-    };
+	type AssetDamages = {
+		machinery: string;
+		equipment: string;
+		facilities: string;
+		irrigation: string;
+		storage: string;
+	};
 
-    type ResourceDamages = {
-        resource_damage: string;
-    };
+	type ResourceDamages = {
+		resource_damage: string;
+	};
 
-    const defaultAssetDamages: AssetDamages = {
-        machinery: '0',
-        equipment: '0',
-        facilities: '0',
-        irrigation: '0',
-        storage: '0',
-    };
+	const defaultAssetDamages: AssetDamages = {
+		machinery: "0",
+		equipment: "0",
+		facilities: "0",
+		irrigation: "0",
+		storage: "0",
+	};
 
-    const defaultResourceDamages: ResourceDamages = {
-        resource_damage: '0',
-    };
+	const defaultResourceDamages: ResourceDamages = {
+		resource_damage: "0",
+	};
 
-    const assetResults = (await db.execute(sql`
+	const assetResults = (await db.execute(sql`
         SELECT
             COALESCE(SUM(${table}.machinery_damage), 0)::numeric as machinery,
             COALESCE(SUM(${table}.equipment_damage), 0)::numeric as equipment,
@@ -100,7 +100,7 @@ export const calculateFaoAgriculturalDamage = async (
         FROM ${table}
     `)) as unknown as AssetDamages[];
 
-    const resourceResults = (await db.execute(sql`
+	const resourceResults = (await db.execute(sql`
         SELECT
             CASE '${subsector}'
                 WHEN 'crops' THEN COALESCE(SUM(${table}.crop_damage), 0)::numeric
@@ -112,24 +112,27 @@ export const calculateFaoAgriculturalDamage = async (
         FROM ${table}
     `)) as unknown as ResourceDamages[];
 
-    const assetResult = assetResults[0] || defaultAssetDamages;
-    const resourceResult = resourceResults[0] || defaultResourceDamages;
+	const assetResult = assetResults[0] || defaultAssetDamages;
+	const resourceResult = resourceResults[0] || defaultResourceDamages;
 
-    return {
-        assets: {
-            machinery: Number(assetResult.machinery),
-            equipment: Number(assetResult.equipment),
-            facilities: Number(assetResult.facilities),
-            irrigation: Number(assetResult.irrigation),
-            storage: Number(assetResult.storage),
-        },
-        resources: {
-            crops: subsector === 'crops' ? Number(resourceResult.resource_damage) : 0,
-            livestock: subsector === 'livestock' ? Number(resourceResult.resource_damage) : 0,
-            fishStock: subsector === 'fisheries' ? Number(resourceResult.resource_damage) : 0,
-            forestResources: subsector === 'forestry' ? Number(resourceResult.resource_damage) : 0,
-        },
-    };
+	return {
+		assets: {
+			machinery: Number(assetResult.machinery),
+			equipment: Number(assetResult.equipment),
+			facilities: Number(assetResult.facilities),
+			irrigation: Number(assetResult.irrigation),
+			storage: Number(assetResult.storage),
+		},
+		resources: {
+			crops: subsector === "crops" ? Number(resourceResult.resource_damage) : 0,
+			livestock:
+				subsector === "livestock" ? Number(resourceResult.resource_damage) : 0,
+			fishStock:
+				subsector === "fisheries" ? Number(resourceResult.resource_damage) : 0,
+			forestResources:
+				subsector === "forestry" ? Number(resourceResult.resource_damage) : 0,
+		},
+	};
 };
 
 /**
@@ -141,44 +144,44 @@ export const calculateFaoAgriculturalDamage = async (
  * @returns Structured agricultural losses data
  */
 export const calculateFaoAgriculturalLoss = async (
-    table: any,
-    subsector: FaoAgriSubsector,
+	table: any,
+	subsector: FaoAgriSubsector,
 ): Promise<FaoAgriculturalLoss> => {
-    type ProductionLosses = {
-        production_loss: string;
-    };
+	type ProductionLosses = {
+		production_loss: string;
+	};
 
-    type IncomeLosses = {
-        market_access: string;
-        price_changes: string;
-        trading_disruption: string;
-    };
+	type IncomeLosses = {
+		market_access: string;
+		price_changes: string;
+		trading_disruption: string;
+	};
 
-    type AdditionalCosts = {
-        cleanup: string;
-        replanting: string;
-        restocking: string;
-        disease_control: string;
-    };
+	type AdditionalCosts = {
+		cleanup: string;
+		replanting: string;
+		restocking: string;
+		disease_control: string;
+	};
 
-    const defaultProductionLosses: ProductionLosses = {
-        production_loss: '0',
-    };
+	const defaultProductionLosses: ProductionLosses = {
+		production_loss: "0",
+	};
 
-    const defaultIncomeLosses: IncomeLosses = {
-        market_access: '0',
-        price_changes: '0',
-        trading_disruption: '0',
-    };
+	const defaultIncomeLosses: IncomeLosses = {
+		market_access: "0",
+		price_changes: "0",
+		trading_disruption: "0",
+	};
 
-    const defaultAdditionalCosts: AdditionalCosts = {
-        cleanup: '0',
-        replanting: '0',
-        restocking: '0',
-        disease_control: '0',
-    };
+	const defaultAdditionalCosts: AdditionalCosts = {
+		cleanup: "0",
+		replanting: "0",
+		restocking: "0",
+		disease_control: "0",
+	};
 
-    const productionResults = (await db.execute(sql`
+	const productionResults = (await db.execute(sql`
         SELECT
             CASE '${subsector}'
                 WHEN 'crops' THEN COALESCE(SUM(${table}.crop_yield_decline), 0)::numeric
@@ -190,7 +193,7 @@ export const calculateFaoAgriculturalLoss = async (
         FROM ${table}
     `)) as unknown as ProductionLosses[];
 
-    const incomeResults = (await db.execute(sql`
+	const incomeResults = (await db.execute(sql`
         SELECT
             COALESCE(SUM(${table}.market_access_loss), 0)::numeric as market_access,
             COALESCE(SUM(${table}.price_change_loss), 0)::numeric as price_changes,
@@ -198,7 +201,7 @@ export const calculateFaoAgriculturalLoss = async (
         FROM ${table}
     `)) as unknown as IncomeLosses[];
 
-    const costResults = (await db.execute(sql`
+	const costResults = (await db.execute(sql`
         SELECT
             COALESCE(SUM(${table}.cleanup_cost), 0)::numeric as cleanup,
             COALESCE(SUM(${table}.replanting_cost), 0)::numeric as replanting,
@@ -207,28 +210,35 @@ export const calculateFaoAgriculturalLoss = async (
         FROM ${table}
     `)) as unknown as AdditionalCosts[];
 
-    const productionResult = productionResults[0] || defaultProductionLosses;
-    const incomeResult = incomeResults[0] || defaultIncomeLosses;
-    const costsResult = costResults[0] || defaultAdditionalCosts;
+	const productionResult = productionResults[0] || defaultProductionLosses;
+	const incomeResult = incomeResults[0] || defaultIncomeLosses;
+	const costsResult = costResults[0] || defaultAdditionalCosts;
 
-    return {
-        production: {
-            cropYieldDecline: subsector === 'crops' ? Number(productionResult.production_loss) : 0,
-            livestockProductivity:
-                subsector === 'livestock' ? Number(productionResult.production_loss) : 0,
-            fisheryOutput: subsector === 'fisheries' ? Number(productionResult.production_loss) : 0,
-            forestryYield: subsector === 'forestry' ? Number(productionResult.production_loss) : 0,
-        },
-        income: {
-            marketAccess: Number(incomeResult.market_access),
-            priceChanges: Number(incomeResult.price_changes),
-            tradingDisruption: Number(incomeResult.trading_disruption),
-        },
-        additionalCosts: {
-            cleanup: Number(costsResult.cleanup),
-            replanting: Number(costsResult.replanting),
-            restocking: Number(costsResult.restocking),
-            diseaseControl: Number(costsResult.disease_control),
-        },
-    };
+	return {
+		production: {
+			cropYieldDecline:
+				subsector === "crops" ? Number(productionResult.production_loss) : 0,
+			livestockProductivity:
+				subsector === "livestock"
+					? Number(productionResult.production_loss)
+					: 0,
+			fisheryOutput:
+				subsector === "fisheries"
+					? Number(productionResult.production_loss)
+					: 0,
+			forestryYield:
+				subsector === "forestry" ? Number(productionResult.production_loss) : 0,
+		},
+		income: {
+			marketAccess: Number(incomeResult.market_access),
+			priceChanges: Number(incomeResult.price_changes),
+			tradingDisruption: Number(incomeResult.trading_disruption),
+		},
+		additionalCosts: {
+			cleanup: Number(costsResult.cleanup),
+			replanting: Number(costsResult.replanting),
+			restocking: Number(costsResult.restocking),
+			diseaseControl: Number(costsResult.disease_control),
+		},
+	};
 };

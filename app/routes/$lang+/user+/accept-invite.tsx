@@ -1,50 +1,49 @@
-import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "react-router";
+import {
+	ActionFunctionArgs,
+	LoaderFunctionArgs,
+	MetaFunction,
+	useNavigation,
+} from "react-router";
 import { useActionData, useLoaderData } from "react-router";
-import {
-	Form,
-	Field,
-	SubmitButton,
-	FieldErrorsStandard,
-} from "~/frontend/form";
-import { formStringData } from "~/utils/httputil";
-import {
-	createUserSession,
-	getCountrySettingsFromSession,
-	sessionCookie,
-} from "~/utils/session";
-import {
-	acceptInvite,
-	AcceptInviteFieldsFromMap,
-	validateInviteCode,
-} from "~/backend.server/models/user/invite";
-
-import { useState, useEffect } from "react";
-import { getUserCountryAccountsByUserId } from "~/db/queries/userCountryAccounts";
-import { getInstanceSystemSettingsByCountryAccountId } from "~/db/queries/instanceSystemSetting";
-import { redirectLangFromRoute } from "~/utils/url.backend";
+import { Form } from "react-router";
+import { validateInviteCode } from "~/backend.server/models/user/invite";
 
 import { ViewContext } from "~/frontend/context";
 
-import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";
+import { Card } from "primereact/card";
+import { Message } from "primereact/message";
+import { InputText } from "primereact/inputtext";
+import { Password } from "primereact/password";
+import { Button } from "primereact/button";
+import { LangLink } from "~/utils/link";
+import { UserRepository } from "~/db/queries/UserRepository";
+import { passwordHash } from "~/utils/passwordUtil";
+import { BackendContext } from "~/backend.server/context";
+import { sendWelcomeRegistrationEmail } from "~/utils/emailUtil";
+import { ErrorState } from "~/components/ErrorState";
+import { redirectWithMessage } from "~/utils/session";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();
 
 	return [
 		{
-			title: htmlTitle(ctx, ctx.t({
-				"code": "meta.create_your_account",
-				"msg": "Create your account"
-			})),
+			title: htmlTitle(
+				ctx,
+				ctx.t({
+					code: "meta.create_your_account",
+					msg: "Create your account",
+				}),
+			),
 		},
 		{
 			name: "description",
 			content: ctx.t({
-				"code": "meta.create_your_account_page",
-				"msg": "Create your account page."
+				code: "meta.create_your_account_page",
+				msg: "Create your account page.",
 			}),
-		}
+		},
 	];
 };
 
@@ -62,7 +61,6 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	}
 
 	return {
-
 		inviteCode: inviteCode,
 		inviteCodeValidation: res,
 		code: queryStringCode,
@@ -71,41 +69,111 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 	};
 };
 
+type FieldErrors = {
+	firstName?: string;
+	lastName?: string;
+	password?: string;
+	passwordRepeat?: string;
+	email?: string;
+	form?: string;
+};
+
 export const action = async (actionArgs: ActionFunctionArgs) => {
-	const { request } = actionArgs
-	const ctx = new BackendContext(actionArgs)
+	const formData = await actionArgs.request.formData();
 
-	const data = formStringData(await request.formData());
-	const inviteCode = data["inviteCode"] || "";
-	const data2 = AcceptInviteFieldsFromMap(data);
+	const firstName = String(formData.get("firstName") || "").trim();
+	const lastName = String(formData.get("lastName") || "").trim();
+	const password = String(formData.get("password") || "");
+	const passwordRepeat = String(formData.get("passwordRepeat") || "");
+	const email = String(formData.get("email") || "");
 
-	const settings = await getCountrySettingsFromSession(request);
-	const websiteName = settings ? settings.websiteName : "DELTA Resilience";
-	const res = await acceptInvite(ctx, inviteCode, data2, websiteName);
-	if (!res.ok) {
-		return { data, errors: res.errors };
+	const errors: FieldErrors = {};
+
+	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	// Email
+	if (!email) {
+		errors.email = "Email is required.";
+	} else if (!emailRegex.test(email)) {
+		errors.email = "Invalid email address.";
 	}
-	const headers = await createUserSession(res.userId);
-	const userCountryAccounts = await getUserCountryAccountsByUserId(res.userId);
 
-	if (userCountryAccounts && userCountryAccounts.length === 1) {
-		const countrySettings = await getInstanceSystemSettingsByCountryAccountId(
-			userCountryAccounts[0].countryAccountsId
-		);
+	// First name
+	if (!firstName) {
+		errors.firstName = "First name is required.";
+	} else if (firstName.length < 3) {
+		errors.firstName = "First name must be at least 3 characters.";
+	}
 
-		const session = await sessionCookie().getSession(headers["Set-Cookie"]);
-		session.set("countryAccountsId", userCountryAccounts[0].countryAccountsId);
-		session.set("userRole", userCountryAccounts[0].role);
-		session.set("countrySettings", countrySettings);
-		const setCookie = await sessionCookie().commitSession(session);
+	// Last name
+	if (!lastName) {
+		errors.lastName = "Last name is required.";
+	} else if (lastName.length < 3) {
+		errors.lastName = "Last name must be at least 3 characters.";
+	}
 
-		return redirectLangFromRoute(actionArgs, "/", {
-			headers: { "Set-Cookie": setCookie },
+	// Password checks
+	if (password.length < 12) {
+		errors.password = "Password must be at least 12 characters.";
+	}
+
+	const hasUpper = /[A-Z]/.test(password);
+	const hasLower = /[a-z]/.test(password);
+	const hasNumber = /[0-9]/.test(password);
+	const hasSpecial = /[^A-Za-z0-9]/.test(password);
+
+	const conditionsCount =
+		Number(hasUpper) +
+		Number(hasLower) +
+		Number(hasNumber) +
+		Number(hasSpecial);
+
+	if (conditionsCount < 2) {
+		errors.password =
+			"Password must include at least two of the following: uppercase, lowercase, number, special character.";
+	}
+
+	if (password === email) {
+		errors.password = "Password cannot be the same as the username.";
+	}
+
+	if (password !== passwordRepeat) {
+		errors.passwordRepeat = "Passwords do not match.";
+	}
+
+	const user = await UserRepository.getByEmail(email);
+	if (!user) {
+		errors.email = "No user exist with this email";
+	}
+
+	if (Object.keys(errors).length > 0) {
+		return { ok: false, errors };
+	}
+
+	//Update user data in the table
+	if (user) {
+		await UserRepository.updateById(user.id, {
+			inviteCode: "",
+			password: passwordHash(password),
+			firstName: firstName,
+			lastName: lastName,
+			emailVerified: true,
 		});
-	} else if (userCountryAccounts && userCountryAccounts.length > 1) {
-		return redirectLangFromRoute(actionArgs, "/user/select-instance", { headers: headers });
+
+		//send welcome email to the user.
+		const ctx = new BackendContext(actionArgs);
+		sendWelcomeRegistrationEmail(ctx, email, firstName, lastName);
 	}
-	return redirectLangFromRoute(actionArgs, "/", { headers });
+
+	//Redirect 
+	const ctx = new BackendContext(actionArgs);
+	return redirectWithMessage(actionArgs, "/user/login", {
+		type: "info",
+		text: ctx.t({
+			code: "your_account_has_been_set_up_successfully.",
+			msg: "Your account has been set up successfully. You can sign in now",
+		})
+		,
+	});
 };
 
 export default function Screen() {
@@ -114,338 +182,250 @@ export default function Screen() {
 	const inviteCode = loaderData.inviteCode;
 	const email = loaderData.email;
 	const actionData = useActionData<typeof action>();
+	const errors = actionData?.errors ?? {};
 
-	const errors = actionData?.errors;
-	const data = actionData?.data;
-
-	const [firstname, setFirstname] = useState(data?.firstName || "");
-	const [password, setPassword] = useState(data?.password || "");
-	const [passwordRepeat, setPasswordRepeat] = useState(
-		data?.passwordRepeat || ""
-	);
-
-	const [passwordType, setPasswordType] = useState("password");
-	const [passwordRepeatType, setPasswordRepeatType] = useState("password");
+	const navigation = useNavigation();
+	const isSubmitting = navigation.state === "submitting";
 
 	if (!loaderData.inviteCodeValidation.ok) {
 		return (
 			<>
-				<p>{loaderData.inviteCodeValidation.error}</p>
+				<ErrorState
+					ctx={ctx}
+					title="Invalid Invitation"
+					message={loaderData.inviteCodeValidation.error}
+				/>
 			</>
 		);
 	}
-
-	// Function to check if all form fields are valid
-	const isFormValid = () => {
-		const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-		const hasUppercase = /[A-Z]/.test(password);
-		const hasLowercase = /[a-z]/.test(password);
-		const hasNumber = /\d/.test(password);
-		const hasSpecialChar = /[@$!%*?&_]/.test(password);
-
-		const hasTwoOfTheFollowing =
-			[hasUppercase, hasLowercase, hasNumber, hasSpecialChar].filter(Boolean)
-				.length >= 2;
-
-		return (
-			emailRegex.test(email) &&
-			firstname &&
-			password &&
-			passwordRepeat &&
-			password === passwordRepeat &&
-			hasTwoOfTheFollowing &&
-			password.length >= 12 &&
-			password !== email
-		);
-	};
-
-	useEffect(() => {
-		// Submit button enabling only when required fields are filled
-		const submitButton = document.querySelector(
-			"[id='setup-button']"
-		) as HTMLButtonElement;
-		const imgToggle = document.querySelector(
-			"[id='passwordToggleImg']"
-		) as HTMLImageElement;
-		const imgToggle2 = document.querySelector(
-			"[id='passwordToggleImg2']"
-		) as HTMLImageElement;
-		if (submitButton) {
-			// submitButton.disabled = true;
-			// validateFormAndToggleSubmitButton('setup-form', 'setup-button');
-			submitButton.disabled = !isFormValid(); // Initially disable submit if form is not valid
-		}
-		if (imgToggle) {
-			imgToggle.style.display = "block";
-		}
-		if (imgToggle2) {
-			imgToggle2.style.display = "block";
-		}
-	}, [email, firstname, password, passwordRepeat]);
-
-	const togglePasswordVisibility = () => {
-		setPasswordType(passwordType === "password" ? "text" : "password");
-	};
-
-	const toggleConfirmPasswordVisibility = () => {
-		setPasswordRepeatType(
-			passwordRepeatType === "password" ? "text" : "password"
-		);
-	};
-
 	return (
-		<>
-			<div className="mg-container">
-				<form className="dts-form dts-form--vertical">
-					<div className="dts-form__header">
-						<a
-							href={`/user/accept-invite-welcome?inviteCode=${inviteCode}`}
-							className="mg-button mg-button--small mg-button-system"
-						>
-							Back
-						</a>
-					</div>
-					<div className="dts-form__intro">
-						<h2 className="dts-heading-1">
-							{ctx.t({
-								"code": "users.create_your_account_heading",
-								"msg": "Create your account"
-							})}
-						</h2>
-						<p>
-							{ctx.t({
-								"code": "users.create_account_fill_details",
-								"msg": "Create your account by filling in the required details."
-							})}
-						</p>
-					</div>
-				</form>
+		<div className="flex min-h-screen items-center justify-center bg-gray-100 px-4 py-8">
+			<Card className="w-full max-w-lg rounded-2xl shadow-xl p-8">
 
-				<Form
-					ctx={ctx}
-					id="setup-form"
-					className="dts-form dts-form--vertical"
-					errors={errors}
-				>
-					<div className="dts-form__body">
-						<p>
-							{"* " + ctx.t({
-								"code": "common.required_information",
-								"msg": "Required information"
-							})}
-						</p>
+				{/* Header */}
+				<div className="mb-8 text-center">
+					<h2 className="mb-3 text-2xl font-semibold text-gray-900">
+						{ctx.t({
+							code: "users.create_your_account_heading",
+							msg: "Create your account",
+						})}
+					</h2>
 
-						<input
-							name="inviteCode"
-							type="hidden"
-							defaultValue={inviteCode}
-						></input>
+					<p className="mb-4 text-gray-600">
+						{ctx.t({
+							code: "users.create_account_fill_details",
+							msg: "Create your account by filling in the required details.",
+						})}
+					</p>
 
-						<Field label="" extraClassName="dts-form-component">
-							<input
-								type="text"
+					<Message
+						severity="warn"
+						className="mb-4"
+						text={`* ${ctx.t({
+							code: "common.required_information",
+							desc: "Indicates required information on login form",
+							msg: "Required information",
+						})}`}
+					/>
+				</div>
+
+				<Form method="post" id="reset-password-form" noValidate>
+					<div className="flex flex-col gap-6">
+
+						<input name="inviteCode" type="hidden" defaultValue={inviteCode} />
+
+						{/* Email */}
+						<div className="flex flex-col gap-2">
+							<label htmlFor="email" className="font-semibold text-gray-800">
+								{ctx.t({ code: "user_login.email_address", msg: "Email address" })}
+								<span className="text-red-500"> *</span>
+							</label>
+
+							<InputText
+								id="email"
+								type="email"
 								name="email"
+								className="w-full"
 								placeholder={ctx.t({
-									"code": "users.email_address_placeholder",
-									"msg": "Email address"
-								}) + "*"}
-								defaultValue={email}
-								readOnly
-							></input>
-						</Field>
-
-						<Field label="" extraClassName="dts-form-component">
-							<input
-								type="text"
-								name="firstName"
-								placeholder={ctx.t({
-									"code": "users.first_name_placeholder",
-									"msg": "First name"
-								}) + "*"}
-								onChange={(e) => setFirstname(e.target.value)}
-								defaultValue={data?.firstName}
-								autoFocus
-								required
-							></input>
-						</Field>
-						<FieldErrorsStandard
-							errors={errors}
-							field="firstName"
-						></FieldErrorsStandard>
-
-						<Field label="" extraClassName="dts-form-component">
-							<input
-								type="text"
-								name="lastName"
-								placeholder={ctx.t({
-									"code": "users.last_name_placeholder",
-									"msg": "Last name"
+									code: "user_login.enter_your_email",
+									msg: "Enter your email",
 								})}
-								defaultValue={data?.lastName}
-							></input>
-						</Field>
-						<FieldErrorsStandard
-							errors={errors}
-							field="lastName"
-						></FieldErrorsStandard>
+								readOnly
+								required
+								defaultValue={email}
+							/>
+						</div>
 
-						<Field label="" extraClassName="dts-form-component">
-							<div className="dts-form-component__pwd">
-								<input
-									type={passwordType}
-									name="password"
-									placeholder={ctx.t({
-										"code": "users.enter_password_placeholder",
-										"msg": "Enter password"
-									}) + "*"}
-									minLength={12}
-									id="password"
-									onChange={(e) => setPassword(e.target.value)}
-									defaultValue={data?.password}
-									required
-								></input>
-								<button
-									type="button"
-									onClick={togglePasswordVisibility}
-									aria-label="Toggle password visibility"
-									className="dts-form-component__pwd-toggle mg-button"
-								>
-									{passwordType === "password" ? (
-										<img
-											src="/assets/icons/eye-hide-password.svg"
-											id="passwordToggleImg"
-											style={{ display: "none" }}
-											alt=""
-										></img>
-									) : (
-										<img
-											src="/assets/icons/eye-show-password.svg"
-											id="passwordToggleImg"
-											style={{ display: "none" }}
-											alt=""
-										></img>
-									)}
-								</button>
-							</div>
-						</Field>
-						<FieldErrorsStandard
-							errors={errors}
-							field="password"
-						></FieldErrorsStandard>
+						{/* First Name */}
+						<div className="flex flex-col gap-2">
+							<label htmlFor="firstName" className="font-semibold text-gray-800">
+								{ctx.t({ code: "users.first_name_placeholder", msg: "First name" })}
+								<span className="text-red-500"> *</span>
+							</label>
 
-						<Field label="" extraClassName="dts-form-component">
-							<div className="dts-form-component__pwd">
-								<input
-									type={passwordRepeatType}
-									placeholder={ctx.t({
-										"code": "users.confirm_password_placeholder",
-										"msg": "Confirm password"
-									}) + "*"}
-									minLength={12}
-									id="passwordRepeat"
-									name="passwordRepeat"
-									onChange={(e) => setPasswordRepeat(e.target.value)}
-									defaultValue={data?.passwordRepeat}
-									required
-								></input>
-								<button
-									type="button"
-									onClick={toggleConfirmPasswordVisibility}
-									aria-label="Toggle password visibility"
-									className="dts-form-component__pwd-toggle mg-button"
-								>
-									{passwordRepeatType === "password" ? (
-										<img
-											src="/assets/icons/eye-hide-password.svg"
-											id="passwordToggleImg2"
-											style={{ display: "none" }}
-											alt=""
-										></img>
-									) : (
-										<img
-											src="/assets/icons/eye-show-password.svg"
-											id="passwordToggleImg2"
-											style={{ display: "none" }}
-											alt=""
-										></img>
-									)}
-								</button>
-							</div>
-						</Field>
-						<FieldErrorsStandard
-							errors={errors}
-							field="passwordRepeat"
-						></FieldErrorsStandard>
+							<InputText
+								id="firstName"
+								name="firstName"
+								className="w-full"
+								required
+								autoFocus
+								invalid={!!errors.firstName}
+							/>
 
-						<div className="dts-form-component__hint">
-							<ul id="passwordDescription">
+							{errors.firstName && (
+								<small className="text-sm text-red-500">
+									{errors.firstName}
+								</small>
+							)}
+						</div>
+
+						{/* Last Name */}
+						<div className="flex flex-col gap-2">
+							<label htmlFor="lastName" className="font-semibold text-gray-800">
+								{ctx.t({ code: "users.last_name_placeholder", msg: "Last name" })}
+								<span className="text-red-500"> *</span>
+							</label>
+
+							<InputText
+								id="lastName"
+								name="lastName"
+								className="w-full"
+								required
+								invalid={!!errors.lastName}
+							/>
+
+							{errors.lastName && (
+								<small className="text-sm text-red-500">
+									{errors.lastName}
+								</small>
+							)}
+						</div>
+
+						{/* Password */}
+						<div className="flex flex-col gap-2">
+							<label htmlFor="password" className="font-semibold text-gray-800">
+								{ctx.t({ code: "user_login.password" })}
+								<span className="text-red-500"> *</span>
+							</label>
+
+							<Password
+								id="password"
+								name="password"
+								toggleMask
+								feedback={false}
+								minLength={12}
+								required
+								invalid={!!errors.password}
+								pt={{
+									iconField: { root: { className: "w-full" } },
+									input: { className: "w-full" },
+								}}
+							/>
+
+
+							{errors.password && (
+								<small className="text-sm text-red-500">
+									{errors.password}
+								</small>
+							)}
+						</div>
+
+						{/* Confirm Password */}
+						<div className="flex flex-col gap-2">
+							<label htmlFor="passwordRepeat" className="font-semibold text-gray-800">
+								{ctx.t({ code: "users.confirm_password_placeholder", msg: "Confirm password" })}
+								<span className="text-red-500"> *</span>
+							</label>
+
+							<Password
+								id="passwordRepeat"
+								name="passwordRepeat"
+								toggleMask
+								feedback={false}
+								minLength={12}
+								required
+								invalid={!!errors.passwordRepeat}
+								pt={{
+									iconField: { root: { className: "w-full" } },
+									input: { className: "w-full" },
+								}}
+							/>
+
+							{errors.passwordRepeat && (
+								<small className="text-sm text-red-500">
+									{errors.passwordRepeat}
+								</small>
+							)}
+						</div>
+
+						{/* Password Rules */}
+						<div className="rounded-lg bg-gray-50 p-4 text-sm text-gray-600">
+							<ul className="list-disc space-y-2 pl-5">
 								<li>
-									{ctx.t({
-										"code": "users.password.min_characters",
-										"desc": "Minimum character length for password is 12",
-										"msg": "At least {min} characters long"
-									}, { "min": 12 })}
+									{ctx.t(
+										{ code: "users.password.min_characters", msg: "At least {min} characters long" },
+										{ min: 12 }
+									)}
 								</li>
 								<li>
-									{ctx.t({
-										"code": "users.password.two_conditions",
-										"desc": "Password must include two of the specified character types",
-										"msg": "Must include two of the following:"
-									})}
-
-									<ul>
-										<li>
-											{ctx.t({
-												"code": "users.password.uppercase",
-												"msg": "Uppercase letters"
-											})}
-										</li>
-										<li>
-											{ctx.t({
-												"code": "users.password.lowercase",
-												"msg": "Lowercase letters"
-											})}
-										</li>
-										<li>
-											{ctx.t({
-												"code": "users.password.numbers",
-												"msg": "Numbers"
-											})}
-										</li>
-										<li>
-											{ctx.t({
-												"code": "users.password.special_characters",
-												"msg": "Special characters"
-											})}
-										</li>
+									{ctx.t({ code: "users.password.two_conditions", msg: "Must include two of the following:" })}
+									<ul className="mt-2 list-disc space-y-1 pl-5">
+										<li>{ctx.t({ code: "users.password.uppercase", msg: "Uppercase letters" })}</li>
+										<li>{ctx.t({ code: "users.password.lowercase", msg: "Lowercase letters" })}</li>
+										<li>{ctx.t({ code: "users.password.numbers", msg: "Numbers" })}</li>
+										<li>{ctx.t({ code: "users.password.special_characters", msg: "Special characters" })}</li>
 									</ul>
 								</li>
-								<li>
-									{ctx.t({
-										"code": "users.password.not_username",
-										"msg": "Cannot be the same as the username"
-									})}
-								</li>
-								<li>
-									{ctx.t({
-										"code": "users.password.not_common",
-										"msg": "Should not be a simple or commonly used password"
-									})}
-								</li>
+								<li>{ctx.t({ code: "users.password.not_username", msg: "Cannot be the same as the username" })}</li>
+								<li>{ctx.t({ code: "users.password.not_common", msg: "Should not be a simple password" })}</li>
 							</ul>
 						</div>
-					</div>
-					<div className="dts-form__actions">
-						<SubmitButton
-							id="setup-button"
-							label={ctx.t({
-								"code": "users.setup_account",
-								"msg": "Set up account"
-							})}
-						></SubmitButton>
+
+						{/* Submit */}
+						<Button
+							type="submit"
+							label={ctx.t({ code: "users.setup_account", msg: "Set up account" })}
+							icon="pi pi-user-plus"
+							loading={isSubmitting}
+							className="w-full"
+							disabled={!!actionData?.ok}
+						/>
+
+						{/* Footer */}
+						<div className="space-y-4 text-center">
+							<LangLink
+								lang={ctx.lang}
+								to="/"
+								className="text-sm text-blue-600 underline hover:text-blue-800"
+							>
+								{ctx.t({ code: "home", msg: "Home" })}
+							</LangLink>
+
+							{actionData?.ok && (
+								<>
+									<Message
+										severity="success"
+										className="w-full"
+										text={ctx.t({
+											code: "your_account_has_been_set_up_successfully.",
+											msg: "Your account has been set up successfully. Click sign in below",
+										})}
+									/>
+
+									<LangLink
+										lang={ctx.lang}
+										to="/user/login"
+										className="block text-sm text-blue-600 underline hover:text-blue-800"
+									>
+										{ctx.t({ code: "sign_in", msg: "Sign in" })}
+									</LangLink>
+								</>
+							)}
+						</div>
+
 					</div>
 				</Form>
-			</div>
-		</>
+			</Card>
+		</div>
 	);
 }

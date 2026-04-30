@@ -17,9 +17,7 @@ const GeographicImpactQuerySchema = z.object({
 	fromDate: z.string().optional(),
 	toDate: z.string().optional(),
 	disasterEventId: z.string().optional(),
-	parentId: z
-		.string()
-		.optional(),
+	parentId: z.string().optional(),
 	level: z
 		.string()
 		.refine((val) => !isNaN(parseInt(val, 10)), {
@@ -42,7 +40,7 @@ type GeographicImpactFilters = {
 
 export async function handleGeographicImpactQuery(
 	countryAccountsId: string,
-	params: unknown
+	params: unknown,
 ) {
 	try {
 		// Validate input parameters

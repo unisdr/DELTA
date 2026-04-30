@@ -29,7 +29,8 @@ import { FormScreen } from "~/frontend/form";
 
 import { createOrUpdateAction } from "~/backend.server/handlers/form/form";
 import { getTableName, eq, sql, and, isNotNull, isNull } from "drizzle-orm";
-import { disasterRecordsTable, divisionTable } from "~/drizzle/schema";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { divisionTable } from "~/drizzle/schema/divisionTable";
 
 import { dr, Tx } from "~/db.server";
 import { dataForHazardPicker } from "~/backend.server/models/hip_hazard_picker";
@@ -49,7 +50,6 @@ import { ViewContext } from "~/frontend/context";
 import { LangLink } from "~/utils/link";
 import { BackendContext } from "~/backend.server/context";
 
-
 type NonecoLossRow = {
 	noneccoId: string;
 	noneccoDesc: string;
@@ -61,7 +61,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const ctx = new BackendContext(loaderArgs);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	if (!countryAccountsId) {
-		throw new Response("Unauthorized access", { status: 401 });
+		throw new Response("Unauthorized access", { status: 403 });
 	}
 	if (!params.id) {
 		throw "Route does not have $id param";
@@ -106,8 +106,8 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			and(
 				isNull(divisionTable.parentId),
 				isNotNull(divisionTable.geojson),
-				eq(divisionTable.countryAccountsId, countryAccountsId)
-			)
+				eq(divisionTable.countryAccountsId, countryAccountsId),
+			),
 		);
 
 	if (params.id === "new") {
@@ -118,7 +118,6 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			ctryIso3 = settings.dtsInstanceCtryIso3;
 		}
 		return {
-
 			item: null,
 			recordsNonecoLosses: [],
 			recordsDisRecSectors: [],
@@ -133,21 +132,21 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		};
 	}
 
-	const item = await disasterRecordsById(params.id);
-	if (!item || item.countryAccountsId !== countryAccountsId) {
+	const item = await disasterRecordsById(params.id, countryAccountsId);
+	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
 
-
-	const dbNonecoLosses: NonecoLossRow[] = await nonecoLossesFilderBydisasterRecordsId(ctx, params.id);
+	const dbNonecoLosses: NonecoLossRow[] =
+		await nonecoLossesFilderBydisasterRecordsId(ctx, params.id);
 	const dbDisRecSectors = await sectorsFilterByDisasterRecordId(ctx, params.id);
 	const dbDisRecHumanEffects = await getHumanEffectRecordsById(
 		params.id,
-		countryAccountsId
+		countryAccountsId,
 	);
 	const dbDisRecHumanEffectsSummaryTable = await getAffectedByDisasterRecord(
 		dr,
-		params.id
+		params.id,
 	);
 
 	// Define Keys Mapping (Make it Adaptable)
@@ -161,11 +160,10 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const cpDisplayName = await contentPickerConfig(ctx).selectedDisplay(
 		ctx,
 		dr,
-		item.disasterEventId
+		item.disasterEventId,
 	);
 
 	return {
-
 		item,
 		recordsNonecoLosses: dbNonecoLosses,
 		recordsDisRecSectors: dbDisRecSectors,
@@ -188,14 +186,23 @@ export const action = authActionWithPerm(
 
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
-		const updateWithTenant = async (ctx: BackendContext, tx: any, id: string, fields: any) => {
+		const updateWithTenant = async (
+			ctx: BackendContext,
+			tx: any,
+			id: string,
+			fields: any,
+		) => {
 			return disasterRecordsUpdate(ctx, tx, id, fields, countryAccountsId);
 		};
-		const getByIdWithTenant = async (_ctx: BackendContext, tx: Tx, id: string) => {
-			const record = await disasterRecordsByIdTx(tx, id);
+		const getByIdWithTenant = async (
+			_ctx: BackendContext,
+			tx: Tx,
+			id: string,
+		) => {
+			const record = await disasterRecordsByIdTx(tx, id, countryAccountsId);
 			if (!record) {
 				throw new Error(
-					"Record not found or you don't have permission to access it"
+					"Record not found or you don't have permission to access it",
 				);
 			}
 			return record;
@@ -225,7 +232,7 @@ export const action = authActionWithPerm(
 				const processedAttachments = ContentRepeaterUploadFile.save(
 					attachmentsArray,
 					save_path_temp,
-					save_path
+					save_path,
 				);
 
 				// Update the `attachments` field in the database
@@ -240,7 +247,7 @@ export const action = authActionWithPerm(
 		});
 
 		return actionHandler(args);
-	}
+	},
 );
 
 export default function Screen() {
@@ -265,639 +272,344 @@ export default function Screen() {
 				)}
 			/>
 			{ld.item && (
-				<>
+				<div className="mg-container">
 					<div>&nbsp;</div>
 					<section>
-						<div className="mg-container">
-							<fieldset className="dts-form__section">
-								<div className="dts-form__intro">
-									<legend className="dts-heading-3">
-										{ctx.t({
-											"code": "human_effects",
-											"msg": "Human effects"
-										})}
+						<div className="mx-auto px-4">
+							<fieldset className="mb-6">
+								<div className="mb-4">
+									<legend className="text-xl font-semibold text-gray-800">
+										{ctx.t({ code: "human_effects", msg: "Human effects" })}
 									</legend>
 								</div>
-								<div className="dts-form__body no-border-bottom">
-									<div className="dts-form__section-remove">
+
+								<div className="border-0">
+									<div className="flex justify-end mb-3">
 										<LangLink
 											lang={ctx.lang}
 											to={`/disaster-record/edit-sub/${ld.item.id}/human-effects`}
+											className="text-blue-600 hover:text-blue-800 text-sm"
 										>
-											[ {ctx.t({
-												"code": "common.add_new_record",
-												"msg": "Add new record"
-											})} ]
+											[ {ctx.t({ code: "common.add_new_record", msg: "Add new record" })} ]
 										</LangLink>
-										&nbsp;
 									</div>
-									<div className="mg-grid mg-grid__col-1">
-										<div className="dts-form-component">
-											<table className="dts-table table-border">
-												<thead>
-													<tr>
-														<th></th>
-														<th></th>
-														<th></th>
-														<th className="center" colSpan={2}>
-															{ctx.t({
-																"code": "human_effects.affected_old_desinventar",
-																"desc": "Human effects Affected (DesInventar is an older system used for tracking disaster data)",
-																"msg": "Affected (Old DesInventar)"
-															})}
+
+									<div className="overflow-x-auto">
+										<table className="w-full border border-gray-300 text-sm">
+											<thead className="bg-gray-50 text-gray-700">
+												<tr>
+													<th className="border border-gray-300 px-3 py-2"></th>
+													<th className="border border-gray-300 px-3 py-2"></th>
+													<th className="border border-gray-300 px-3 py-2"></th>
+													<th className="border border-gray-300 px-3 py-2 text-center" colSpan={2}>
+														{ctx.t({
+															code: "human_effects.affected_old_desinventar",
+															desc: "Human effects Affected (DesInventar is an older system used for tracking disaster data)",
+															msg: "Affected (Old DesInventar)",
+														})}
+													</th>
+													<th className="border border-gray-300 px-3 py-2"></th>
+													<th className="border border-gray-300 px-3 py-2"></th>
+												</tr>
+												<tr>
+													{[
+														{ code: "human_effects.deaths", msg: "Deaths" },
+														{ code: "human_effects.injured", msg: "Injured" },
+														{ code: "human_effects.missing", msg: "Missing" },
+														{ code: "human_effects.directly_affected", msg: "Directly" },
+														{ code: "human_effects.indirectly_affected", msg: "Indirectly" },
+														{ code: "human_effects.displaced", msg: "Displaced" },
+														{ code: "common.actions", msg: "Actions" },
+													].map(({ code, msg }) => (
+														<th key={code} className="border border-gray-300 px-3 py-2 font-medium text-left">
+															{ctx.t({ code, msg })}
 														</th>
-														<th></th>
-														<th></th>
-													</tr>
-													<tr>
-														<th>
-															{ctx.t({
-																"code": "human_effects.deaths",
-																"msg": "Deaths"
-															})}
-														</th>
-														<th>
-															{ctx.t({
-																"code": "human_effects.injured",
-																"msg": "Injured"
-															})}
-														</th>
-														<th>
-															{ctx.t({
-																"code": "human_effects.missing",
-																"msg": "Missing"
-															})}
-														</th>
-														<th>
-															{ctx.t({
-																"code": "human_effects.directly_affected",
-																"msg": "Directly"
-															})}
-														</th>
-														<th>
-															{ctx.t({
-																"code": "human_effects.indirectly_affected",
-																"msg": "Indirectly"
-															})}
-														</th>
-														<th>
-															{ctx.t({
-																"code": "human_effects.displaced",
-																"msg": "Displaced"
-															})}
-														</th>
-														<th>
-															{ctx.t({
-																"code": "common.actions",
-																"msg": "Actions"
-															})}
-														</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td>
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.deaths == "number" && (
-																	<>
-																		<LangLink
-																			lang={ctx.lang}
-																			to={`/disaster-record/edit-sub/${ld.item.id}/human-effects?tbl=Deaths`}
-																		>
-																			{ld.dbDisRecHumanEffectsSummaryTable.deaths}
-																		</LangLink>
-																	</>
+													))}
+												</tr>
+											</thead>
+											<tbody>
+												<tr className="hover:bg-gray-50">
+													{(
+														[
+															{ key: "deaths", tbl: "Deaths" },
+															{ key: "injured", tbl: "Injured" },
+															{ key: "missing", tbl: "Missing" },
+															{ key: "directlyAffected", tbl: "Affected" },
+															{ key: "indirectlyAffected", tbl: "Affected" },
+															{ key: "displaced", tbl: "Displaced" },
+														] as const
+													).map(({ key, tbl }) => {
+														const value = ld.dbDisRecHumanEffectsSummaryTable[key];
+														const href = `/disaster-record/edit-sub/${ld.item.id}/human-effects?tbl=${tbl}`;
+														return (
+															<td key={key} className="border border-gray-300 px-3 py-2">
+																{typeof value === "number" ? (
+																	<LangLink lang={ctx.lang} to={href} className="text-blue-600 hover:underline">
+																		{value}
+																	</LangLink>
+																) : value === true ? (
+																	<LangLink lang={ctx.lang} to={href} className="text-blue-600 hover:underline">
+																		{ctx.t({ code: "common.yes", msg: "Yes" })}
+																	</LangLink>
+																) : (
+																	<span className="text-gray-400">-</span>
 																)}
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.deaths == "boolean" &&
-																ld.dbDisRecHumanEffectsSummaryTable.deaths && (
-																	<>
-																		<LangLink
-																			lang={ctx.lang}
-																			to={`/disaster-record/edit-sub/${ld.item.id}/human-effects?tbl=Deaths`}
-																		>
-																			{ctx.t({
-																				"code": "common.yes",
-																				"msg": "Yes"
-																			})}
-																		</LangLink>
-																	</>
-																)}
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.deaths == "boolean" &&
-																!ld.dbDisRecHumanEffectsSummaryTable.deaths && (
-																	<>-</>
-																)}
-														</td>
-														<td>
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.injured == "number" && (
-																	<>
-																		<LangLink
-																			lang={ctx.lang}
-																			to={`/disaster-record/edit-sub/${ld.item.id}/human-effects?tbl=Injured`}
-																		>
-																			{
-																				ld.dbDisRecHumanEffectsSummaryTable
-																					.injured
-																			}
-																		</LangLink>
-																	</>
-																)}
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.injured == "boolean" &&
-																ld.dbDisRecHumanEffectsSummaryTable.injured && (
-																	<>
-																		<LangLink
-																			lang={ctx.lang}
-																			to={`/disaster-record/edit-sub/${ld.item.id}/human-effects?tbl=Injured`}
-																		>
-																			{ctx.t({
-																				"code": "common.yes",
-																				"msg": "Yes"
-																			})}
-																		</LangLink>
-																	</>
-																)}
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.injured == "boolean" &&
-																!ld.dbDisRecHumanEffectsSummaryTable
-																	.injured && <>-</>}
-														</td>
-														<td>
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.missing == "number" && (
-																	<>
-																		<LangLink
-																			lang={ctx.lang}
-																			to={`/disaster-record/edit-sub/${ld.item.id}/human-effects?tbl=Missing`}
-																		>
-																			{
-																				ld.dbDisRecHumanEffectsSummaryTable
-																					.missing
-																			}
-																		</LangLink>
-																	</>
-																)}
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.missing == "boolean" &&
-																ld.dbDisRecHumanEffectsSummaryTable.missing && (
-																	<>
-																		<LangLink
-																			lang={ctx.lang}
-																			to={`/disaster-record/edit-sub/${ld.item.id}/human-effects?tbl=Missing`}
-																		>
-																			{ctx.t({
-																				"code": "common.yes",
-																				"msg": "Yes"
-																			})}
-																		</LangLink>
-																	</>
-																)}
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.missing == "boolean" &&
-																!ld.dbDisRecHumanEffectsSummaryTable
-																	.missing && <>-</>}
-														</td>
-														<td>
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.directlyAffected == "number" && (
-																	<>
-																		<LangLink
-																			lang={ctx.lang}
-																			to={`/disaster-record/edit-sub/${ld.item.id}/human-effects?tbl=Affected`}
-																		>
-																			{
-																				ld.dbDisRecHumanEffectsSummaryTable
-																					.directlyAffected
-																			}
-																		</LangLink>
-																	</>
-																)}
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.directlyAffected == "boolean" &&
-																ld.dbDisRecHumanEffectsSummaryTable
-																	.directlyAffected && (
-																	<>
-																		<LangLink
-																			lang={ctx.lang}
-																			to={`/disaster-record/edit-sub/${ld.item.id}/human-effects?tbl=Affected`}
-																		>
-																			{ctx.t({
-																				"code": "common.yes",
-																				"msg": "Yes"
-																			})}
-																		</LangLink>
-																	</>
-																)}
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.directlyAffected == "boolean" &&
-																!ld.dbDisRecHumanEffectsSummaryTable
-																	.directlyAffected && <>-</>}
-														</td>
-														<td>
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.indirectlyAffected == "number" && (
-																	<>
-																		<LangLink
-																			lang={ctx.lang}
-																			to={`/disaster-record/edit-sub/${ld.item.id}/human-effects?tbl=Affected`}
-																		>
-																			{
-																				ld.dbDisRecHumanEffectsSummaryTable
-																					.indirectlyAffected
-																			}
-																		</LangLink>
-																	</>
-																)}
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.indirectlyAffected == "boolean" &&
-																ld.dbDisRecHumanEffectsSummaryTable
-																	.indirectlyAffected && (
-																	<>
-																		<LangLink
-																			lang={ctx.lang}
-																			to={`/disaster-record/edit-sub/${ld.item.id}/human-effects?tbl=Affected`}
-																		>
-																			{ctx.t({
-																				"code": "common.yes",
-																				"msg": "Yes"
-																			})}
-																		</LangLink>
-																	</>
-																)}
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.indirectlyAffected == "boolean" &&
-																!ld.dbDisRecHumanEffectsSummaryTable
-																	.indirectlyAffected && <>-</>}
-														</td>
-														<td>
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.displaced == "number" && (
-																	<>
-																		<LangLink
-																			lang={ctx.lang}
-																			to={`/disaster-record/edit-sub/${ld.item.id}/human-effects?tbl=Displaced`}
-																		>
-																			{
-																				ld.dbDisRecHumanEffectsSummaryTable
-																					.displaced
-																			}
-																		</LangLink>
-																	</>
-																)}
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.displaced == "boolean" &&
-																ld.dbDisRecHumanEffectsSummaryTable
-																	.displaced && (
-																	<>
-																		<LangLink
-																			lang={ctx.lang}
-																			to={`/disaster-record/edit-sub/${ld.item.id}/human-effects?tbl=Displaced`}
-																		>
-																			{ctx.t({
-																				"code": "common.yes",
-																				"msg": "Yes"
-																			})}
-																		</LangLink>
-																	</>
-																)}
-															{typeof ld.dbDisRecHumanEffectsSummaryTable
-																.displaced == "boolean" &&
-																!ld.dbDisRecHumanEffectsSummaryTable
-																	.displaced && <>-</>}
-														</td>
-														<td>
-															<DeleteButton
-																ctx={ctx}
-																action={ctx.url(`/disaster-record/edit-sub/${ld.item.id}/human-effects/delete-all-data`)}
-																label={ctx.t({
-																	"code": "common.delete",
-																	"msg": "Delete"
-																})}
-															/>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
+															</td>
+														);
+													})}
+													<td className="border border-gray-300 px-3 py-2">
+														<DeleteButton
+															ctx={ctx}
+															action={ctx.url(`/disaster-record/edit-sub/${ld.item.id}/human-effects/delete-all-data`)}
+															label={ctx.t({ code: "common.delete", msg: "Delete" })}
+														/>
+													</td>
+												</tr>
+											</tbody>
+										</table>
 									</div>
 								</div>
 							</fieldset>
 						</div>
 					</section>
 					<section>
-						<div className="mg-container">
-							<fieldset className="dts-form__section">
-								<div className="dts-form__intro">
-									<legend className="dts-heading-3">
-										{ctx.t({
-											"code": "sector_effects",
-											"msg": "Sector effects"
-										})}
+						<div className="mx-auto px-4">
+							<fieldset className="mb-6">
+								<div className="mb-4">
+									<legend className="text-xl font-semibold text-gray-800">
+										{ctx.t({ code: "sector_effects", msg: "Sector effects" })}
 									</legend>
 								</div>
-								<div className="dts-form__body no-border-bottom">
-									<div className="dts-form__section-remove">
-										<LangLink lang={ctx.lang} to={`/disaster-record/edit-sec/${ld.item.id}`}>
-											[ {ctx.t({
-												"code": "common.add_new_record",
-												"msg": "Add new record"
-											})} ]
+
+								<div className="border-0">
+									<div className="flex justify-end mb-3">
+										<LangLink
+											lang={ctx.lang}
+											to={`/disaster-record/edit-sec/${ld.item.id}`}
+											className="text-blue-600 hover:text-blue-800 text-sm"
+										>
+											[ {ctx.t({ code: "common.add_new_record", msg: "Add new record" })} ]
 										</LangLink>
 									</div>
-									<div className="mg-grid mg-grid__col-1">
-										<div className="dts-form-component">
-											<table className="dts-table table-border">
-												<thead>
-													<tr>
-														<th></th>
-														<th></th>
-														<th className="center" colSpan={3}>
-															{ctx.t({
-																"code": "sector_effects.damage",
-																"msg": "Damage"
-															})}
-														</th>
-														<th className="center" colSpan={2}>
-															{ctx.t({
-																"code": "sector_effects.losses",
-																"msg": "Losses"
-															})}
-														</th>
-														<th></th>
-														<th></th>
-													</tr>
-													<tr>
-														<th>
-															{ctx.t({
-																"code": "common.id",
-																"msg": "ID"
-															})}
-														</th>
-														<th>
-															{ctx.t({
-																"code": "sector_effects.sector",
-																"msg": "Sector"
-															})}
-														</th>
-														<th>
-															{ctx.t({
-																"code": "sector_effects.damage",
-																"msg": "Damage"
-															})}
-														</th>
-														<th>
-															{ctx.t({
-																"code": "sector_effects.recovery_cost",
-																"msg": "Recovery cost"
-															})}
-														</th>
-														<th>
-															{ctx.t({
-																"code": "sector_effects.cost",
-																"msg": "Cost"
-															})}
-														</th>
-														<th>
-															{ctx.t({
-																"code": "sector_effects.losses",
-																"msg": "Losses"
-															})}
-														</th>
-														<th>
-															{ctx.t({
-																"code": "sector_effects.cost",
-																"msg": "Cost"
-															})}
-														</th>
-														<th>
-															{ctx.t({
-																"code": "sector_effects.disruption",
-																"msg": "Disruption"
-															})}
-														</th>
-														<th>
-															{ctx.t({
-																"code": "common.actions",
-																"msg": "Actions"
-															})}
-														</th>
 
-													</tr>
-												</thead>
-												<tbody>
-													{ld.recordsDisRecSectors &&
-														Array.isArray(ld.recordsDisRecSectors) &&
-														ld.recordsDisRecSectors.map((item, index) => (
-															<tr key={index}>
-																<td>{item.disRecSectorsId.slice(0, 8)}</td>
-																<td>{item.sectorTreeDisplay}</td>
-																<td>
-																	{item.disRecSectorsWithDamage && (
-																		<>
-																			<LangLink
-																				lang={ctx.lang}
-																				to={`/disaster-record/edit-sub/${item.disRecSectorsdisasterRecordId}/damages?sectorId=${item.disRecSectorsSectorId}`}
-																			>
-																				{ctx.t({
-																					"code": "common.yes",
-																					"msg": "Yes"
-																				})}
+									<div className="overflow-x-auto">
+										<table className="w-full border border-gray-300 text-sm">
+											<thead className="bg-gray-50 text-gray-700">
+												<tr>
+													<th className="border border-gray-300 px-3 py-2" colSpan={2} />
+													<th className="border border-gray-300 px-3 py-2 text-center" colSpan={3}>
+														{ctx.t({ code: "sector_effects.damage", msg: "Damage" })}
+													</th>
+													<th className="border border-gray-300 px-3 py-2 text-center" colSpan={2}>
+														{ctx.t({ code: "sector_effects.losses", msg: "Losses" })}
+													</th>
+													<th className="border border-gray-300 px-3 py-2" colSpan={2} />
+												</tr>
+												<tr>
+													{[
+														{ code: "common.id", msg: "ID" },
+														{ code: "sector_effects.sector", msg: "Sector" },
+														{ code: "sector_effects.damage", msg: "Damage" },
+														{ code: "sector_effects.recovery_cost", msg: "Recovery cost" },
+														{ code: "sector_effects.cost", msg: "Cost" },
+														{ code: "sector_effects.losses", msg: "Losses" },
+														{ code: "sector_effects.cost", msg: "Cost" },
+														{ code: "sector_effects.disruption", msg: "Disruption" },
+														{ code: "common.actions", msg: "Actions" },
+													].map(({ code, msg }, i) => (
+														<th key={`${code}-${i}`} className="border border-gray-300 px-3 py-2 font-medium text-left">
+															{ctx.t({ code, msg })}
+														</th>
+													))}
+												</tr>
+											</thead>
+											<tbody>
+												{Array.isArray(ld.recordsDisRecSectors) &&
+													ld.recordsDisRecSectors.map((item, index) => (
+														<tr key={index} className="hover:bg-gray-50">
+															{/* ID */}
+															<td className="border border-gray-300 px-3 py-2 text-gray-500 font-mono text-xs">
+																{item.disRecSectorsId.slice(0, 8)}
+															</td>
 
-																			</LangLink>
-																		</>
-																	)}
-																</td>
-																<td>
-																	{item.disRecSectorsDamageRecoveryCost && (
-																		<>
-																			{item.disRecSectorsDamageRecoveryCost}{" "}
-																			{
-																				item.disRecSectorsDamageRecoveryCostCurrency
-																			}
-																		</>
-																	)}
-																</td>
-																<td>
-																	{item.disRecSectorsDamageCost && (
-																		<>
-																			{item.disRecSectorsDamageCost}{" "}
-																			{item.disRecSectorsDamageCostCurrency}
-																		</>
-																	)}
-																</td>
-																<td>
-																	{item.disRecSectorsWithLosses && (
-																		<>
-																			<LangLink
-																				lang={ctx.lang}
-																				to={`/disaster-record/edit-sub/${item.disRecSectorsdisasterRecordId}/losses?sectorId=${item.disRecSectorsSectorId}`}
-																			>
-																				{ctx.t({
-																					"code": "common.yes",
-																					"msg": "Yes"
-																				})}
+															{/* Sector */}
+															<td className="border border-gray-300 px-3 py-2">
+																{item.sectorTreeDisplay}
+															</td>
 
-																			</LangLink>
-																		</>
-																	)}
-																</td>
-																<td>
-																	{item.disRecSectorsLossesCost && (
-																		<>
-																			{item.disRecSectorsLossesCost}{" "}
-																			{item.disRecSectorsLossesCostCurrency}
-																		</>
-																	)}
-																</td>
-																<td>
-																	{item.disRecSectorsWithDisruption && (
-																		<>
-																			<LangLink
-																				lang={ctx.lang}
-																				to={`/disaster-record/edit-sub/${item.disRecSectorsdisasterRecordId}/disruptions?sectorId=${item.disRecSectorsSectorId}`}
-																			>
-																				{ctx.t({
-																					"code": "common.yes",
-																					"msg": "Yes"
-																				})}
+															{/* Damage */}
+															<td className="border border-gray-300 px-3 py-2">
+																{item.disRecSectorsWithDamage && (
+																	<LangLink
+																		lang={ctx.lang}
+																		to={`/disaster-record/edit-sub/${item.disRecSectorsdisasterRecordId}/damages?sectorId=${item.disRecSectorsSectorId}`}
+																		className="text-blue-600 hover:underline"
+																	>
+																		{ctx.t({ code: "common.yes", msg: "Yes" })}
+																	</LangLink>
+																)}
+															</td>
 
-																			</LangLink>
-																		</>
-																	)}
-																</td>
-																<td>
-																	{ld.item && ld.item.id && (
-																		<>
-																			<LangLink
-																				lang={ctx.lang}
-																				to={`/disaster-record/edit-sec/${ld.item.id}/delete/?id=${item.disRecSectorsId}`}
-																			>
-																				{ctx.t({
-																					"code": "common.delete",
-																					"msg": "Delete"
-																				})}
-																			</LangLink>
-																			&nbsp;|&nbsp;
-																			<LangLink
-																				lang={ctx.lang}
-																				to={`/disaster-record/edit-sec/${ld.item.id}/?id=${item.disRecSectorsId}`}
-																			>
-																				{ctx.t({
-																					"code": "common.edit",
-																					"msg": "Edit"
-																				})}
-																			</LangLink>
-																		</>
-																	)}
-																</td>
-															</tr>
-														))}
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-							</fieldset>
-						</div>
-					</section>
-					<section>
-						<div className="mg-container">
-							<fieldset className="dts-form__section">
-								<div className="dts-form__intro">
-									<legend className="dts-heading-3">
-										{ctx.t({
-											"code": "non_economic_losses",
-											"msg": "Non-economic losses"
-										})}
-									</legend>
-									<div className="dts-form__body no-border-bottom">
-										<div className="dts-form__section-remove">
-											<LangLink lang={ctx.lang} to={`${route}/non-economic-losses/${ld.item.id}`}>
-												[ {ctx.t({
-													"code": "common.add_new_record",
-													"msg": "Add new record"
-												})} ]
-											</LangLink>
-										</div>
-										<div className="mg-grid mg-grid__col-1">
-											<div className="dts-form-component">
-												<table className="dts-table table-border">
-													<thead>
-														<tr>
-															<th>
-																{ctx.t({
-																	"code": "common.id",
-																	"msg": "ID"
-																})}
-															</th>
-															<th>
-																{ctx.t({
-																	"code": "common.category",
-																	"msg": "Category"
-																})}
-															</th>
-															<th>
-																{ctx.t({
-																	"code": "common.description",
-																	"msg": "Description"
-																})}
-															</th>
-															<th>
-																{ctx.t({
-																	"code": "common.actions",
-																	"msg": "Actions"
-																})}
-															</th>
+															{/* Recovery cost */}
+															<td className="border border-gray-300 px-3 py-2">
+																{item.disRecSectorsDamageRecoveryCost && (
+																	<span>{item.disRecSectorsDamageRecoveryCost} {item.disRecSectorsDamageRecoveryCostCurrency}</span>
+																)}
+															</td>
+
+															{/* Damage cost */}
+															<td className="border border-gray-300 px-3 py-2">
+																{item.disRecSectorsDamageCost && (
+																	<span>{item.disRecSectorsDamageCost} {item.disRecSectorsDamageCostCurrency}</span>
+																)}
+															</td>
+
+															{/* Losses */}
+															<td className="border border-gray-300 px-3 py-2">
+																{item.disRecSectorsWithLosses && (
+																	<LangLink
+																		lang={ctx.lang}
+																		to={`/disaster-record/edit-sub/${item.disRecSectorsdisasterRecordId}/losses?sectorId=${item.disRecSectorsSectorId}`}
+																		className="text-blue-600 hover:underline"
+																	>
+																		{ctx.t({ code: "common.yes", msg: "Yes" })}
+																	</LangLink>
+																)}
+															</td>
+
+															{/* Losses cost */}
+															<td className="border border-gray-300 px-3 py-2">
+																{item.disRecSectorsLossesCost && (
+																	<span>{item.disRecSectorsLossesCost} {item.disRecSectorsLossesCostCurrency}</span>
+																)}
+															</td>
+
+															{/* Disruption */}
+															<td className="border border-gray-300 px-3 py-2">
+																{item.disRecSectorsWithDisruption && (
+																	<LangLink
+																		lang={ctx.lang}
+																		to={`/disaster-record/edit-sub/${item.disRecSectorsdisasterRecordId}/disruptions?sectorId=${item.disRecSectorsSectorId}`}
+																		className="text-blue-600 hover:underline"
+																	>
+																		{ctx.t({ code: "common.yes", msg: "Yes" })}
+																	</LangLink>
+																)}
+															</td>
+
+															{/* Actions */}
+															<td className="border border-gray-300 px-3 py-2">
+																{ld.item?.id && (
+																	<div className="flex items-center gap-2">
+																		<LangLink
+																			lang={ctx.lang}
+																			to={`/disaster-record/edit-sec/${ld.item.id}/delete/?id=${item.disRecSectorsId}`}
+																			className="text-red-600 hover:underline"
+																		>
+																			{ctx.t({ code: "common.delete", msg: "Delete" })}
+																		</LangLink>
+																		<span className="text-gray-300">|</span>
+																		<LangLink
+																			lang={ctx.lang}
+																			to={`/disaster-record/edit-sec/${ld.item.id}/?id=${item.disRecSectorsId}`}
+																			className="text-blue-600 hover:underline"
+																		>
+																			{ctx.t({ code: "common.edit", msg: "Edit" })}
+																		</LangLink>
+																	</div>
+																)}
+															</td>
 														</tr>
-													</thead>
-													<tbody>
-														{ld.recordsNonecoLosses &&
-															Array.isArray(ld.recordsNonecoLosses) &&
-															ld.recordsNonecoLosses.map((item, index) => (
-																<tr key={index}>
-																	<td>{item.noneccoId.slice(0, 8)}</td>
-																	<td>{item.categoryTreeDisplay}</td>
-																	<td>{item.noneccoDesc.slice(0, 300)}</td>
-																	<td>
-																		{ld.item && ld.item.id && (
-																			<>
-																				<LangLink
-																					lang={ctx.lang}
-																					to={`${route}/non-economic-losses/${ld.item.id}/delete/?id=${item.noneccoId}`}
-																				>
-																					{ctx.t({
-																						"code": "common.delete",
-																						"msg": "Delete"
-																					})}
-																				</LangLink>
-																				&nbsp;|&nbsp;
-																				<LangLink
-																					lang={ctx.lang}
-																					to={`${route}/non-economic-losses/${ld.item.id}/?id=${item.noneccoId}`}
-																				>
-																					{ctx.t({
-																						"code": "common.edit",
-																						"msg": "Edit"
-																					})}
-																				</LangLink>
-																			</>
-																		)}
-																	</td>
-																</tr>
-															))}
-													</tbody>
-												</table>
-											</div>
-										</div>
+													))}
+											</tbody>
+										</table>
 									</div>
 								</div>
 							</fieldset>
 						</div>
 					</section>
-				</>
-			)}
+					<section>
+						<div className="mx-auto px-4">
+							<fieldset className="mb-6">
+								<div className="mb-4">
+									<legend className="text-xl font-semibold text-gray-800">
+										{ctx.t({ code: "non_economic_losses", msg: "Non-economic losses" })}
+									</legend>
+								</div>
+
+								<div className="border-0">
+									<div className="flex justify-end mb-3">
+										<LangLink
+											lang={ctx.lang}
+											to={`${route}/non-economic-losses/${ld.item.id}`}
+											className="text-blue-600 hover:text-blue-800 text-sm"
+										>
+											[ {ctx.t({ code: "common.add_new_record", msg: "Add new record" })} ]
+										</LangLink>
+									</div>
+
+									<div className="overflow-x-auto">
+										<table className="w-full border border-gray-300 text-sm">
+											<thead className="bg-gray-50 text-gray-700">
+												<tr>
+													{[
+														{ code: "common.id", msg: "ID" },
+														{ code: "common.category", msg: "Category" },
+														{ code: "common.description", msg: "Description" },
+														{ code: "common.actions", msg: "Actions" },
+													].map(({ code, msg }) => (
+														<th key={code} className="border border-gray-300 px-3 py-2 font-medium text-left">
+															{ctx.t({ code, msg })}
+														</th>
+													))}
+												</tr>
+											</thead>
+											<tbody>
+												{Array.isArray(ld.recordsNonecoLosses) &&
+													ld.recordsNonecoLosses.map((item, index) => (
+														<tr key={index} className="hover:bg-gray-50">
+															<td className="border border-gray-300 px-3 py-2 text-gray-500 font-mono text-xs">
+																{item.noneccoId.slice(0, 8)}
+															</td>
+															<td className="border border-gray-300 px-3 py-2">
+																{item.categoryTreeDisplay}
+															</td>
+															<td className="border border-gray-300 px-3 py-2 text-gray-700">
+																{item.noneccoDesc.slice(0, 300)}
+															</td>
+															<td className="border border-gray-300 px-3 py-2">
+																{ld.item?.id && (
+																	<div className="flex items-center gap-2">
+																		<LangLink
+																			lang={ctx.lang}
+																			to={`${route}/non-economic-losses/${ld.item.id}/delete/?id=${item.noneccoId}`}
+																			className="text-red-600 hover:underline"
+																		>
+																			{ctx.t({ code: "common.delete", msg: "Delete" })}
+																		</LangLink>
+																		<span className="text-gray-300">|</span>
+																		<LangLink
+																			lang={ctx.lang}
+																			to={`${route}/non-economic-losses/${ld.item.id}/?id=${item.noneccoId}`}
+																			className="text-blue-600 hover:underline"
+																		>
+																			{ctx.t({ code: "common.edit", msg: "Edit" })}
+																		</LangLink>
+																	</div>
+																)}
+															</td>
+														</tr>
+													))}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+					</section>
+				</div >
+			)
+			}
 		</>
 	);
 }

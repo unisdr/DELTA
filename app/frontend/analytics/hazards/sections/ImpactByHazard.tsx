@@ -38,23 +38,21 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 	if (geographicName) titleParts.push(`(${geographicName})`);
 	if (fromDate || toDate) {
 		const startLabel = ctx.t({
-			"code": "analysis.start",
-			"msg": "Start"
+			code: "analysis.start",
+			msg: "Start",
 		});
 		const endLabel = ctx.t({
-			"code": "analysis.end",
-			"msg": "End"
+			code: "analysis.end",
+			msg: "End",
 		});
 
-		titleParts.push(
-			`[${fromDate || startLabel} to ${toDate || endLabel}]`
-		);
+		titleParts.push(`[${fromDate || startLabel} to ${toDate || endLabel}]`);
 	}
 	titleParts.push(
 		ctx.t({
-			"code": "analysis.impact_summary",
-			"msg": "impact summary"
-		})
+			code: "analysis.impact_summary",
+			msg: "impact summary",
+		}),
 	);
 	const title = titleParts.join(" ");
 
@@ -63,22 +61,21 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 
 	const tooltipText = geographicName
 		? ctx.t(
-			{
-				"code": "analysis.total_hazard_events_in_geographic",
-				"desc": "Tooltip showing the total number of {hazard} events that occurred in a specific geographic area.",
-				"msg": "Total number of {hazard} events that occurred in {geographic}"
-			},
-			{ hazard: hazardName, geographic: geographicName }
-		)
+				{
+					code: "analysis.total_hazard_events_in_geographic",
+					desc: "Tooltip showing the total number of {hazard} events that occurred in a specific geographic area.",
+					msg: "Total number of {hazard} events that occurred in {geographic}",
+				},
+				{ hazard: hazardName, geographic: geographicName },
+			)
 		: ctx.t(
-			{
-				"code": "analysis.total_hazard_events_in_all_country",
-				"desc": "Tooltip when no specific geographic name is provided – use the generic phrase \"all country\".",
-				"msg": "Total number of {hazard} events that occurred in all country"
-			},
-			{ hazard: hazardName }
-		);
-
+				{
+					code: "analysis.total_hazard_events_in_all_country",
+					desc: 'Tooltip when no specific geographic name is provided – use the generic phrase "all country".',
+					msg: "Total number of {hazard} events that occurred in all country",
+				},
+				{ hazard: hazardName },
+			);
 
 	return (
 		<>
@@ -86,9 +83,12 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 				className="dts-page-section"
 				style={{ maxWidth: "100%", overflow: "hidden" }}
 			>
-				<Tooltip target=".custom-target-icon" pt={{
-					root: { style: { marginTop: '-10px' } }
-				}} />
+				<Tooltip
+					target=".custom-target-icon"
+					pt={{
+						root: { style: { marginTop: "-10px" } },
+					}}
+				/>
 				<h2 className="text-gray-600 mb-4">{title}</h2>
 				<div className="mg-grid mg-grid__col-2">
 					{/* Events impacting sectors */}
@@ -98,19 +98,18 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 								<span id="elementId01">
 									{geographicName
 										? ctx.t(
-											{
-												"code": "analysis.total_events_in_geographic",
-												"desc": "Total events in a specific geographic area",
-												"msg": "Total events in {geographic}"
-											},
-											{ geographic: geographicName }
-										)
+												{
+													code: "analysis.total_events_in_geographic",
+													desc: "Total events in a specific geographic area",
+													msg: "Total events in {geographic}",
+												},
+												{ geographic: geographicName },
+											)
 										: ctx.t({
-											"code": "analysis.total_events_in_all_country",
-											"desc": "Label for total events across the entire country – used when no geographic region is selected",
-											"msg": "Total events nationwide"
-										})
-									}
+												code: "analysis.total_events_in_all_country",
+												desc: "Label for total events across the entire country – used when no geographic region is selected",
+												msg: "Total events nationwide",
+											})}
 								</span>
 								<div className="dts-tooltip__button">
 									<svg
@@ -133,17 +132,16 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 										<img
 											src="/assets/images/empty.png"
 											alt={ctx.t({
-												"code": "common.no_data_image_alt",
-												"msg": "No data"
+												code: "common.no_data_image_alt",
+												msg: "No data",
 											})}
 										/>
 										<span className="dts-body-text">
 											{ctx.t({
-												"code": "analysis.no_data_available",
-												"msg": "No data available"
+												code: "analysis.no_data_available",
+												msg: "No data available",
 											})}
 										</span>
-
 									</>
 								)}
 							</div>
@@ -153,17 +151,25 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 					{/* Events overtime */}
 					<div className="dts-data-box">
 						<h3 className="dts-body-label">
-							<span>{ctx.t({ "code": "analysis.events_over_time", "msg": "Events over time" })}</span>
+							<span>
+								{ctx.t({
+									code: "analysis.events_over_time",
+									msg: "Events over time",
+								})}
+							</span>
 							<div className="dts-tooltip__button">
-								<svg aria-hidden="true" focusable="false" role="img"
+								<svg
+									aria-hidden="true"
+									focusable="false"
+									role="img"
 									className="custom-target-icon"
 									data-pr-tooltip={ctx.t(
 										{
-											"code": "analysis.hazard_events_distribution_tooltip",
-											"desc": "Tooltip describing the distribution of events for a given hazard over time.",
-											"msg": "Shows only {hazard}-related disaster events with a recorded start date."
+											code: "analysis.hazard_events_distribution_tooltip",
+											desc: "Tooltip describing the distribution of events for a given hazard over time.",
+											msg: "Shows only {hazard}-related disaster events with a recorded start date.",
 										},
-										{ hazard: hazardName }
+										{ hazard: hazardName },
 									)}
 									data-pr-position="top"
 								>
@@ -183,7 +189,11 @@ const ImpactByHazard: React.FC<ImpactByHazardProps> = ({
 												x2="0"
 												y2="1"
 											>
-												<stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+												<stop
+													offset="5%"
+													stopColor="#8884d8"
+													stopOpacity={0.8}
+												/>
 												<stop
 													offset="95%"
 													stopColor="#8884d8"

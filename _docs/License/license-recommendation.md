@@ -2,33 +2,33 @@
 
 ## Executive Summary
 
-The UNDRR DELTA Resilience currently has an "UNLICENSED" status in its package.json, which limits its ability to function as a Digital Public Good (DPG) and restricts broader adoption. After thorough analysis of the project's requirements, dependency landscape, and international usage context, we **recommend the Apache License 2.0** for the DELTA Resilience platform. This license provides superior patent protection, better alignment with international deployment needs, stronger governance framework for country-level implementations, and full compatibility with all existing dependencies while meeting DPG compliance requirements.
+The UNDRR DELTA Resilience has adopted the **Apache License 2.0** as its open source license — `package.json` now has `"license": "Apache-2.0"` and a `LICENSE` file exists at the repository root. After thorough analysis of the project's requirements, dependency landscape, and international usage context, the Apache License 2.0 was selected for its superior patent protection, better alignment with international deployment needs, stronger governance framework for country-level implementations, and full compatibility with all existing dependencies while meeting DPG compliance requirements.
 
 ## 1. Current Situation Analysis
 
 ### License Status Assessment
 
-The DELTA Resilience platform is currently marked as "UNLICENSED" in package.json with the "private" flag set to true. This configuration:
+The DELTA Resilience platform has adopted the Apache License 2.0. The `package.json` `"license"` field is set to `"Apache-2.0"` and the `LICENSE` file is present at the repository root. This configuration:
 
-- Prevents legal redistribution of the codebase
-- Blocks contributions from the open-source community
-- Creates uncertainty around deployment rights for country-level instances
-- Fails to meet DPG compliance requirements
-- Limits the project's potential impact as a global public good
+- Enables legal redistribution of the codebase
+- Permits contributions from the open-source community
+- Provides legal clarity for country-level deployments
+- Meets DPG compliance requirements
+- Maximises the project's potential impact as a global public good
 
-### Impact of Unlicensed Status
+### Resolution of Unlicensed Status
 
-The absence of a proper open-source license has several negative consequences:
+The adoption of Apache License 2.0 resolves the previously unlicensed state and has several positive consequences:
 
-- **Deployment Barriers**: Countries cannot legally deploy their own instances without explicit permission
-- **Contribution Obstacles**: External developers cannot contribute improvements
-- **Compliance Failure**: The project cannot qualify as a Digital Public Good
-- **Limited Collaboration**: UN agencies and NGOs cannot easily integrate or extend the platform
-- **Sustainability Risks**: Long-term maintenance depends solely on UNDRR resources
+- **Deployment Enablement**: Countries can legally deploy their own instances
+- **Contribution Enabled**: External developers can contribute improvements
+- **DPG Compliance**: The project now meets the Digital Public Goods open license requirement
+- **Broader Collaboration**: UN agencies and NGOs can integrate and extend the platform
+- **Sustainability**: Broader adoption and community contribution support long-term maintenance
 
-### Urgency of License Selection
+### Urgency Resolved
 
-Selecting an appropriate license is a critical priority because:
+The license selection has been completed and implemented. The key drivers that made this urgent were:
 
 1. The DPG application process (GitHub issue #159) requires a compliant open-source license
 2. Country-level deployments need clear legal terms for implementation
@@ -60,7 +60,6 @@ After careful analysis, we recommend adopting the **Apache License 2.0** for the
 ### Key Justifications
 
 1. **Superior Patent Protection**
-
    - Apache 2.0 includes explicit patent grants and termination provisions
    - Protects country implementations from potential patent litigation
    - Provides greater legal certainty for international deployments
@@ -68,7 +67,6 @@ After careful analysis, we recommend adopting the **Apache License 2.0** for the
    - Critical for government-level implementations with higher legal scrutiny
 
 2. **International Deployment Framework**
-
    - Better structured for government and institutional adoption
    - Provides clearer terms for country-level customizations
    - More aligned with public sector legal requirements
@@ -76,7 +74,6 @@ After careful analysis, we recommend adopting the **Apache License 2.0** for the
    - Supports the UN's global mission and multi-stakeholder engagement
 
 3. **Digital Public Goods Alignment**
-
    - Exceeds minimum DPG requirements with enhanced protections
    - Better supports sustainable development goals through stronger governance
    - Provides clearer framework for public infrastructure deployment
@@ -84,7 +81,6 @@ After careful analysis, we recommend adopting the **Apache License 2.0** for the
    - Aligns with other major digital public infrastructure initiatives
 
 4. **Dependency Compatibility**
-
    - Fully compatible with all existing project dependencies
    - Already used by TypeScript, a core project dependency
    - No conflicts with MIT, ISC, BSD, or other permissive licenses
@@ -92,7 +88,6 @@ After careful analysis, we recommend adopting the **Apache License 2.0** for the
    - Maintains legal clarity across the entire dependency tree
 
 5. **Governance and Sustainability**
-
    - Provides stronger framework for long-term governance
    - Better supports multi-stakeholder contributions
    - Clearer terms for modifications and derivative works
@@ -111,19 +106,16 @@ After careful analysis, we recommend adopting the **Apache License 2.0** for the
 ### Potential Risks of Apache 2.0
 
 1. **Complexity**
-
    - Apache 2.0 is longer and more complex than MIT
    - May require more legal review by adopting countries
    - **Mitigation**: Provide simplified guidance documentation for implementers
 
 2. **Contribution Barriers**
-
    - More detailed contribution requirements
    - May deter casual contributors
    - **Mitigation**: Create clear contribution guidelines with templates
 
 3. **Compliance Overhead**
-
    - Requires maintaining NOTICE files
    - More detailed attribution requirements
    - **Mitigation**: Implement automated compliance checking in CI/CD

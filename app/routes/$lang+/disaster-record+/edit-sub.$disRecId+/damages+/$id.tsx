@@ -1,13 +1,14 @@
-import { damagesById, fieldsDefView } from "~/backend.server/models/damages";
+import {
+	damagesByIdAndCountryAccountsId,
+	fieldsDefView
+} from "~/backend.server/models/damages";
 
 import { DamagesView } from "~/frontend/damages";
 
-import { getCountrySettingsFromSession } from "~/utils/session";
+import { getCountryAccountsIdFromSession, getCountrySettingsFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
 
-
-import { getItem2 } from "~/backend.server/handlers/view";
 import { authLoaderWithPerm } from "~/utils/auth";
 import { useLoaderData } from "react-router";
 import { BackendContext } from "~/backend.server/context";
@@ -16,20 +17,22 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	const ctx = new BackendContext(loaderArgs);
 	const { params, request } = loaderArgs;
 	const settings = await getCountrySettingsFromSession(request);
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 	if (!settings) {
-		throw new Response("Unauthorized access", { status: 401 });
+		throw new Response("Unauthorized access", { status: 403 });
 	}
 	const currencies = settings.currencyCode ? [settings.currencyCode] : ["USD"];
-
-	const item = await getItem2(ctx, params, damagesById);
+	if (!params.id) {
+		throw new Response("Missing item ID", { status: 400 });
+	}
+	const item = await damagesByIdAndCountryAccountsId(ctx, params.id, countryAccountsId);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
 	}
 	return {
-
 		item,
-		def: await fieldsDefView(ctx, currencies)
+		def: await fieldsDefView(ctx, currencies),
 	};
 });
 
@@ -43,11 +46,5 @@ export default function Screen() {
 	if (!ld.def) {
 		throw "def missing";
 	}
-	return (
-		<DamagesView
-			ctx={ctx}
-			item={ld.item}
-			def={ld.def}
-		/>
-	);
+	return <DamagesView ctx={ctx} item={ld.item} def={ld.def} />;
 }

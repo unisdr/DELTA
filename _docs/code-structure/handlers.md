@@ -1,38 +1,41 @@
 - [Code structure](code-structure.md)
 
 ### Request Handlers
+
 `app/backend.server/handlers`
 
-Handlers contain logic shared between multiple Remix routes. If a routes had repeating code, that logic was moved here.
+Handlers contain logic shared between multiple routes. If route files had repeating code, that logic was moved here.
 
-Read about remix [routes](routes.md) first.
+Read about [routes](routes.md) first.
 
-## Main handler files
+## BackendContext
 
-## Form, CSV, API code
-- form.ts, csv_export.ts, csv_import.ts
+Most handlers receive a `BackendContext` instance (from `~/backend.server/context`) rather than raw route args. `BackendContext` wraps the request, exposes the active language (`ctx.lang`), and provides the translator (`ctx.t({ code, msg })`). Construct one at the top of a loader or action:
 
-These handle form submissions, API requests, and CSV imports/exports. They do basic validation and call DB functions from models. See related tests.
+```ts
+import { BackendContext } from "~/backend.server/context";
+const ctx = new BackendContext(args);
+```
 
-- formSave - Used to create or update records from an HTML form.
+## Auth wrappers
 
-Mainly used by createAction, which creates a Remix action function with EditData permission checks and DB integation.
+Route loaders and actions should be wrapped with one of the auth helpers from `~/utils/auth` before calling any handler or model code:
 
-The hazardous form doesn't use createAction, because it splits new and edit into separate files.
+- `authLoader` — Requires any logged-in user
+- `authLoaderWithPerm(perm, fn)` — Requires a specific permission
+- `authLoaderIsPublic` — Returns `true` if no user is logged in — used for inline auth checks, not as a route wrapper
+- `authLoaderPublicOrWithPerm(perm, fn)` — Public read, permissioned write
+- `authLoaderApi` — API key auth
 
-API related code
-- jsonCreate
-- jsonUpdate
-- jsonUpsert
+Action equivalents follow the same naming (`authActionWithPerm`, etc.).
 
-CSV related code
-- csvCreate
-- csvUpdate
-- csvImportExample - Creates an sample CSV as a stating point for updates.
+## Form handlers
 
-Self generated field list for API
-- jsonPayloadExample - Generates field examples for docs
-- jsonApiDocs - Returns API documentation
+Form-related handlers are in `app/backend.server/handlers/form/`. See [Form implementation details](form-implementation.md) for comprehensive documentation of these files:
 
-
-
+- `form.ts` — HTML form save/update/delete actions; view and delete loaders
+- `form_api.ts` — JSON API functions: `jsonCreate`, `jsonUpdate`, `jsonUpsert`, `jsonApiDocs`
+- `form_csv.ts` — CSV import functions: `csvCreate`, `csvUpdate`, `csvUpsert`, `csvImportExample`
+- `csv_import.ts` — Route-level CSV import action and example loader
+- `csv_export.ts` — Route-level CSV export loader
+- `form_utils.ts` — Shared utility helpers

@@ -331,6 +331,32 @@ export async function saveHumanEffectsData(
 	return Response.json({ ok: true });
 }
 
+// clearThrows contains the core clear logic and throws on any failure.
+// WHY separated: deleteAllData is not an HTTP boundary and must propagate errors
+// as thrown exceptions so callers (including transaction callbacks) receive them.
+// clear() wraps this and converts throws back to Response objects for HTTP callers.
+async function clearThrows(
+	tableIdStr: string,
+	recordId: string,
+	countryAccountsId: string,
+): Promise<void> {
+	const table = HumanEffectsTableFromString(tableIdStr); // throws on invalid name
+	await dr.transaction(async (tx) => {
+		const record = await tx.execute(sql`
+			SELECT id FROM disaster_records
+			WHERE id = ${recordId}
+				AND country_accounts_id = ${countryAccountsId}
+		`);
+		if (record.rows.length == 0) {
+			throw new Response("Not Found", { status: 404 });
+		}
+		const res = await clearData(tx, table, recordId);
+		if (!res.ok) {
+			throw res.error;
+		}
+	});
+}
+
 export async function clear(
 	tableIdStr: string,
 	recordId: string,
@@ -339,27 +365,16 @@ export async function clear(
 	if (!recordId) {
 		throw new Error("no record id");
 	}
-	let table: HumanEffectsTable | null = null;
+	// Validate table name first so clear() can return a Response for invalid names.
+	// WHY: clearThrows throws for invalid names, but the public HTTP contract of
+	// clear() requires returning a Response even in that case.
 	try {
-		table = HumanEffectsTableFromString(tableIdStr);
+		HumanEffectsTableFromString(tableIdStr);
 	} catch (e) {
 		return Response.json({ ok: false, error: String(e) });
 	}
 	try {
-		await dr.transaction(async (tx) => {
-			const record = await tx.execute(sql`
-				SELECT id FROM disaster_records
-				WHERE id = ${recordId}
-					AND country_accounts_id = ${countryAccountsId}
-			`);
-			if (record.rows.length == 0) {
-				throw new Response("Not Found", { status: 404 });
-			}
-			let res = await clearData(tx, table!, recordId);
-			if (!res.ok) {
-				throw res.error;
-			}
-		});
+		await clearThrows(tableIdStr, recordId, countryAccountsId);
 	} catch (e) {
 		if (e instanceof ETError) {
 			// TODO: should this return HTTP error code 400 for validation and parse error or 500 for unexpected error?
@@ -379,11 +394,8 @@ export async function deleteAllData(
 	if (!recordId) {
 		throw new Error("no record id");
 	}
-	for (let def of getHumanEffectTableDefs(ctx)) {
-		let r = await clear(def.id, recordId, countAccountsId);
-		if (!r.ok) {
-			return r;
-		}
+	for (const def of getHumanEffectTableDefs(ctx)) {
+		await clearThrows(def.id, recordId, countAccountsId);
 	}
 	await categoryPresenceDeleteAll(dr, recordId);
 	return Response.json({ ok: true });

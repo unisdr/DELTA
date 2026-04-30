@@ -17,5 +17,9 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 		throw new Response("Unauthorized", { status: 401 });
 	}
 	let recordId = params.disRecId || "";
-	return await deleteAllData(ctx, recordId, countryAccountsId);
+	try {
+		return await deleteAllData(ctx, recordId, countryAccountsId);
+	} catch (e) {
+		return Response.json({ ok: false, error: String(e) }, { status: 500 });
+	}
 });

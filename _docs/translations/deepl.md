@@ -33,7 +33,7 @@ echo $DELTA_DEEPL_KEY
 cd scripts/delta-deepl-translate
 
 # Run the translator for desired languages
-go run . --langs=ar,es,fr,ru,zh
+go run . --langs=ar,es --subdirs=app,content --dir=../../locales
 ```
 
 Use `-h` to see help. Here is the list of flags.

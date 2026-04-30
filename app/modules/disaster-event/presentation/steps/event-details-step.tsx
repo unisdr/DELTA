@@ -261,6 +261,7 @@ export default function CoreEventStep({
                         }}
                         placeholder="Select cluster"
                         filter
+                        disabled={!state.coreEvent.hipTypeId}
                     />
                 </label>
                 <label className="flex flex-col gap-1">
@@ -287,6 +288,7 @@ export default function CoreEventStep({
                         }}
                         placeholder="Select hazard"
                         filter
+                        disabled={!state.coreEvent.hipClusterId}
                     />
                 </label>
             </div>

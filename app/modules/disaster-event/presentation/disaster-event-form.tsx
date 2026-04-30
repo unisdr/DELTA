@@ -252,6 +252,39 @@ export default function DisasterEventForm({
         [validatorOptions],
     );
 
+    const filteredHipClusters = useMemo(() => {
+        const selectedCluster = hipClusters.find(
+            (cluster) => cluster.value === state.coreEvent.hipClusterId,
+        );
+        const selectedHazard = hipHazards.find(
+            (hazard) => hazard.value === state.coreEvent.hipHazardId,
+        );
+        const hazardCluster = selectedHazard?.clusterId
+            ? hipClusters.find((cluster) => cluster.value === selectedHazard.clusterId)
+            : undefined;
+        const activeTypeId =
+            state.coreEvent.hipTypeId ||
+            selectedCluster?.typeId ||
+            hazardCluster?.typeId ||
+            "";
+
+        return hipClusters.filter(
+            (cluster) => !activeTypeId || cluster.typeId === activeTypeId,
+        );
+    }, [hipClusters, hipHazards, state.coreEvent.hipClusterId, state.coreEvent.hipHazardId, state.coreEvent.hipTypeId]);
+
+    const filteredHipHazards = useMemo(() => {
+        const selectedHazard = hipHazards.find(
+            (hazard) => hazard.value === state.coreEvent.hipHazardId,
+        );
+        const activeClusterId =
+            state.coreEvent.hipClusterId || selectedHazard?.clusterId || "";
+
+        return hipHazards.filter(
+            (hazard) => !activeClusterId || hazard.clusterId === activeClusterId,
+        );
+    }, [hipHazards, state.coreEvent.hipClusterId, state.coreEvent.hipHazardId]);
+
     const validateAttachmentFiles = (files: File[]): string | undefined => {
         if (!files.length) return undefined;
         const invalidFile = files.find(
@@ -473,8 +506,8 @@ export default function DisasterEventForm({
                                 state={state}
                                 onChange={setState}
                                 hipTypes={hipTypes}
-                                hipClusters={hipClusters}
-                                hipHazards={hipHazards}
+                                hipClusters={filteredHipClusters}
+                                hipHazards={filteredHipHazards}
                             />
                         </StepperPanel>
                         <StepperPanel

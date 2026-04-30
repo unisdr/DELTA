@@ -38,9 +38,9 @@ type DisasterEventsPageProps = {
 const STATUS_OPTIONS = [
     { label: "All statuses", value: "" },
     { label: "Draft", value: "draft" },
-    { label: "Submitted", value: "submitted" },
-    { label: "Revision requested", value: "revision_requested" },
-    { label: "Approved", value: "approved" },
+    { label: "Waiting for validation", value: "submitted" },
+    { label: "Needs revision", value: "revision_requested" },
+    { label: "Validated", value: "approved" },
     { label: "Rejected", value: "rejected" },
     { label: "Published", value: "published" },
 ];
@@ -74,6 +74,19 @@ function statusTagSeverity(status: string) {
         return "warning";
     }
     return "info";
+}
+
+function statusDisplayLabel(status: string) {
+    if (status === "submitted") {
+        return "Waiting for validation";
+    }
+    if (status === "revision_requested" || status === "revisition_requested") {
+        return "Needs revision";
+    }
+    if (status === "approved") {
+        return "Validated";
+    }
+    return status;
 }
 
 function shortUuid(value: string) {
@@ -240,7 +253,7 @@ export default function DisasterEventsPage({
         }
         return (
             <Tag
-                value={row.workflowStatus}
+                value={statusDisplayLabel(row.workflowStatus)}
                 severity={statusTagSeverity(row.workflowStatus)}
             />
         );

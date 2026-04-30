@@ -26,6 +26,12 @@ doing so. Create as many test files under `tests/` as the change needs.
   `TRUNCATE`, `DELETE FROM` without a `WHERE` clause
 - Overwriting `.env`, `*.key`, `*.pem`, or any file in `app/drizzle/migrations/`
 
+**Design deviations — stop and get explicit user approval every time:**
+- Any implementation that contradicts a named decision in `design.md` (error types thrown,
+  response shapes, function signatures, architectural choices, alternatives explicitly rejected)
+- Before deviating: state (1) what `design.md` specifies, (2) what you propose instead,
+  (3) why. Do not proceed until the user approves the deviation in writing.
+
 **When in doubt — stop and ask.** Pausing costs seconds; an unrecoverable action costs far more.
 
 ---
@@ -63,7 +69,7 @@ and re-run from that gate. Loop until all pass:
 1. yarn vitest run tests/path/to/file.test.ts   — tests still green
 2. yarn tsc                                      — no TypeScript errors
 3. yarn format:check                             — Prettier formatting clean
-4. anti-pattern review                           — run .github/skills/anti-pattern-check.md
+4. anti-pattern review                           — run .github/skills/anti-pattern-check/SKILL.md
 5. SOLID review                                  — invoke solid-reviewer agent
 6. documentation review (see below)             — comments balanced and purposeful
 7. project conventions review (see below)       — DELTA-specific rules followed
@@ -73,7 +79,7 @@ Only exit the loop when all seven gates pass without changes needed.
 
 ## Gate details
 
-**Anti-pattern review:** Run `.github/skills/anti-pattern-check.md` in full. No key-checks
+**Anti-pattern review:** Run `.github/skills/anti-pattern-check/SKILL.md` in full. No key-checks
 summary here — the skill is the authoritative source.
 
 **SOLID review:** Invoke the `solid-reviewer` agent. Primary concerns: SRP and DIP.

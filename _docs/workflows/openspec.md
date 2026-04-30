@@ -95,7 +95,7 @@ The `sdd-implementer` agent runs the full TDD loop:
    | 1 | `yarn vitest run` — tests still green |
    | 2 | `yarn tsc` — zero TypeScript errors |
    | 3 | `yarn format:check` — Prettier clean |
-   | 4 | Anti-pattern review — `.github/skills/anti-pattern-check.md` |
+   | 4 | Anti-pattern review — `.github/skills/anti-pattern-check/SKILL.md` |
    | 5 | SOLID review — `solid-reviewer` agent (SRP and DIP focus) |
    | 6 | Documentation review — comments explain WHY, not WHAT |
    | 7 | Project conventions — `.github/copilot-instructions.md` |
@@ -125,8 +125,8 @@ After archiving, raise the PR targeting `dev` as normal.
 | `.github/agents/sdd-implementer.agent.md` | Orchestrates Red → Green → 7-gate Refactor → archive |
 | `.github/agents/test-writer.agent.md` | Comprehensive test suites (all tiers, independent of TDD cycle) |
 | `.github/agents/solid-reviewer.agent.md` | SOLID design review — invoked by sdd-implementer at gate 5 |
-| `.github/skills/tdd-cycle.md` | TDD Red→Green→Refactor methodology and DELTA tooling |
-| `.github/skills/anti-pattern-check.md` | Quality gate checklist — run before every PR |
+| `.github/skills/tdd-cycle/SKILL.md` | TDD Red→Green→Refactor methodology and DELTA tooling |
+| `.github/skills/anti-pattern-check/SKILL.md` | Quality gate checklist — run before every PR |
 
 ## Useful commands
 

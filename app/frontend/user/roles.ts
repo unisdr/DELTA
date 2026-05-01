@@ -46,6 +46,7 @@ export type PermissionId =
 	| "EditUsers"
 	| "InviteUsers"
 	| "disaster_event.list"
+	| "disaster_event.view_workflow_history"
 	| "disaster_event.create"
 	| "disaster_event.update"
 	| "disaster_event.delete"
@@ -90,6 +91,7 @@ export const PERMISSIONS = {
 	USERS_EDIT: "EditUsers",
 	USERS_INVITE: "InviteUsers",
 	DISASTER_EVENT_LIST: "disaster_event.list",
+	DISASTER_EVENT_VIEW_WORKFLOW_HISTORY: "disaster_event.view_workflow_history",
 	DISASTER_EVENT_CREATE: "disaster_event.create",
 	DISASTER_EVENT_UPDATE: "disaster_event.update",
 	DISASTER_EVENT_DELETE: "disaster_event.delete",
@@ -157,6 +159,11 @@ export function permissions(): PermissionOption[] {
 			id: "disaster_event.list",
 			role: "admin",
 			label: "List disaster events",
+		},
+		{
+			id: "disaster_event.view_workflow_history",
+			role: "data-collector",
+			label: "View disaster event workflow history",
 		},
 		{
 			id: "disaster_event.create",
@@ -365,6 +372,7 @@ export const roles: {
 		"ViewData",
 		"ViewApiDocs",
 		"EditData",
+		"disaster_event.view_workflow_history",
 		"disaster_event.submit_for_validation",
 	],
 	"data-validator": [
@@ -373,6 +381,7 @@ export const roles: {
 		"EditData",
 		"ValidateData",
 		"DeleteValidatedData",
+		"disaster_event.view_workflow_history",
 		"disaster_event.validate",
 	],
 	admin: [
@@ -386,6 +395,7 @@ export const roles: {
 		"EditUsers",
 		"InviteUsers",
 		"disaster_event.list",
+		"disaster_event.view_workflow_history",
 		"disaster_event.create",
 		"disaster_event.update",
 		"disaster_event.delete",

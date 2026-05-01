@@ -147,6 +147,10 @@ export default remixRoutesOptionAdapter((defineRoutes) => {
 	});
 
 	const disasterEventRoutes = defineRoutes((route) => {
+		route(
+			"disaster-event/:id/workflow-history",
+			"routes/disaster-event/workflow-history.$id.tsx",
+		);
 		route("disaster-event/:id", "routes/disaster-event/$id.tsx");
 		route("disaster-event", "routes/disaster-event/_index.tsx", () => {
 			route(":id/delete", "routes/disaster-event/delete.tsx");

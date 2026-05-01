@@ -297,6 +297,16 @@ export default function DisasterEventsPage({
                     <i className="pi pi-trash" aria-hidden="true" />
                 </Button>
             </Link>
+            <Link to={`/disaster-event/${row.id}/workflow-history`}>
+                <Button
+                    type="button"
+                    text
+                    aria-label="Workflow history"
+                    title="Workflow history"
+                >
+                    <i className="pi pi-history" aria-hidden="true" />
+                </Button>
+            </Link>
         </div>
     );
 

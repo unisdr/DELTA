@@ -395,7 +395,7 @@ export default function MapComponent({
     return (
         <div
             ref={containerRef}
-            className="h-[320px] w-full rounded-lg border border-slate-200 sm:h-[420px]"
+            className="h-[340px] w-full rounded-lg border border-slate-200 sm:h-[440px] md:h-full md:min-h-[440px]"
         />
     );
 }

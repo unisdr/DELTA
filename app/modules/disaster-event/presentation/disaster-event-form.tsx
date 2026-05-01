@@ -406,7 +406,7 @@ export default function DisasterEventForm({
     );
 
     return (
-        <div className="grid gap-4 p-16">
+        <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
             <Card>
 
                 <Dialog
@@ -423,10 +423,12 @@ export default function DisasterEventForm({
                         You have unsaved changes in this form. Are you sure you want to exit? Your progress will be lost unless you save as draft.
                     </p>
                 </Dialog>
-
-
-                <h2 className="mb-6 text-2xl font-semibold">{title}</h2>
-                {actionError ? <Message severity="error" text={actionError} /> : null}
+                <h2 className="mb-4 text-2xl font-semibold text-slate-800">{title}</h2>
+                {actionError ? (
+                    <div className="mb-4">
+                        <Message severity="error" text={actionError} />
+                    </div>
+                ) : null}
 
                 <Form
                     ref={formRef}
@@ -434,7 +436,7 @@ export default function DisasterEventForm({
                     method="post"
                     action={formAction}
                     encType="multipart/form-data"
-                    className="grid gap-4"
+                    className="grid min-w-0 w-full gap-4"
                 >
                     <input
                         ref={attachmentsInputRef}
@@ -493,6 +495,12 @@ export default function DisasterEventForm({
                         activeStep={activeStep}
                         onChangeStep={(e) => setActiveStep(e.index)}
                         headerPosition="bottom"
+                        pt={{
+                            nav: {
+                                className: "justify-center",
+                            },
+                        }}
+                        className="w-full min-w-0"
                     >
                         <StepperPanel
                             header={"Event\u00A0basics\nREQUIRED"}

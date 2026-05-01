@@ -268,7 +268,7 @@ export default function SpatialInformationStep({
                 ) : null}
             </div>
 
-            <div className="w-full p-4 md:flex-1">
+            <div className="w-full p-4 md:flex md:flex-1 md:min-h-0">
                 <MapComponent
                     geometries={geometries}
                     selectedGeometryId={selectedGeometryId}

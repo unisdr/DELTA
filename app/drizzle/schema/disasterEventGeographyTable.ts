@@ -1,5 +1,12 @@
 import { relations, sql } from "drizzle-orm";
-import { boolean, customType, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import {
+	boolean,
+	customType,
+	pgTable,
+	text,
+	timestamp,
+	uuid,
+} from "drizzle-orm/pg-core";
 import { disasterEventTable } from "./disasterEventTable";
 
 const geomType = customType<{ data: unknown }>({

@@ -56,4 +56,4 @@ as the tests exist and are confirmed to fail.
 - Test runner: Vitest. Command: `yarn test:run2` (PGlite suite) or `yarn test:run3` (real DB)
 - PGlite integration tests need no external DB — prefer these for model/handler tests
 - See `.github/copilot-instructions.md` for full project conventions
-- See `.github/skills/tdd-cycle.md` for the full Red→Green→Refactor methodology
+- See `.github/skills/tdd-cycle/SKILL.md` for the full Red→Green→Refactor methodology

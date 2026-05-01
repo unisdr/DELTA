@@ -212,6 +212,7 @@ export default function RegularMenuBar({
                 <Button
                     label={ctx.t({
                         code: "common.signin",
+												msg: "Sign-in"
                     })}
                 />
             </Link>

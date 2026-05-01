@@ -53,8 +53,8 @@ Located in `.github/skills/`.
 
 | Skill | Purpose |
 |---|---|
-| `tdd-cycle.md` | Red→Green→Refactor methodology with DELTA-specific tooling and conventions |
-| `anti-pattern-check.md` | Full quality gate checklist: known anti-patterns, auth, multi-tenancy, DB, error handling, code quality |
+| `tdd-cycle/SKILL.md` | Red→Green→Refactor methodology with DELTA-specific tooling and conventions |
+| `anti-pattern-check/SKILL.md` | Full quality gate checklist: known anti-patterns, auth, multi-tenancy, DB, error handling, code quality |
 
 ## Proposed agents
 

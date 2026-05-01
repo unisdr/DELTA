@@ -76,4 +76,4 @@ Use `expect(fn()).rejects.toThrow(ErrorClass)` — not try/catch in tests.
 - PGlite setup: `tests/integration/db/setup.ts`
 - Context construction: `createTestBackendContext()`
 - See `.github/copilot-instructions.md` for full project conventions
-- See `.github/skills/tdd-cycle.md` for TDD Red→Green→Refactor methodology
+- See `.github/skills/tdd-cycle/SKILL.md` for TDD Red→Green→Refactor methodology

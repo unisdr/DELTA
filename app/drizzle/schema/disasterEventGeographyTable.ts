@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { customType, pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
+import { boolean, customType, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { disasterEventTable } from "./disasterEventTable";
 
 const geomType = customType<{ data: unknown }>({
@@ -14,7 +14,12 @@ export const disasterEventGeometryTable = pgTable("disaster_event_geometry", {
 		() => disasterEventTable.id,
 		{ onDelete: "cascade" },
 	),
-	geom: geomType().$type<null>(),
+	geometry: geomType("geometry").$type<unknown>(),
+	geometryType: text("geometry_type"),
+	name: text("name"),
+	isPrimary: boolean("is_primary").notNull().default(false),
+	validFrom: timestamp("valid_from"),
+	validTo: timestamp("valid_to"),
 	createdAt: timestamp("created_at")
 		.notNull()
 		.default(sql`now()`),

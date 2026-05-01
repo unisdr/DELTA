@@ -239,6 +239,13 @@
       "when": 1777476997701,
       "tag": "20260429153637_workflow-history-status-and-instance-timestamps",
       "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1777635955665,
+      "tag": "20260501114555_disaster-event-geometry-add-fields",
+      "breakpoints": true
     }
   ]
 }

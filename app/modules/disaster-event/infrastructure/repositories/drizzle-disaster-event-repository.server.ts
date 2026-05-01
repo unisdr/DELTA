@@ -227,18 +227,15 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 				const geography = data.geography as DisasterEventGeographyInput;
 				if (geography.geomGeoJson) {
 					await tx.execute(sql`
-						INSERT INTO disaster_event_geography (disaster_event_id, division_id, source, geom)
+						INSERT INTO disaster_event_geometry (disaster_event_id, geometry)
 						VALUES (
 							${disasterEventId}::uuid,
-							${geography.divisionId}::uuid,
-							${geography.source},
 							ST_SetSRID(ST_GeomFromGeoJSON(${geography.geomGeoJson}), 4326)
 						)
 					`);
 				} else {
 					await tx.insert(disasterEventGeometryTable).values({
 						disasterEventId,
-						geom: null,
 					});
 				}
 			}
@@ -418,7 +415,7 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 		]);
 
 		const geometryResult = await this.db.execute(sql`
-			SELECT id, disaster_event_id, ST_AsGeoJSON(geom)::text AS geom_geojson, created_at, updated_at
+			SELECT id, disaster_event_id, ST_AsGeoJSON(geometry)::text AS geom_geojson, created_at, updated_at
 			FROM disaster_event_geometry
 			WHERE disaster_event_id = ${id}::uuid
 		`);

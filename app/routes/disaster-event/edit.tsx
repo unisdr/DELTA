@@ -295,6 +295,23 @@ export const action = authActionWithPerm(
 
         const stepState = parseStepState(formData.get("stepState"));
         const writeModel = toDisasterEventWriteModel(countryAccountsId, stepState);
+
+        const rawGeometries = formData.getAll("geometries[]");
+        if (rawGeometries.length > 0) {
+            const geometryItems = rawGeometries
+                .map((raw) => {
+                    try { return JSON.parse(String(raw)) as { geojson: object; isPrimary?: boolean; geometryType?: string; name?: string }; }
+                    catch { return null; }
+                })
+                .filter((item): item is { geojson: object; isPrimary?: boolean; geometryType?: string; name?: string } => item !== null);
+            const primaryGeometry = geometryItems.find((item) => item.isPrimary) ?? geometryItems[0];
+            writeModel.geography = primaryGeometry?.geojson
+                ? { source: "manual" as const, divisionId: null, geomGeoJson: JSON.stringify(primaryGeometry.geojson) }
+                : null;
+        } else {
+            writeModel.geography = null;
+        }
+
         const updatedByUserId = await getUserIdFromSession(request);
         writeModel.updatedByUserId = updatedByUserId ?? null;
         writeModel.workflowStatus = isSubmitForValidation ? "submitted" : "draft";

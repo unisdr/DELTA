@@ -1,156 +1,118 @@
-import {
-	apiKeyCreate,
-	apiKeyUpdate,
-	apiKeyById,
-	UserCentricApiKeyFields,
-} from "~/backend.server/models/api_key";
+import { useState } from "react";
+import { Form, useActionData, useLoaderData, useNavigate, useNavigation } from "react-router";
+import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
+import { InputText } from "primereact/inputtext";
 
-import { fieldsDef, ApiKeyForm } from "~/frontend/api_key";
-import { FormScreen } from "~/frontend/form";
-import { formSave } from "~/backend.server/handlers/form/form";
-import { route } from "~/frontend/api_key";
+import { BackendContext } from "~/backend.server/context";
+import { ApiKeyRepository } from "~/db/queries/apiKeyRepository";
+
 import {
-	authActionGetAuth,
 	authActionWithPerm,
 	authLoaderWithPerm,
 } from "~/utils/auth";
 import {
 	getCountryAccountsIdFromSession,
-	getUserRoleFromSession,
+	redirectWithMessage,
 } from "~/utils/session";
-import { dr } from "~/db.server";
-import { roleHasPermission } from "~/frontend/user/roles";
-import { userCountryAccountsTable } from "~/drizzle/schema/userCountryAccountsTable";
-import { eq } from "drizzle-orm";
 
 import { ViewContext } from "~/frontend/context";
 
-import { useLoaderData } from "react-router";
-import { BackendContext } from "~/backend.server/context";
-
 export const loader = authLoaderWithPerm("EditAPIKeys", async (args) => {
-	const ctx = new BackendContext(args);
-	const { params, request } = args;
-	// Get user role from session and check if they have EditAPIKeys permission
-	const userRole = await getUserRoleFromSession(request);
-	const isAdmin = roleHasPermission(userRole, "EditAPIKeys");
-
-	// Debug info
-	// console.log("DEBUG - User role:", userRole);
-	// console.log("DEBUG - Is admin with EditAPIKeys permission:", isAdmin);
-
-	// Get the API key if editing
-	let item = null;
-	if (params.id !== "new" && params.id) {
-		item = await apiKeyById(ctx, params.id);
-	}
-
-	// Get users for admin selection
-	const userOptions: Array<{ value: string; label: string }> = [];
-
-	// Get the current country account ID from the session
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-	// console.log("DEBUG - Current country account ID:", countryAccountsId);
-
-	// Get the current user ID from the userSession
-	const currentUserId = (args as any).userSession?.user?.id;
-	// console.log("DEBUG - Current user ID:", currentUserId);
-
-	if (isAdmin) {
-		// Get users that belong to the same country account (tenant isolation)
-		const usersInSameAccount = await dr.query.userCountryAccountsTable.findMany({
-			where: eq(userCountryAccountsTable.countryAccountsId, countryAccountsId),
-			with: {
-				user: true,
-			},
-		});
-
-		// console.log("DEBUG - Users in same account count:", usersInSameAccount.length);
-
-		// Filter to only include verified users and exclude the current admin user
-		const verifiedUsers = usersInSameAccount.filter(
-			(ua) => ua.user.emailVerified && ua.user.id !== currentUserId,
-		);
-		// console.log("DEBUG - Verified users (excluding current admin) count:", verifiedUsers.length);
-
-		// Create options for the dropdown
-		verifiedUsers.forEach((ua) => {
-			const user = ua.user;
-			if (user.id && user.email && user.firstName && user.lastName) {
-				userOptions.push({
-					value: user.id,
-					label: `${user.firstName} ${user.lastName} (${user.email})`,
-				});
-			}
-		});
-	}
-
-	// console.log("DEBUG - User options for dropdown:", userOptions);
-
-	return {
-		item,
-		userOptions,
-		isAdmin,
-	};
+	const { params } = args;
+	const item = params.id ? await ApiKeyRepository.getById(params.id) : null;
+	return { item };
 });
 
 export const action = authActionWithPerm("EditAPIKeys", async (actionArgs) => {
-	const ctx = new BackendContext(actionArgs);
-	const auth = authActionGetAuth(actionArgs);
-	const { request } = actionArgs;
-
+	const { request, params } = actionArgs;
+	const backendCtx = new BackendContext(actionArgs);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const formData = await request.formData();
+	const name = (formData.get("name") as string | null)?.trim() ?? "";
 
-	return formSave<UserCentricApiKeyFields>({
-		actionArgs,
-		fieldsDef: fieldsDef(ctx),
-		save: async (tx, id, fields) => {
-			// Prepare data with user ID and country account
-			const data = {
-				...fields,
-				assignedToUserId: fields.assignedToUserId || undefined,
-				managedByUserId: auth.user?.id,
-				countryAccountsId,
-			};
+	if (!name) {
+		return { ok: false, error: backendCtx.t({ code: "common.name_required", msg: "Name is required" }) };
+	}
 
-			// Create or update based on ID
-			if (!id) {
-				return apiKeyCreate(tx, data);
-			} else {
-				// For update, we need to use only the fields that apiKeyUpdate expects
-				// The apiKeyUpdate function only requires the name field
-				return apiKeyUpdate(tx, id, {
-					name: fields.assignedToUserId
-						? `${fields.name}__ASSIGNED_USER_${fields.assignedToUserId}`
-						: fields.name,
-					// These fields are required by the ApiKeyFields type but not used in the update function
-					updatedAt: null,
-					createdAt: new Date(), // Placeholder, not used
-					secret: "", // Placeholder, not used
-					managedByUserId: auth.user?.id || "",
-					countryAccountsId: countryAccountsId,
-				});
-			}
-		},
-		redirectTo: (id) => `${route}/${id}`,
+	if (!params.id) {
+		return { ok: false, error: "Missing ID" };
+	}
+
+	const existing = await ApiKeyRepository.getById(params.id);
+	if (!existing || existing.countryAccountsId !== countryAccountsId) {
+		throw new Response("Not Found", { status: 404 });
+	}
+
+	await ApiKeyRepository.update(params.id, name);
+
+	return redirectWithMessage(actionArgs, "/settings/api-key", {
+		type: "success",
+		text: backendCtx.t({ code: "common.changes_saved", msg: "Changes saved" }),
 	});
 });
 
-export default function Screen() {
+export default function ApiKeyEditPage() {
 	const ld = useLoaderData<typeof loader>();
 	const ctx = new ViewContext();
+	const navigate = useNavigate();
+	const actionData = useActionData<typeof action>();
+	const navigation = useNavigation();
+	const isSubmitting = navigation.state === "submitting";
 
-	const extraData = {
-		userOptions: ld.userOptions || [],
-		isAdmin: ld.isAdmin || false,
-	};
+	const [nameValue, setNameValue] = useState(ld.item?.name || "");
+
+	const nameError = actionData && !actionData.ok ? actionData.error : "";
 
 	return (
-		<FormScreen
-			ctx={ctx}
-			loaderData={ld}
-			formComponent={ApiKeyForm}
-			extraData={extraData}
-		/>
+		<Dialog
+			header={ctx.t({
+				code: "common.edit",
+				msg: "Edit",
+			})}
+			visible
+			modal
+			onHide={() => navigate(ctx.url("/settings/api-key/"))}
+			className="w-[32rem] max-w-full"
+		>
+			<Form method="post" className="flex flex-col" noValidate>
+				<p className="mb-3 text-red-700">* Required information</p>
+				<div className="mb-3 flex flex-col gap-2">
+					<label htmlFor="edit-api-key-name">
+						<span className="inline-flex gap-1">
+							<span>{ctx.t({ code: "common.name", msg: "Name" })}</span>
+							<span className="text-red-700">*</span>
+						</span>
+					</label>
+					<InputText
+						id="edit-api-key-name"
+						name="name"
+						value={nameValue}
+						invalid={!!nameError}
+						aria-invalid={nameError ? true : false}
+						onChange={(e) => setNameValue(e.target.value)}
+					/>
+					{nameError ? <small className="text-red-700">{nameError}</small> : null}
+				</div>
+
+
+
+				<div className="mt-4 flex justify-end gap-2">
+					<Button
+						type="button"
+						outlined
+						label={ctx.t({ code: "common.cancel", msg: "Cancel" })}
+						onClick={() => navigate(ctx.url("/settings/api-key/"))}
+					/>
+					<Button
+						type="submit"
+						label={ctx.t({ code: "common.save", msg: "Save" })}
+						icon="pi pi-check"
+						loading={isSubmitting}
+						disabled={isSubmitting}
+					/>
+				</div>
+			</Form>
+		</Dialog>
 	);
 }

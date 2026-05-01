@@ -124,7 +124,7 @@ export const OrganizationService = {
 
 				const existing = await OrganizationRepository.getById(id);
 				if (!existing || existing.countryAccountsId !== countryAccountsId) {
-					throw new Response("Unauthorized access", { status: 401 });
+					throw new Response("Unauthorized access", { status: 403 });
 				}
 
 				const duplicate =
@@ -162,7 +162,7 @@ export const OrganizationService = {
 
 				const existing = await OrganizationRepository.getById(id);
 				if (!existing || existing.countryAccountsId !== countryAccountsId) {
-					throw new Response("Unauthorized access", { status: 401 });
+				throw new Response("Unauthorized access", { status: 403 });
 				}
 
 				const result = await OrganizationRepository.deleteById(id);

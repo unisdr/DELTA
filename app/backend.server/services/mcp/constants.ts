@@ -1,7 +1,6 @@
 export const entities = [
 	"asset",
 	"damage",
-	"dev-example1",
 	"disaster-event",
 	"disaster-record",
 	"disruption",

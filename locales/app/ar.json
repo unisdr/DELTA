@@ -2930,33 +2930,6 @@
 		"translation": "اختر المستوى الجغرافي"
 	},
 	{
-		"id": "translations.example",
-		"description": "Example message File: routes/$lang+/examples+/translations+/basic.tsx:39",
-		"translation": "مثال على الرسالة"
-	},
-	{
-		"id": "translations.example_counter",
-		"description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
-		"translation": {
-			"few": "",
-			"many": "",
-			"one": "لدينا {n} سجلات",
-			"other": "",
-			"two": "",
-			"zero": "لدينا {n} سجلاً"
-		}
-	},
-	{
-		"id": "translations.example_hello_user",
-		"description": "Example greeting. {user} is replaced with user name File: routes/$lang+/examples+/translations+/basic.tsx:74",
-		"translation": "مرحبًا {user}"
-	},
-	{
-		"id": "translations.example_multiple_lines",
-		"description": "multiple lines File: routes/$lang+/examples+/translations+/basic.tsx:83",
-		"translation": "السطر 1\nالسطر2"
-	},
-	{
 		"id": "user_forgot_password.email_sending_failure",
 		"description": "Error message when email sending fails due to system configuration issue. File: routes/$lang+/user+/forgot-password.tsx:157",
 		"translation": "تعذر إرسال البريد الإلكتروني بسبب مشكلة في تكوين النظام. يرجى الاتصال بمسؤول النظام للإبلاغ عن هذه المشكلة."
@@ -5910,31 +5883,6 @@
 		"id": "assets.edit",
 		"description": "File: frontend/asset.tsx:35",
 		"translation": "تحرير الأصل"
-	},
-	{
-		"id": "dev_example.add",
-		"description": "File: frontend/dev_example1.tsx:31",
-		"translation": "إضافة مثال للمطورين"
-	},
-	{
-		"id": "dev_example.edit",
-		"description": "File: frontend/dev_example1.tsx:30",
-		"translation": "تحرير مثال المطور"
-	},
-	{
-		"id": "dev_examples",
-		"description": "File: frontend/dev_example1.tsx:29",
-		"translation": "أمثلة على التطوير"
-	},
-	{
-		"id": "dev_examples.add_new",
-		"description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:65",
-		"translation": "إضافة مثال مطور جديد"
-	},
-	{
-		"id": "dev_examples.field1",
-		"description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:72",
-		"translation": "الحقل 1"
 	},
 	{
 		"id": "disaster_record.add_new",

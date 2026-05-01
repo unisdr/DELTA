@@ -38,7 +38,7 @@ export const action = async (args: ActionFunctionArgs) => {
 			);
 		if (!settings) {
 			throw new Response("No settings found for country account", {
-				status: 501,
+				status: 500,
 			});
 		}
 

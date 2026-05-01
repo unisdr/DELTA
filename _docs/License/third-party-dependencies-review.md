@@ -248,11 +248,11 @@ Based on our dependency analysis:
   - No copyleft requirements
   - Permissive terms
 
-### Leaflet (MIT License)
+### Leaflet (BSD 2-Clause License)
 
 - Version: ^1.9.4
 - Purpose: Mapping library
-- License: MIT
+- License: BSD-2-Clause
 - Key Features:
   - Interactive maps
   - Geospatial visualization

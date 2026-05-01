@@ -1,3 +1,5 @@
+> ⚠️ **Point-in-time analysis** — This feasibility report reflects the codebase at an earlier stage. Architecture and dependency changes may have occurred since. Verify findings against the current codebase before making infrastructure decisions.
+
 ### DELTA Resilience High Availability Cluster Feasibility Report - CONFIRMED WORKING
 
 #### GitHub Issue #248: ✅ DEFINITIVELY RESOLVED through Docker HA Testing
@@ -31,7 +33,7 @@ Local development environment (Windows 11, pgAdmin, localhost:3000)
 Docker Desktop (multi-container Docker Compose: app1, app2, nginx, Postgres)
 Live database with realistic multi-tenant testing data (29MB, 4 country accounts)
 Comprehensive codebase analysis of TypeScript/Remix application
-Database schema analysis (PostgreSQL 16 + PostGIS)
+Database schema analysis (PostgreSQL 17 + PostGIS)
 
 ### COMPLETE HA VALIDATION ACHIEVED
 
@@ -133,7 +135,7 @@ The DELTA Resilience system can run in High Availability cluster mode with two i
 Email/Notification Duplication
 Status: ⚠️ Potential Issue Identified
 Live database shows 4 recent invite emails sent
-Current code in app/util/email.ts and app/backend.server/models/user/invite.ts implements direct email sending without deduplication mechanisms
+Current code in app/utils/email.ts and app/backend.server/models/user/invite.ts implements direct email sending without deduplication mechanisms
 In HA environment, identical requests to both containers could trigger duplicate emails
 Implementation of appropriate coordination mechanism required (pending PMO direction)
 File Upload Coordination

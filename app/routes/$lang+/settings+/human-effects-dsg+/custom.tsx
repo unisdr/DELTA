@@ -1,3 +1,5 @@
+// Settings page for custom disaggregation columns. Allows adding/editing/removing custom columns.
+// See _docs/human-direct-effects.md for overview.
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 
 import { dr } from "~/db.server";
@@ -17,12 +19,12 @@ import {
 	withoutIds,
 } from "~/frontend/human_effects/custom_editor";
 
-import { useEffect, useState } from "react";
-import { notifyError, notifyInfo } from "~/frontend/utils/notifications";
+import { useEffect, useRef, useState } from "react";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 import { eq } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
 import { ViewContext } from "~/frontend/context";
+import { Toast } from "primereact/toast";
 import {
 	getUsedCustomColumnsAndValues,
 	validateCustomConfigChanges,
@@ -154,6 +156,7 @@ export default function Screen() {
 	const ld = useLoaderData<typeof loader>();
 	const ad = useActionData<typeof action>();
 	const ctx = new ViewContext();
+	const toast = useRef<Toast>(null);
 
 	const [config, setConfig] = useState<HumanEffectsCustomConfigWithIds>(() =>
 		ld.config ? ld.config : { version: 1, config: [] },
@@ -162,14 +165,20 @@ export default function Screen() {
 	useEffect(() => {
 		if (ad)
 			if (!ad.ok) {
-				notifyError(ad.error || "Server error");
+				toast.current?.show({
+					severity: "error",
+					detail: ad.error || "Server error",
+					life: 5000,
+				});
 			} else {
-				notifyInfo(
-					ctx.t({
+				toast.current?.show({
+					severity: "info",
+					detail: ctx.t({
 						code: "human_effects.changes_saved",
 						msg: "Your changes have been saved",
 					}),
-				);
+					life: 5000,
+				});
 			}
 	}, [ad]);
 
@@ -180,6 +189,7 @@ export default function Screen() {
 				msg: "Human effects: Custom Disaggregations",
 			})}
 		>
+			<Toast ref={toast} position="top-center" />
 			<Form method="post">
 				<h2>
 					{ctx.t({

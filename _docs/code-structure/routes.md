@@ -1,21 +1,32 @@
 - [Code structure](code-structure.md)
 
-# Remix routes
+# Routes
 
 `app/routes`
 
-Follows standard Remix routing.
+Follows React Router v7 flat-routes conventions.
 
-https://remix.run/docs/en/main/route/action
+https://reactrouter.com/
 
-We also use remix-flat-routes plugin to organize routes into folders.
-
-Folders ending with `+` are special, these are handled by this plugin and are grouped in folders with paths matching url structure.
+We use the remix-flat-routes plugin to organise routes into folders. Folders ending with `+` are grouped by the plugin and map directly to URL path segments.
 
 https://github.com/kiliman/remix-flat-routes
+
+## Language prefix
+
+All user-facing routes live under `app/routes/$lang+/`. The `$lang` param is the active locale (e.g. `en`, `fr`) and is present on every URL. Use `LangLink` (from `~/utils/link`) instead of React Router's `<Link>` for internal navigation — it automatically forwards the current `$lang` value.
+
+```ts
+import { LangLink } from "~/utils/link";
+// <LangLink to="/dashboard" /> → renders as /en/dashboard (or current lang)
+```
+
+## API routes
+
+`app/routes/$lang+/api+` contains routes that return JSON or QR code images rather than standard page responses.
 
 ## Notes on specific routes
 
 ### API
 
-Contains routes that return JSON or QR code images, not standard Remix loader results.
+Contains routes that return JSON or QR code images, not standard loader results.

@@ -1,6 +1,6 @@
 import type { MetaFunction } from "react-router";
 
-import { NavSettings } from "~/routes/$lang+/settings/nav";
+import { NavSettings } from "~/frontend/components/NavSettings";
 import { MainContainer } from "~/frontend/container";
 import { useLoaderData } from "react-router";
 import PreventionWebLandingPageWidget from "~/components/PreventionWebLandingPageWidget";

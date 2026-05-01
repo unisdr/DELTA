@@ -1,3 +1,5 @@
+// Settings page for human effects disaggregation columns. Allows hiding/showing built-in columns.
+// See _docs/human-direct-effects.md for overview.
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 
 import { useLoaderData, useActionData } from "react-router";

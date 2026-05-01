@@ -13,7 +13,7 @@ import { FilterMatchMode } from "primereact/api";
 
 import { MainContainer } from "~/frontend/container";
 import { ViewContext } from "~/frontend/context";
-import { NavSettings } from "~/routes/$lang+/settings/nav";
+import { NavSettings } from "~/frontend/components/NavSettings";
 import { canAddNewRecord } from "~/frontend/user/roles";
 import type { loader } from "../routes/$lang+/settings+/organizations+/_layout";
 
@@ -113,7 +113,7 @@ export default function OrganizationManagementPage() {
     }, [tableFilters, location.search, location.pathname, navigate]);
 
     const actionsBodyTemplate = (item: OrganizationItem) => (
-        <div className="flex items-center justify-center gap-1">
+        <div className="flex w-full items-center justify-end gap-1">
             {canEdit && (
                 <Button
                     type="button"

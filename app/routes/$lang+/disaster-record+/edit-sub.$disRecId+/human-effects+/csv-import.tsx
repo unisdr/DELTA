@@ -1,3 +1,5 @@
+// CSV import for human effects data. Parses uploaded CSV and saves to database.
+// See _docs/human-direct-effects.md for overview.
 import { dr } from "~/db.server";
 
 import { useActionData, useLoaderData } from "react-router";

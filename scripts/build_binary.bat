@@ -26,9 +26,7 @@ if not exist dts_shared_binary\dts_database mkdir dts_shared_binary\dts_database
 set /A STEP+=1
 echo === Step !STEP!/%TOTAL_STEPS%!. Build React Router App ===
 call yarn build
-if errorlevel 1 (
-    echo WARNING: yarn build failed, continuing anyway...
-)
+if errorlevel 1 exit /b 1
 
 
 set /A STEP+=1
@@ -53,6 +51,7 @@ copy scripts\dts_database\upgrade_database.sql dts_shared_binary\dts_database\up
 copy scripts\dts_database\upgrade_from_1.0.0_to_0.1.2.sql dts_shared_binary\dts_database\upgrade_from_1.0.0_to_0.1.2.sql /Y
 copy scripts\dts_database\upgrade_from_0.1.2_to_0.1.3.sql dts_shared_binary\dts_database\upgrade_from_0.1.2_to_0.1.3.sql /Y
 copy scripts\dts_database\upgrade_from_0.1.3_to_0.2.0.sql dts_shared_binary\dts_database\upgrade_from_0.1.3_to_0.2.0.sql /Y
+copy scripts\dts_database\upgrade_from_0.2.0_to_0.2.1.sql dts_shared_binary\dts_database\upgrade_from_0.2.0_to_0.2.1.sql /Y
 
 set /A STEP+=1
 echo === Step !STEP!/%TOTAL_STEPS%!. Copying shell scripts into dts_shared_binary ===

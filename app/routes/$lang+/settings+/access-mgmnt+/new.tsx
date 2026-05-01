@@ -8,7 +8,6 @@ import {
 	getUserFromSession,
 	redirectWithMessage,
 } from "~/utils/session";
-import "react-toastify/dist/ReactToastify.css";
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";

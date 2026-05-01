@@ -72,7 +72,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const userId = await getUserIdFromSession(request);
 
 	if (!countryAccountsId) {
-		throw new Response("Unauthorized access", { status: 401 });
+		throw new Response("Unauthorized access", { status: 403 });
 	}
 	if (!params.id) {
 		throw "Route does not have $id param";

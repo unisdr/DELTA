@@ -10,8 +10,9 @@ Before using CustomMap, ensure you have these dependencies in your project:
 
 ```bash
 npm install ol react
-npm install --save-dev @types/ol
 ```
+
+> **Note:** `ol` v10 ships its own TypeScript type definitions — no separate `@types/ol` package is needed.
 
 ### Essential Imports
 
@@ -64,13 +65,16 @@ function MyMapComponent({ data }) {
 
 ## Component Architecture
 
-The CustomMap component is part of a modular system with clear separation of concerns:
+The CustomMap component (`app/components/CustomMap.tsx`) is a standalone core component. `ImpactMapOl.tsx` is a **consumer** of `CustomMap`, not a sub-component:
 
 ```
-CustomMap.tsx (Core component)
-├── ImpactMapOl.tsx (Wrapper/Integration layer)
-├── Legend.tsx (Legend component)
-└── ImpactMap.css (Styling)
+app/components/CustomMap.tsx          (Core component)
+├── Legend.tsx                         (Legend component used by CustomMap)
+└── ImpactMap.css                      (Styling)
+
+Consumed by:
+└── app/frontend/analytics/sectors/sections/Map/ImpactMapOl.tsx
+    (Sector analytics integration layer — wraps CustomMap with sector-specific data)
 ```
 
 ## Props Interface
@@ -86,8 +90,8 @@ interface CustomMapProps {
 		| "numberOfEvents"
 		| string;
 	filters: Filters; // Filter state
-	apiEndpoint?: string; // Optional API endpoint
-	levelCap?: number; // Max drill-down level
+	apiEndpoint?: string; // Optional API endpoint — ⚠️ declared but not yet implemented in the component
+	levelCap?: number; // Max drill-down level — ⚠️ declared but not yet implemented in the component
 	calculateColorRanges?: (values: number[], currency?: string) => ColorRange[];
 	currency?: string; // Currency code (only for monetary values)
 	valueFormatter?: (value: number, metric: string) => string; // Custom value formatting
@@ -101,10 +105,10 @@ interface CustomMapProps {
 
 ## Data Availability States
 
-The CustomMap component handles three distinct data availability states that determine how regions are colored and what tooltips display:
+The CustomMap component handles two data availability states that determine how regions are coloured and what tooltips display:
 
 ```typescript
-type DataAvailabilityState = "available" | "no_data" | "zero_impact";
+type DataAvailabilityState = "available" | "no_data";
 ```
 
 ### State Definitions
@@ -115,17 +119,11 @@ type DataAvailabilityState = "available" | "no_data" | "zero_impact";
    - When to use: When `dataAvailable === false` or `value === null`
    - Meaning: No data exists in the database for this region
 
-2. **zero_impact** - Confirmed zero impact (important distinction)
-   - Visual: White color
-   - Tooltip: Shows "Zero Impact (Confirmed)" or "No {unit}" based on metric type
-   - When to use: When `dataAvailable === true` and `value === 0`
-   - Meaning: Data exists but confirms zero impact (not the same as no data)
-
-3. **available** - Data exists and has a positive value
-   - Visual: Colored based on value range (blue gradient)
-   - Tooltip: Shows the formatted value
-   - When to use: When `dataAvailable === true` and `value > 0`
-   - Meaning: Data exists with measurable impact
+2. **available** - Data is available (including zero values)
+   - Visual: Colored based on value range; zero values display as white with a "Zero Impact (Confirmed)" / "No {unit}" tooltip
+   - Tooltip: Shows the formatted value, or "Zero Impact (Confirmed)" / "No {unit}" when value is 0
+   - When to use: When data exists (`dataAvailable !== false` and `value !== null`)
+   - Meaning: Data exists — the component handles zero-value display automatically based on the numeric value
 
 ### Correct Implementation
 
@@ -136,9 +134,7 @@ dataAvailability: item.dataAvailable === false
 	? "no_data"
 	: item.value === null
 		? "no_data"
-		: item.value === 0
-			? "zero_impact"
-			: "available";
+		: "available"; // Use "available" even for zero values; the component handles zero display automatically
 ```
 
 > **IMPORTANT**: Never default null values to 0 as this will incorrectly show "Zero Impact (Confirmed)" instead of "No Data Available".
@@ -208,7 +204,7 @@ The CustomMap component supports both monetary and quantitative metrics. Here's 
 - `displaced` - Number of displaced people
 - `homeless` - Number of homeless people
 
-> **Note:** For detailed guidance on choosing appropriate color schemes for different metric types, refer to the companion document: [Color Scheme Strategies for Different Metrics](.\Color%20Scheme%20Strategies%20for%20Different%20Metrics.md). This document provides specific color palettes optimized for mortality/casualty metrics, population impact metrics, and event count metrics.
+> **Note:** For detailed guidance on choosing appropriate color schemes for different metric types, refer to the companion document: [Color Scheme Strategies for Different Metrics](./color-scheme-strategies.md). This document provides specific color palettes optimized for mortality/casualty metrics, population impact metrics, and event count metrics.
 
 ### Metric Configuration
 
@@ -263,7 +259,7 @@ const metricConfigs = {
 - 5-tier color scheme from light to dark blue (customizable)
 - Special handling for zero values (white) and no data (gray)
 - Supports both monetary and quantitative metrics
-- Metric-specific color schemes available (see [Color Scheme Strategies](./Color%20Scheme%20Strategies%20for%20Different%20Metrics.md)):
+- Metric-specific color schemes available (see [Color Scheme Strategies](./color-scheme-strategies.md)):
   - Red color schemes for mortality/casualty metrics
   - Warm colors (amber/gold) for population impact metrics
   - Purple/violet schemes for event count metrics
@@ -816,9 +812,7 @@ function transformDataWithProperNullHandling(data, metricKey = "total") {
 							? "no_data"
 							: value === null
 								? "no_data"
-								: value === 0
-									? "zero_impact"
-									: "available",
+								: "available", // Use "available" even for zero; component handles zero display automatically
 				},
 			},
 			geometry: item.geojson || { type: "Point", coordinates: [0, 0] },
@@ -910,9 +904,7 @@ function transformToExtendedGeoData(
 							? "no_data"
 							: item[selectedMetricKey] === null
 								? "no_data"
-								: item[selectedMetricKey] === 0
-									? "zero_impact"
-									: "available",
+								: "available", // Use "available" even for zero; component handles zero display automatically
 
 					metadata: {
 						assessmentType: item.assessmentType || "rapid",
@@ -1467,7 +1459,7 @@ function AccessibleMap({ data }) {
 
 ### Issue: "Zero Impact (Confirmed)" showing for null values
 
-**Solution**: Ensure your data transformation correctly sets dataAvailability to "no_data" for null values and only uses "zero_impact" for confirmed zero values (value === 0 with dataAvailable === true). Never default null values to 0 in your transformation functions.
+**Solution**: Ensure your data transformation correctly sets dataAvailability to `"no_data"` for null values and `"available"` for all valid values (including zero). The component handles zero-value display automatically based on the numeric value — do not use `"zero_impact"` as it is not a valid `dataAvailability` state. Never default null values to 0.
 
 ### Issue: Poor performance with large datasets
 

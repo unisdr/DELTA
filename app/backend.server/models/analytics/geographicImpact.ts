@@ -423,7 +423,12 @@ export async function getGeographicImpact(
 						baseConditions.push(...searchConditions);
 					}
 				}
-			} catch (error) {}
+			} catch (error) {
+				console.error(
+					"[GEOGRAPHIC_IMPACT] Error applying disaster event filter:",
+					error,
+				);
+			}
 		}
 
 		// Add base query builder for disaster records, supporting hazard filters with joins in applyHazardFilters()

@@ -68,7 +68,7 @@ export default function Home() {
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
 						{/* Card 1 */}
-						<div className="bg-stone-50 rounded-xl p-8 flex flex-col gap-4">
+						<div className="bg-[#F9F9F9] rounded-xl p-8 flex flex-col gap-4">
 							<span className="text-sm font-bold text-black/90">Data</span>
 
 							<img
@@ -88,7 +88,7 @@ export default function Home() {
 						</div>
 
 						{/* Card 2 */}
-						<div className="bg-stone-50 rounded-xl p-8 flex flex-col gap-4">
+						<div className="bg-[#F9F9F9] rounded-xl p-8 flex flex-col gap-4">
 							<span className="text-sm font-bold text-black/90">Analysis</span>
 
 							<img
@@ -108,7 +108,7 @@ export default function Home() {
 						</div>
 
 						{/* Card 3 */}
-						<div className="bg-stone-50 rounded-xl p-8 flex flex-col gap-4">
+						<div className="bg-[#F9F9F9] rounded-xl p-8 flex flex-col gap-4">
 							<span className="text-sm font-bold text-black/90">
 								Insights for action
 							</span>
@@ -134,12 +134,12 @@ export default function Home() {
 			</section>
 
 			{/* KEY FEATURES */}
-			<section className="w-full bg-stone-50 py-16 md:py-24">
+			<section className="w-full bg-[#F9F9F9] py-16 md:py-24">
 				<div className="max-w-7xl mx-auto px-6 lg:px-8">
 
 					{/* Header */}
 					<div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-12">
-						<h2 className="text-3xl font-bold text-sky-800">
+						<h2 className="text-3xl font-bold text-[#025091]">
 							Key Features
 						</h2>
 
@@ -155,9 +155,9 @@ export default function Home() {
 					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
 						{/* Feature */}
-						<div className="bg-white rounded-xl border-2 border-orange-400 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-orange-400/30 rounded-2xl flex items-center justify-center">
-								<i className="pi pi-chart-line text-2xl text-orange-600" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
+						<div className="bg-white rounded-xl border-2 border-[#DE7C32] p-8 flex flex-col gap-4">
+							<div className="w-16 h-16 bg-[#DE7C32]/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-chart-line text-2xl text-[#DE7C32]" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
 							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">
@@ -171,9 +171,9 @@ export default function Home() {
 							</p>
 						</div>
 
-						<div className="bg-white rounded-xl border-2 border-fuchsia-800 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-fuchsia-800/30 rounded-2xl flex items-center justify-center">
-								<i className="pi pi-wave-pulse text-2xl text-fuchsia-900" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
+						<div className="bg-white rounded-xl border-2 border-[#8D3386] p-8 flex flex-col gap-4">
+							<div className="w-16 h-16 bg-[#8D3386]/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-wave-pulse text-2xl text-[#8D3386]" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
 							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">
@@ -187,9 +187,9 @@ export default function Home() {
 							</p>
 						</div>
 
-						<div className="bg-white rounded-xl border-2 border-emerald-400 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-emerald-400/30 rounded-2xl flex items-center justify-center">
-								<i className="pi pi-database text-2xl text-emerald-700" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
+						<div className="bg-white rounded-xl border-2 border-[#45AAAB] p-8 flex flex-col gap-4">
+							<div className="w-16 h-16 bg-[#45AAAB]/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-database text-2xl text-[#45AAAB]" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
 							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">
@@ -202,9 +202,9 @@ export default function Home() {
 							</p>
 						</div>
 
-						<div className="bg-white rounded-xl border-2 border-sky-500 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-sky-500/30 rounded-2xl flex items-center justify-center">
-								<i className="pi pi-chart-bar text-2xl text-sky-700" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
+						<div className="bg-white rounded-xl border-2 border-[#009EDB] p-8 flex flex-col gap-4">
+							<div className="w-16 h-16 bg-[#009EDB]/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-chart-bar text-2xl text-[#009EDB]" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
 							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">
@@ -217,9 +217,9 @@ export default function Home() {
 							</p>
 						</div>
 
-						<div className="bg-white rounded-xl border-2 border-red-700 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-red-700/30 rounded-2xl flex items-center justify-center">
-								<i className="pi pi-share-alt text-2xl text-red-800" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
+						<div className="bg-white rounded-xl border-2 border-[#B42A32] p-8 flex flex-col gap-4">
+							<div className="w-16 h-16 bg-[#B42A32]/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-share-alt text-2xl text-[#B42A32]" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
 							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">
@@ -232,9 +232,9 @@ export default function Home() {
 							</p>
 						</div>
 
-						<div className="bg-white rounded-xl border-2 border-sky-950 p-8 flex flex-col gap-4">
-							<div className="w-16 h-16 bg-sky-950/30 rounded-2xl flex items-center justify-center">
-								<i className="pi pi-map text-2xl text-sky-950" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
+						<div className="bg-white rounded-xl border-2 border-[#002F49] p-8 flex flex-col gap-4">
+							<div className="w-16 h-16 bg-[#002F49]/30 rounded-2xl flex items-center justify-center">
+								<i className="pi pi-map text-2xl text-[#002F49]" style={{ fontSize: "1.5rem" }} aria-hidden="true"></i>
 							</div>
 
 							<h3 className="text-xl font-medium text-neutral-950">

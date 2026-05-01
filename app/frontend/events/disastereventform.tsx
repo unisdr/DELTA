@@ -130,7 +130,7 @@ function repeatDisasterDeclarations(
 							msg: "Disaster declaration",
 						}) + ` (${j})`,
 				},
-				repeatable: { group: "disasterDeclaration", index: j },
+				repeatable: { group: "disasterDeclaration", index: i },
 			},
 			{
 				key: "disasterDeclarationDate" + j,
@@ -139,7 +139,7 @@ function repeatDisasterDeclarations(
 					msg: "Date",
 				}),
 				type: "date",
-				repeatable: { group: "disasterDeclaration", index: j },
+				repeatable: { group: "disasterDeclaration", index: i },
 			},
 		);
 	}
@@ -169,7 +169,7 @@ function repeatRapidOrPreliminaryAssesments(
 							msg: "Rapid/Preliminary assessment",
 						}) + ` (${j})`,
 				},
-				repeatable: { group: "rapidOrPreliminaryAssessment", index: j },
+				repeatable: { group: "rapidOrPreliminaryAssessment", index: i },
 			},
 			{
 				key: "rapidOrPreliminaryAssessmentDate" + j,
@@ -178,7 +178,7 @@ function repeatRapidOrPreliminaryAssesments(
 					msg: "Date",
 				}),
 				type: "date",
-				repeatable: { group: "rapidOrPreliminaryAssessment", index: j },
+				repeatable: { group: "rapidOrPreliminaryAssessment", index: i },
 			},
 		);
 	}

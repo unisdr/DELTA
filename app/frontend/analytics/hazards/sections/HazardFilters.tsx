@@ -1,11 +1,11 @@
 import { Form, useNavigation } from "react-router";
 import { TreeNode } from "primereact/treenode";
 import { TreeSelect, TreeSelectChangeEvent } from "primereact/treeselect";
-import React, { useState, useEffect } from "react";
-import Swal from "sweetalert2";
+import React, { useState, useEffect, useRef } from "react";
 import { PartialDivision } from "~/backend.server/models/division";
 import { ViewContext } from "~/frontend/context";
 import { buildPrimeReactTreeNodes } from "~/utils/PrimeReactUtil";
+import { Toast } from "primereact/toast";
 
 interface HazardType {
 	id: string;
@@ -47,6 +47,16 @@ const HazardFilters: React.FC<FiltersProps> = ({
 	selectedSpecificHazardId,
 	selectedGeographicLevelId,
 }) => {
+	const toast = useRef<Toast>(null);
+
+	const showWarningToast = (detail: string) => {
+		toast.current?.show({
+			severity: "warn",
+			detail,
+			life: 5000,
+		});
+	};
+
 	const [hazardTypeId, setHazardTypeId] = useState<string | null>(null);
 	const [hazardClusterId, setHazardClusterId] = useState<string | null>(
 		selectedHazardClusterId,
@@ -79,14 +89,12 @@ const HazardFilters: React.FC<FiltersProps> = ({
 
 	const handleApply = (e: React.FormEvent) => {
 		if (!hazardTypeId) {
-			Swal.fire({
-				icon: "warning",
-				text: ctx.t({
+			showWarningToast(
+				ctx.t({
 					code: "analysis.select_hazard_type_first",
 					msg: "Please select a hazard type first.",
 				}),
-				confirmButtonText: "OK",
-			});
+			);
 			e.preventDefault();
 			return;
 		}
@@ -95,14 +103,12 @@ const HazardFilters: React.FC<FiltersProps> = ({
 			const from = new Date(fromDate);
 			const to = new Date(toDate);
 			if (to < from) {
-				Swal.fire({
-					icon: "warning",
-					text: ctx.t({
+				showWarningToast(
+					ctx.t({
 						code: "common.to_date_cannot_be_earlier_than_from_date",
 						msg: "The 'To' date cannot be earlier than the 'From' date.",
 					}),
-					confirmButtonText: "OK",
-				});
+				);
 				e.preventDefault();
 				return;
 			}
@@ -129,6 +135,7 @@ const HazardFilters: React.FC<FiltersProps> = ({
 
 	return (
 		<div className="relative">
+			<Toast ref={toast} position="top-center" />
 			<Form
 				method="post"
 				onSubmit={handleApply}

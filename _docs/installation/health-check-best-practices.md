@@ -1,5 +1,7 @@
 # Health Check Best Practices for Node.js Applications
 
+> ⚠️ **Status: Proposal** — This health check endpoint has not yet been implemented. The following is a recommended implementation guide pending approval.
+
 ## Executive Summary
 
 This document outlines recommended best practices for implementing health check endpoints in Node.js applications, specifically tailored for the DELTA Resilience Shared Instance. These recommendations are based on industry standards and research into health check implementations across similar applications.
@@ -10,8 +12,9 @@ We recommend implementing a `/health` endpoint that follows these best practices
 
 ```typescript
 // app/routes/api+/health.tsx
-import { json } from "@remix-run/node";
-import type { LoaderFunctionArgs } from "@remix-run/node";
+// Note: health check routes are placed outside the `$lang+` prefix intentionally
+// so monitoring tools can access them without a language code.
+import type { LoaderFunctionArgs } from "react-router";
 import { db } from "~/drizzle/db.server";
 import { sql } from "drizzle-orm";
 
@@ -47,7 +50,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 		} catch (error) {
 			healthData.database = "disconnected";
 			healthData.status = "error";
-			return json(
+			return Response.json(
 				{ ...healthData, error: "Database connection failed" },
 				{ status: 503 },
 			);
@@ -57,12 +60,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
 		const hrtime = process.hrtime(startTime);
 		const responseTime = (hrtime[0] * 1000 + hrtime[1] / 1000000).toFixed(2);
 
-		return json({
+		return Response.json({
 			...healthData,
 			responseTime: `${responseTime}ms`,
 		});
 	} catch (error) {
-		return json(
+		return Response.json(
 			{
 				status: "error",
 				timestamp: new Date().toISOString(),
@@ -129,7 +132,7 @@ Based on the DELTA Resilience project architecture (Clean Architecture with Doma
 
 ### Implementation Location
 
-- Create the endpoint at `app/routes/api+/health.tsx` following Remix conventions
+- Create the endpoint at `app/routes/api+/health.tsx` following React Router v7 conventions
 - Add database checks in the Data Access Layer
 
 ### Integration with Existing Architecture

@@ -5,7 +5,7 @@ import { DataTable } from "primereact/datatable";
 
 import { MainContainer } from "~/frontend/container";
 import { FictitiousCountryService } from "~/services/fictitiousCountryService";
-import { NavSettings } from "../../settings/nav";
+import { NavSettings } from "~/frontend/components/NavSettings";
 import { authLoaderWithPerm } from "~/utils/auth";
 import { ViewContext } from "~/frontend/context";
 
@@ -61,10 +61,10 @@ export default function FictitiousCountryManagementLayout() {
                         header={ctx.t({ code: "common.name", msg: "Name" })}
                     />
                     <Column
-                        header={ctx.t({ code: "common.actions", msg: "Actions" })}
+                        header=""
                         body={(row: { id: string; name: string }) => {
                             return (
-                                <div className="flex gap-2">
+                                <div className="flex w-full justify-end gap-2">
                                     <Button
                                         text
                                         severity="secondary"

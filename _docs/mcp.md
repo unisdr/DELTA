@@ -1,15 +1,14 @@
 # MCP (Model Context Protocol) API
 
-Application provides a Model Context Protocol (MCP) endpoint that allows AI assistants to interact with the DTS database programmatically.
+Application provides a Model Context Protocol (MCP) endpoint that allows AI assistants to interact with the DELTA database programmatically.
 
 ## Overview
 
 MCP enables AI assistants to:
 
-- List and modify DTS data entities
-- Work with disaster records, assets, damages, losses, disruptions
-- Manage human effects data
-- Access reference data (HIP classifications, sectors, categories)
+- Read and write core data entities: `asset`, `damage`, `disaster-event`, `disaster-record`, `disruption`, `hazardous-event`, `losses`, `nonecolosses`, `sector-disaster-record-relation`
+- Manage human effects data (special entity: `human-effects`)
+- Access read-only reference data: `categories`, `hip-type`, `hip-cluster`, `hip-hazard`, `sector`
 - Use structured prompts for common workflows
 
 ## Configuration

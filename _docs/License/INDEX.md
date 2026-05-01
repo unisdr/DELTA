@@ -14,12 +14,12 @@ The UNDRR DELTA Resilience is a comprehensive platform designed to support count
 
 ## License Status
 
-DELTA Resilience is currently evaluating the implementation of the Apache License 2.0, as recommended in the license recommendation document. This license has been selected for its patent protection, international deployment suitability, and alignment with DPG requirements.
+DELTA Resilience is licensed under the **Apache License 2.0**. The `package.json` `"license"` field is set to `"Apache-2.0"` and the full license text is in [`LICENSE`](../LICENSE) at the repository root.
 
 ## Available Documents
 
 1. [LICENSE.md](./LICENSE.md)
-   - Current license status (draft)
+   - License adoption status
    - License goals and requirements
    - Third-party dependency overview
 
@@ -60,8 +60,8 @@ DELTA Resilience is currently evaluating the implementation of the Apache Licens
 The DELTA Resilience project is actively working toward Digital Public Goods (DPG) registry inclusion. Current status:
 
 - **Compliance Assessment**: Completed (June 2025)
-- **Current Compliance Score**: 72% (5 fully compliant indicators, 3 partially compliant)
-- **Primary Gap**: Implementation of Apache License 2.0
+- **Current Compliance Score**: 83% (6 fully compliant indicators, 3 partially compliant) — Apache License 2.0 adopted
+- **Primary Gap**: Documentation completeness and standards compliance
 - **Target for Full Compliance**: September 2025
 - **DPG Registry Application**: Planned for October 2025
 
@@ -69,7 +69,7 @@ The DELTA Resilience project is actively working toward Digital Public Goods (DP
 
 | Document                           | Status   | Last Updated |
 | ---------------------------------- | -------- | ------------ |
-| LICENSE.md                         | Draft    | May 2025     |
+| LICENSE.md                         | Complete | July 2025    |
 | License-comparison.md              | Complete | May 2025     |
 | third-party-dependencies-review.md | Complete | May 2025     |
 | license-recommendation.md          | Complete | May 2025     |

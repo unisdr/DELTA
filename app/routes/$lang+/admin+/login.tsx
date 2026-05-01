@@ -1,12 +1,14 @@
 import type { MetaFunction } from "react-router";
 
-import { ActionFunctionArgs, Link, LoaderFunctionArgs, redirect, useNavigation } from "react-router";
-import { useLoaderData, useActionData } from "react-router";
 import {
-	Form,
-	Errors as FormErrors,
-	errorToString,
-} from "~/frontend/form";
+	ActionFunctionArgs,
+	Link,
+	LoaderFunctionArgs,
+	redirect,
+	useNavigation,
+} from "react-router";
+import { useLoaderData, useActionData } from "react-router";
+import { Form, Errors as FormErrors, errorToString } from "~/frontend/form";
 import { formStringData } from "~/utils/httputil";
 import {
 	createSuperAdminSession,
@@ -42,9 +44,9 @@ interface LoginFields {
 }
 type LoginActionData =
 	| {
-		data: LoginFields;
-		errors: FormErrors<LoginFields>;
-	}
+			data: LoginFields;
+			errors: FormErrors<LoginFields>;
+	  }
 	| undefined;
 
 type LoginLoaderData = {
@@ -344,8 +346,7 @@ export default function Screen() {
 	const ctx = new ViewContext();
 	const actionData = useActionData<LoginActionData>();
 	const navigation = useNavigation();
-	const isSubmitting =
-		navigation.state === "submitting";
+	const isSubmitting = navigation.state === "submitting";
 
 	const errors = actionData?.errors || {};
 
@@ -425,12 +426,12 @@ export default function Screen() {
 			<div className="w-full md:w-1/2 lg:w-1/3">
 				<div className="flex flex-col gap-4">
 					<div className="flex items-center justify-center gap-3 mb-4">
-						<div
+						{/* <div
 							className="w-12 h-12 rounded-lg flex items-center justify-center"
 							style={{ backgroundColor: "#004F91" }}
 						>
 							<i className="pi pi-globe text-white" style={{ fontSize: "1.5rem" }}></i>
-						</div>
+						</div> */}
 						<div className="flex flex-col">
 							<span className="font-bold text-2xl leading-none tracking-tight text-[#004F91]">
 								DELTA
@@ -468,13 +469,24 @@ export default function Screen() {
 
 							<Form ctx={ctx} id="login-form" errors={errors}>
 								<div className="flex flex-col gap-4">
-									<input type="hidden" name="redirectTo" value={loaderData.redirectTo} />
-									<input type="hidden" name="csrfToken" value={loaderData.csrfToken} />
+									<input
+										type="hidden"
+										name="redirectTo"
+										value={loaderData.redirectTo}
+									/>
+									<input
+										type="hidden"
+										name="csrfToken"
+										value={loaderData.csrfToken}
+									/>
 
 									{/* Email */}
 									<div className="flex flex-col gap-2">
 										<label htmlFor="email" className="font-semibold">
-											{ctx.t({ code: "user_login.email_address", msg: "Email address" })}
+											{ctx.t({
+												code: "user_login.email_address",
+												msg: "Email address",
+											})}
 										</label>
 
 										<div className="p-inputgroup login-inputgroup">
@@ -521,11 +533,18 @@ export default function Screen() {
 												toggleMask
 												autoComplete="true"
 												pt={{
-													root: { className: "w-full", style: { width: "100%", flex: 1 } },
+													root: {
+														className: "w-full",
+														style: { width: "100%", flex: 1 },
+													},
 													iconField: { root: { className: "w-full" } },
 													input: { className: "w-full" },
-													hideIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
-													showIcon: { className: "ltr:!right-3 rtl:left-3 rtl:right-auto" },
+													hideIcon: {
+														className: "ltr:!right-3 rtl:left-3 rtl:right-auto",
+													},
+													showIcon: {
+														className: "ltr:!right-3 rtl:left-3 rtl:right-auto",
+													},
 												}}
 												feedback={false}
 												placeholder={ctx.t({
@@ -545,7 +564,10 @@ export default function Screen() {
 
 									<Button
 										type="submit"
-										label={ctx.t({ code: "user_login.sign_in", msg: "Sign in" })}
+										label={ctx.t({
+											code: "user_login.sign_in",
+											msg: "Sign in",
+										})}
 										icon="pi pi-sign-in"
 										loading={isSubmitting}
 										disabled={isSubmitting}
@@ -573,7 +595,12 @@ export default function Screen() {
 										msg: "Use your organization's Single Sign-On to access your admin account.",
 									})}
 
-									<Link to={urlLang(ctx.lang, "/sso/azure-b2c/login?origin=admin&redirectTo=/admin/country-accounts&isAdmin=true&adminLogin=1")}>
+									<Link
+										to={urlLang(
+											ctx.lang,
+											"/sso/azure-b2c/login?origin=admin&redirectTo=/admin/country-accounts&isAdmin=true&adminLogin=1",
+										)}
+									>
 										<Button
 											label={ctx.t({
 												code: "admin.signin_with_azure_b2c_sso",
@@ -596,7 +623,12 @@ export default function Screen() {
 								msg: "Use your organization's Single Sign-On to access your admin account.",
 							})}
 
-							<Link to={urlLang(ctx.lang, "/sso/azure-b2c/login?origin=admin&redirectTo=/admin/country-accounts&isAdmin=true&adminLogin=1")}>
+							<Link
+								to={urlLang(
+									ctx.lang,
+									"/sso/azure-b2c/login?origin=admin&redirectTo=/admin/country-accounts&isAdmin=true&adminLogin=1",
+								)}
+							>
 								<Button
 									label={ctx.t({
 										code: "admin.signin_with_azure_b2c_sso",

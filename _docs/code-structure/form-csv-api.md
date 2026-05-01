@@ -1,6 +1,7 @@
 # Form-CSV-API Pattern
 
 - [Creating a new type](creating-a-new-type-linked-to-a-form.md)
+- [Implementation details](form-implementation.md)
 
 ## Overview
 
@@ -8,13 +9,13 @@ This app is form-heavy. To make adding new form/data types easier, and also expo
 
 These definitions include type, allow values, description and UI related settings, for form layout and number of columns.
 
-Adding a new type requires adding multiple files, but adding or chaning a field is simple, only need to update the Drizzle schema and the field definition. The change would appear in the form, view, CSV and API. It also keeps the approach consistent for different types.
+Adding a new type requires adding multiple files, but adding or changing a field is simple, only need to update the Drizzle schema and the field definition. The change would appear in the form, view, CSV and API. It also keeps the approach consistent for different types.
 
 This approach is flexible enough for customization of edit forms, views and lists as needed.
 
-There is no a built in library for Remix that does all this, though similar tools exist for other Typescript frameworks.
+There is no built-in library for React Router v7 that does all this, though similar tools exist for other Typescript frameworks.
 
-Use dev_example1 as a template to get started.
+Use an existing production entity (e.g. `organization`) as a reference implementation to get started.
 
 Related docs (Form,CSV,API sections)
 
@@ -25,13 +26,13 @@ Related docs (Form,CSV,API sections)
 
 ### Database table
 
-`app/drizzle/schema.ts`
-Copy an example for dev_example1, rename, define your fields.
+`app/drizzle/schema/`
+Add a new schema file following the same pattern as other tables, rename, define your fields.
 
 ### Database access layer
 
-`app/backend.server/models/dev_example1.ts`
-Copy and rename. This includes:
+`app/backend.server/models/{yourEntity}.ts`
+Create and rename. This includes:
 
 - `fieldDefs` for the form
 - DB queries
@@ -39,16 +40,16 @@ Copy and rename. This includes:
 
 ### Form definition
 
-`app/frontend/dev_example1.tsx`
-Copy and rename. This includes:
+`app/frontend/{yourEntity}.tsx`
+Create and rename. This includes:
 
 - Form rendering logic
 - View layout
 
 ### Routes
 
-`app/routes/examples+/dev_example1+`
-Copy the full forlder. It includes:
+`app/routes/$lang+/{yourfeature}+/`
+Create the full folder. It includes:
 
 - edit.$id.tsx - Create and update form (/edit/new for creating a new record)
 - $id.tsx - View record
@@ -62,7 +63,7 @@ CSV handling related files
 
 ### API
 
-`app/routes/api+/dev-example+1`
+`app/routes/$lang+/api+/{yourfeature}+/`
 
 - \_index.tsx - Documentation for the API
 - add.ts,update.ts,upsert.ts - Write operations

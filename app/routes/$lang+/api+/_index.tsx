@@ -79,9 +79,6 @@ export default function Screen() {
 				<h3>Other internal APIs and WIP</h3>
 				<ul>
 					<li>
-						<a href={ctx.url("/api/dev-example1")}>Dev Example 1</a>
-					</li>
-					<li>
 						<a href={ctx.url("/api/analytics")}>Analytics</a>
 					</li>
 					<li>

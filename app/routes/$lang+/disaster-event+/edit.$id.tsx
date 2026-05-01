@@ -211,7 +211,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	try {
 		item = await getItem2(ctx, params, getDisasterEvent);
 		if (item.countryAccountsId !== countryAccountsId) {
-			throw new Response("Unauthorized access", { status: 401 });
+			throw new Response("Unauthorized access", { status: 403 });
 		}
 	} catch (error) {
 		// If item not found, return 404

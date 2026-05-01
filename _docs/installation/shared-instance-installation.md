@@ -46,7 +46,7 @@ The DELTA Resilience Shared Instance uses a **Single Database Multi-Tenancy** ar
 #### Option B: Manual Installation
 
 - **Node.js**: v22.x
-- **PostgreSQL**: v16 with PostGIS extension
+- **PostgreSQL**: v17 with PostGIS extension
 - **Git**: For source code management
 - **Yarn**: Package manager
 
@@ -65,55 +65,62 @@ The DELTA Resilience Shared Instance uses a **Single Database Multi-Tenancy** ar
 
 2. **Configure Environment Variables**
 
+   > ⚠️ **Docker Note**: This project's `docker-compose.yml` has **no `env_file:` directive**, which means the `.env` file is **not read by Docker Compose**. All environment variables for the Docker deployment are configured directly in the `environment:` block inside `docker-compose.yml`. **Do not edit `.env` expecting it to affect Docker containers** — edit `docker-compose.yml` directly.
+
+   The `.env` file (created via `cp example.env .env`) is only relevant for local, non-Docker development.
+
    ```bash
-   cp example.env .env
+   cp example.env .env  # Only needed for non-Docker/manual development
    ```
 
-3. **Edit the `.env` file with the following configuration:**
+3. **Configure environment variables in `docker-compose.yml`:**
 
-   > **Note**: Many configuration variables have been moved to the database (`instance_system_settings` table) and are no longer needed in `.env`. Only infrastructure and security-related variables remain in `.env`.
+   > **Note**: Many configuration variables have been moved to the database (`instance_system_settings` table) and are no longer needed as environment variables. Only infrastructure and security-related variables need to be set.
 
-   ### 2.2 Environment Variables
+   ### Docker Environment Configuration (docker-compose.yml)
 
-   Create a `.env` file in the project root with **only infrastructure-related variables**. Many configuration settings that were previously in `.env` have been moved to the database and are now managed through the super admin interface.
+   Open `docker-compose.yml` and update the `environment:` block for the `app` service with your values. Many configuration settings that were previously environment variables have been moved to the database and are now managed through authenticated country settings screens.
 
-   #### Required Environment Variables (.env file)
+   #### Environment Variables (`docker-compose.yml` `environment:` block)
 
-   ```bash
-   # Database Configuration (Required in .env)
-   DATABASE_URL="postgresql://username:password@localhost:5432/dts_shared"
+   > **Important**:
+   >
+   > - The repository's default `docker-compose.yml` includes a minimal local-development baseline (`NODE_ENV`, `PORT`, `DATABASE_URL`).
+   > - For production or email/SSO-enabled environments, provide the additional variables below in your deployment-specific compose/secret configuration.
 
-   # Authentication & Security (Required in .env)
-   SESSION_SECRET="your-secure-random-string"
+   ```yaml
+   # Database Configuration (Required)
+   DATABASE_URL: "postgresql://username:password@db:5432/dts_development"
 
-   # Email Configuration (Required in .env)
-   EMAIL_TRANSPORT="smtp"
-   EMAIL_FROM="noreply@your-domain.com"
-   SMTP_HOST="your-smtp-server.com"
-   SMTP_PORT="587"
-   SMTP_SECURE="false"
-   SMTP_USER="your-smtp-username"
-   SMTP_PASS="your-smtp-password"
+   # Authentication & Security (Required)
+   SESSION_SECRET: "your-secure-random-string"
 
-   # Authentication (Required in .env)
-   AUTHENTICATION_SUPPORTED="form,sso_azure_b2c"
+   # Email Configuration (required when EMAIL_TRANSPORT=smtp)
+   EMAIL_TRANSPORT: "smtp"
+   EMAIL_FROM: "noreply@your-domain.com"
+   SMTP_HOST: "your-smtp-server.com"
+   SMTP_PORT: "587"
+   SMTP_SECURE: "false"
+   SMTP_USER: "your-smtp-username"
+   SMTP_PASS: "your-smtp-password"
+
+   # Authentication (Required)
+   AUTHENTICATION_SUPPORTED: "form,sso_azure_b2c"
 
    # SSO Configuration (if using Azure B2C)
-   # SSO_AZURE_B2C_TENANT=""
-   # SSO_AZURE_B2C_CLIENT_ID=""
-   # SSO_AZURE_B2C_CLIENT_SECRET=""
-   # SSO_AZURE_B2C_USERFLOW_LOGIN=""
-   # SSO_AZURE_B2C_USERFLOW_LOGIN_ADMIN_REDIRECT_URL=""
-   # SSO_AZURE_B2C_USERFLOW_LOGIN_REDIRECT_URL=""
-   # SSO_AZURE_B2C_USERFLOW_EDIT=""
-   # SSO_AZURE_B2C_USERFLOW_EDIT_REDIRECT_URL=""
-   # SSO_AZURE_B2C_USERFLOW_RESET=""
-   # SSO_AZURE_B2C_USERFLOW_RESET_REDIRECT_URL=""
+   # SSO_AZURE_B2C_TENANT: ""
+   # SSO_AZURE_B2C_CLIENT_ID: ""
+   # SSO_AZURE_B2C_CLIENT_SECRET: ""
+   # SSO_AZURE_B2C_USERFLOW_LOGIN: ""
+   # SSO_AZURE_B2C_USERFLOW_LOGIN_ADMIN_REDIRECT_URL: ""
+   # SSO_AZURE_B2C_USERFLOW_LOGIN_REDIRECT_URL: ""
+   # SSO_AZURE_B2C_USERFLOW_EDIT: ""
+   # SSO_AZURE_B2C_USERFLOW_EDIT_REDIRECT_URL: ""
+   # SSO_AZURE_B2C_USERFLOW_RESET: ""
+   # SSO_AZURE_B2C_USERFLOW_RESET_REDIRECT_URL: ""
 
    # Application Environment
-   NODE_ENV="development"  # Use "production" for production environment.
-
-
+   NODE_ENV: "development" # Use "production" for production environment.
    ```
 
 4. **Build and Start the Application**
@@ -129,7 +136,9 @@ The DELTA Resilience Shared Instance uses a **Single Database Multi-Tenancy** ar
    docker-compose exec app yarn dbsync
    ```
 
-   > Note: This command runs both `drizzle-kit push` to load the schema and `drizzle-kit migrate` to execute migration scripts. Using only `drizzle-kit push` is insufficient as it only loads the schema without running migrations.
+   > Note: This command runs `drizzle-kit migrate` to apply all pending SQL migrations. See `_docs/code-structure/drizzle.md` for the full migration workflow and safety rules.
+
+   The Docker stack also starts an [Adminer](https://www.adminer.org/) database UI at `http://localhost:8080`. Use it for direct database inspection during development. Do not expose port 8080 in production.
 
 ### Option B: Manual Installation
 
@@ -140,8 +149,8 @@ The DELTA Resilience Shared Instance uses a **Single Database Multi-Tenancy** ar
    curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
    sudo apt-get install -y nodejs
 
-   # Install PostgreSQL 16 with PostGIS
-   sudo apt-get install -y postgresql-16 postgresql-16-postgis-3
+   # Install PostgreSQL 17 with PostGIS
+   sudo apt-get install -y postgresql-17 postgresql-17-postgis-3
 
    # Install Yarn
    npm install -g yarn
@@ -152,14 +161,14 @@ The DELTA Resilience Shared Instance uses a **Single Database Multi-Tenancy** ar
    ```bash
    sudo -u postgres createdb dts_shared
    sudo -u postgres psql -d dts_shared -c "CREATE EXTENSION postgis;"
-   sudo -u postgres psql -d dts_shared -c " CREATE EXTENSION IF NOT EXISTS pgcrypto"
+   sudo -u postgres psql -d dts_shared -c "CREATE EXTENSION IF NOT EXISTS pgcrypto"
    ```
 
 3. **Clone and Setup Application**
 
    ```bash
-   git clone https://github.com/unisdr/dts-shared-instance.git
-   cd dts-shared-instance
+   git clone https://github.com/unisdr/delta.git
+   cd delta
    yarn install
    cp example.env .env
    # Edit .env file with infrastructure variables only (see Docker section above)
@@ -189,12 +198,22 @@ The DELTA Resilience Shared Instance uses a **Single Database Multi-Tenancy** ar
 
 ### 4.1 Super Admin Default
 
-An account is created by default with user name admin@admin.com and password pvDT0g8Qsa36
+An account is created by default with username `admin@admin.com`. The initial password is hardcoded in the database seed migration (`app/drizzle/migrations/`). **Change it immediately** using the steps below — leaving the seed password in place is a security risk.
 
 ### 4.2 Update Super Admin Password
 
+**Docker deployment** (database name matches `POSTGRES_DB` in `docker-compose.yml`, default `dts_development`):
+
 ```bash
-   docker-compose exec psql -U postgres -d dts_development -c "UPDATE public.super_admin_users
+docker-compose exec db psql -U postgres -d dts_development -c "UPDATE public.super_admin_users
+SET password = crypt('your_password_here', gen_salt('bf', 10))
+WHERE email = 'admin@admin.com';"
+```
+
+**Manual installation** (use the database name you created in step 3.B.2, e.g. `dts_shared`):
+
+```bash
+sudo -u postgres psql -d dts_shared -c "UPDATE public.super_admin_users
 SET password = crypt('your_password_here', gen_salt('bf', 10))
 WHERE email = 'admin@admin.com';"
 ```
@@ -209,7 +228,7 @@ WHERE email = 'admin@admin.com';"
 
 3. **Enter the super admin credentials:**
    - **Email**: `admin@admin.com`
-   - **Password**: The password you set in the previous step or the default pvDT0g8Qsa36
+   - **Password**: The password you set in the previous step
 
 4. **Upon successful login**, you will be redirected to the country accounts management page (`/admin/country-accounts`).
 
@@ -218,8 +237,9 @@ WHERE email = 'admin@admin.com';"
    As a super admin, you can:
    - View a list of all countries in the system
    - Create new country accounts
-   - Modify only the short description and status (active/inactive) of existing country accounts
+   - Modify country account status and short description
    - Assign primary administrators when creating country accounts
+   - Manage fictitious countries from the dedicated **Fictitious Country Management** section
 
 5. **After completing country account management tasks**, use the logout option to exit the system.
 
@@ -259,23 +279,22 @@ The system will automatically:
 
 ### 6.1 Database-Stored Configuration
 
-Most application settings are now stored in the database rather than environment variables. These can be configured through the super admin interface:
+Most application settings are now stored in the database rather than environment variables. These are configured per country instance through the settings UI by users with the country admin role only:
 
 #### 6.1.1 System-Wide Settings (instance_system_settings table)
 
-After logging in as super admin, navigate to **System Settings** to configure:
+Configuration is managed at the country-instance level by authenticated users with the country admin role only (not from super-admin country account management screens):
 
 **Application Branding:**
 
 - **Website Logo** (`website_logo`): URL or path to logo image
 - **Website Name** (`website_name`): Display name for the application
-- **Website URL** (`website_url`): Base URL for the application
+- **Website URL**: Managed via `PUBLIC_URL` environment variable
 
 **Instance Configuration:**
 
-- **Instance Type** (`dts_instance_type`): Set to "shared" for multi-tenant
 - **Country ISO3** (`dts_instance_ctry_iso3`): Default country code
-- **Currency Codes** (`currency_codes`): Comma-separated list (e.g., "CDF,YER,PHP")
+- **Currency Code** (`currency_code`): Currency for the country instance (e.g., `USD`)
 
 **Security & Privacy:**
 
@@ -294,7 +313,6 @@ UPDATE instance_system_settings
 SET
     website_name = 'DELTA Resilience Shared Instance',
     website_logo = '/assets/shared-instance-logo.png',
-    dts_instance_type = 'shared',
     totp_issuer = 'DELTA Resilience Shared System',
     approved_records_are_public = false
 WHERE id = 'your-settings-id';
@@ -353,7 +371,7 @@ These are automatically created when a country account is established and can be
 1. **Verify the user exists in the database:**
 
    ```sql
-   SELECT email, role, is_super_admin FROM users WHERE email = 'superadmin@your-domain.com';
+   SELECT id, first_name, last_name, email FROM super_admin_users WHERE email = 'admin@admin.com';
    ```
 
 2. **Reset the password using the script method above**
@@ -383,6 +401,10 @@ These are automatically created when a country account is established and can be
 2. **Check database connectivity:**
 
    ```bash
+   # Docker deployment
+   docker-compose exec db psql -U postgres -d dts_development
+
+   # Manual installation
    psql -h localhost -U postgres -d dts_shared
    ```
 
@@ -442,7 +464,7 @@ These are automatically created when a country account is established and can be
 
 - **Use strong passwords** (minimum 12 characters with mixed case, numbers, and symbols)
 - **Change default passwords** immediately after installation
-- **Enable two-factor authentication** for super admin accounts
+- **Super admin 2FA status**: Super admin login currently uses email/password. Use strong passwords, restricted network access, and SSO where applicable.
 - **Regularly rotate passwords** (quarterly recommended)
 
 ### 8.2 Database Security

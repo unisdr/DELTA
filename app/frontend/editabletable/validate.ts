@@ -1,3 +1,6 @@
+// Validation logic for editable table data. Checks totals, group constraints, and row errors.
+// Used exclusively for human effects.
+// See _docs/human-direct-effects.md for overview.
 import { DefData, GroupKey } from "~/frontend/editabletable/base";
 import { DContext } from "~/utils/dcontext";
 

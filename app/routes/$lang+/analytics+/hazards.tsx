@@ -23,7 +23,7 @@ import {
 	getTotalLossesByYear,
 } from "~/backend.server/models/analytics/hazard-analysis";
 import { MainContainer } from "~/frontend/container";
-import { NavSettings } from "~/routes/$lang+/settings/nav";
+import { NavSettings } from "~/frontend/components/NavSettings";
 import HazardFilters from "~/frontend/analytics/hazards/sections/HazardFilters";
 import ImpactByHazard from "~/frontend/analytics/hazards/sections/ImpactByHazard";
 import {
@@ -406,27 +406,27 @@ export default function HazardAnalysis() {
 	const hazardName =
 		appliedFilters.specificHazardId && specificHazards.length > 0
 			? specificHazards.find((h) => h.id === appliedFilters.specificHazardId)
-					?.name || unknownHazard
+				?.name || unknownHazard
 			: appliedFilters.hazardClusterId && hazardClusters.length > 0
 				? hazardClusters.find((c) => c.id === appliedFilters.hazardClusterId)
-						?.name || unknownCluster
+					?.name || unknownCluster
 				: appliedFilters.hazardTypeId
 					? hazardTypes.find((t) => t.id === appliedFilters.hazardTypeId)
-							?.name || unknownType
+						?.name || unknownType
 					: null;
 
 	const geographicName =
 		appliedFilters.geographicLevelId && allDivisions.length > 0
 			? allDivisions.find(
-					(g) => g.id.toString() === appliedFilters.geographicLevelId,
-				)?.name["en"] || unknownGeographicDivision
+				(g) => g.id.toString() === appliedFilters.geographicLevelId,
+			)?.name["en"] || unknownGeographicDivision
 			: null;
 
 	const totalPeopleAffected = actionData
 		? Number(actionData.totalAffectedDirect) +
-			Number(actionData.totalDisplaced) +
-			Number(actionData.totalInjured) +
-			Number(actionData.totalMissing)
+		Number(actionData.totalDisplaced) +
+		Number(actionData.totalInjured) +
+		Number(actionData.totalMissing)
 		: 0;
 
 	return (
@@ -547,13 +547,13 @@ export default function HazardAnalysis() {
 									localCurrency={currency}
 									totalDamages={
 										actionData.totalDamages &&
-										"damagesTotal" in actionData.totalDamages
+											"damagesTotal" in actionData.totalDamages
 											? (actionData.totalDamages.damagesTotal ?? 0)
 											: 0
 									}
 									totalLosses={
 										actionData.totalLosses &&
-										"lossesTotal" in actionData.totalLosses
+											"lossesTotal" in actionData.totalLosses
 											? (actionData.totalLosses.lossesTotal ?? 0)
 											: 0
 									}

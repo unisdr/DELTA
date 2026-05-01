@@ -7,31 +7,28 @@ Contains UI logic shared between server and browser. No direct DB access here.
 
 ## Form, CSV, API code
 
-### form.tsx
+See [Form implementation details](form-implementation.md) for comprehensive documentation.
 
-Shared code for form rendering and viewing.
+- **`form.tsx`** — Shared code for form rendering and viewing: `FormInputDef` type, `Inputs`, `Input`, `FieldView`, `FormScreen`/`formScreen`, `ViewScreen` variants
+- **`form_validate.ts`** — Type checks data against `fieldsDef`, ensures required fields are present. All other validation is in models instead.
 
-- FormInputDef - Field definition type
-- Inputs - Renders all fields based on field definitions, values and errors.
-- Input - Renders a sinle form input
-- FieldView - Renders a single field value for read only display in view page.
-- FormScreen... - Screen components that load data using useLoaderData and render form screen.
-- ViewScreen... - View-only screen
+## Supporting files
 
-### form_validate.tsx
+- **`context.ts`** — `ViewContext` class providing `ctx.t()` translator and `ctx.url()` for components
+- **`approval.ts`** — Approval status definitions and label mappings
+- **`components/delete-dialog.tsx`** — Delete button with confirmation dialog
+- **`components/repeatablefields.ts`** — Client-side visibility control for repeatable field groups
 
-Type checks data agains fieldsDef, ensures required fields are present. All other validation is in models instead.
+## Dev example
 
-### Dev example1
-
-- `dev_example1.tsx` - Example of form and view using field definitions. Use as a reference when addinga new data types.
+- **`dev_example1.tsx`** — Example of form and view using field definitions. Use as a reference when adding a new data type.
 
 ## Editable Table: Human effects
 
 Implements an editable table where each row maps to a DB row. Edits are stored in `localStorage` until the user clicks Save.
 
-- `view.tsx` - Table UI
-- `data.ts`, `data_test.ts` - Manages data and local state
+- `view.tsx` — Table UI
+- `data.ts`, `data_test.ts` — Manages data and local state
 
 ```
 // Local state format

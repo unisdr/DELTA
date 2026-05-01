@@ -1,8 +1,10 @@
+> ⚠️ **Accuracy warning** — The schema snippets and function signatures in this document reflect an earlier version of the codebase that used integer/BigInt primary keys. The current implementation uses UUID primary keys (`ourRandomUUID()`), `parentId: uuid`, `countryAccountsId: uuid`, and there is no `TenantContext` type — functions accept `countryAccountsId: string` directly. There is also no `TenantError` or `SystemError` class. Treat code examples in this document as illustrative patterns only. See `app/drizzle/schema/divisionTable.ts` and `app/backend.server/models/division.ts` for current source of truth.
+
 # Division Model Technical Implementation
 
 ## Database Architecture
 
-### Schema Design (`schema.ts`)
+### Schema Design (`app/drizzle/schema/divisionTable.ts`)
 
 ```typescript
 export const divisionTable = pgTable("division", {
@@ -50,12 +52,10 @@ Key Features:
 6. **Indexes**:
 
    ```sql
-   CREATE INDEX "division_geom_idx" ON "division" USING GIST ("geom")
-   CREATE INDEX "division_bbox_idx" ON "division" USING GIST ("bbox")
-   CREATE INDEX "division_parent_id_idx" ON "division" ("parent_id")
+   CREATE INDEX "parent_idx" ON "division" ("parent_id")
    CREATE INDEX "division_level_idx" ON "division" ("level")
-   CREATE UNIQUE INDEX "division_import_id_country_accounts_id_unique" ON "division" ("import_id", "country_accounts_id")
-   CREATE UNIQUE INDEX "division_national_id_country_accounts_id_unique" ON "division" ("national_id", "country_accounts_id")
+   CREATE UNIQUE INDEX "tenant_import_id_idx" ON "division" ("country_accounts_id", "import_id")
+   CREATE UNIQUE INDEX "tenant_national_id_idx" ON "division" ("country_accounts_id", "national_id")
    ```
 
    - GIST indexes for efficient spatial queries
@@ -481,17 +481,10 @@ async function updateSpatialIndex(
 1. **Custom Error Classes**:
 
 ```typescript
-export class UserError extends Error {
+export class AppError extends Error {
 	constructor(message: string) {
 		super(message);
-		this.name = "UserError";
-	}
-}
-
-export class SystemError extends Error {
-	constructor(message: string) {
-		super(message);
-		this.name = "SystemError";
+		this.name = "AppError";
 	}
 }
 
@@ -512,6 +505,20 @@ export class ImportError extends Error {
 		super(message);
 		this.name = "ImportError";
 		this.importId = importId;
+	}
+}
+
+export class HierarchyError extends Error {
+	constructor(message: string) {
+		super(message);
+		this.name = "HierarchyError";
+	}
+}
+
+export class GeoDataError extends Error {
+	constructor(message: string) {
+		super(message);
+		this.name = "GeoDataError";
 	}
 }
 ```
@@ -946,18 +953,21 @@ async function validateHierarchy(
 ## Error Handling
 
 1. **Error Classification**:
-   - **UserError**: User-facing errors with clear messages that can be addressed by the user
+   - **AppError**: Base application error for general error handling
      - Examples: Invalid file format, duplicate division name, circular reference
-     - Implementation: `throw new UserError('Division name already exists in this tenant')`
-   - **SystemError**: Internal errors requiring technical intervention
-     - Examples: Database connection issues, unexpected data format
-     - Implementation: `throw new SystemError('Failed to connect to database', originalError)`
-   - **ValidationError**: Data validation failures with specific field context
-     - Examples: Missing required field, invalid level value
-     - Implementation: `throw new ValidationError('Level must be a positive integer')`
+     - Implementation: `throw new AppError('Division name already exists in this tenant')`
    - **ImportError**: Specific to import process with record context
      - Examples: Missing GeoJSON file, CSV format errors
      - Implementation: `throw new ImportError('Missing GeoJSON file for division', { row, importId })`
+   - **HierarchyError**: Errors in parent-child division relationships
+     - Examples: Circular reference detected, invalid parent level
+     - Implementation: `throw new HierarchyError('Circular reference detected in division hierarchy')`
+   - **GeoDataError**: Spatial/geometry data errors
+     - Examples: Invalid GeoJSON geometry, coordinate range violations
+     - Implementation: `throw new GeoDataError('Invalid geometry: coordinates out of WGS84 range')`
+   - **ValidationError**: Data validation failures with specific field context
+     - Examples: Missing required field, invalid level value
+     - Implementation: `throw new ValidationError('Level must be a positive integer')`
 
 2. **Error Reporting Mechanisms**:
    - **Frontend Display**:

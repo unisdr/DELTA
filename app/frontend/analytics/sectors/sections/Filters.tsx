@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import Swal from "sweetalert2";
+import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useSubmit } from "react-router";
 import { ViewContext } from "~/frontend/context";
+import { Toast } from "primereact/toast";
 
 // Define initial filters for type safety
 const initialFilters = {
@@ -78,6 +78,21 @@ const Filters: React.FC<FiltersProps> = ({
 	hazardClustersData: hazardClustersDataProp,
 	specificHazardsData: specificHazardsDataProp,
 }) => {
+	const toast = useRef<Toast>(null);
+
+	const showToast = (
+		severity: "error" | "warn",
+		detail: string,
+		summary?: string,
+	) => {
+		toast.current?.show({
+			severity,
+			detail,
+			summary,
+			life: 5000,
+		});
+	};
+
 	const [searchTimeout, setSearchTimeout] = useState<number | null>(null);
 
 	const [filters, setFilters] = useState({
@@ -116,23 +131,17 @@ const Filters: React.FC<FiltersProps> = ({
 	// Handle error case if sectorsData is missing
 	useEffect(() => {
 		if (!sectorsLoading && !sectorsData) {
-			Swal.fire({
-				icon: "error",
-				title: ctx.t({
-					code: "analysis.error_loading_sectors",
-					msg: "Error loading sectors",
-				}),
-				text: ctx.t({
+			showToast(
+				"error",
+				ctx.t({
 					code: "analysis.failed_to_load_sector_data",
 					msg: "Failed to load sector data. Please try again later.",
 				}),
-				confirmButtonText: "OK",
-				buttonsStyling: false,
-				customClass: {
-					popup: "swal2-custom-popup",
-					confirmButton: "swal2-custom-button",
-				},
-			});
+				ctx.t({
+					code: "analysis.error_loading_sectors",
+					msg: "Error loading sectors",
+				}),
+			);
 		}
 	}, [sectorsData, sectorsLoading]);
 
@@ -192,24 +201,17 @@ const Filters: React.FC<FiltersProps> = ({
 				console.error("Error initializing disaster events:", error);
 				setEventsLoading(false);
 
-				// Show user-friendly error message
-				Swal.fire({
-					icon: "error",
-					title: ctx.t({
-						code: "disaster_event.error_loading_events",
-						msg: "Error loading events",
-					}),
-					text: ctx.t({
+				showToast(
+					"error",
+					ctx.t({
 						code: "disaster_event.failed_to_load_events",
 						msg: "Failed to load disaster events. Please try again later.",
 					}),
-					confirmButtonText: "OK",
-					buttonsStyling: false,
-					customClass: {
-						popup: "swal2-custom-popup",
-						confirmButton: "swal2-custom-button",
-					},
-				});
+					ctx.t({
+						code: "disaster_event.error_loading_events",
+						msg: "Error loading events",
+					}),
+				);
 			}
 		};
 
@@ -249,24 +251,17 @@ const Filters: React.FC<FiltersProps> = ({
 				setHazardTypesData(transformedData);
 			} catch (error) {
 				console.error("Error processing hazard types data:", error);
-				// Show user-friendly error message
-				Swal.fire({
-					icon: "error",
-					title: ctx.t({
-						code: "hip.error_processing_hazard_types",
-						msg: "Error processing hazard types",
-					}),
-					text: ctx.t({
+				showToast(
+					"error",
+					ctx.t({
 						code: "hip.failed_to_process_hazard_types",
 						msg: "Failed to process hazard types data. Please try again later.",
 					}),
-					confirmButtonText: "OK",
-					buttonsStyling: false,
-					customClass: {
-						popup: "swal2-custom-popup",
-						confirmButton: "swal2-custom-button",
-					},
-				});
+					ctx.t({
+						code: "hip.error_processing_hazard_types",
+						msg: "Error processing hazard types",
+					}),
+				);
 			}
 		}
 	}, [hazardTypesDataProp]);
@@ -343,24 +338,17 @@ const Filters: React.FC<FiltersProps> = ({
 					setHazardClustersData(transformedData);
 				} catch (error) {
 					console.error("Error processing hazard clusters data:", error);
-					// Show user-friendly error message
-					Swal.fire({
-						icon: "error",
-						title: ctx.t({
-							code: "hip.error_processing_hazard_clusters",
-							msg: "Error processing hazard clusters",
-						}),
-						text: ctx.t({
+					showToast(
+						"error",
+						ctx.t({
 							code: "hip.failed_to_process_hazard_clusters",
 							msg: "Failed to process hazard clusters data. Please try again later.",
 						}),
-						confirmButtonText: "OK",
-						buttonsStyling: false,
-						customClass: {
-							popup: "swal2-custom-popup",
-							confirmButton: "swal2-custom-button",
-						},
-					});
+						ctx.t({
+							code: "hip.error_processing_hazard_clusters",
+							msg: "Error processing hazard clusters",
+						}),
+					);
 
 					// Return empty array to prevent UI errors
 					setHazardClustersData({ hazardClusters: [] });
@@ -451,24 +439,17 @@ const Filters: React.FC<FiltersProps> = ({
 					setSpecificHazardsData(transformedData);
 				} catch (error) {
 					console.error("Error processing specific hazards data:", error);
-					// Show user-friendly error message
-					Swal.fire({
-						icon: "error",
-						title: ctx.t({
-							code: "hip.error_processing_specific_hazards",
-							msg: "Error processing specific hazards",
-						}),
-						text: ctx.t({
+					showToast(
+						"error",
+						ctx.t({
 							code: "hip.failed_to_process_specific_hazards",
 							msg: "Failed to process specific hazards data. Please try again later.",
 						}),
-						confirmButtonText: "OK",
-						buttonsStyling: false,
-						customClass: {
-							popup: "swal2-custom-popup",
-							confirmButton: "swal2-custom-button",
-						},
-					});
+						ctx.t({
+							code: "hip.error_processing_specific_hazards",
+							msg: "Error processing specific hazards",
+						}),
+					);
 
 					// Return empty array to prevent UI errors
 					setSpecificHazardsData({ hazards: [] });
@@ -630,20 +611,13 @@ const Filters: React.FC<FiltersProps> = ({
 
 				// Log the validation warning
 
-				// Show warning to user
-				Swal.fire({
-					icon: "warning",
-					text: ctx.t({
+				showToast(
+					"warn",
+					ctx.t({
 						code: "common.from_date_later_than_to_date",
 						msg: "From date is later than To date. The To date has been cleared.",
 					}),
-					confirmButtonText: "OK",
-					buttonsStyling: false,
-					customClass: {
-						popup: "swal2-custom-popup",
-						confirmButton: "swal2-custom-button",
-					},
-				});
+				);
 			}
 
 			// Reset dependent fields for sectors
@@ -721,19 +695,13 @@ const Filters: React.FC<FiltersProps> = ({
 	const handleApplyFilters = () => {
 		// Validate sector is selected
 		if (!filters.sectorId) {
-			Swal.fire({
-				icon: "warning",
-				text: ctx.t({
+			showToast(
+				"warn",
+				ctx.t({
 					code: "analysis.select_sector_first",
 					msg: "Select sector first",
 				}),
-				confirmButtonText: "OK",
-				buttonsStyling: false,
-				customClass: {
-					popup: "swal2-custom-popup",
-					confirmButton: "swal2-custom-button",
-				},
-			});
+			);
 			return;
 		}
 
@@ -743,19 +711,13 @@ const Filters: React.FC<FiltersProps> = ({
 			filters.toDate &&
 			filters.fromDate > filters.toDate
 		) {
-			Swal.fire({
-				icon: "warning",
-				text: ctx.t({
+			showToast(
+				"warn",
+				ctx.t({
 					code: "common.from_date_cannot_be_later_than_to_date",
 					msg: "From date cannot be later than To date. Please adjust your date selection.",
 				}),
-				confirmButtonText: "OK",
-				buttonsStyling: false,
-				customClass: {
-					popup: "swal2-custom-popup",
-					confirmButton: "swal2-custom-button",
-				},
-			});
+			);
 			return;
 		}
 
@@ -926,6 +888,7 @@ const Filters: React.FC<FiltersProps> = ({
 
 	return (
 		<div className="mg-grid mg-grid__col-6">
+			<Toast ref={toast} position="top-center" />
 			{/* Row 1: Sector and Sub sector */}
 			<div className="dts-form-component mg-grid__col--span-3">
 				<label htmlFor="sector-select">

@@ -1,3 +1,5 @@
+// API endpoint to save category presence flags for human effects.
+// See _docs/human-direct-effects.md for overview.
 import { authLoaderApi } from "~/utils/auth";
 import {
 	HumanEffectsTableFromString,
@@ -49,6 +51,7 @@ export const action = authActionApi(async (actionArgs) => {
 	try {
 		tblId = HumanEffectsTableFromString(d.table);
 	} catch (e) {
+		// TODO: should this return HTTP error code 400 for validation and parse error or 500 for unexpected error?
 		return Response.json({ ok: false, error: String(e) });
 	}
 	let defs = await defsForTable(ctx, dr, tblId, countryAccountsId);

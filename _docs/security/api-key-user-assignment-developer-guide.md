@@ -42,6 +42,8 @@ static getTokenAssignment(key: SelectApiKey): {
 }
 ```
 
+> **Note on `getCleanTokenName`**: The internal regex used by this method was fixed to use `.+` (instead of the earlier `\d+`) so that it correctly strips UUID-format user IDs (e.g. `550e8400-e29b-41d4-a716-446655440000`) from the `__ASSIGNED_USER_{userId}` suffix. The old `\d+` pattern only matched numeric IDs and would leave UUID suffixes in place.
+
 #### 2. UserStatusValidator
 
 This class validates API key access based on the assigned user's status:

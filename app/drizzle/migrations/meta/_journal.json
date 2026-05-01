@@ -157,7 +157,28 @@
       "breakpoints": true
     },
     {
-			"idx": 22,
+      "idx": 22,
+      "version": "7",
+      "when": 1776419052587,
+      "tag": "20260417094412_update_version_no_to_0_2_1",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1776686218486,
+      "tag": "20260420115658_drop_dev_example1_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1776760534104,
+      "tag": "20260421083534_drop_column_country_name_from_instance_system_settings_table",
+      "breakpoints": true
+    },
+    {
+			"idx": 25,
 			"version": "7",
 			"when": 1770288172842,
 			"tag": "20260205104252_add_submitted_at_by",

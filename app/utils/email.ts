@@ -21,8 +21,7 @@ function createTransporter() {
 				pass: process.env.SMTP_PASS,
 			},
 			tls: {
-				minVersion: "TLSv1.2", // ✅ Enforce modern TLS
-				rejectUnauthorized: false, // Debugging, remove this if working fine
+				minVersion: "TLSv1.2",
 			},
 		});
 	} else {

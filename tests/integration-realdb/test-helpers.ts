@@ -6,10 +6,19 @@ import { userCountryAccountsTable } from "~/drizzle/schema/userCountryAccountsTa
 import { instanceSystemSettingsTable } from "~/drizzle/schema/instanceSystemSettingsTable";
 import { countriesTable } from "~/drizzle/schema/countriesTable";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
+import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
+import { eventTable } from "~/drizzle/schema/eventTable";
 import { lossesTable } from "~/drizzle/schema/lossesTable";
 import { damagesTable } from "~/drizzle/schema/damagesTable";
 import { disruptionTable } from "~/drizzle/schema/disruptionTable";
 import { assetTable } from "~/drizzle/schema/assetTable";
+import { humanDsgTable } from "~/drizzle/schema/humanDsgTable";
+import { humanCategoryPresenceTable } from "~/drizzle/schema/humanCategoryPresenceTable";
+import { deathsTable } from "~/drizzle/schema/deathsTable";
+import { injuredTable } from "~/drizzle/schema/injuredTable";
+import { missingTable } from "~/drizzle/schema/missingTable";
+import { affectedTable } from "~/drizzle/schema/affectedTable";
+import { displacedTable } from "~/drizzle/schema/displacedTable";
 import bcrypt from "bcryptjs";
 import { eq, inArray } from "drizzle-orm";
 import { randomUUID } from "crypto";
@@ -32,6 +41,7 @@ export function setupSessionMocks() {
 		getCountrySettingsFromSession: vi.fn(),
 		getUserFromSession: vi.fn(),
 		getUserRoleFromSession: vi.fn(),
+		getUserIdFromSession: vi.fn(),
 		redirectWithMessage: vi.fn(
 			(_args: any, url: string, _message: any) =>
 				new Response(null, { status: 302, headers: { Location: url } }),
@@ -44,6 +54,7 @@ export function setupSessionMocks() {
 		return {
 			...original,
 			requireUser: vi.fn(),
+			optionalUser: vi.fn(),
 			authLoaderWithPerm: vi.fn((_permission: string, fn: Function) => {
 				return async (args: any) => fn(args);
 			}),
@@ -135,6 +146,25 @@ export async function cleanupTestDataByCountryAccount(
 
 	if (records.length > 0) {
 		const recordIds = records.map((r) => r.id);
+
+		const dsgRecords = await dr
+			.select({ id: humanDsgTable.id })
+			.from(humanDsgTable)
+			.where(inArray(humanDsgTable.recordId, recordIds));
+
+		if (dsgRecords.length > 0) {
+			const dsgIds = dsgRecords.map((r) => r.id);
+			await dr.delete(deathsTable).where(inArray(deathsTable.dsgId, dsgIds));
+			await dr.delete(injuredTable).where(inArray(injuredTable.dsgId, dsgIds));
+			await dr.delete(missingTable).where(inArray(missingTable.dsgId, dsgIds));
+			await dr
+				.delete(affectedTable)
+				.where(inArray(affectedTable.dsgId, dsgIds));
+			await dr
+				.delete(displacedTable)
+				.where(inArray(displacedTable.dsgId, dsgIds));
+		}
+
 		await dr
 			.delete(lossesTable)
 			.where(inArray(lossesTable.recordId, recordIds));
@@ -144,6 +174,12 @@ export async function cleanupTestDataByCountryAccount(
 		await dr
 			.delete(disruptionTable)
 			.where(inArray(disruptionTable.recordId, recordIds));
+		await dr
+			.delete(humanCategoryPresenceTable)
+			.where(inArray(humanCategoryPresenceTable.recordId, recordIds));
+		await dr
+			.delete(humanDsgTable)
+			.where(inArray(humanDsgTable.recordId, recordIds));
 	}
 
 	await dr
@@ -152,6 +188,21 @@ export async function cleanupTestDataByCountryAccount(
 	await dr
 		.delete(disasterRecordsTable)
 		.where(eq(disasterRecordsTable.countryAccountsId, countryAccountId));
+
+	const hazardousEvents = await dr
+		.select({ id: hazardousEventTable.id })
+		.from(hazardousEventTable)
+		.where(eq(hazardousEventTable.countryAccountsId, countryAccountId));
+
+	if (hazardousEvents.length > 0) {
+		const hazardousEventIds = hazardousEvents.map((r) => r.id);
+		await dr
+			.delete(hazardousEventTable)
+			.where(inArray(hazardousEventTable.id, hazardousEventIds));
+		await dr
+			.delete(eventTable)
+			.where(inArray(eventTable.id, hazardousEventIds));
+	}
 }
 
 export async function cleanupTestUser(ids: {
@@ -198,9 +249,10 @@ export async function mockSessionValues(ids: {
 		getCountrySettingsFromSession,
 		getUserFromSession,
 		getUserRoleFromSession,
+		getUserIdFromSession,
 	} = await import("~/utils/session");
 
-	const { requireUser } = await import("~/utils/auth");
+	const { requireUser, optionalUser } = await import("~/utils/auth");
 
 	vi.mocked(getCountryAccountsIdFromSession).mockImplementation(async () => {
 		return ids.countryAccountId;
@@ -217,11 +269,22 @@ export async function mockSessionValues(ids: {
 		session: { totpAuthed: true },
 	} as any);
 	vi.mocked(getUserRoleFromSession).mockResolvedValue("admin");
+	vi.mocked(getUserIdFromSession).mockResolvedValue(ids.userId);
 	vi.mocked(requireUser).mockResolvedValue({
 		user: { id: ids.userId, emailVerified: true, totpEnabled: false },
 		sessionId: "test-session-id",
 		session: { totpAuthed: true },
 	} as any);
+	vi.mocked(optionalUser).mockImplementation(async (args: any) => {
+		if (args.userSession) {
+			return args.userSession;
+		}
+		return {
+			user: { id: ids.userId, emailVerified: true, totpEnabled: false },
+			sessionId: "test-session-id",
+			session: { totpAuthed: true },
+		} as any;
+	});
 }
 
 const createdOtherTenantCountryIds: string[] = [];

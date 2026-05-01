@@ -1,3 +1,6 @@
+// Request handlers for human direct effects routes.
+// Coordinates loading, saving, and clearing data for the editable table UI.
+// See _docs/human-direct-effects.md for overview.
 import {
 	getHumanEffectTableDefs,
 	HumanEffectsTableFromString,
@@ -29,6 +32,7 @@ import {
 import { eqArr } from "~/utils/array";
 import { dr } from "~/db.server";
 import { BackendContext } from "../context";
+import { sql } from "drizzle-orm";
 
 export async function loadData(
 	ctx: BackendContext,
@@ -314,8 +318,10 @@ export async function saveHumanEffectsData(
 		});
 	} catch (e) {
 		if (Array.isArray(e)) {
+			// TODO: should this return HTTP error code 400 for validation and parse error or 500 for unexpected error?
 			return Response.json({ ok: false, errors: e });
 		} else if (e instanceof ETError || e instanceof GroupError) {
+			// TODO: should this return HTTP error code 400 for validation and parse error or 500 for unexpected error?
 			return Response.json({ ok: false, error: e });
 		} else {
 			console.log("unknown human_effects.save error", e);
@@ -325,7 +331,11 @@ export async function saveHumanEffectsData(
 	return Response.json({ ok: true });
 }
 
-export async function clear(tableIdStr: string, recordId: string) {
+export async function clear(
+	tableIdStr: string,
+	recordId: string,
+	countryAccountsId: string,
+) {
 	if (!recordId) {
 		throw new Error("no record id");
 	}
@@ -337,6 +347,14 @@ export async function clear(tableIdStr: string, recordId: string) {
 	}
 	try {
 		await dr.transaction(async (tx) => {
+			const record = await tx.execute(sql`
+				SELECT id FROM disaster_records
+				WHERE id = ${recordId}
+					AND country_accounts_id = ${countryAccountsId}
+			`);
+			if (record.rows.length == 0) {
+				throw new Response("Not Found", { status: 404 });
+			}
 			let res = await clearData(tx, table!, recordId);
 			if (!res.ok) {
 				throw res.error;
@@ -344,6 +362,7 @@ export async function clear(tableIdStr: string, recordId: string) {
 		});
 	} catch (e) {
 		if (e instanceof ETError) {
+			// TODO: should this return HTTP error code 400 for validation and parse error or 500 for unexpected error?
 			return Response.json({ ok: false, error: e });
 		} else {
 			throw e;
@@ -352,12 +371,16 @@ export async function clear(tableIdStr: string, recordId: string) {
 	return Response.json({ ok: true });
 }
 
-export async function deleteAllData(ctx: BackendContext, recordId: string) {
+export async function deleteAllData(
+	ctx: BackendContext,
+	recordId: string,
+	countAccountsId: string,
+) {
 	if (!recordId) {
 		throw new Error("no record id");
 	}
 	for (let def of getHumanEffectTableDefs(ctx)) {
-		let r = await clear(def.id, recordId);
+		let r = await clear(def.id, recordId, countAccountsId);
 		if (!r.ok) {
 			return r;
 		}

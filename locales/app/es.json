@@ -2930,30 +2930,6 @@
 		"translation": "Seleccione el nivel geográfico"
 	},
 	{
-		"id": "translations.example",
-		"description": "Example message File: routes/$lang+/examples+/translations+/basic.tsx:39",
-		"translation": "Ejemplo de mensaje"
-	},
-	{
-		"id": "translations.example_counter",
-		"description": "Example counter. {n} is replaced with a number. File: routes/$lang+/examples+/translations+/basic.tsx:106",
-		"translation": {
-			"many": "Tenemos {n} registros",
-			"one": "Tenemos {n} registro",
-			"other": ""
-		}
-	},
-	{
-		"id": "translations.example_hello_user",
-		"description": "Example greeting. {user} is replaced with user name File: routes/$lang+/examples+/translations+/basic.tsx:74",
-		"translation": "Hola {user}"
-	},
-	{
-		"id": "translations.example_multiple_lines",
-		"description": "multiple lines File: routes/$lang+/examples+/translations+/basic.tsx:83",
-		"translation": "línea1\nlínea2"
-	},
-	{
 		"id": "user_forgot_password.email_sending_failure",
 		"description": "Error message when email sending fails due to system configuration issue. File: routes/$lang+/user+/forgot-password.tsx:157",
 		"translation": "No se puede enviar correo electrónico debido a un problema de configuración del sistema. Póngase en contacto con el administrador del sistema para informar de este problema."
@@ -5907,31 +5883,6 @@
 		"id": "assets.edit",
 		"description": "File: frontend/asset.tsx:35",
 		"translation": "Editar activo"
-	},
-	{
-		"id": "dev_example.add",
-		"description": "File: frontend/dev_example1.tsx:31",
-		"translation": "Añadir ejemplo dev"
-	},
-	{
-		"id": "dev_example.edit",
-		"description": "File: frontend/dev_example1.tsx:30",
-		"translation": "Editar ejemplo de desarrollo"
-	},
-	{
-		"id": "dev_examples",
-		"description": "File: frontend/dev_example1.tsx:29",
-		"translation": "Ejemplos de desarrollo"
-	},
-	{
-		"id": "dev_examples.add_new",
-		"description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:65",
-		"translation": "Añadir un nuevo ejemplo de desarrollo"
-	},
-	{
-		"id": "dev_examples.field1",
-		"description": "File: routes/$lang+/examples+/dev-example1+/_index.tsx:72",
-		"translation": "Campo 1"
 	},
 	{
 		"id": "disaster_record.add_new",

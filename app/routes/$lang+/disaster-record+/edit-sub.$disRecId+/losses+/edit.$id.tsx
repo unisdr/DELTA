@@ -59,7 +59,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		throw new Error("Route does not have disRecId param");
 	}
 	if (!countryAccountsId) {
-		throw new Response("Unauthorized access", { status: 401 });
+		throw new Response("Unauthorized access", { status: 403 });
 	}
 
 	const settings = await getCountrySettingsFromSession(request);

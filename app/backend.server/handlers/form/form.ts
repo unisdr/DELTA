@@ -9,7 +9,7 @@ import {
 	FormInputDef,
 } from "~/frontend/form";
 
-import { validateFromMapFull } from "~/frontend/form_validate";
+import { validateFromMapFull } from "~/frontend/form/validate";
 
 import { formStringData } from "~/utils/httputil";
 import {

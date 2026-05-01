@@ -1,6 +1,6 @@
-# DELTA – BIN Scripts Documentation
+# DELTA – Scripts Documentation
 
-This document describes how to **install, upgrade, and run** the DELTA system using the batch scripts located in the `bin` folder.
+This document describes how to **install, upgrade, and run** the DELTA system using the batch scripts in the `scripts/` folder.
 
 ---
 

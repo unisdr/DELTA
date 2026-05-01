@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import { useFetcher } from "react-router";
-import { notifyError } from "../utils/notifications";
 import { ConfirmDialog } from "./ConfirmDialog";
 import { ViewContext } from "../context";
+import { Toast } from "primereact/toast";
 
 interface DeleteButtonProps {
 	ctx: ViewContext;
@@ -25,12 +25,17 @@ export function DeleteButton(props: DeleteButtonProps) {
 	const ctx = props.ctx;
 	let fetcher = useFetcher();
 	let dialogRef = useRef<HTMLDialogElement>(null);
+	const toast = useRef<Toast>(null);
 
 	useEffect(() => {
 		let data = fetcher.data as any;
 		if (fetcher.state === "idle" && data && !data.ok) {
 			console.error(`Delete failed`, data);
-			notifyError(data.error || "Delete failed");
+			toast.current?.show({
+				severity: "error",
+				detail: data.error || "Delete failed",
+				life: 5000,
+			});
 		}
 	}, [fetcher.state, fetcher.data]);
 
@@ -49,6 +54,7 @@ export function DeleteButton(props: DeleteButtonProps) {
 
 	return (
 		<>
+			<Toast ref={toast} position="top-center" />
 			{props.useIcon ? (
 				<button
 					type="button"

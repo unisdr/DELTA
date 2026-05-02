@@ -37,7 +37,7 @@ export default function Home() {
 						</Link>
 
 						<Link
-							to="/en/about/technical-specifications"
+							to="/about/technical-specifications"
 							className="px-6 py-2 border border-zinc-300 text-white rounded-md text-sm font-medium cursor-pointer inline-block"
 						>
 							View documentation
@@ -57,7 +57,7 @@ export default function Home() {
 						</h2>
 
 						<Link
-							to="/en/about/about-the-system"
+							to="/about/about-the-system"
 							className="px-4 py-2 border border-sky-950 rounded-md text-sky-950 text-sm font-medium w-fit cursor-pointer inline-block"
 						>
 							Learn more
@@ -144,7 +144,7 @@ export default function Home() {
 						</h2>
 
 						<Link
-							to="/en/about/about-the-system"
+							to="/about/about-the-system"
 							className="px-4 py-2 border border-sky-950 rounded-md text-sky-950 text-sm font-medium w-fit cursor-pointer inline-block"
 						>
 							Learn more
@@ -260,7 +260,7 @@ export default function Home() {
 					</h2>
 
 					<Link
-						to="/en/about/technical-specifications"
+						to="/about/technical-specifications"
 						className="px-6 py-2 border border-white rounded-md text-white text-sm font-medium cursor-pointer inline-block"
 					>
 						View documentation

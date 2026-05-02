@@ -99,8 +99,30 @@ export function SaveSubmitDialog(props: SaveSubmitDialogProps) {
 			header={ctx.t({ code: "common.savesubmit", msg: "Save or submit" })}
 			footer={footerContent}
 			style={{ width: "50rem" }}
+			className="save-submit-dialog"
 			onHide={onHide}
 		>
+			<style>{`
+				.save-submit-dialog .p-dialog-content {
+					overflow-x: hidden;
+				}
+
+				.save-submit-dialog .validator-section {
+					min-width: 0;
+					width: 100%;
+				}
+
+				.save-submit-dialog .validator-multiselect {
+					width: 100%;
+					max-width: 100%;
+				}
+
+				.save-submit-dialog .validator-multiselect .p-multiselect-label {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+			`}</style>
 			<div>
 				<p>
 					{ctx.t({
@@ -174,6 +196,7 @@ export function SaveSubmitDialog(props: SaveSubmitDialogProps) {
 								</label>
 							</div>
 							<div
+								className="validator-section"
 								style={{
 									justifyContent: "left",
 									display: "flex",
@@ -295,7 +318,7 @@ export function SaveSubmitDialog(props: SaveSubmitDialogProps) {
 											msg: "Select validator(s)",
 										})}
 										maxSelectedLabels={3}
-										className="w-full md:w-20rem"
+										className="validator-multiselect"
 									/>
 								</div>
 							</div>

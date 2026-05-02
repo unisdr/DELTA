@@ -98,9 +98,6 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 				// continue to approval workflow processing if update is successful
 				if (returnValue.ok === true) {
-					//console.log( 'updatedData', request.formData() );
-					//console.log( 'data', data );
-					//console.log( 'data', data );
 					await handleApprovalWorkflowService(ctx, tx, id, "disaster_event", {
 						...updatedData,
 						tempValidatorUserIds: formData.get("tempValidatorUserIds"),
@@ -121,8 +118,11 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 						tx,
 						returnValue.id,
 						"disaster_event",
-						updatedData,
-					);
+						{
+							...updatedData,
+							tempValidatorUserIds: formData.get("tempValidatorUserIds"),
+							tempAction: formData.get("tempAction"),
+					});
 				}
 
 				return returnValue;

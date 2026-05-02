@@ -49,10 +49,14 @@ export default function Support() {
 	return (
 		<MainContainer title="Support" headerExtra={<NavSettings ctx={ctx} />}>
 			<>
-				<section className="dts-page-section">
+				<style>{`
+					.about-page-section {
+						margin-top: 1rem;
+					}
+				`}</style>
+				<section className="dts-page-section about-page-section">
 					<div className="wip-message">
 						<section>
-							<h2>Support</h2>
 							{fullContent ? (
 								<div
 									className="markdown-content"

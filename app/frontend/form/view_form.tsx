@@ -135,27 +135,18 @@ export function FormView(props: FormViewProps) {
 						/>
 					</div>
 					<div className="dts-form__actions">
-						<SubmitButton
-							id="form-default-submit-button"
-							disabled={isSubmitting}
-							label={ctx.t({
-								code: "common.save",
-								msg: "Save",
-							})}
-						/>
-
 						{props.overrideSubmitMainForm ? (
 							props.overrideSubmitMainForm
 						) : (
 							<>
-								{/* <SubmitButton
+								<SubmitButton
 									id="form-default-submit-button"
 									disabled={isSubmitting}
 									label={ctx.t({
-										"code": "common.save",
-										"msg": "Save"
+										code: "common.save",
+										msg: "Save",
 									})}
-								/> */}
+								/>
 							</>
 						)}
 					</div>

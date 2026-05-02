@@ -292,10 +292,21 @@ export async function disasterRecordsUpdateApprovalStatus(
 	id: string,
 	status: approvalStatusIds,
 ): Promise<UpdateResult<DisasterRecordsFields>> {
-	await dr
+	const updated = await dr
 		.update(disasterRecordsTable)
 		.set({ approvalStatus: status, updatedAt: sql`NOW()` })
-		.where(eq(disasterRecordsTable.id, id));
+		.where(eq(disasterRecordsTable.id, id))
+		.returning({ id: disasterRecordsTable.id });
+
+	if (updated.length === 0) {
+		return {
+			ok: false,
+			errors: {
+				fields: {},
+				form: ["not-found"],
+			},
+		};
+	}
 
 	return { ok: true };
 }
@@ -304,7 +315,7 @@ export async function disasterRecordsUpdateApprovalStatusOnGoing(
 	id: string,
 	status: "draft" | "waiting-for-validation" | "needs-revision",
 ): Promise<UpdateResult<DisasterRecordsFields>> {
-	await dr
+	const updated = await dr
 		.update(disasterRecordsTable)
 		.set({
 			approvalStatus: status,
@@ -316,7 +327,18 @@ export async function disasterRecordsUpdateApprovalStatusOnGoing(
 			publishedAt: null,
 			updatedAt: sql`NOW()`,
 		})
-		.where(eq(disasterRecordsTable.id, id));
+		.where(eq(disasterRecordsTable.id, id))
+		.returning({ id: disasterRecordsTable.id });
+
+	if (updated.length === 0) {
+		return {
+			ok: false,
+			errors: {
+				fields: {},
+				form: ["not-found"],
+			},
+		};
+	}
 
 	return { ok: true };
 }
@@ -324,7 +346,7 @@ export async function disasterRecordsUpdateApprovalStatusOnGoing(
 export async function disasterRecordsUpdateApprovalStatusNeedRevision(
 	id: string,
 ): Promise<UpdateResult<DisasterRecordsFields>> {
-	await dr
+	const updated = await dr
 		.update(disasterRecordsTable)
 		.set({
 			approvalStatus: "needs-revision",
@@ -334,7 +356,18 @@ export async function disasterRecordsUpdateApprovalStatusNeedRevision(
 			publishedAt: null,
 			updatedAt: sql`NOW()`,
 		})
-		.where(eq(disasterRecordsTable.id, id));
+		.where(eq(disasterRecordsTable.id, id))
+		.returning({ id: disasterRecordsTable.id });
+
+	if (updated.length === 0) {
+		return {
+			ok: false,
+			errors: {
+				fields: {},
+				form: ["not-found"],
+			},
+		};
+	}
 
 	return { ok: true };
 }
@@ -343,7 +376,7 @@ export async function disasterRecordsUpdateApprovalStatusValidate(
 	id: string,
 	validatedByUserId: string,
 ): Promise<UpdateResult<DisasterRecordsFields>> {
-	await dr
+	const updated = await dr
 		.update(disasterRecordsTable)
 		.set({
 			approvalStatus: "validated",
@@ -353,7 +386,18 @@ export async function disasterRecordsUpdateApprovalStatusValidate(
 			publishedAt: null,
 			updatedAt: sql`NOW()`,
 		})
-		.where(eq(disasterRecordsTable.id, id));
+		.where(eq(disasterRecordsTable.id, id))
+		.returning({ id: disasterRecordsTable.id });
+
+	if (updated.length === 0) {
+		return {
+			ok: false,
+			errors: {
+				fields: {},
+				form: ["not-found"],
+			},
+		};
+	}
 
 	return { ok: true };
 }
@@ -362,7 +406,7 @@ export async function disasterRecordsUpdateApprovalStatusPublish(
 	id: string,
 	publishedByUserId: string,
 ): Promise<UpdateResult<DisasterRecordsFields>> {
-	await dr
+	const updated = await dr
 		.update(disasterRecordsTable)
 		.set({
 			approvalStatus: "published",
@@ -372,7 +416,18 @@ export async function disasterRecordsUpdateApprovalStatusPublish(
 			publishedAt: sql`NOW()`,
 			updatedAt: sql`NOW()`,
 		})
-		.where(eq(disasterRecordsTable.id, id));
+		.where(eq(disasterRecordsTable.id, id))
+		.returning({ id: disasterRecordsTable.id });
+
+	if (updated.length === 0) {
+		return {
+			ok: false,
+			errors: {
+				fields: {},
+				form: ["not-found"],
+			},
+		};
+	}
 
 	return { ok: true };
 }

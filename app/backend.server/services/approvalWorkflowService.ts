@@ -147,8 +147,19 @@ export async function handleApprovalWorkflowService(
 					);
 					break;
 
-				case "submit-return":
-					const assignedToUserIdsArray = formData.assignedToUserIds.split(",").map((id: string) => id.trim());
+				case "submit-return": {
+					const assignedToUserIdsRaw =
+						typeof formData.assignedToUserIds === "string"
+							? formData.assignedToUserIds
+							: "";
+
+					const assignedToUserIdsArray = assignedToUserIdsRaw
+						? assignedToUserIdsRaw
+								.split(",")
+								.map((id: string) => id.trim())
+								.filter((id: string) => id.length > 0)
+						: [];
+
 					await handleSubmitAsReturned(
 						tx,
 						entityId,
@@ -157,6 +168,7 @@ export async function handleApprovalWorkflowService(
 						assignedToUserIdsArray,
 					);
 					break;
+				}
 
 				default:
 					throw new Error(`Unknown approval action: ${action}`);
@@ -293,6 +305,8 @@ async function handleSubmitAsPublished(
 		.update(table)
 		.set({
 			approvalStatus: "published",
+			validatedByUserId: submittedByUserId,
+			validatedAt: new Date(),
 			publishedByUserId: submittedByUserId,
 			publishedAt: new Date(),
 		})

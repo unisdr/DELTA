@@ -21,9 +21,19 @@ export function DataCollectionActionLinks(props: {
 	approvalStatus?: string;
 }) {
 	const ctx = props.ctx;
+	const userRole = props.user?.role;
+	const canEdit =
+		!!userRole &&
+		!props.hideEditButton &&
+		canEditDataCollectionRecord(userRole, props.approvalStatus);
+	const canDelete =
+		!!userRole &&
+		!props.hideDeleteButton &&
+		canDeleteDataCollectionRecord(userRole, props.approvalStatus);
+
 	return (
 		<>
-			{canEditDataCollectionRecord(props.user.role, props.approvalStatus) && (
+			{canEdit && (
 				<LangLink lang={ctx.lang} to={`${props.route}/edit/${props.id}`}>
 					<button
 						type="button"
@@ -55,7 +65,7 @@ export function DataCollectionActionLinks(props: {
 					</button>
 				</LangLink>
 			)}
-			{canDeleteDataCollectionRecord(props.user.role, props.approvalStatus) && (
+			{canDelete && (
 				<HazardousEventDeleteButton
 					ctx={ctx}
 					action={ctx.url(`${props.route}/delete/${props.id}`)}

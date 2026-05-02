@@ -250,8 +250,6 @@ export const action = authActionWithPerm(
 				const updatedData = {
 					...fields,
 					countryAccountsId,
-					createdBy: userSession.user.id,
-					updatedBy: userSession.user.id,
 					updatedByUserId: userSession.user.id,
 				};
 				await handleApprovalWorkflowService(ctx, tx, id, "disaster_records", {

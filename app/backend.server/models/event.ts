@@ -359,8 +359,42 @@ export async function hazardousEventUpdate(
 			return { ok: false, errors };
 		}
 
-		// 2.2 Cycle detection check
+		// 2.2 Tenant ownership check for parent assignment
 		if (fields.parent) {
+			const [parentEvent] = await tx
+				.select({ countryAccountsId: hazardousEventTable.countryAccountsId })
+				.from(hazardousEventTable)
+				.where(eq(hazardousEventTable.id, fields.parent));
+
+			if (!parentEvent) {
+				errors.fields = errors.fields || {};
+				errors.fields.parent = [
+					{
+						code: "ErrParentNotFound",
+						message: ctx.t({
+							code: "events.parent_event_not_found",
+							msg: "Parent event not found",
+						}),
+					},
+				];
+				return { ok: false, errors };
+			}
+
+			if (parentEvent.countryAccountsId !== oldRecord.countryAccountsId) {
+				errors.fields = errors.fields || {};
+				errors.fields.parent = [
+					{
+						code: "ErrCrossTenantReference",
+						message: ctx.t({
+							code: "events.cannot_reference_other_country",
+							msg: "Cannot reference events from other countries",
+						}),
+					},
+				];
+				return { ok: false, errors };
+			}
+
+			// 2.3 Cycle detection check
 			const cycleCheck = await checkForCycle(tx, id, fields.parent);
 			if (cycleCheck.has_cycle) {
 				errors.fields = errors.fields || {};
@@ -379,7 +413,7 @@ export async function hazardousEventUpdate(
 				return { ok: false, errors };
 			}
 
-			// 2.3 Temporal validation - ensure parent starts before or at same time as child
+			// 2.4 Temporal validation - ensure parent starts before or at same time as child
 			const temporalCheck = await validateTemporalCausality(
 				ctx,
 				tx,
@@ -625,8 +659,42 @@ export async function hazardousEventUpdateByIdAndCountryAccountsId(
 			return { ok: false, errors };
 		}
 
-		// 2.2 Cycle detection check
+		// 2.2 Tenant ownership check for parent assignment
 		if (fields.parent) {
+			const [parentEvent] = await tx
+				.select({ countryAccountsId: hazardousEventTable.countryAccountsId })
+				.from(hazardousEventTable)
+				.where(eq(hazardousEventTable.id, fields.parent));
+
+			if (!parentEvent) {
+				errors.fields = errors.fields || {};
+				errors.fields.parent = [
+					{
+						code: "ErrParentNotFound",
+						message: ctx.t({
+							code: "events.parent_event_not_found",
+							msg: "Parent event not found",
+						}),
+					},
+				];
+				return { ok: false, errors };
+			}
+
+			if (parentEvent.countryAccountsId !== oldRecord.countryAccountsId) {
+				errors.fields = errors.fields || {};
+				errors.fields.parent = [
+					{
+						code: "ErrCrossTenantReference",
+						message: ctx.t({
+							code: "events.cannot_reference_other_country",
+							msg: "Cannot reference events from other countries",
+						}),
+					},
+				];
+				return { ok: false, errors };
+			}
+
+			// 2.3 Cycle detection check
 			const cycleCheck = await checkForCycle(tx, id, fields.parent);
 			if (cycleCheck.has_cycle) {
 				errors.fields = errors.fields || {};
@@ -645,7 +713,7 @@ export async function hazardousEventUpdateByIdAndCountryAccountsId(
 				return { ok: false, errors };
 			}
 
-			// 2.3 Temporal validation - ensure parent starts before or at same time as child
+			// 2.4 Temporal validation - ensure parent starts before or at same time as child
 			const temporalCheck = await validateTemporalCausality(
 				ctx,
 				tx,
@@ -1364,6 +1432,37 @@ export async function disasterEventUpdate(
 		};
 	}
 
+	if (fields.hazardousEventId) {
+		const linkedHazardousEvent = await tx
+			.select({ id: hazardousEventTable.id })
+			.from(hazardousEventTable)
+			.where(
+				and(
+					eq(hazardousEventTable.id, fields.hazardousEventId),
+					eq(
+						hazardousEventTable.countryAccountsId,
+						fields.countryAccountsId,
+					),
+				),
+			)
+			.limit(1);
+
+		if (linkedHazardousEvent.length === 0) {
+			return {
+				ok: false,
+				errors: {
+					fields: {},
+					form: [
+						ctx.t({
+							code: "disaster_event.invalid_hazardous_event_reference",
+							msg: "Invalid hazardous event reference for this instance",
+						}),
+					],
+				},
+			};
+		}
+	}
+
 	try {
 		const [updatedDisasterEvent] = await tx
 			.update(disasterEventTable)
@@ -1445,6 +1544,34 @@ export async function disasterEventUpdateByIdAndCountryAccountsId(
 				],
 			},
 		};
+	}
+
+	if (fields.hazardousEventId) {
+		const linkedHazardousEvent = await tx
+			.select({ id: hazardousEventTable.id })
+			.from(hazardousEventTable)
+			.where(
+				and(
+					eq(hazardousEventTable.id, fields.hazardousEventId),
+					eq(hazardousEventTable.countryAccountsId, countryAccountsId),
+				),
+			)
+			.limit(1);
+
+		if (linkedHazardousEvent.length === 0) {
+			return {
+				ok: false,
+				errors: {
+					fields: {},
+					form: [
+						ctx.t({
+							code: "disaster_event.invalid_hazardous_event_reference",
+							msg: "Invalid hazardous event reference for this instance",
+						}),
+					],
+				},
+			};
+		}
 	}
 
 	try {

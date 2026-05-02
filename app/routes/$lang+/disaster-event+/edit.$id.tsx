@@ -89,7 +89,6 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 			const updatedData = {
 				...data,
 				countryAccountsId,
-				createdByUserId: userSession.user.id,
 				updatedByUserId: userSession.user.id,
 			};
 			if (id) {
@@ -108,7 +107,10 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 				return returnValue;
 			} else {
 				// Save normal for data to database using the disasterEventCreate function
-				const returnValue = await disasterEventCreate(ctx, tx, updatedData);
+				const returnValue = await disasterEventCreate(ctx, tx, { 
+					...updatedData,
+					createdByUserId: userSession.user.id, 
+				});
 
 				if (returnValue.ok === true) {
 					// continue to approval workflow processing

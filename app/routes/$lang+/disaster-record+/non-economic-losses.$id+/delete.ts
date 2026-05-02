@@ -27,6 +27,10 @@ export const loader = authLoaderWithPerm("EditData", async (actionArgs) => {
 
 	const record = await nonecoLossesById(xId, countryAccountsId);
 	if (record) {
+		if (!params.id || record.disasterRecordId !== params.id) {
+			return Response.json({}, { status: 404 });
+		}
+
 		try {
 			// Delete noneco losses by id
 			await nonecoLossesDeleteById(xId).catch(console.error);

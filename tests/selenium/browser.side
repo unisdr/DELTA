@@ -163,12 +163,10 @@
       "id": "2594386c-077a-4a38-bb1f-b40d871c54ee",
       "comment": "",
       "command": "click",
-      "target": "css=.p-button:nth-child(1)",
+      "target": "css=[data-testid='save-draft']",
       "targets": [
-        ["css=.p-button:nth-child(1)", "css:finder"],
-        ["xpath=//div[@id='pr_id_25']/div[3]/button", "xpath:idRelative"],
-        ["xpath=//div[5]/div/div[3]/button", "xpath:position"],
-        ["xpath=//button[contains(.,'Save as draft')]", "xpath:innerText"]
+        ["css=[data-testid='save-draft']", "css:finder"],
+        ["xpath=//button[normalize-space(.)='Save as draft']", "xpath:innerText"]
       ],
       "value": ""
     }]
@@ -241,12 +239,10 @@
       "id": "8a0c2249-0a88-4c71-a372-cf7b6b6b256a",
       "comment": "",
       "command": "click",
-      "target": "css=.p-button:nth-child(1)",
+      "target": "css=[data-testid='save-draft']",
       "targets": [
-        ["css=.p-button:nth-child(1)", "css:finder"],
-        ["xpath=//div[@id='pr_id_591']/div[3]/button", "xpath:idRelative"],
-        ["xpath=//div[6]/div/div[3]/button", "xpath:position"],
-        ["xpath=//button[contains(.,'Save as draft')]", "xpath:innerText"]
+        ["css=[data-testid='save-draft']", "css:finder"],
+        ["xpath=//button[normalize-space(.)='Save as draft']", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -407,12 +403,10 @@
       "id": "faa14a20-9504-4bfe-9565-aae3cf99c901",
       "comment": "",
       "command": "click",
-      "target": "css=.p-button:nth-child(1)",
+      "target": "css=[data-testid='save-draft']",
       "targets": [
-        ["css=.p-button:nth-child(1)", "css:finder"],
-        ["xpath=//div[@id='pr_id_25']/div[3]/button", "xpath:idRelative"],
-        ["xpath=//div[3]/button", "xpath:position"],
-        ["xpath=//button[contains(.,'Save as draft')]", "xpath:innerText"]
+        ["css=[data-testid='save-draft']", "css:finder"],
+        ["xpath=//button[normalize-space(.)='Save as draft']", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -490,12 +484,10 @@
       "id": "4c02974a-8529-44d8-ae2b-790793ff972e",
       "comment": "",
       "command": "click",
-      "target": "css=.p-button:nth-child(1)",
+      "target": "css=[data-testid='save-draft']",
       "targets": [
-        ["css=.p-button:nth-child(1)", "css:finder"],
-        ["xpath=//div[@id='pr_id_591']/div[3]/button", "xpath:idRelative"],
-        ["xpath=//div[5]/div/div[3]/button", "xpath:position"],
-        ["xpath=//button[contains(.,'Save as draft')]", "xpath:innerText"]
+        ["css=[data-testid='save-draft']", "css:finder"],
+        ["xpath=//button[normalize-space(.)='Save as draft']", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -744,12 +736,10 @@
       "id": "9d6cb8c8-0a9f-4810-927e-f3921ed80074",
       "comment": "",
       "command": "click",
-      "target": "css=.p-button:nth-child(1)",
+      "target": "css=[data-testid='save-draft']",
       "targets": [
-        ["css=.p-button:nth-child(1)", "css:finder"],
-        ["xpath=//div[@id='pr_id_25']/div[3]/button", "xpath:idRelative"],
-        ["xpath=//div[5]/div/div[3]/button", "xpath:position"],
-        ["xpath=//button[contains(.,'Save as draft')]", "xpath:innerText"]
+        ["css=[data-testid='save-draft']", "css:finder"],
+        ["xpath=//button[normalize-space(.)='Save as draft']", "xpath:innerText"]
       ],
       "value": ""
     }]
@@ -820,12 +810,10 @@
       "id": "50cdd620-5e31-4382-b47b-df1fe3545da8",
       "comment": "",
       "command": "click",
-      "target": "css=.p-button:nth-child(1)",
+      "target": "css=[data-testid='save-draft']",
       "targets": [
-        ["css=.p-button:nth-child(1)", "css:finder"],
-        ["xpath=//div[@id='pr_id_591']/div[3]/button", "xpath:idRelative"],
-        ["xpath=//div[5]/div/div[3]/button", "xpath:position"],
-        ["xpath=//button[contains(.,'Save as draft')]", "xpath:innerText"]
+        ["css=[data-testid='save-draft']", "css:finder"],
+        ["xpath=//button[normalize-space(.)='Save as draft']", "xpath:innerText"]
       ],
       "value": ""
     }, {

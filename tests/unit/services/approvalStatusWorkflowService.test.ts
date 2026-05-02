@@ -1,6 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { processApprovalStatusActionService } from "~/services/approvalStatusWorkflowService";
 
+const { updateStatusMock, dataCollectionServiceMock } = vi.hoisted(() => ({
+	updateStatusMock: vi.fn(),
+	dataCollectionServiceMock: vi.fn(),
+}));
+
+vi.mock("~/services/dataCollectionService", () => ({
+	dataCollectionService: dataCollectionServiceMock,
+}));
+
 vi.mock("~/services/validationWorkflowRejectionService", () => ({
 	saveValidationWorkflowRejectionCommentService: vi.fn(),
 }));
@@ -18,6 +27,13 @@ const createMockCtx = () =>
 describe("processApprovalStatusActionService", () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
+		dataCollectionServiceMock.mockReturnValue({
+			updateStatus: updateStatusMock,
+		});
+		updateStatusMock.mockResolvedValue({
+			ok: true,
+			message: "updated",
+		});
 	});
 
 	it("returns error for invalid id and does not call update service", async () => {
@@ -26,7 +42,6 @@ describe("processApprovalStatusActionService", () => {
 		formData.set("action", "submit-validate");
 		formData.set("id", "record-2");
 
-		const updateStatusService = vi.fn();
 		const result = await processApprovalStatusActionService({
 			ctx,
 			request: new Request("http://localhost/en/disaster-event/record-1"),
@@ -37,7 +52,7 @@ describe("processApprovalStatusActionService", () => {
 		});
 
 		expect(result.ok).toBe(false);
-		expect(updateStatusService).not.toHaveBeenCalled();
+		expect(updateStatusMock).not.toHaveBeenCalled();
 	});
 
 	it("returns error for invalid action and does not call update service", async () => {
@@ -46,7 +61,6 @@ describe("processApprovalStatusActionService", () => {
 		formData.set("action", "invalid-action");
 		formData.set("id", "record-1");
 
-		const updateStatusService = vi.fn();
 		const result = await processApprovalStatusActionService({
 			ctx,
 			request: new Request("http://localhost/en/disaster-event/record-1"),
@@ -57,7 +71,7 @@ describe("processApprovalStatusActionService", () => {
 		});
 
 		expect(result.ok).toBe(false);
-		expect(updateStatusService).not.toHaveBeenCalled();
+		expect(updateStatusMock).not.toHaveBeenCalled();
 	});
 
 	it("handles needs-revision by updating status, saving rejection, and sending email", async () => {
@@ -66,11 +80,6 @@ describe("processApprovalStatusActionService", () => {
 		formData.set("action", "submit-reject");
 		formData.set("id", "record-1");
 		formData.set("rejection-comments", "Please fix missing fields");
-
-		const updateStatusService = vi.fn().mockResolvedValue({
-			ok: true,
-			message: "updated",
-		});
 
 		const { saveValidationWorkflowRejectionCommentService } = await import(
 			"~/services/validationWorkflowRejectionService"
@@ -96,7 +105,7 @@ describe("processApprovalStatusActionService", () => {
 		});
 
 		expect(result).toEqual({ ok: true, message: "saved" });
-		expect(updateStatusService).toHaveBeenCalledWith({
+		expect(updateStatusMock).toHaveBeenCalledWith({
 			ctx,
 			id: "record-1",
 			approvalStatus: "needs-revision",

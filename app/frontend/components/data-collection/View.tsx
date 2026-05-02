@@ -37,6 +37,7 @@ export function ViewComponentMainDataCollection(
 	const ctx = props.ctx;
 	const [selectedAction, setSelectedAction] =
 		useState<string>("submit-validate");
+	const [lastSubmittedAction, setLastSubmittedAction] = useState<string>("");
 	const [visibleModalSubmit, setVisibleModalSubmit] = useState<boolean>(false);
 	const [visibleModalReturn, setVisibleModalReturn] = useState<boolean>(false);
 	const [checked, setChecked] = useState(false);
@@ -84,16 +85,12 @@ export function ViewComponentMainDataCollection(
 
 	// Modal submit validation function
 	function validateBeforeSubmit(selectedAction: string): boolean {
-		const formTextAreaReject = document.getElementById(
-			"reject-comments-textarea",
-		) as HTMLTextAreaElement | null;
-		const formTextAreaRejectValue =
-			formTextAreaReject?.value.toString().trim() || "";
+		const rejectionComments = textAreaText.trim();
 
 		const formData = new FormData();
 		formData.append("action", selectedAction);
 		formData.append("id", props.id);
-		formData.append("rejection-comments", formTextAreaRejectValue);
+		formData.append("rejection-comments", rejectionComments);
 		let assigneeIds = "";
 
 		if (selectedAction === "submit-return" && selectedAssigneeIds.length > 0) {
@@ -107,12 +104,13 @@ export function ViewComponentMainDataCollection(
 		}
 
 		// Client-side validation only for submit-reject action
-		if (!formTextAreaRejectValue && selectedAction === "submit-reject") {
+		if (!rejectionComments && selectedAction === "submit-reject") {
 			alert("Provide comments for changes needed for this record");
 			return false;
 		}
 
 		// Programmatically submit via fetcher
+		setLastSubmittedAction(selectedAction);
 		fetcher.submit(formData, { method: "post" });
 
 		return false;
@@ -136,6 +134,8 @@ export function ViewComponentMainDataCollection(
 		}
 	}, [fetcher.state, fetcher.data]);
 
+	const confirmationAction = lastSubmittedAction || selectedAction;
+
 	return (
 		<>
 			<fetcher.Form method="post" ref={formRef}>
@@ -144,7 +144,7 @@ export function ViewComponentMainDataCollection(
 						visible={visibleModalConfirmation}
 						modal={true}
 						header={
-							selectedAction === "submit-reject"
+							confirmationAction === "submit-reject"
 								? ctx.t({
 										code: "common.returned_with_comments",
 										msg: "Returned with comments",
@@ -162,7 +162,7 @@ export function ViewComponentMainDataCollection(
 					>
 						<div>
 							<p>
-								{selectedAction === "submit-reject"
+								{confirmationAction === "submit-reject"
 									? ctx.t({
 											code: "common.returned_to_submitter_for_changes",
 											msg: "The event below has been returned to the submitter for changes",
@@ -277,8 +277,8 @@ export function ViewComponentMainDataCollection(
 										</span>
 										<InputTextarea
 											required={true}
-											id="reject-comments-textarea"
-											name="reject-comments-textarea"
+											id="reject-comments-textarea-return"
+											name="reject-comments-textarea-return"
 											value={textAreaText}
 											onChange={(e) => setText(e.target.value)}
 											maxLength={textAreaMaxLength}
@@ -517,8 +517,8 @@ export function ViewComponentMainDataCollection(
 										</span>
 										<InputTextarea
 											required={true}
-											id="reject-comments-textarea"
-											name="reject-comments-textarea"
+											id="reject-comments-textarea-submit"
+											name="reject-comments-textarea-submit"
 											disabled={
 												selectedAction !== "" &&
 												selectedAction !== "submit-reject"

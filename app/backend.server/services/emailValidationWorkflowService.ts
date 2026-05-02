@@ -28,6 +28,15 @@ interface EmailAssigneesParams {
 	rejectionMessage: string;
 }
 
+function escapeHtml(input: string): string {
+	return input
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/\"/g, "&quot;")
+		.replace(/'/g, "&#39;");
+}
+
 export async function emailAssignedValidators(
 	ctx: BackendContext,
 	{
@@ -484,7 +493,7 @@ export async function emailAssigneesNotificationService(
 			assigneeName: "[assignee.name]",
 			recordType: recordType,
 			recordSubmitterName: recordSubmitterName,
-			rejectionMessage: rejectionMessage,
+			rejectionMessage: escapeHtml(rejectionMessage),
 			recordUrl: recordUrl,
 		},
 	);

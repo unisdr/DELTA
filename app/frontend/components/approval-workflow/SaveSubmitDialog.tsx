@@ -83,6 +83,9 @@ export function SaveSubmitDialog(props: SaveSubmitDialogProps) {
 
 	const footerContent = (
 		<Button
+			data-testid={
+				selectedAction === "submit-draft" ? "save-draft" : undefined
+			}
 			disabled={isSubmitDisabled}
 			className="mg-button mg-button-primary"
 			label={actionLabels[selectedAction]}

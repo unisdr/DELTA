@@ -16,7 +16,7 @@ interface UpdateStatusResult {
 /** Parameters for {@link processApprovalStatusActionService}. */
 interface ProcessApprovalStatusActionParams {
 	ctx: BackendContext;
-	/** The incoming Remix request — used to verify the record ID appears in the URL. */
+	/** The incoming Remix request — used to verify route ID exactly matches form ID. */
 	request: Request;
 	/** Parsed form data from the submit action. Expected fields: `action`, `id`, `rejection-comments`, `assignedToUserId` (multi-value). */
 	formData: FormData;
@@ -55,8 +55,20 @@ export async function processApprovalStatusActionService({
 	const rejectionComments = formData.get("rejection-comments");
 	const actionType = String(formData.get("action") || "");
 	const id = String(formData.get("id") || "");
+	const routeId = (() => {
+		try {
+			const pathname = new URL(request.url).pathname;
+			const segments = pathname
+				.split("/")
+				.filter(Boolean)
+				.map((segment) => decodeURIComponent(segment));
+			return segments.at(-1) || "";
+		} catch {
+			return "";
+		}
+	})();
 
-	if (!id || request.url.indexOf(id) === -1) {
+	if (!id || !routeId || routeId !== id) {
 		return {
 			ok: false,
 			message: ctx.t({

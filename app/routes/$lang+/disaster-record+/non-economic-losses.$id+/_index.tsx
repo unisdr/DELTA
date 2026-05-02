@@ -73,6 +73,11 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	let formAction = "new";
 	if (nonEcoId) {
 		record = await nonecoLossesById(nonEcoId, countryAccountsId);
+
+		if (!params.id || record.disasterRecordId !== params.id) {
+			throw new Response("Not found", { status: 404 });
+		}
+
 		formAction = "edit";
 	}
 	if (record) {

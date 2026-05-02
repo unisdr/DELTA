@@ -90,7 +90,7 @@ export default function Screen() {
 		);
 	}
 
-	const qrCodeUrl = `/api/qrcode?text=` + encodeURIComponent(ld.secretUrl);
+	const qrCodeUrl = `/user/totp-qrcode?text=` + encodeURIComponent(ld.secretUrl);
 
 	const stepTitle = "Set Up Two-Factor Authentication";
 	const stepOne = "1. Open your authenticator app (Google Authenticator, Microsoft Authenticator, Authy, etc.).";

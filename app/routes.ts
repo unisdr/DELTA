@@ -78,6 +78,7 @@ export default remixRoutesOptionAdapter((defineRoutes) => {
 		route("user/change-password", "routes/user/change-password.tsx");
 		route("user/totp-login", "routes/user/totp-login.tsx");
 		route("user/totp-enable", "routes/user/totp-enable.tsx");
+		route("user/totp-qrcode", "routes/user/totp-qrcode.ts");
 		route("user/totp-disable", "routes/user/totp-disable.tsx");
 
 		route("user/profile", "routes/user/profile/_layout.tsx", () => {

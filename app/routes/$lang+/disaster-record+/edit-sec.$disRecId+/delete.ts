@@ -21,7 +21,7 @@ export const loader = authLoaderWithPerm("EditData", async (actionArgs) => {
 	// and current user has access to proceed with this disaster record.
 	const { countryAccountsId } = await requireDisasterRecordAccess(
 		request,
-		params.id,
+		params.disRecId,
 		() => redirectLangFromRoute(actionArgs, "/user/select-instance"),
 	);
 

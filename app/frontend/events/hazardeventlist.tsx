@@ -16,8 +16,9 @@ import { DataCollectionActionLinks } from "../components/data-collection/ActionL
 // Permission check functions will be defined below
 
 function roleHasPermission(role: any, permission: string): boolean {
-	// Basic role check - can be enhanced later
-	return role && role.permissions?.includes(permission);
+	return Array.isArray(role?.permissions)
+		? role.permissions.includes(permission)
+		: false;
 }
 
 interface ListViewArgs {
@@ -50,32 +51,18 @@ function getHazardDisplayName(item: any): string {
  * - Data collectors can edit their own records when status is Draft or Waiting for validation
  * - Data validators/Admins can edit their own created records under same statuses
  */
-function canEdit(item: any, user: any): boolean {
+function canEdit(event: any, user: any): boolean {
 	if (!user) return false;
-
-	// Data-viewers cannot edit any records
-	if (user.role === "data-viewer") return false;
-
-	// Admin users should always be able to edit draft and waiting for validation records
-	if (user.role === "admin" || user.role === "super_admin") {
-		// Check record status - only Draft or Waiting for validation can be edited
-		const editableStatuses = ["draft", "waiting-for-validation"];
-		return editableStatuses.includes(item.approvalStatus.toLowerCase());
-	}
-
-	// For non-admin users
-	// Check if user has edit permission
-	const hasEditPermission = roleHasPermission(user.role, "EditData");
-	if (!hasEditPermission) return false;
 
 	// Check record status - only Draft or Waiting for validation can be edited
 	const editableStatuses = ["draft", "waiting-for-validation"];
-	if (!editableStatuses.includes(item.approvalStatus.toLowerCase()))
+	if (!editableStatuses.includes(String(event.approvalStatus).toLowerCase()))
 		return false;
 
-	// Check if user created the record (simplified check - would need actual user ID comparison)
-	// This is a placeholder - actual implementation would need to check item.createdBy against user.id
-	return true;
+	const hasEditPermission = roleHasPermission(user.role, "edit");
+	const isOwner = event.ownerId === user.id;
+
+	return hasEditPermission || isOwner;
 }
 
 export function ListView(args: ListViewArgs) {

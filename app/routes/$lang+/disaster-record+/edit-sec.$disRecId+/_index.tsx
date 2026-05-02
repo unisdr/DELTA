@@ -127,11 +127,21 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 
 	// Route guard: ensures tenant is selected, record exists for that tenant,
 	// and current user has access to proceed with this disaster record.
-	await requireDisasterRecordAccess(
+	const { countryAccountsId } = await requireDisasterRecordAccess(
 		request,
 		params.disRecId,
 		() => redirectLangFromRoute(actionArgs, "/user/select-instance"),
 	);
+
+	if (frmId && typeof frmId === "string") {
+		const existingRecord = await disRecSectorsById(frmId, countryAccountsId);
+		if (!existingRecord || existingRecord.disasterRecordId !== params.disRecId) {
+			return redirectLangFromRoute(
+				actionArgs,
+				"/disaster-record/edit/" + params.disRecId,
+			);
+		}
+	}
 
 	if (frmSectorId && typeof frmSectorId == "string" && frmSectorId !== "") {
 		this_showForm = true;

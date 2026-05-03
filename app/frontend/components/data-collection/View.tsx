@@ -261,6 +261,7 @@ export function ViewComponentMainDataCollection(
 											display: "flex",
 											flexDirection: "column",
 											gap: "10px",
+											width: "90%",
 										}}
 									>
 										<span>
@@ -321,8 +322,9 @@ export function ViewComponentMainDataCollection(
 														code: "common.select_users",
 														msg: "Select users",
 													})}
-													className="w-full"
+													className="w-full return-modal-notify-multiselect"
 													display="chip"
+													maxSelectedLabels={7}
 													filter
 													disabled={!props.returnAssigneeOptions?.length}
 												/>

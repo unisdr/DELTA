@@ -13,14 +13,6 @@ import { ListLegend } from "~/components/ListLegend";
 import { approvalStatusKeyToLabel } from "../approval";
 import { DataCollectionActionLinks } from "../components/data-collection/ActionLinks";
 
-// Permission check functions will be defined below
-
-function roleHasPermission(role: any, permission: string): boolean {
-	return Array.isArray(role?.permissions)
-		? role.permissions.includes(permission)
-		: false;
-}
-
 interface ListViewArgs {
 	ctx: ViewContext;
 	isPublic: boolean;
@@ -42,27 +34,6 @@ function getHazardDisplayName(item: any): string {
 		return item.hipType.name || "";
 	}
 	return "";
-}
-
-/**
- * Determines if a user can edit a hazardous event
- * Based on business rules:
- * - Data-viewers cannot edit any records
- * - Data collectors can edit their own records when status is Draft or Waiting for validation
- * - Data validators/Admins can edit their own created records under same statuses
- */
-function canEdit(event: any, user: any): boolean {
-	if (!user) return false;
-
-	// Check record status - only Draft or Waiting for validation can be edited
-	const editableStatuses = ["draft", "waiting-for-validation"];
-	if (!editableStatuses.includes(String(event.approvalStatus).toLowerCase()))
-		return false;
-
-	const hasEditPermission = roleHasPermission(user.role, "edit");
-	const isOwner = event.ownerId === user.id;
-
-	return hasEditPermission || isOwner;
 }
 
 export function ListView(args: ListViewArgs) {
@@ -257,7 +228,7 @@ export function ListView(args: ListViewArgs) {
 														ctx={ctx}
 														route={route}
 														id={item.id}
-														hideEditButton={!canEdit(item, user)}
+														//hideEditButton={!canEdit(item, user)}
 														user={user}
 														approvalStatus={item.approvalStatus}
 													/>

@@ -211,3 +211,13 @@ yarn test:e2e
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for branch naming, commit style, and PR conventions. Full developer documentation is in [`_docs/`](_docs/index.md) — start there for architecture guides, code conventions, and feature-specific references.
+
+## Acknowledgements
+
+DELTA Resilience is built with and supported by the following open-source and OSS-sponsored tools:
+
+| Tool | Area | Notes |
+|------|------|-------|
+| [CodeRabbit](https://coderabbit.ai) | Code review | AI-assisted PR reviews, free for open-source projects |
+| [GitHub](https://github.com/open-source) | Source control & CI/CD | Source control, Actions, and GHCR free for public repositories |
+| [BrowserStack](https://www.browserstack.com/open-source) | Cross-browser testing | Cross-browser testing via open-source sponsorship |

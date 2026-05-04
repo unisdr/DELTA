@@ -50,4 +50,7 @@ export default defineConfig({
 	optimizeDeps: {
 		include: ["react", "react-dom", "react-router"],
 	},
+	server: {
+		allowedHosts: ['.ddev.site', '.undrr.org', '.deltaresilience.org'],
+	}
 });

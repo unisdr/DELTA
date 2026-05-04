@@ -1,6 +1,6 @@
 
 ALTER TABLE IF EXISTS public.disaster_event
-    ADD COLUMN submitted_by_user_id uuid;
+    ADD COLUMN IF NOT EXISTS submitted_by_user_id uuid;
 ALTER TABLE IF EXISTS public.disaster_event
     ADD FOREIGN KEY (submitted_by_user_id)
     REFERENCES public."user" (id) MATCH SIMPLE
@@ -9,12 +9,12 @@ ALTER TABLE IF EXISTS public.disaster_event
     NOT VALID;
 	
 ALTER TABLE IF EXISTS public.disaster_event
-    ADD COLUMN submitted_at timestamp without time zone;
+    ADD COLUMN IF NOT EXISTS submitted_at timestamp without time zone;
 
 
 
 ALTER TABLE IF EXISTS public.disaster_records
-    ADD COLUMN submitted_by_user_id uuid;
+    ADD COLUMN IF NOT EXISTS submitted_by_user_id uuid;
 ALTER TABLE IF EXISTS public.disaster_records
     ADD FOREIGN KEY (submitted_by_user_id)
     REFERENCES public."user" (id) MATCH SIMPLE
@@ -23,4 +23,4 @@ ALTER TABLE IF EXISTS public.disaster_records
     NOT VALID;
 	
 ALTER TABLE IF EXISTS public.disaster_records
-    ADD COLUMN submitted_at timestamp without time zone;
+    ADD COLUMN IF NOT EXISTS submitted_at timestamp without time zone;

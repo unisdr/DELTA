@@ -2957,7 +2957,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "<p>Se ha realizado una solicitud para restablecer su contraseña. Si usted no hizo esta solicitud, simplemente ignore este correo electrónico.</p> <p>\n<p>Haga clic en el siguiente enlace para restablecer su contraseña:\n<a href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nRestablecer contraseña\n</a>\n</p>\n<p>Este enlace caducará en 1 hora.</p>"
+        "translation": "\u003cp\u003eSe ha realizado una solicitud para restablecer su contraseña. Si usted no hizo esta solicitud, simplemente ignore este correo electrónico.\u003c/p\u003e \u003cp\u003e\n\u003cp\u003eHaga clic en el siguiente enlace para restablecer su contraseña:\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nRestablecer contraseña\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003eEste enlace caducará en 1 hora.\u003c/p\u003e"
     },
     {
         "id": "user_forgot_password.reset_password_email_text",
@@ -3052,7 +3052,7 @@
     {
         "id": "user_invite.admin_email_html",
         "description": "File: backend.server/models/user/invite.ts:266",
-        "translation": "<p>Ha sido invitado a unirse al sistema DELTA Resilience {siteName} como\nun usuario {role} para el país {countryName} {countryAccountType} instancia.\n</p>\n<p>Haga clic en el siguiente enlace para crear su cuenta.</p>\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nConfigurar cuenta\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL} </a></p>"
+        "translation": "\u003cp\u003eHa sido invitado a unirse al sistema DELTA Resilience {siteName} como\nun usuario {role} para el país {countryName} {countryAccountType} instancia.\n\u003c/p\u003e\n\u003cp\u003eHaga clic en el siguiente enlace para crear su cuenta.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nConfigurar cuenta\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "user_invite.admin_email_text",
@@ -3062,7 +3062,7 @@
     {
         "id": "user_invite.existing_email_html",
         "description": "File: backend.server/models/user/invite.ts:211",
-        "translation": "<p>Ha sido invitado a unirse al sistema DELTA Resilience {siteName} como\nun usuario {role} para el país {countryName} {countryAccountType} instancia.\n</p>\n<p>Haga clic en el siguiente enlace para iniciar sesión en su cuenta.</p>\n<p>\n<a href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nIniciar sesión\n</a>\n</p>\n<p> <a href=\"{rootUrl}\"> {rootUrl} </a></p>"
+        "translation": "\u003cp\u003eHa sido invitado a unirse al sistema DELTA Resilience {siteName} como\nun usuario {role} para el país {countryName} {countryAccountType} instancia.\n\u003c/p\u003e\n\u003cp\u003eHaga clic en el siguiente enlace para iniciar sesión en su cuenta.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nIniciar sesión\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{rootUrl}\"\u003e {rootUrl} \u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "user_invite.existing_email_text",
@@ -3072,7 +3072,7 @@
     {
         "id": "user_invite.new_email_html",
         "description": "File: backend.server/models/user/invite.ts:157",
-        "translation": "<p>Ha sido invitado a unirse al sistema DELTA Resilience {siteName} como\nun usuario {role} para el país {countryName} {countryAccountType} instancia.\n</p>\n<p>Haga clic en el siguiente enlace para crear su cuenta.</p>\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nConfigurar cuenta\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL} </a></p>"
+        "translation": "\u003cp\u003eHa sido invitado a unirse al sistema DELTA Resilience {siteName} como\nun usuario {role} para el país {countryName} {countryAccountType} instancia.\n\u003c/p\u003e\n\u003cp\u003eHaga clic en el siguiente enlace para crear su cuenta.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nConfigurar cuenta\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "user_invite.new_email_subject",
@@ -3087,7 +3087,7 @@
     {
         "id": "user_invite.welcome_email_html",
         "description": "File: backend.server/models/user/invite.ts:465",
-        "translation": "<p>Querido {firstName} {lastName},</p>\n<p>Bienvenido al sistema DELTA Resilience {siteName}.Su cuenta de usuario ha sido creada con éxito.</p>\n<p>Haga clic en el siguiente enlace para acceder a su cuenta.</p>\n<p>\n<a href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"> Acceder a la cuenta\nCuenta de acceso\n</a>\n</p>"
+        "translation": "\u003cp\u003eQuerido {firstName} {lastName},\u003c/p\u003e\n\u003cp\u003eBienvenido al sistema DELTA Resilience {siteName}.Su cuenta de usuario ha sido creada con éxito.\u003c/p\u003e\n\u003cp\u003eHaga clic en el siguiente enlace para acceder a su cuenta.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e Acceder a la cuenta\nCuenta de acceso\n\u003c/a\u003e\n\u003c/p\u003e"
     },
     {
         "id": "user_invite.welcome_email_subject",
@@ -3137,7 +3137,7 @@
     {
         "id": "user_reset_password.password_change_confirmation_email_html",
         "description": "File: backend.server/models/user/password.ts:200",
-        "translation": "<p>Su contraseña ha sido cambiada con éxito. Si no ha solicitado este cambio, póngase en contacto con su administrador."
+        "translation": "\u003cp\u003eSu contraseña ha sido cambiada con éxito. Si no ha solicitado este cambio, póngase en contacto con su administrador."
     },
     {
         "id": "user_reset_password.password_change_confirmation_email_subject",
@@ -3472,7 +3472,7 @@
     {
         "id": "email.validation_workflow.body_needs_revision_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
-        "translation": "<p>Estimado {submitterName},</p>\n<p>Su {recordTypeData} ha sido devuelto para revisión.</p>\n<p>Comentarios: {rejectionComments}</p>\n<p><a href=\"{recordUrl}\">Ver y editar registro</a></p>"
+        "translation": "\u003cp\u003eEstimado {submitterName},\u003c/p\u003e\n\u003cp\u003eSu {recordTypeData} ha sido devuelto para revisión.\u003c/p\u003e\n\u003cp\u003eComentarios: {rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eVer y editar registro\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.validation_workflow.body_needs_revision_text",
@@ -3482,7 +3482,7 @@
     {
         "id": "email.validation_workflow.body_published_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
-        "translation": "<p>Estimado {submitterName},</p>\n<p>Su {recordTypeData} ha sido publicado y ya está a disposición del público.</p>\n<p><a href=\"{recordUrl}\">Ver registro</a></p>"
+        "translation": "\u003cp\u003eEstimado {submitterName},\u003c/p\u003e\n\u003cp\u003eSu {recordTypeData} ha sido publicado y ya está a disposición del público.\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eVer registro\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.validation_workflow.body_published_text",
@@ -3492,7 +3492,7 @@
     {
         "id": "email.validation_workflow.body_validated_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
-        "translation": "<p>Estimado {submitterName},</p>\n<p>Su {recordTypeData} ha sido validado.</p>\n<p><a href=\"{recordUrl}\">Ver registro</a></p>"
+        "translation": "\u003cp\u003eEstimado {submitterName},\u003c/p\u003e\n\u003cp\u003eSu {recordTypeData} ha sido validado.\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eVer registro\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.validation_workflow.body_validated_text",
@@ -4507,7 +4507,7 @@
     {
         "id": "disaster_records.disruption.duration_days_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:151",
-        "translation": "La duración (días) debe ser >= 0"
+        "translation": "La duración (días) debe ser \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.duration_hours",
@@ -4517,7 +4517,7 @@
     {
         "id": "disaster_records.disruption.duration_hours_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:152",
-        "translation": "La duración (horas) debe ser >= 0"
+        "translation": "La duración (horas) debe ser \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.number_of_people_affected",
@@ -4537,7 +4537,7 @@
     {
         "id": "disaster_records.disruption.response_cost_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:154",
-        "translation": "El coste de respuesta debe ser >= 0"
+        "translation": "El coste de respuesta debe ser \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.response_currency",
@@ -4557,7 +4557,7 @@
     {
         "id": "disaster_records.disruption.users_affected_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:153",
-        "translation": "Los usuarios afectados deben ser >= 0"
+        "translation": "Los usuarios afectados deben ser \u003e= 0"
     },
     {
         "id": "disaster_records.disruptions",
@@ -5612,7 +5612,7 @@
     {
         "id": "email.welcome.html_body",
         "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
-        "translation": "<p>Querido {firstName} {lastName},</p>\n<p>Bienvenido al sistema DELTA Resilience {countryName}. Su cuenta de usuario ha sido creada con éxito.</p> <p>\n<p>Haga clic en el siguiente enlace para acceder a su cuenta:</p>\n<p><a href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">Acceder a Mi Cuenta</a></p>\n<p>Si el botón anterior no funciona, copie y pegue la siguiente URL en su navegador:<br><a href=\"{accountUrl}\">{accountUrl}</a></p>"
+        "translation": "\u003cp\u003eQuerido {firstName} {lastName},\u003c/p\u003e\n\u003cp\u003eBienvenido al sistema DELTA Resilience {countryName}. Su cuenta de usuario ha sido creada con éxito.\u003c/p\u003e \u003cp\u003e\n\u003cp\u003eHaga clic en el siguiente enlace para acceder a su cuenta:\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003eAcceder a Mi Cuenta\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003eSi el botón anterior no funciona, copie y pegue la siguiente URL en su navegador:\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.welcome.subject",
@@ -5627,7 +5627,7 @@
     {
         "id": "email.verify_account.html_body",
         "description": "HTML version of the account verification email. File: backend.server/models/user/verify_email.ts:38",
-        "translation": "<p>Para continuar con la configuración de su cuenta de DELTA Resilience, por favor verifique que esta es su dirección de correo electrónico.</p> <p><strong>Delta Resilience</strong>.\n<br/><br/>\n<p>Por favor, utilice el siguiente código para activar y finalizar la configuración de su cuenta. El código caducará en 30 minutos:</p>\n<br/><strong>{verificationCode}</strong>"
+        "translation": "\u003cp\u003ePara continuar con la configuración de su cuenta de DELTA Resilience, por favor verifique que esta es su dirección de correo electrónico.\u003c/p\u003e \u003cp\u003e\u003cstrong\u003eDelta Resilience\u003c/strong\u003e.\n\u003cbr/\u003e\u003cbr/\u003e\n\u003cp\u003ePor favor, utilice el siguiente código para activar y finalizar la configuración de su cuenta. El código caducará en 30 minutos:\u003c/p\u003e\n\u003cbr/\u003e\u003cstrong\u003e{verificationCode}\u003c/strong\u003e"
     },
     {
         "id": "email.verify_account.subject",
@@ -6152,7 +6152,7 @@
     {
         "id": "human_effects.error.subtotal_larger_than_total",
         "description": "The subtotal for a group exceeds the overall total. {group} is the group name(s), {column} is the metric name, {value} is the group total, {totalValue} is the overall total. File: frontend/editabletable/validate.ts:266",
-        "translation": "El total del grupo ({group}), columna \"{column}\" supera el total general {value} > {totalValue}"
+        "translation": "El total del grupo ({group}), columna \"{column}\" supera el total general {value} \u003e {totalValue}"
     },
     {
         "id": "human_effects.error.subtotal_larger_than_total_row",
@@ -6736,5 +6736,553 @@
     {
         "id": "user_login.enter_your_password",
         "translation": "Entrez votre mot de passe"
+    },
+    {
+        "id": "admin.add_fictitious_country",
+        "description": "File: app/routes/$lang+/admin+/fictitious-country-mgmt+/_layout.tsx:41",
+        "translation": "Añadir un país ficticio"
+    },
+    {
+        "id": "admin.clone_country_account",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:73",
+        "translation": "Clonar cuenta de país"
+    },
+    {
+        "id": "admin.country_account_cloned",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:31",
+        "translation": "La cuenta del país se ha clonado correctamente"
+    },
+    {
+        "id": "admin.country_type",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/edit.$id.tsx:191",
+        "translation": "Tipo de país"
+    },
+    {
+        "id": "admin.delete_instance_confirm_header",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/delete.$id.tsx:80",
+        "translation": "Eliminar instancia"
+    },
+    {
+        "id": "admin.delete_instance_confirm_message",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/delete.$id.tsx:111",
+        "translation": "¿Estás seguro de que quieres eliminar esta instancia? Esta acción no se puede deshacer."
+    },
+    {
+        "id": "admin.edit_fictitious_country",
+        "description": "File: app/routes/$lang+/admin+/fictitious-country-mgmt+/edit.$id.tsx:77",
+        "translation": "Editar país ficticio"
+    },
+    {
+        "id": "admin.fictitious_country_deleted",
+        "description": "File: app/routes/$lang+/admin+/fictitious-country-mgmt+/delete.$id.tsx:50",
+        "translation": "El país ficticio se ha eliminado correctamente"
+    },
+    {
+        "id": "admin.fictitious_country_management",
+        "description": "File: app/routes/$lang+/admin+/fictitious-country-mgmt+/_layout.tsx:32",
+        "translation": "Gestión de un país ficticio"
+    },
+    {
+        "id": "admin.instance_deleted",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/delete.$id.tsx:47",
+        "translation": "La instancia se ha eliminado correctamente"
+    },
+    {
+        "id": "admin.instance_type",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/edit.$id.tsx:311",
+        "translation": "Tipo de instancia"
+    },
+    {
+        "id": "admin.invitation_resent",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/resend-invitation.$id.tsx:56",
+        "translation": "El correo electrónico de invitación se ha enviado correctamente"
+    },
+    {
+        "id": "admin.resend_email",
+        "description": "File: app/pages/AccessManagementPage.tsx:145",
+        "translation": "Reenviar el correo electrónico de invitación"
+    },
+    {
+        "id": "admin.resend_invitation_confirm_message",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/resend-invitation.$id.tsx:132",
+        "translation": "¿Quieres volver a enviar el correo electrónico de invitación al administrador principal?"
+    },
+    {
+        "id": "api_keys.session_secret",
+        "description": "File: app/routes/$lang+/settings+/api-key+/_layout.tsx:155",
+        "translation": "Secreto de sesión"
+    },
+    {
+        "id": "common.addedAt",
+        "description": "File: app/pages/AccessManagementPage.tsx:332",
+        "translation": "Añadido el"
+    },
+    {
+        "id": "common.clone",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:90",
+        "translation": "Clonar"
+    },
+    {
+        "id": "common.close",
+        "description": "File: app/routes/$lang+/settings+/assets+/$id.tsx:60",
+        "translation": "Cerrar"
+    },
+    {
+        "id": "common.confirm_delete",
+        "description": "File: app/routes/$lang+/settings+/assets+/delete.$id.tsx:116",
+        "translation": "¿Estás seguro de que quieres eliminar este recurso? Esta acción no se puede deshacer."
+    },
+    {
+        "id": "common.country_type",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/_layout.tsx:284",
+        "translation": "Tipo de país"
+    },
+    {
+        "id": "common.disabled",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:117",
+        "translation": "Discapacitados"
+    },
+    {
+        "id": "common.enabled",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:116",
+        "translation": "Activado"
+    },
+    {
+        "id": "common.go_to_login",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:224",
+        "translation": "Ir a iniciar sesión"
+    },
+    {
+        "id": "common.import_csv",
+        "description": "File: app/routes/$lang+/settings+/assets+/_layout.tsx:187",
+        "translation": "Importar CSV"
+    },
+    {
+        "id": "common.inviteUser",
+        "description": "File: app/routes/$lang+/settings+/access-mgmnt+/new.tsx:238",
+        "translation": "Invitar a un usuario"
+    },
+    {
+        "id": "common.name_already_exists",
+        "description": "File: app/services/organizationService.ts:83",
+        "translation": "Ya existe una organización con ese nombre"
+    },
+    {
+        "id": "common.name_required",
+        "description": "File: app/services/organizationService.ts:68",
+        "translation": "Es obligatorio introducir el nombre"
+    },
+    {
+        "id": "common.no_results",
+        "description": "File: app/routes/$lang+/settings+/assets+/_layout.tsx:212",
+        "translation": "No se han encontrado resultados."
+    },
+    {
+        "id": "common.no_users_available",
+        "description": "File: app/frontend/components/data-collection/View.tsx:333",
+        "translation": "No hay usuarios disponibles para asignar."
+    },
+    {
+        "id": "common.notify",
+        "description": "File: app/frontend/components/data-collection/View.tsx:307",
+        "translation": "Notificar"
+    },
+    {
+        "id": "common.return",
+        "description": "File: app/frontend/components/data-collection/View.tsx:227",
+        "translation": "Volver"
+    },
+    {
+        "id": "common.return_with_comments_description_to_user",
+        "description": "File: app/frontend/components/data-collection/View.tsx:274",
+        "translation": "Se devolverá con un comentario para que se realicen los cambios y se vuelva a enviar para su aprobación."
+    },
+    {
+        "id": "common.save_error",
+        "description": "File: app/routes/$lang+/settings+/geography+/edit.$id.tsx:269",
+        "translation": "Se ha producido un error al guardar los datos. Inténtalo de nuevo."
+    },
+    {
+        "id": "common.search_organization",
+        "description": "File: app/pages/AccessManagementPage.tsx:221",
+        "translation": "Escriba el nombre de la organización"
+    },
+    {
+        "id": "common.select_users",
+        "description": "File: app/frontend/components/data-collection/View.tsx:321",
+        "translation": "Seleccionar usuarios"
+    },
+    {
+        "id": "common.unexpected_error",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:44",
+        "translation": "Se ha producido un error inesperado"
+    },
+    {
+        "id": "common.unverified",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:103",
+        "translation": "Sin verificar"
+    },
+    {
+        "id": "common.user",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:67",
+        "translation": "Usuario"
+    },
+    {
+        "id": "common.verified",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:102",
+        "translation": "Verificado"
+    },
+    {
+        "id": "content_repeater.file_upload_error",
+        "description": "File: app/components/ContentRepeater/PreUploadFile.tsx:186",
+        "translation": "Se ha producido un error al procesar la carga del archivo."
+    },
+    {
+        "id": "content_repeater.file_upload_max_size_error",
+        "description": "{maxSizeMB} is replaced with the max file size in MB. File: app/components/ContentRepeater/PreUploadFile.tsx:69",
+        "translation": "Se ha producido un error al procesar la subida del archivo; el archivo supera el límite de tamaño de {maxSizeMB} MB."
+    },
+    {
+        "id": "disaster_event.invalid_hazardous_event_reference",
+        "description": "File: app/backend.server/models/event.ts:1456",
+        "translation": "Referencia de evento peligroso no válida para esta instancia"
+    },
+    {
+        "id": "email.assigned_validators.body_html",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:112",
+        "translation": "\u003cp\u003eEstimado {validatorName},\u003c/p\u003e\n\u003cp\u003eHay un nuevo {recordType} esperando tu respuesta. Haz clic en el enlace de abajo para ver el evento.\u003c/p\u003e\n\u003cp\u003eNombre del evento: {recordEventName} \u003cbr /\u003eFecha del evento: {recordDate} \u003cbr /\u003eEnviado por: {recordSubmitterName}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eVer evento\u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.assigned_validators.body_text",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:132",
+        "translation": "Estimado {validatorName},\n\nHay un nuevo {recordType} pendiente de tu respuesta. Haz clic en el enlace de abajo para ver el evento.\n\nNombre del evento: {recordEventName}\nFecha del evento: {recordDate}\nEnviado por: {recordSubmitterName}\n\nVer evento: {recordUrl}"
+    },
+    {
+        "id": "email.assigned_validators.subject",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:50",
+        "translation": "Validación de eventos"
+    },
+    {
+        "id": "email.assignees_notification.body_returned_html",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:481",
+        "translation": "\u003cp\u003eEstimado/a {assigneeName},\u003c/p\u003e\n\u003cp\u003eSe ha devuelto un {recordType} para su revisión.\u003c/p\u003e\n\u003cp\u003eDevuelto por: {recordSubmitterName}\u003c/p\u003e\n\u003cp\u003eComentarios: {rejectionMessage}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eVer\u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.assignees_notification.body_returned_text",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:501",
+        "translation": "Estimado {assigneeName},\n\nSe ha devuelto un {recordType} para su revisión.\n\nDevuelto por: {recordSubmitterName}\n\nComentarios: {rejectionMessage}\n\nVer: {recordUrl}"
+    },
+    {
+        "id": "email.assignees_notification.subject_returned",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:450",
+        "translation": "Registro devuelto: se requiere una acción"
+    },
+    {
+        "id": "geographies.edit_division_subtitle",
+        "description": "File: app/routes/$lang+/settings+/geography+/edit.$id.tsx:244",
+        "translation": "Actualiza los datos de esta división administrativa."
+    },
+    {
+        "id": "geographies.failed_imports",
+        "description": "File: app/routes/$lang+/settings+/geography+/upload.tsx:98",
+        "translation": "Importaciones fallidas"
+    },
+    {
+        "id": "geographies.names_by_language",
+        "description": "File: app/routes/$lang+/settings+/geography+/edit.$id.tsx:302",
+        "translation": "Nombres por idioma"
+    },
+    {
+        "id": "geographies.parent_id_placeholder",
+        "description": "File: app/routes/$lang+/settings+/geography+/edit.$id.tsx:291",
+        "translation": "Délo en blanco para una división de primer nivel"
+    },
+    {
+        "id": "go_back",
+        "description": "File: app/routes/$.tsx:43",
+        "translation": "Volver"
+    },
+    {
+        "id": "go_to_home",
+        "description": "File: app/routes/$.tsx:37",
+        "translation": "Ir a la página de inicio"
+    },
+    {
+        "id": "home",
+        "description": "File: app/routes/$lang+/user+/accept-invite.tsx:401",
+        "translation": "Inicio"
+    },
+    {
+        "id": "human_effects.human_effects_configure_builtin_disaggregations",
+        "description": "File: app/routes/$lang+/settings+/human-effects-dsg+/_index.tsx:105",
+        "translation": "Efectos sobre las personas: Configurar los desgloses integrados"
+    },
+    {
+        "id": "human_effects.in_use",
+        "description": "File: app/routes/$lang+/settings+/human-effects-dsg+/_index.tsx:149",
+        "translation": "en uso"
+    },
+    {
+        "id": "human_effects.in_use_cant_delete",
+        "description": "File: app/frontend/human_effects/custom_editor.tsx:50",
+        "translation": "En uso"
+    },
+    {
+        "id": "human_effects.in_use_cant_edit",
+        "description": "File: app/frontend/human_effects/custom_editor.tsx:38",
+        "translation": "En uso"
+    },
+    {
+        "id": "human_effects.in_use_note",
+        "description": "File: app/routes/$lang+/settings+/human-effects-dsg+/custom.tsx:202",
+        "translation": "Las desagregaciones en uso no se pueden eliminar ni cambiar el nombre de su base de datos, pero sí se pueden modificar las etiquetas de la interfaz de usuario."
+    },
+    {
+        "id": "human_effects.men",
+        "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1109",
+        "translation": "Pero"
+    },
+    {
+        "id": "human_effects.other_non_binary",
+        "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1123",
+        "translation": "Otros no binarios"
+    },
+    {
+        "id": "human_effects.women",
+        "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1116",
+        "translation": "Mujeres"
+    },
+    {
+        "id": "meta.change_password",
+        "description": "File: app/routes/$lang+/user+/change-password.tsx:281",
+        "translation": "Cambiar contraseña"
+    },
+    {
+        "id": "meta.user_profile",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:36",
+        "translation": "Perfil de usuario"
+    },
+    {
+        "id": "nav.faq",
+        "description": "File: app/components/RegularMenuBar.tsx:342",
+        "translation": "Preguntas frecuentes"
+    },
+    {
+        "id": "nav.organization_management",
+        "description": "File: app/components/RegularMenuBar.tsx:376",
+        "translation": "Gestión de la organización"
+    },
+    {
+        "id": "nav.profile",
+        "description": "File: app/components/RegularMenuBar.tsx:47",
+        "translation": "Perfil"
+    },
+    {
+        "id": "nav.super_admin",
+        "description": "File: app/components/SuperAdminMenuBar.tsx:159",
+        "translation": "Super Admin"
+    },
+    {
+        "id": "nav.switch_instance",
+        "description": "File: app/components/RegularMenuBar.tsx:141",
+        "translation": "Interruptor"
+    },
+    {
+        "id": "organization.delete_blocked_by_dependencies",
+        "description": "File: app/services/organizationService.ts:191",
+        "translation": "Esta organización no se puede eliminar porque todavía la están utilizando uno o varios usuarios. Elimina primero esas asignaciones."
+    },
+    {
+        "id": "page_not_found",
+        "description": "File: app/routes/$.tsx:22",
+        "translation": "Página no encontrada"
+    },
+    {
+        "id": "page_not_found_message",
+        "description": "File: app/routes/$.tsx:27",
+        "translation": "Es posible que la página que estás buscando haya sido eliminada, haya cambiado de nombre o no esté disponible temporalmente."
+    },
+    {
+        "id": "profile.first_name_required",
+        "description": "File: app/services/userProfileService.ts:52",
+        "translation": "El nombre es obligatorio"
+    },
+    {
+        "id": "profile.last_name_required",
+        "description": "File: app/services/userProfileService.ts:59",
+        "translation": "Es obligatorio indicar el apellido"
+    },
+    {
+        "id": "session.expired_message",
+        "description": "File: app/components/InactivityWarning.tsx:98",
+        "translation": "Tu sesión ha caducado por inactividad. Inicia sesión de nuevo para continuar."
+    },
+    {
+        "id": "session.expiry_warning_minutes",
+        "description": "File: app/components/InactivityWarning.tsx:102",
+        "translation": {
+            "one": "Por motivos de seguridad, tu sesión caducará en {n} minutos por falta de actividad.",
+            "other": "Por tu seguridad, tu sesión caducará en {n} minutos por falta de actividad."
+        }
+    },
+    {
+        "id": "settings.system.instance_configuration",
+        "description": "File: app/routes/$lang+/settings+/system.tsx:295",
+        "translation": "Configuración de la instancia"
+    },
+    {
+        "id": "settings.system.software",
+        "description": "File: app/routes/$lang+/settings+/system.tsx:341",
+        "translation": "Software"
+    },
+    {
+        "id": "sign_in",
+        "description": "File: app/routes/$lang+/user+/accept-invite.tsx:420",
+        "translation": "Iniciar sesión"
+    },
+    {
+        "id": "user_forgot_password.email_sent_inline_message",
+        "description": "A message when correct email format entered in forgot password page. File: app/routes/$lang+/user+/forgot-password.tsx:143",
+        "translation": "Comprueba tu bandeja de entrada para ver si hay un enlace para restablecer la contraseña, si este correo electrónico está asociado a una cuenta."
+    },
+    {
+        "id": "user_login.sign_in_to_continue",
+        "description": "File: app/routes/$lang+/user+/login.tsx:324",
+        "translation": "Inicia sesión en tu cuenta para continuar"
+    },
+    {
+        "id": "user_login.welcome_back",
+        "description": "File: app/routes/$lang+/user+/login.tsx:318",
+        "translation": "Bienvenido de nuevo"
+    },
+    {
+        "id": "user_select_instance.instance_required",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:201",
+        "translation": "Es necesario seleccionar una instancia"
+    },
+    {
+        "id": "user_select_instance.loading_instance_msg",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:293",
+        "translation": "Estamos recuperando los datos; esto puede tardar unos minutos. Por favor, no cierres la ventana."
+    },
+    {
+        "id": "user_select_instance.loading_instance_title",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:287",
+        "translation": "Cargando instancia"
+    },
+    {
+        "id": "user_select_instance.no_instance_contact",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:329",
+        "translation": "Ponte en contacto con el administrador de tu equipo para obtener acceso."
+    },
+    {
+        "id": "user_select_instance.no_instance_question",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:323",
+        "translation": "¿No encuentras la instancia que buscas?"
+    },
+    {
+        "id": "user_select_instance.no_selection_redirect_login",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:210",
+        "translation": "Si no seleccionas una instancia, se te redirigirá a la página de inicio de sesión."
+    },
+    {
+        "id": "user.disable_totp_description",
+        "description": "File: app/routes/$lang+/user+/totp-disable.tsx:108",
+        "translation": "Introduce tu código TOTP para confirmar la desactivación de la autenticación de dos factores"
+    },
+    {
+        "id": "user.email_status",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:97",
+        "translation": "Estado del correo electrónico"
+    },
+    {
+        "id": "user.permission.add_country_account.label",
+        "description": "File: app/frontend/user/roles.ts:283",
+        "translation": "Añadir cuenta de país"
+    },
+    {
+        "id": "user.permission.add_fictitious_country.label",
+        "description": "File: app/frontend/user/roles.ts:235",
+        "translation": "Añadir un país ficticio"
+    },
+    {
+        "id": "user.permission.clone_country_account.label",
+        "description": "File: app/frontend/user/roles.ts:267",
+        "translation": "Clonar cuenta de país"
+    },
+    {
+        "id": "user.permission.delete_country_account.label",
+        "description": "File: app/frontend/user/roles.ts:259",
+        "translation": "Eliminar cuenta de país"
+    },
+    {
+        "id": "user.permission.delete_fictitious_country.label",
+        "description": "File: app/frontend/user/roles.ts:251",
+        "translation": "Eliminar país ficticio"
+    },
+    {
+        "id": "user.permission.edit_country_account.label",
+        "description": "File: app/frontend/user/roles.ts:291",
+        "translation": "Editar cuenta de país"
+    },
+    {
+        "id": "user.permission.edit_fictitious_country.label",
+        "description": "File: app/frontend/user/roles.ts:243",
+        "translation": "Editar país ficticio"
+    },
+    {
+        "id": "user.permission.view_country_accounts.label",
+        "description": "File: app/frontend/user/roles.ts:275",
+        "translation": "Ver cuentas por país"
+    },
+    {
+        "id": "user.permission.view_fictitious_countries.label",
+        "description": "File: app/frontend/user/roles.ts:227",
+        "translation": "Ver países ficticios"
+    },
+    {
+        "id": "user.totp_2fa_status",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:111",
+        "translation": "Autenticación de dos factores (TOTP)"
+    },
+    {
+        "id": "user.totp_code_hint",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:126",
+        "translation": "Escribe el código actual de 6 dígitos que aparece en tu aplicación de autenticación."
+    },
+    {
+        "id": "user.totp_manual_key",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:122",
+        "translation": "¿No puedes escanear el código QR? Utiliza esta clave de configuración:"
+    },
+    {
+        "id": "user.totp_setup_steps_title",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:106",
+        "translation": "Configurar la autenticación de dos factores"
+    },
+    {
+        "id": "user.totp_step_1",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:110",
+        "translation": "1. Abre tu aplicación de autenticación (Google Authenticator, Microsoft Authenticator, Authy, etc.)."
+    },
+    {
+        "id": "user.totp_step_2",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:114",
+        "translation": "2. Escanea el código QR que aparece a continuación para añadir tu cuenta."
+    },
+    {
+        "id": "user.totp_step_3",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:118",
+        "translation": "3. Introduce el código de 6 dígitos generado por tu aplicación para confirmar la configuración."
+    },
+    {
+        "id": "users.enter_totp_generated_code",
+        "description": "File: app/routes/$lang+/user+/totp-login.tsx:86",
+        "translation": "Introduce el código de tu aplicación de autenticación para continuar."
+    },
+    {
+        "id": "your_account_has_been_set_up_successfully.",
+        "description": "File: app/routes/$lang+/user+/accept-invite.tsx:171",
+        "translation": "Tu cuenta se ha creado correctamente. Ya puedes iniciar sesión."
     }
 ]

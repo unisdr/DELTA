@@ -2957,7 +2957,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "<p>您已提出重置密码的请求。如果您没有提出此请求，请忽略此电子邮件。\n<p>点击下面的链接重置密码：\n<a href=\"{resetURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"> 重置密码\n重置密码\n</a>\n</p>\n<p>此链接将在 1 小时后失效。"
+        "translation": "\u003cp\u003e您已提出重置密码的请求。如果您没有提出此请求，请忽略此电子邮件。\n\u003cp\u003e点击下面的链接重置密码：\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003e 重置密码\n重置密码\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e此链接将在 1 小时后失效。"
     },
     {
         "id": "user_forgot_password.reset_password_email_text",
@@ -3052,7 +3052,7 @@
     {
         "id": "user_invite.admin_email_html",
         "description": "File: backend.server/models/user/invite.ts:266",
-        "translation": "<p>您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n</p>\n<p> 点击下面的链接创建您的账户。\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"> 设置账户\n设置帐户\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL}</a></p"
+        "translation": "\u003cp\u003e您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n\u003c/p\u003e\n\u003cp\u003e 点击下面的链接创建您的账户。\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003e 设置账户\n设置帐户\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL}\u003c/a\u003e\u003c/p"
     },
     {
         "id": "user_invite.admin_email_text",
@@ -3062,7 +3062,7 @@
     {
         "id": "user_invite.existing_email_html",
         "description": "File: backend.server/models/user/invite.ts:211",
-        "translation": "<p>您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n</p>\n<p> 点击下面的链接登录您的账户。\n<p>\n<a href=\"{rootUrl}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"> 登陆\n登录\n</a>\n</p>\n<p> <a href=\"{rootUrl}\"> {rootUrl}</a></p"
+        "translation": "\u003cp\u003e您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n\u003c/p\u003e\n\u003cp\u003e 点击下面的链接登录您的账户。\n\u003cp\u003e\n\u003ca href=\"{rootUrl}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003e 登陆\n登录\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{rootUrl}\"\u003e {rootUrl}\u003c/a\u003e\u003c/p"
     },
     {
         "id": "user_invite.existing_email_text",
@@ -3072,7 +3072,7 @@
     {
         "id": "user_invite.new_email_html",
         "description": "File: backend.server/models/user/invite.ts:157",
-        "translation": "<p>您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n</p>\n<p> 点击下面的链接创建您的账户。\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"> 设置账户\n设置帐户\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL}</a></p"
+        "translation": "\u003cp\u003e您已受邀加入 DELTA 灾难恢复能力{siteName}系统，成为\n国家 {countryName} 的 {role} 用户。{countryAccountType} 实例。\n\u003c/p\u003e\n\u003cp\u003e 点击下面的链接创建您的账户。\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003e 设置账户\n设置帐户\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL}\u003c/a\u003e\u003c/p"
     },
     {
         "id": "user_invite.new_email_subject",
@@ -3087,7 +3087,7 @@
     {
         "id": "user_invite.welcome_email_html",
         "description": "File: backend.server/models/user/invite.ts:465",
-        "translation": "<p> 亲爱的 {firstName} {lastName} ，</p> <p> 欢迎使用 DELTA Resilience {siteName} 系统。\n<p> 欢迎访问 DELTA Resilience {2} 系统，您的用户账户已成功创建。\n<p> 点击下面的链接访问您的账户。\n<p>\n<a href=\"{accessAccountURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"> 访问帐户\n访问帐户\n</a>\n</p>"
+        "translation": "\u003cp\u003e 亲爱的 {firstName} {lastName} ，\u003c/p\u003e \u003cp\u003e 欢迎使用 DELTA Resilience {siteName} 系统。\n\u003cp\u003e 欢迎访问 DELTA Resilience {2} 系统，您的用户账户已成功创建。\n\u003cp\u003e 点击下面的链接访问您的账户。\n\u003cp\u003e\n\u003ca href=\"{accessAccountURL}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003e 访问帐户\n访问帐户\n\u003c/a\u003e\n\u003c/p\u003e"
     },
     {
         "id": "user_invite.welcome_email_subject",
@@ -3137,7 +3137,7 @@
     {
         "id": "user_reset_password.password_change_confirmation_email_html",
         "description": "File: backend.server/models/user/password.ts:200",
-        "translation": "<p>您的密码已成功更改。如果您没有要求更改密码，请联系您的管理员。"
+        "translation": "\u003cp\u003e您的密码已成功更改。如果您没有要求更改密码，请联系您的管理员。"
     },
     {
         "id": "user_reset_password.password_change_confirmation_email_subject",
@@ -3472,7 +3472,7 @@
     {
         "id": "email.validation_workflow.body_needs_revision_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
-        "translation": "<p>亲爱的 {submitterName}，</p>\n<p>您的 {recordTypeData} 已被退回修改。\n<p>评论：{rejectionComments}</p>\n<p><a href=\"{recordUrl}\">查看和编辑记录</a></p>。"
+        "translation": "\u003cp\u003e亲爱的 {submitterName}，\u003c/p\u003e\n\u003cp\u003e您的 {recordTypeData} 已被退回修改。\n\u003cp\u003e评论：{rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003e查看和编辑记录\u003c/a\u003e\u003c/p\u003e。"
     },
     {
         "id": "email.validation_workflow.body_needs_revision_text",
@@ -3482,7 +3482,7 @@
     {
         "id": "email.validation_workflow.body_published_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
-        "translation": "<p>亲爱的 {submitterName},</p>\n<p>您的 {recordTypeData} 已经发布，现在可以公开查阅。\n<p><a href=\"{recordUrl}\">查看记录</a></p>。"
+        "translation": "\u003cp\u003e亲爱的 {submitterName},\u003c/p\u003e\n\u003cp\u003e您的 {recordTypeData} 已经发布，现在可以公开查阅。\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003e查看记录\u003c/a\u003e\u003c/p\u003e。"
     },
     {
         "id": "email.validation_workflow.body_published_text",
@@ -3492,7 +3492,7 @@
     {
         "id": "email.validation_workflow.body_validated_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
-        "translation": "<p>亲爱的 {submitterName}，</p>\n<p>您的 {recordTypeData} 已通过验证。\n<p><a href=\"{recordUrl}\">查看记录</a></p>。"
+        "translation": "\u003cp\u003e亲爱的 {submitterName}，\u003c/p\u003e\n\u003cp\u003e您的 {recordTypeData} 已通过验证。\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003e查看记录\u003c/a\u003e\u003c/p\u003e。"
     },
     {
         "id": "email.validation_workflow.body_validated_text",
@@ -4507,7 +4507,7 @@
     {
         "id": "disaster_records.disruption.duration_days_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:151",
-        "translation": "持续时间（天）必须 >= 0"
+        "translation": "持续时间（天）必须 \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.duration_hours",
@@ -4517,7 +4517,7 @@
     {
         "id": "disaster_records.disruption.duration_hours_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:152",
-        "translation": "持续时间（小时）必须 >= 0"
+        "translation": "持续时间（小时）必须 \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.number_of_people_affected",
@@ -4537,7 +4537,7 @@
     {
         "id": "disaster_records.disruption.response_cost_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:154",
-        "translation": "响应成本必须 >= 0"
+        "translation": "响应成本必须 \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.response_currency",
@@ -4557,7 +4557,7 @@
     {
         "id": "disaster_records.disruption.users_affected_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:153",
-        "translation": "受影响的用户必须 >= 0"
+        "translation": "受影响的用户必须 \u003e= 0"
     },
     {
         "id": "disaster_records.disruptions",
@@ -5612,7 +5612,7 @@
     {
         "id": "email.welcome.html_body",
         "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
-        "translation": "<p>亲爱的 {firstName} {lastName} ，</p>\n<p>欢迎使用 DELTA Resilience {countryName} 系统。您的用户账户已成功创建。\n<p>点击下面的链接访问您的帐户：</p\n<p><a href=\"{accountUrl}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\">Access My Account</a></p>\n<p>如果上面的按钮不起作用，请将以下 URL 复制并粘贴到浏览器中：<br><a href=\"{accountUrl}\">{accountUrl}</a></p>"
+        "translation": "\u003cp\u003e亲爱的 {firstName} {lastName} ，\u003c/p\u003e\n\u003cp\u003e欢迎使用 DELTA Resilience {countryName} 系统。您的用户账户已成功创建。\n\u003cp\u003e点击下面的链接访问您的帐户：\u003c/p\n\u003cp\u003e\u003ca href=\"{accountUrl}\" style=\"display: inline-block; padding：10px 20px; font-size: 16px; color：#ffffff; background-color：#007BFF; text-decoration: none; border-radius: 5px;\"\u003eAccess My Account\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003e如果上面的按钮不起作用，请将以下 URL 复制并粘贴到浏览器中：\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.welcome.subject",
@@ -5627,7 +5627,7 @@
     {
         "id": "email.verify_account.html_body",
         "description": "HTML version of the account verification email. File: backend.server/models/user/verify_email.ts:38",
-        "translation": "<p>要继续设置您的 DELTA Resilience 账户，请确认这是您的电子邮件地址。\n<br/><br/>\n<p>请使用以下代码激活并完成账户设置。代码将在 30 分钟后失效：</p\n<br/><strong>{verificationCode}</strong> </p"
+        "translation": "\u003cp\u003e要继续设置您的 DELTA Resilience 账户，请确认这是您的电子邮件地址。\n\u003cbr/\u003e\u003cbr/\u003e\n\u003cp\u003e请使用以下代码激活并完成账户设置。代码将在 30 分钟后失效：\u003c/p\n\u003cbr/\u003e\u003cstrong\u003e{verificationCode}\u003c/strong\u003e \u003c/p"
     },
     {
         "id": "email.verify_account.subject",
@@ -6152,7 +6152,7 @@
     {
         "id": "human_effects.error.subtotal_larger_than_total",
         "description": "The subtotal for a group exceeds the overall total. {group} is the group name(s), {column} is the metric name, {value} is the group total, {totalValue} is the overall total. File: frontend/editabletable/validate.ts:266",
-        "translation": "组（{group}）\"{column}\"栏的总计超过{value}栏的总计> {totalValue}"
+        "translation": "组（{group}）\"{column}\"栏的总计超过{value}栏的总计\u003e {totalValue}"
     },
     {
         "id": "human_effects.error.subtotal_larger_than_total_row",
@@ -6736,5 +6736,553 @@
     {
         "id": "user_login.enter_your_password",
         "translation": "请输入您的密码"
+    },
+    {
+        "id": "admin.add_fictitious_country",
+        "description": "File: app/routes/$lang+/admin+/fictitious-country-mgmt+/_layout.tsx:41",
+        "translation": "添加虚构国家"
+    },
+    {
+        "id": "admin.clone_country_account",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:73",
+        "translation": "克隆国家/地区账户"
+    },
+    {
+        "id": "admin.country_account_cloned",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:31",
+        "translation": "国家账户克隆成功"
+    },
+    {
+        "id": "admin.country_type",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/edit.$id.tsx:191",
+        "translation": "国家类型"
+    },
+    {
+        "id": "admin.delete_instance_confirm_header",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/delete.$id.tsx:80",
+        "translation": "删除实例"
+    },
+    {
+        "id": "admin.delete_instance_confirm_message",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/delete.$id.tsx:111",
+        "translation": "您确定要删除此实例吗？此操作无法撤销。"
+    },
+    {
+        "id": "admin.edit_fictitious_country",
+        "description": "File: app/routes/$lang+/admin+/fictitious-country-mgmt+/edit.$id.tsx:77",
+        "translation": "编辑虚构国家"
+    },
+    {
+        "id": "admin.fictitious_country_deleted",
+        "description": "File: app/routes/$lang+/admin+/fictitious-country-mgmt+/delete.$id.tsx:50",
+        "translation": "虚构国家已成功删除"
+    },
+    {
+        "id": "admin.fictitious_country_management",
+        "description": "File: app/routes/$lang+/admin+/fictitious-country-mgmt+/_layout.tsx:32",
+        "translation": "虚构国家管理"
+    },
+    {
+        "id": "admin.instance_deleted",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/delete.$id.tsx:47",
+        "translation": "实例已成功删除"
+    },
+    {
+        "id": "admin.instance_type",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/edit.$id.tsx:311",
+        "translation": "实例类型"
+    },
+    {
+        "id": "admin.invitation_resent",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/resend-invitation.$id.tsx:56",
+        "translation": "邀请邮件已成功发送"
+    },
+    {
+        "id": "admin.resend_email",
+        "description": "File: app/pages/AccessManagementPage.tsx:145",
+        "translation": "重新发送邀请邮件"
+    },
+    {
+        "id": "admin.resend_invitation_confirm_message",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/resend-invitation.$id.tsx:132",
+        "translation": "您要重新发送邀请邮件给主要管理员吗？"
+    },
+    {
+        "id": "api_keys.session_secret",
+        "description": "File: app/routes/$lang+/settings+/api-key+/_layout.tsx:155",
+        "translation": "会话密钥"
+    },
+    {
+        "id": "common.addedAt",
+        "description": "File: app/pages/AccessManagementPage.tsx:332",
+        "translation": "添加于"
+    },
+    {
+        "id": "common.clone",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:90",
+        "translation": "克隆"
+    },
+    {
+        "id": "common.close",
+        "description": "File: app/routes/$lang+/settings+/assets+/$id.tsx:60",
+        "translation": "关闭"
+    },
+    {
+        "id": "common.confirm_delete",
+        "description": "File: app/routes/$lang+/settings+/assets+/delete.$id.tsx:116",
+        "translation": "您确定要删除此资源吗？此操作无法撤销。"
+    },
+    {
+        "id": "common.country_type",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/_layout.tsx:284",
+        "translation": "国家类型"
+    },
+    {
+        "id": "common.disabled",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:117",
+        "translation": "残疾"
+    },
+    {
+        "id": "common.enabled",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:116",
+        "translation": "已启用"
+    },
+    {
+        "id": "common.go_to_login",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:224",
+        "translation": "前往登录"
+    },
+    {
+        "id": "common.import_csv",
+        "description": "File: app/routes/$lang+/settings+/assets+/_layout.tsx:187",
+        "translation": "导入 CSV"
+    },
+    {
+        "id": "common.inviteUser",
+        "description": "File: app/routes/$lang+/settings+/access-mgmnt+/new.tsx:238",
+        "translation": "邀请用户"
+    },
+    {
+        "id": "common.name_already_exists",
+        "description": "File: app/services/organizationService.ts:83",
+        "translation": "已经存在一个同名的组织"
+    },
+    {
+        "id": "common.name_required",
+        "description": "File: app/services/organizationService.ts:68",
+        "translation": "姓名为必填项"
+    },
+    {
+        "id": "common.no_results",
+        "description": "File: app/routes/$lang+/settings+/assets+/_layout.tsx:212",
+        "translation": "未找到任何结果"
+    },
+    {
+        "id": "common.no_users_available",
+        "description": "File: app/frontend/components/data-collection/View.tsx:333",
+        "translation": "没有可分配的用户。"
+    },
+    {
+        "id": "common.notify",
+        "description": "File: app/frontend/components/data-collection/View.tsx:307",
+        "translation": "通知"
+    },
+    {
+        "id": "common.return",
+        "description": "File: app/frontend/components/data-collection/View.tsx:227",
+        "translation": "返回"
+    },
+    {
+        "id": "common.return_with_comments_description_to_user",
+        "description": "File: app/frontend/components/data-collection/View.tsx:274",
+        "translation": "该文件将被退回，并附有修改建议，请修改后重新提交审批。"
+    },
+    {
+        "id": "common.save_error",
+        "description": "File: app/routes/$lang+/settings+/geography+/edit.$id.tsx:269",
+        "translation": "保存数据时发生错误。请重试。"
+    },
+    {
+        "id": "common.search_organization",
+        "description": "File: app/pages/AccessManagementPage.tsx:221",
+        "translation": "请输入组织名称"
+    },
+    {
+        "id": "common.select_users",
+        "description": "File: app/frontend/components/data-collection/View.tsx:321",
+        "translation": "选择用户"
+    },
+    {
+        "id": "common.unexpected_error",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:44",
+        "translation": "发生了一个意外错误"
+    },
+    {
+        "id": "common.unverified",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:103",
+        "translation": "未核实"
+    },
+    {
+        "id": "common.user",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:67",
+        "translation": "用户"
+    },
+    {
+        "id": "common.verified",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:102",
+        "translation": "已验证"
+    },
+    {
+        "id": "content_repeater.file_upload_error",
+        "description": "File: app/components/ContentRepeater/PreUploadFile.tsx:186",
+        "translation": "处理文件上传时发生错误。"
+    },
+    {
+        "id": "content_repeater.file_upload_max_size_error",
+        "description": "{maxSizeMB} is replaced with the max file size in MB. File: app/components/ContentRepeater/PreUploadFile.tsx:69",
+        "translation": "处理文件上传时发生错误，该文件大小超过了 {maxSizeMB}MB 的限制"
+    },
+    {
+        "id": "disaster_event.invalid_hazardous_event_reference",
+        "description": "File: app/backend.server/models/event.ts:1456",
+        "translation": "此实例的危险事件引用无效"
+    },
+    {
+        "id": "email.assigned_validators.body_html",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:112",
+        "translation": "\u003cp\u003e亲爱的 {validatorName}，\u003c/p\u003e\n\u003cp\u003e有一项新的 {recordType} 正在等待您的处理。点击下方链接查看该活动。\u003c/p\u003e\n\u003cp\u003e活动名称：{recordEventName} \u003cbr /\u003e活动日期：{recordDate} \u003cbr /\u003e提交人：{recordSubmitterName}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003e查看活动\u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.assigned_validators.body_text",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:132",
+        "translation": "亲爱的 {validatorName}，\n\n有一项新的 {recordType} 正在等待您的处理。点击下方链接查看该活动。\n\n活动名称：{recordEventName}\n活动日期：{recordDate}\n提交人：{recordSubmitterName}\n\n查看活动：{recordUrl}"
+    },
+    {
+        "id": "email.assigned_validators.subject",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:50",
+        "translation": "事件验证"
+    },
+    {
+        "id": "email.assignees_notification.body_returned_html",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:481",
+        "translation": "\u003cp\u003e亲爱的 {assigneeName},\u003c/p\u003e\n\u003cp\u003e一份 {recordType} 已被退回待修订。\u003c/p\u003e\n\u003cp\u003e退回人：{recordSubmitterName}\u003c/p\u003e\n\u003cp\u003e备注：{rejectionMessage}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003e查看\u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.assignees_notification.body_returned_text",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:501",
+        "translation": "尊敬的 {assigneeName}：\n\n一份 {recordType} 已被退回待修改。\n\n退回人：{recordSubmitterName}\n\n备注：{rejectionMessage}\n\n查看：{recordUrl}"
+    },
+    {
+        "id": "email.assignees_notification.subject_returned",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:450",
+        "translation": "退回的记录 - 需要采取行动"
+    },
+    {
+        "id": "geographies.edit_division_subtitle",
+        "description": "File: app/routes/$lang+/settings+/geography+/edit.$id.tsx:244",
+        "translation": "更新此行政区划的详细信息。"
+    },
+    {
+        "id": "geographies.failed_imports",
+        "description": "File: app/routes/$lang+/settings+/geography+/upload.tsx:98",
+        "translation": "导入失败"
+    },
+    {
+        "id": "geographies.names_by_language",
+        "description": "File: app/routes/$lang+/settings+/geography+/edit.$id.tsx:302",
+        "translation": "按语言分类的名称"
+    },
+    {
+        "id": "geographies.parent_id_placeholder",
+        "description": "File: app/routes/$lang+/settings+/geography+/edit.$id.tsx:291",
+        "translation": "若为顶级分区，请留空"
+    },
+    {
+        "id": "go_back",
+        "description": "File: app/routes/$.tsx:43",
+        "translation": "返回"
+    },
+    {
+        "id": "go_to_home",
+        "description": "File: app/routes/$.tsx:37",
+        "translation": "返回首页"
+    },
+    {
+        "id": "home",
+        "description": "File: app/routes/$lang+/user+/accept-invite.tsx:401",
+        "translation": "首页"
+    },
+    {
+        "id": "human_effects.human_effects_configure_builtin_disaggregations",
+        "description": "File: app/routes/$lang+/settings+/human-effects-dsg+/_index.tsx:105",
+        "translation": "人类影响：配置内置的细分数据"
+    },
+    {
+        "id": "human_effects.in_use",
+        "description": "File: app/routes/$lang+/settings+/human-effects-dsg+/_index.tsx:149",
+        "translation": "正在使用中"
+    },
+    {
+        "id": "human_effects.in_use_cant_delete",
+        "description": "File: app/frontend/human_effects/custom_editor.tsx:50",
+        "translation": "正在使用中"
+    },
+    {
+        "id": "human_effects.in_use_cant_edit",
+        "description": "File: app/frontend/human_effects/custom_editor.tsx:38",
+        "translation": "正在使用中"
+    },
+    {
+        "id": "human_effects.in_use_note",
+        "description": "File: app/routes/$lang+/settings+/human-effects-dsg+/custom.tsx:202",
+        "translation": "已使用的细分无法删除或更改其数据库名称，但仍可调整用户界面标签。"
+    },
+    {
+        "id": "human_effects.men",
+        "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1109",
+        "translation": "但是"
+    },
+    {
+        "id": "human_effects.other_non_binary",
+        "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1123",
+        "translation": "其他非二元性别"
+    },
+    {
+        "id": "human_effects.women",
+        "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1116",
+        "translation": "女性"
+    },
+    {
+        "id": "meta.change_password",
+        "description": "File: app/routes/$lang+/user+/change-password.tsx:281",
+        "translation": "更改密码"
+    },
+    {
+        "id": "meta.user_profile",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:36",
+        "translation": "用户资料"
+    },
+    {
+        "id": "nav.faq",
+        "description": "File: app/components/RegularMenuBar.tsx:342",
+        "translation": "常见问题"
+    },
+    {
+        "id": "nav.organization_management",
+        "description": "File: app/components/RegularMenuBar.tsx:376",
+        "translation": "组织管理"
+    },
+    {
+        "id": "nav.profile",
+        "description": "File: app/components/RegularMenuBar.tsx:47",
+        "translation": "个人简介"
+    },
+    {
+        "id": "nav.super_admin",
+        "description": "File: app/components/SuperAdminMenuBar.tsx:159",
+        "translation": "超级管理员"
+    },
+    {
+        "id": "nav.switch_instance",
+        "description": "File: app/components/RegularMenuBar.tsx:141",
+        "translation": "切换"
+    },
+    {
+        "id": "organization.delete_blocked_by_dependencies",
+        "description": "File: app/services/organizationService.ts:191",
+        "translation": "无法删除该组织，因为它仍被一个或多个用户使用。请先取消这些分配。"
+    },
+    {
+        "id": "page_not_found",
+        "description": "File: app/routes/$.tsx:22",
+        "translation": "页面未找到"
+    },
+    {
+        "id": "page_not_found_message",
+        "description": "File: app/routes/$.tsx:27",
+        "translation": "您要查找的页面可能已被删除、重命名，或暂时无法访问。"
+    },
+    {
+        "id": "profile.first_name_required",
+        "description": "File: app/services/userProfileService.ts:52",
+        "translation": "必须填写名字"
+    },
+    {
+        "id": "profile.last_name_required",
+        "description": "File: app/services/userProfileService.ts:59",
+        "translation": "姓氏为必填项"
+    },
+    {
+        "id": "session.expired_message",
+        "description": "File: app/components/InactivityWarning.tsx:98",
+        "translation": "由于长时间未操作，您的会话已过期。请重新登录以继续操作。"
+    },
+    {
+        "id": "session.expiry_warning_minutes",
+        "description": "File: app/components/InactivityWarning.tsx:102",
+        "translation": {
+            "one": "出于安全考虑，由于您长时间未进行操作，您的会话将在 {n} 分钟后过期。",
+            "other": "出于安全考虑，由于您长时间未进行操作，您的会话将在 {n} 分钟后过期。"
+        }
+    },
+    {
+        "id": "settings.system.instance_configuration",
+        "description": "File: app/routes/$lang+/settings+/system.tsx:295",
+        "translation": "实例配置"
+    },
+    {
+        "id": "settings.system.software",
+        "description": "File: app/routes/$lang+/settings+/system.tsx:341",
+        "translation": "软件"
+    },
+    {
+        "id": "sign_in",
+        "description": "File: app/routes/$lang+/user+/accept-invite.tsx:420",
+        "translation": "登录"
+    },
+    {
+        "id": "user_forgot_password.email_sent_inline_message",
+        "description": "A message when correct email format entered in forgot password page. File: app/routes/$lang+/user+/forgot-password.tsx:143",
+        "translation": "如果该邮箱与某个账户相关联，请查看您的收件箱，查找密码重置链接。"
+    },
+    {
+        "id": "user_login.sign_in_to_continue",
+        "description": "File: app/routes/$lang+/user+/login.tsx:324",
+        "translation": "请登录您的账户以继续"
+    },
+    {
+        "id": "user_login.welcome_back",
+        "description": "File: app/routes/$lang+/user+/login.tsx:318",
+        "translation": "欢迎回来"
+    },
+    {
+        "id": "user_select_instance.instance_required",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:201",
+        "translation": "需要选择实例"
+    },
+    {
+        "id": "user_select_instance.loading_instance_msg",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:293",
+        "translation": "我们正在加载数据，这可能需要几分钟时间。请不要关闭此窗口。"
+    },
+    {
+        "id": "user_select_instance.loading_instance_title",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:287",
+        "translation": "正在加载实例"
+    },
+    {
+        "id": "user_select_instance.no_instance_contact",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:329",
+        "translation": "请联系团队管理员以获取访问权限。"
+    },
+    {
+        "id": "user_select_instance.no_instance_question",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:323",
+        "translation": "没找到合适的实例？"
+    },
+    {
+        "id": "user_select_instance.no_selection_redirect_login",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:210",
+        "translation": "如果您未选择实例，系统将自动跳转至登录页面。"
+    },
+    {
+        "id": "user.disable_totp_description",
+        "description": "File: app/routes/$lang+/user+/totp-disable.tsx:108",
+        "translation": "请输入您的TOTP验证码，以确认停用双因素认证"
+    },
+    {
+        "id": "user.email_status",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:97",
+        "translation": "电子邮件状态"
+    },
+    {
+        "id": "user.permission.add_country_account.label",
+        "description": "File: app/frontend/user/roles.ts:283",
+        "translation": "添加国家账户"
+    },
+    {
+        "id": "user.permission.add_fictitious_country.label",
+        "description": "File: app/frontend/user/roles.ts:235",
+        "translation": "添加虚构国家"
+    },
+    {
+        "id": "user.permission.clone_country_account.label",
+        "description": "File: app/frontend/user/roles.ts:267",
+        "translation": "克隆国家/地区账户"
+    },
+    {
+        "id": "user.permission.delete_country_account.label",
+        "description": "File: app/frontend/user/roles.ts:259",
+        "translation": "删除国家/地区账户"
+    },
+    {
+        "id": "user.permission.delete_fictitious_country.label",
+        "description": "File: app/frontend/user/roles.ts:251",
+        "translation": "删除虚构国家"
+    },
+    {
+        "id": "user.permission.edit_country_account.label",
+        "description": "File: app/frontend/user/roles.ts:291",
+        "translation": "编辑国家账户"
+    },
+    {
+        "id": "user.permission.edit_fictitious_country.label",
+        "description": "File: app/frontend/user/roles.ts:243",
+        "translation": "编辑虚构国家"
+    },
+    {
+        "id": "user.permission.view_country_accounts.label",
+        "description": "File: app/frontend/user/roles.ts:275",
+        "translation": "查看国家账户"
+    },
+    {
+        "id": "user.permission.view_fictitious_countries.label",
+        "description": "File: app/frontend/user/roles.ts:227",
+        "translation": "查看虚构国家"
+    },
+    {
+        "id": "user.totp_2fa_status",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:111",
+        "translation": "双因素认证（TOTP）"
+    },
+    {
+        "id": "user.totp_code_hint",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:126",
+        "translation": "请输入身份验证应用中显示的当前 6 位验证码。"
+    },
+    {
+        "id": "user.totp_manual_key",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:122",
+        "translation": "无法扫描二维码？请使用此设置密钥："
+    },
+    {
+        "id": "user.totp_setup_steps_title",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:106",
+        "translation": "设置双因素认证"
+    },
+    {
+        "id": "user.totp_step_1",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:110",
+        "translation": "1. 打开您的身份验证应用（Google Authenticator、Microsoft Authenticator、Authy 等）。"
+    },
+    {
+        "id": "user.totp_step_2",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:114",
+        "translation": "2. 扫描下方的二维码以添加您的账户。"
+    },
+    {
+        "id": "user.totp_step_3",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:118",
+        "translation": "3. 输入应用程序生成的 6 位验证码以确认设置。"
+    },
+    {
+        "id": "users.enter_totp_generated_code",
+        "description": "File: app/routes/$lang+/user+/totp-login.tsx:86",
+        "translation": "请输入身份验证应用中的验证码以继续。"
+    },
+    {
+        "id": "your_account_has_been_set_up_successfully.",
+        "description": "File: app/routes/$lang+/user+/accept-invite.tsx:171",
+        "translation": "您的账户已成功创建。现在您可以登录了"
     }
 ]

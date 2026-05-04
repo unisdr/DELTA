@@ -2957,7 +2957,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "<p>تم تقديم طلب لإعادة تعيين كلمة المرور الخاصة بك. إذا لم تكن قد قدمت هذا الطلب، فما عليك سوى تجاهل هذا البريد الإلكتروني.</p>>\n<p>انقر على الرابط أدناه لإعادة تعيين كلمة المرور الخاصة بك:\n<a href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\nإعادة تعيين كلمة المرور\n</a>\n</p>\n<p>ستنتهي صلاحية هذا الرابط خلال ساعة واحدة.</p> <p>"
+        "translation": "\u003cp\u003eتم تقديم طلب لإعادة تعيين كلمة المرور الخاصة بك. إذا لم تكن قد قدمت هذا الطلب، فما عليك سوى تجاهل هذا البريد الإلكتروني.\u003c/p\u003e\u003e\n\u003cp\u003eانقر على الرابط أدناه لإعادة تعيين كلمة المرور الخاصة بك:\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nإعادة تعيين كلمة المرور\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003eستنتهي صلاحية هذا الرابط خلال ساعة واحدة.\u003c/p\u003e \u003cp\u003e"
     },
     {
         "id": "user_forgot_password.reset_password_email_text",
@@ -3052,7 +3052,7 @@
     {
         "id": "user_invite.admin_email_html",
         "description": "File: backend.server/models/user/invite.ts:266",
-        "translation": "<p>لقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n</p>\n<p>انقر على الرابط أدناه لإنشاء حسابك.</p>>\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\nإعداد الحساب\n</a>\n</p>\n<p> <p> <a href=\"{inviteURL}\"> {inviteURL} </a></p> </a></p>"
+        "translation": "\u003cp\u003eلقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n\u003c/p\u003e\n\u003cp\u003eانقر على الرابط أدناه لإنشاء حسابك.\u003c/p\u003e\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nإعداد الحساب\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e \u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "user_invite.admin_email_text",
@@ -3062,7 +3062,7 @@
     {
         "id": "user_invite.existing_email_html",
         "description": "File: backend.server/models/user/invite.ts:211",
-        "translation": "<p>لقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n</p>\n<p> انقر على الرابط أدناه لتسجيل الدخول إلى حسابك.</p>>\n<p>\n<a href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\nتسجيل الدخول\n</a>\n</p>\n<p> <p> <a href=\"{rootUrl}\"> {rootUrl} </a></p> </a></p>"
+        "translation": "\u003cp\u003eلقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n\u003c/p\u003e\n\u003cp\u003e انقر على الرابط أدناه لتسجيل الدخول إلى حسابك.\u003c/p\u003e\u003e\n\u003cp\u003e\n\u003ca href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nتسجيل الدخول\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003cp\u003e \u003ca href=\"{rootUrl}\"\u003e {rootUrl} \u003c/a\u003e\u003c/p\u003e \u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "user_invite.existing_email_text",
@@ -3072,7 +3072,7 @@
     {
         "id": "user_invite.new_email_html",
         "description": "File: backend.server/models/user/invite.ts:157",
-        "translation": "<p>لقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n</p>\n<p>انقر على الرابط أدناه لإنشاء حسابك.</p>>\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\nإعداد الحساب\n</a>\n</p>\n<p> <p> <a href=\"{inviteURL}\"> {inviteURL} </a></p> </a></p>"
+        "translation": "\u003cp\u003eلقد تمت دعوتك للانضمام إلى نظام DELTA Resilience {siteName} بصفتك\nأ / كمستخدم {role} للبلد {countryName} 3} مثيل {countryAccountType}.\n\u003c/p\u003e\n\u003cp\u003eانقر على الرابط أدناه لإنشاء حسابك.\u003c/p\u003e\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nإعداد الحساب\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e \u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "user_invite.new_email_subject",
@@ -3087,7 +3087,7 @@
     {
         "id": "user_invite.welcome_email_html",
         "description": "File: backend.server/models/user/invite.ts:465",
-        "translation": "<p>عزيزي {firstName} {lastName}،</p></p>\n<p>مرحبًا بك في نظام DELTA Resilience {siteName}، تم إنشاء حساب المستخدم الخاص بك بنجاح.\n<p>انقر على الرابط أدناه للدخول إلى حسابك.</p>></p>>\n<p>\n<a href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\nحساب الوصول\n</a>\n</p>"
+        "translation": "\u003cp\u003eعزيزي {firstName} {lastName}،\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003eمرحبًا بك في نظام DELTA Resilience {siteName}، تم إنشاء حساب المستخدم الخاص بك بنجاح.\n\u003cp\u003eانقر على الرابط أدناه للدخول إلى حسابك.\u003c/p\u003e\u003e\u003c/p\u003e\u003e\n\u003cp\u003e\n\u003ca href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\nحساب الوصول\n\u003c/a\u003e\n\u003c/p\u003e"
     },
     {
         "id": "user_invite.welcome_email_subject",
@@ -3137,7 +3137,7 @@
     {
         "id": "user_reset_password.password_change_confirmation_email_html",
         "description": "File: backend.server/models/user/password.ts:200",
-        "translation": "<p>تم تغيير كلمة المرور الخاصة بك بنجاح. إذا لم تكن قد طلبت هذا التغيير، يُرجى الاتصال بالمشرف. </p>>"
+        "translation": "\u003cp\u003eتم تغيير كلمة المرور الخاصة بك بنجاح. إذا لم تكن قد طلبت هذا التغيير، يُرجى الاتصال بالمشرف. \u003c/p\u003e\u003e"
     },
     {
         "id": "user_reset_password.password_change_confirmation_email_subject",
@@ -3472,7 +3472,7 @@
     {
         "id": "email.validation_workflow.body_needs_revision_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
-        "translation": "<p>عزيزي {submitterName}،</p></p>\n<p>لقد تم إرجاع {recordTypeData} للمراجعة.<p></p>>\n<p>التعليقات: {rejectionComments}</p>\n<p><p><a href=\"{recordUrl}\">عرض وتعديل السجل</a></p>"
+        "translation": "\u003cp\u003eعزيزي {submitterName}،\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003eلقد تم إرجاع {recordTypeData} للمراجعة.\u003cp\u003e\u003c/p\u003e\u003e\n\u003cp\u003eالتعليقات: {rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eعرض وتعديل السجل\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.validation_workflow.body_needs_revision_text",
@@ -3482,7 +3482,7 @@
     {
         "id": "email.validation_workflow.body_published_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
-        "translation": "<p>عزيزي {submitterName}،</p></p>\n<p>لقد تم نشر {recordTypeData} الخاص بك وهو الآن متاح للجمهور.<p></p>.\n<p><a href=\"{recordUrl}\">عرض السجل</p> <p></p>"
+        "translation": "\u003cp\u003eعزيزي {submitterName}،\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003eلقد تم نشر {recordTypeData} الخاص بك وهو الآن متاح للجمهور.\u003cp\u003e\u003c/p\u003e.\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eعرض السجل\u003c/p\u003e \u003cp\u003e\u003c/p\u003e"
     },
     {
         "id": "email.validation_workflow.body_published_text",
@@ -3492,7 +3492,7 @@
     {
         "id": "email.validation_workflow.body_validated_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
-        "translation": "<p>عزيزي {submitterName}،</p></p>\n<p>لقد تم التحقق من صحة {recordTypeData} الخاص بك.<p>.\n<p><p><a href=\"{recordUrl}\">عرض السجل</p> <p></p>"
+        "translation": "\u003cp\u003eعزيزي {submitterName}،\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003eلقد تم التحقق من صحة {recordTypeData} الخاص بك.\u003cp\u003e.\n\u003cp\u003e\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eعرض السجل\u003c/p\u003e \u003cp\u003e\u003c/p\u003e"
     },
     {
         "id": "email.validation_workflow.body_validated_text",
@@ -4507,7 +4507,7 @@
     {
         "id": "disaster_records.disruption.duration_days_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:151",
-        "translation": "يجب أن تكون المدة (بالأيام) >= 0"
+        "translation": "يجب أن تكون المدة (بالأيام) \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.duration_hours",
@@ -4517,7 +4517,7 @@
     {
         "id": "disaster_records.disruption.duration_hours_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:152",
-        "translation": "يجب أن تكون المدة (بالساعات) >= 0"
+        "translation": "يجب أن تكون المدة (بالساعات) \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.number_of_people_affected",
@@ -4537,7 +4537,7 @@
     {
         "id": "disaster_records.disruption.response_cost_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:154",
-        "translation": "يجب أن تكون تكلفة الاستجابة >= 0"
+        "translation": "يجب أن تكون تكلفة الاستجابة \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.response_currency",
@@ -4557,7 +4557,7 @@
     {
         "id": "disaster_records.disruption.users_affected_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:153",
-        "translation": "يجب أن يكون عدد المستخدمين المتأثرين >= 0"
+        "translation": "يجب أن يكون عدد المستخدمين المتأثرين \u003e= 0"
     },
     {
         "id": "disaster_records.disruptions",
@@ -5612,7 +5612,7 @@
     {
         "id": "email.welcome.html_body",
         "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
-        "translation": "<p>عزيزي {firstName} {lastName}،</p><p>\n<p>مرحبًا بك في نظام DELTA Resilience {countryName}. لقد تم إنشاء حساب المستخدم الخاص بك بنجاح. </p> <p></p>\n<p>انقر على الرابط أدناه للدخول إلى حسابك:</p></p>\n<p><a href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\">\">الدخول إلى حسابي<</a></p>\n<p>إذا كان الزر أعلاه لا يعمل، انسخ والصق عنوان URL التالي في متصفحك:<br><a href=\"{accountUrl}\">{accountUrl}</</a></p>"
+        "translation": "\u003cp\u003eعزيزي {firstName} {lastName}،\u003c/p\u003e\u003cp\u003e\n\u003cp\u003eمرحبًا بك في نظام DELTA Resilience {countryName}. لقد تم إنشاء حساب المستخدم الخاص بك بنجاح. \u003c/p\u003e \u003cp\u003e\u003c/p\u003e\n\u003cp\u003eانقر على الرابط أدناه للدخول إلى حسابك:\u003c/p\u003e\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px؛ حجم الخط: 16px؛ اللون: #ffffff؛ لون الخلفية: #007BFF؛ زخرفة النص: لا شيء؛ نصف قطر الحدود: 5px؛\"\u003e\"\u003eالدخول إلى حسابي\u003c\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003eإذا كان الزر أعلاه لا يعمل، انسخ والصق عنوان URL التالي في متصفحك:\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.welcome.subject",
@@ -5627,7 +5627,7 @@
     {
         "id": "email.verify_account.html_body",
         "description": "HTML version of the account verification email. File: backend.server/models/user/verify_email.ts:38",
-        "translation": "<p>لمتابعة إعداد حساب DELTA Resilience الخاص بك، يرجى التحقق من أن هذا هو عنوان بريدك الإلكتروني.</p>\n</p><br/>\n<p>يرجى استخدام الرمز التالي لتفعيل وإنهاء إعداد حسابك. ستنتهي صلاحية الرمز في غضون 30 دقيقة:</p> </p>>\n<br /><strong><strong><strong><strong><strong><strong"
+        "translation": "\u003cp\u003eلمتابعة إعداد حساب DELTA Resilience الخاص بك، يرجى التحقق من أن هذا هو عنوان بريدك الإلكتروني.\u003c/p\u003e\n\u003c/p\u003e\u003cbr/\u003e\n\u003cp\u003eيرجى استخدام الرمز التالي لتفعيل وإنهاء إعداد حسابك. ستنتهي صلاحية الرمز في غضون 30 دقيقة:\u003c/p\u003e \u003c/p\u003e\u003e\n\u003cbr /\u003e\u003cstrong\u003e\u003cstrong\u003e\u003cstrong\u003e\u003cstrong\u003e\u003cstrong\u003e\u003cstrong"
     },
     {
         "id": "email.verify_account.subject",
@@ -6152,7 +6152,7 @@
     {
         "id": "human_effects.error.subtotal_larger_than_total",
         "description": "The subtotal for a group exceeds the overall total. {group} is the group name(s), {column} is the metric name, {value} is the group total, {totalValue} is the overall total. File: frontend/editabletable/validate.ts:266",
-        "translation": "المجموع للمجموعة ({group})، العمود \"{column}\" يتجاوز المجموع الكلي {value} > {totalValue}"
+        "translation": "المجموع للمجموعة ({group})، العمود \"{column}\" يتجاوز المجموع الكلي {value} \u003e {totalValue}"
     },
     {
         "id": "human_effects.error.subtotal_larger_than_total_row",
@@ -6736,5 +6736,548 @@
     {
         "id": "user_login.enter_your_password",
         "translation": "أدخل كلمة المرور"
+    },
+    {
+        "id": "admin.add_fictitious_country",
+        "description": "File: app/routes/$lang+/admin+/fictitious-country-mgmt+/_layout.tsx:41",
+        "translation": "إضافة دولة وهمية"
+    },
+    {
+        "id": "admin.clone_country_account",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:73",
+        "translation": "نسخ حساب البلد"
+    },
+    {
+        "id": "admin.country_account_cloned",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:31",
+        "translation": "تم استنساخ الحساب القطري بنجاح"
+    },
+    {
+        "id": "admin.country_type",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/edit.$id.tsx:191",
+        "translation": "نوع البلد"
+    },
+    {
+        "id": "admin.delete_instance_confirm_header",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/delete.$id.tsx:80",
+        "translation": "حذف المثيل"
+    },
+    {
+        "id": "admin.delete_instance_confirm_message",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/delete.$id.tsx:111",
+        "translation": "هل أنت متأكد من رغبتك في حذف هذه النسخة؟ لا يمكن التراجع عن هذا الإجراء."
+    },
+    {
+        "id": "admin.edit_fictitious_country",
+        "description": "File: app/routes/$lang+/admin+/fictitious-country-mgmt+/edit.$id.tsx:77",
+        "translation": "تحرير دولة وهمية"
+    },
+    {
+        "id": "admin.fictitious_country_deleted",
+        "description": "File: app/routes/$lang+/admin+/fictitious-country-mgmt+/delete.$id.tsx:50",
+        "translation": "تم حذف البلد الوهمي بنجاح"
+    },
+    {
+        "id": "admin.fictitious_country_management",
+        "description": "File: app/routes/$lang+/admin+/fictitious-country-mgmt+/_layout.tsx:32",
+        "translation": "إدارة البلد الوهمي"
+    },
+    {
+        "id": "admin.instance_deleted",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/delete.$id.tsx:47",
+        "translation": "تم حذف المثيل بنجاح"
+    },
+    {
+        "id": "admin.instance_type",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/edit.$id.tsx:311",
+        "translation": "نوع المثيل"
+    },
+    {
+        "id": "admin.invitation_resent",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/resend-invitation.$id.tsx:56",
+        "translation": "تم إرسال رسالة الدعوة عبر البريد الإلكتروني بنجاح"
+    },
+    {
+        "id": "admin.resend_email",
+        "description": "File: app/pages/AccessManagementPage.tsx:145",
+        "translation": "إعادة إرسال رسالة الدعوة عبر البريد الإلكتروني"
+    },
+    {
+        "id": "admin.resend_invitation_confirm_message",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/resend-invitation.$id.tsx:132",
+        "translation": "هل تريد إعادة إرسال رسالة الدعوة الإلكترونية إلى المسؤول الرئيسي؟"
+    },
+    {
+        "id": "api_keys.session_secret",
+        "description": "File: app/routes/$lang+/settings+/api-key+/_layout.tsx:155",
+        "translation": "سر الجلسة"
+    },
+    {
+        "id": "common.addedAt",
+        "description": "File: app/pages/AccessManagementPage.tsx:332",
+        "translation": "تمت الإضافة في"
+    },
+    {
+        "id": "common.clone",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:90",
+        "translation": "نسخ"
+    },
+    {
+        "id": "common.close",
+        "description": "File: app/routes/$lang+/settings+/assets+/$id.tsx:60",
+        "translation": "إغلاق"
+    },
+    {
+        "id": "common.confirm_delete",
+        "description": "File: app/routes/$lang+/settings+/assets+/delete.$id.tsx:116",
+        "translation": "هل أنت متأكد من رغبتك في حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء."
+    },
+    {
+        "id": "common.country_type",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/_layout.tsx:284",
+        "translation": "نوع البلد"
+    },
+    {
+        "id": "common.disabled",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:117",
+        "translation": "معاق"
+    },
+    {
+        "id": "common.enabled",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:116",
+        "translation": "ممكّن"
+    },
+    {
+        "id": "common.go_to_login",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:224",
+        "translation": "انتقل إلى تسجيل الدخول"
+    },
+    {
+        "id": "common.import_csv",
+        "description": "File: app/routes/$lang+/settings+/assets+/_layout.tsx:187",
+        "translation": "استيراد ملف CSV"
+    },
+    {
+        "id": "common.inviteUser",
+        "description": "File: app/routes/$lang+/settings+/access-mgmnt+/new.tsx:238",
+        "translation": "دعوة مستخدم"
+    },
+    {
+        "id": "common.name_already_exists",
+        "description": "File: app/services/organizationService.ts:83",
+        "translation": "هناك منظمة تحمل هذا الاسم بالفعل"
+    },
+    {
+        "id": "common.name_required",
+        "description": "File: app/services/organizationService.ts:68",
+        "translation": "الاسم مطلوب"
+    },
+    {
+        "id": "common.no_results",
+        "description": "File: app/routes/$lang+/settings+/assets+/_layout.tsx:212",
+        "translation": "لم يتم العثور على نتائج"
+    },
+    {
+        "id": "common.no_users_available",
+        "description": "File: app/frontend/components/data-collection/View.tsx:333",
+        "translation": "لا يوجد مستخدمون متاحون للتعيين."
+    },
+    {
+        "id": "common.notify",
+        "description": "File: app/frontend/components/data-collection/View.tsx:307",
+        "translation": "إخطار"
+    },
+    {
+        "id": "common.return",
+        "description": "File: app/frontend/components/data-collection/View.tsx:227",
+        "translation": "العودة"
+    },
+    {
+        "id": "common.return_with_comments_description_to_user",
+        "description": "File: app/frontend/components/data-collection/View.tsx:274",
+        "translation": "سيتم إرجاع هذا مع تعليق يطلب إجراء تعديلات وإعادة تقديمه للموافقة عليه."
+    },
+    {
+        "id": "common.save_error",
+        "description": "File: app/routes/$lang+/settings+/geography+/edit.$id.tsx:269",
+        "translation": "حدث خطأ أثناء حفظ البيانات. يرجى المحاولة مرة أخرى."
+    },
+    {
+        "id": "common.search_organization",
+        "description": "File: app/pages/AccessManagementPage.tsx:221",
+        "translation": "اكتب اسم المؤسسة"
+    },
+    {
+        "id": "common.select_users",
+        "description": "File: app/frontend/components/data-collection/View.tsx:321",
+        "translation": "مستخدمون محددون"
+    },
+    {
+        "id": "common.unexpected_error",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:44",
+        "translation": "حدث خطأ غير متوقع"
+    },
+    {
+        "id": "common.unverified",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:103",
+        "translation": "غير مؤكد"
+    },
+    {
+        "id": "common.user",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:67",
+        "translation": "المستخدم"
+    },
+    {
+        "id": "common.verified",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:102",
+        "translation": "تم التحقق منه"
+    },
+    {
+        "id": "content_repeater.file_upload_error",
+        "description": "File: app/components/ContentRepeater/PreUploadFile.tsx:186",
+        "translation": "حدث خطأ أثناء معالجة عملية تحميل الملف."
+    },
+    {
+        "id": "content_repeater.file_upload_max_size_error",
+        "description": "{maxSizeMB} is replaced with the max file size in MB. File: app/components/ContentRepeater/PreUploadFile.tsx:69",
+        "translation": "حدث خطأ أثناء معالجة عملية تحميل الملف، حيث يتجاوز حجم الملف الحد الأقصى البالغ {maxSizeMB} ميغابايت"
+    },
+    {
+        "id": "disaster_event.invalid_hazardous_event_reference",
+        "description": "File: app/backend.server/models/event.ts:1456",
+        "translation": "مرجع الحدث الخطير غير صالح لهذه الحالة"
+    },
+    {
+        "id": "email.assigned_validators.body_html",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:112",
+        "translation": "\u003cp\u003eعزيزي {validatorName}،\u003c/p\u003e\n\u003cp\u003eهناك {recordType} جديد في انتظار ردك. انقر على الرابط أدناه للاطلاع على الحدث.\u003c/p\u003e\n\u003cp\u003eاسم الحدث: {recordEventName} \u003cbr /\u003eتاريخ الحدث: {recordDate} \u003cbr /\u003eمقدم من: {recordSubmitterName}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eعرض الحدث\u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.assigned_validators.body_text",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:132",
+        "translation": "عزيزي {validatorName}،\n\nهناك {recordType} جديد في انتظارك. انقر على الرابط أدناه للاطلاع على الحدث.\n\nاسم الحدث: {recordEventName}\nتاريخ الحدث: {recordDate}\nأرسله: {recordSubmitterName}\n\nعرض الحدث: {recordUrl}"
+    },
+    {
+        "id": "email.assigned_validators.subject",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:50",
+        "translation": "التحقق من صحة الحدث"
+    },
+    {
+        "id": "email.assignees_notification.body_returned_html",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:481",
+        "translation": "\u003cp\u003eعزيزي {assigneeName}،\u003c/p\u003e\n\u003cp\u003eتم إرجاع {recordType} لإعادة المراجعة.\u003c/p\u003e\n\u003cp\u003eتم الإرجاع بواسطة: {recordSubmitterName}\u003c/p\u003e\n\u003cp\u003eالتعليقات: {rejectionMessage}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eعرض\u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.assignees_notification.body_returned_text",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:501",
+        "translation": "عزيزي {assigneeName}،\n\nتم إرجاع {recordType} لإعادة المراجعة.\n\nأرجعه: {recordSubmitterName}\n\nالتعليقات: {rejectionMessage}\n\nعرض: {recordUrl}"
+    },
+    {
+        "id": "email.assignees_notification.subject_returned",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:450",
+        "translation": "سجل تم إرجاعه - مطلوب اتخاذ إجراء"
+    },
+    {
+        "id": "geographies.edit_division_subtitle",
+        "description": "File: app/routes/$lang+/settings+/geography+/edit.$id.tsx:244",
+        "translation": "تحديث تفاصيل هذا القسم الإداري."
+    },
+    {
+        "id": "geographies.failed_imports",
+        "description": "File: app/routes/$lang+/settings+/geography+/upload.tsx:98",
+        "translation": "عمليات الاستيراد الفاشلة"
+    },
+    {
+        "id": "geographies.names_by_language",
+        "description": "File: app/routes/$lang+/settings+/geography+/edit.$id.tsx:302",
+        "translation": "الأسماء حسب اللغة"
+    },
+    {
+        "id": "geographies.parent_id_placeholder",
+        "description": "File: app/routes/$lang+/settings+/geography+/edit.$id.tsx:291",
+        "translation": "اتركها فارغة للتقسيم من المستوى الأعلى"
+    },
+    {
+        "id": "go_back",
+        "description": "File: app/routes/$.tsx:43",
+        "translation": "العودة"
+    },
+    {
+        "id": "go_to_home",
+        "description": "File: app/routes/$.tsx:37",
+        "translation": "العودة إلى الصفحة الرئيسية"
+    },
+    {
+        "id": "home",
+        "description": "File: app/routes/$lang+/user+/accept-invite.tsx:401",
+        "translation": "الصفحة الرئيسية"
+    },
+    {
+        "id": "human_effects.human_effects_configure_builtin_disaggregations",
+        "description": "File: app/routes/$lang+/settings+/human-effects-dsg+/_index.tsx:105",
+        "translation": "التأثيرات البشرية: تهيئة التصنيفات المدمجة"
+    },
+    {
+        "id": "human_effects.in_use",
+        "description": "File: app/routes/$lang+/settings+/human-effects-dsg+/_index.tsx:149",
+        "translation": "قيد الاستخدام"
+    },
+    {
+        "id": "human_effects.in_use_cant_delete",
+        "description": "File: app/frontend/human_effects/custom_editor.tsx:50",
+        "translation": "قيد الاستخدام"
+    },
+    {
+        "id": "human_effects.in_use_cant_edit",
+        "description": "File: app/frontend/human_effects/custom_editor.tsx:38",
+        "translation": "قيد الاستخدام"
+    },
+    {
+        "id": "human_effects.in_use_note",
+        "description": "File: app/routes/$lang+/settings+/human-effects-dsg+/custom.tsx:202",
+        "translation": "لا يمكن حذف التصنيفات المستخدمة أو تغيير اسم قاعدة البيانات الخاصة بها، ولكن لا يزال من الممكن تعديل تسميات واجهة المستخدم."
+    },
+    {
+        "id": "human_effects.men",
+        "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1109",
+        "translation": "لكن"
+    },
+    {
+        "id": "human_effects.other_non_binary",
+        "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1123",
+        "translation": "أخرى غير ثنائية"
+    },
+    {
+        "id": "human_effects.women",
+        "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1116",
+        "translation": "النساء"
+    },
+    {
+        "id": "meta.change_password",
+        "description": "File: app/routes/$lang+/user+/change-password.tsx:281",
+        "translation": "تغيير كلمة المرور"
+    },
+    {
+        "id": "meta.user_profile",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:36",
+        "translation": "ملف تعريف المستخدم"
+    },
+    {
+        "id": "nav.faq",
+        "description": "File: app/components/RegularMenuBar.tsx:342",
+        "translation": "الأسئلة الشائعة"
+    },
+    {
+        "id": "nav.organization_management",
+        "description": "File: app/components/RegularMenuBar.tsx:376",
+        "translation": "إدارة المنظمة"
+    },
+    {
+        "id": "nav.super_admin",
+        "description": "File: app/components/SuperAdminMenuBar.tsx:159",
+        "translation": "المسؤول الفائق"
+    },
+    {
+        "id": "nav.switch_instance",
+        "description": "File: app/components/RegularMenuBar.tsx:141",
+        "translation": "التبديل"
+    },
+    {
+        "id": "organization.delete_blocked_by_dependencies",
+        "description": "File: app/services/organizationService.ts:191",
+        "translation": "لا يمكن حذف هذه المجموعة لأنها لا تزال قيد الاستخدام من قبل مستخدم واحد أو أكثر. يرجى إلغاء هذه التعيينات أولاً."
+    },
+    {
+        "id": "page_not_found",
+        "description": "File: app/routes/$.tsx:22",
+        "translation": "الصفحة غير موجودة"
+    },
+    {
+        "id": "page_not_found_message",
+        "description": "File: app/routes/$.tsx:27",
+        "translation": "ربما تمت إزالة الصفحة التي تبحث عنها أو تغيير اسمها أو أنها غير متاحة مؤقتًا."
+    },
+    {
+        "id": "profile.first_name_required",
+        "description": "File: app/services/userProfileService.ts:52",
+        "translation": "الاسم الأول مطلوب"
+    },
+    {
+        "id": "profile.last_name_required",
+        "description": "File: app/services/userProfileService.ts:59",
+        "translation": "الاسم الأخير مطلوب"
+    },
+    {
+        "id": "session.expired_message",
+        "description": "File: app/components/InactivityWarning.tsx:98",
+        "translation": "انتهت صلاحية جلستك بسبب عدم النشاط. يرجى تسجيل الدخول مرة أخرى للمتابعة."
+    },
+    {
+        "id": "session.expiry_warning_minutes",
+        "description": "File: app/components/InactivityWarning.tsx:102",
+        "translation": {
+            "one": "لضمان أمنك، ستنتهي صلاحية جلستك بعد {n} دقيقة بسبب عدم النشاط.",
+            "other": "لضمان أمنك، ستنتهي صلاحية جلستك بعد {n} دقيقة بسبب عدم النشاط."
+        }
+    },
+    {
+        "id": "settings.system.instance_configuration",
+        "description": "File: app/routes/$lang+/settings+/system.tsx:295",
+        "translation": "تكوين المثيل"
+    },
+    {
+        "id": "settings.system.software",
+        "description": "File: app/routes/$lang+/settings+/system.tsx:341",
+        "translation": "البرمجيات"
+    },
+    {
+        "id": "sign_in",
+        "description": "File: app/routes/$lang+/user+/accept-invite.tsx:420",
+        "translation": "تسجيل الدخول"
+    },
+    {
+        "id": "user_forgot_password.email_sent_inline_message",
+        "description": "A message when correct email format entered in forgot password page. File: app/routes/$lang+/user+/forgot-password.tsx:143",
+        "translation": "يرجى التحقق من صندوق الوارد الخاص بك بحثًا عن رابط إعادة تعيين كلمة المرور إذا كان هذا البريد الإلكتروني مرتبطًا بحساب ما."
+    },
+    {
+        "id": "user_login.sign_in_to_continue",
+        "description": "File: app/routes/$lang+/user+/login.tsx:324",
+        "translation": "سجّل الدخول إلى حسابك للمتابعة"
+    },
+    {
+        "id": "user_login.welcome_back",
+        "description": "File: app/routes/$lang+/user+/login.tsx:318",
+        "translation": "مرحبًا بعودتك"
+    },
+    {
+        "id": "user_select_instance.instance_required",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:201",
+        "translation": "يلزم تحديد مثيل"
+    },
+    {
+        "id": "user_select_instance.loading_instance_msg",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:293",
+        "translation": "نحن بصدد استرداد البيانات، وقد يستغرق ذلك بضع دقائق. يرجى عدم إغلاق النافذة."
+    },
+    {
+        "id": "user_select_instance.loading_instance_title",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:287",
+        "translation": "تحميل المثيل"
+    },
+    {
+        "id": "user_select_instance.no_instance_contact",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:329",
+        "translation": "اتصل بمسؤول فريقك للحصول على حق الوصول."
+    },
+    {
+        "id": "user_select_instance.no_instance_question",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:323",
+        "translation": "ألا تجد النسخة المناسبة؟"
+    },
+    {
+        "id": "user_select_instance.no_selection_redirect_login",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:210",
+        "translation": "إذا لم تقم باختيار مثيل، فسيتم توجيهك إلى صفحة تسجيل الدخول."
+    },
+    {
+        "id": "user.disable_totp_description",
+        "description": "File: app/routes/$lang+/user+/totp-disable.tsx:108",
+        "translation": "أدخل رمز TOTP الخاص بك لتأكيد تعطيل المصادقة الثنائية"
+    },
+    {
+        "id": "user.email_status",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:97",
+        "translation": "حالة البريد الإلكتروني"
+    },
+    {
+        "id": "user.permission.add_country_account.label",
+        "description": "File: app/frontend/user/roles.ts:283",
+        "translation": "إضافة حساب الدولة"
+    },
+    {
+        "id": "user.permission.add_fictitious_country.label",
+        "description": "File: app/frontend/user/roles.ts:235",
+        "translation": "إضافة دولة وهمية"
+    },
+    {
+        "id": "user.permission.clone_country_account.label",
+        "description": "File: app/frontend/user/roles.ts:267",
+        "translation": "نسخ حساب البلد"
+    },
+    {
+        "id": "user.permission.delete_country_account.label",
+        "description": "File: app/frontend/user/roles.ts:259",
+        "translation": "حذف حساب البلد"
+    },
+    {
+        "id": "user.permission.delete_fictitious_country.label",
+        "description": "File: app/frontend/user/roles.ts:251",
+        "translation": "حذف البلد الوهمي"
+    },
+    {
+        "id": "user.permission.edit_country_account.label",
+        "description": "File: app/frontend/user/roles.ts:291",
+        "translation": "تحرير حساب الدولة"
+    },
+    {
+        "id": "user.permission.edit_fictitious_country.label",
+        "description": "File: app/frontend/user/roles.ts:243",
+        "translation": "تحرير بلد وهمي"
+    },
+    {
+        "id": "user.permission.view_country_accounts.label",
+        "description": "File: app/frontend/user/roles.ts:275",
+        "translation": "عرض حسابات الدول"
+    },
+    {
+        "id": "user.permission.view_fictitious_countries.label",
+        "description": "File: app/frontend/user/roles.ts:227",
+        "translation": "عرض البلدان الوهمية"
+    },
+    {
+        "id": "user.totp_2fa_status",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:111",
+        "translation": "التوثيق الثنائي (TOTP)"
+    },
+    {
+        "id": "user.totp_code_hint",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:126",
+        "translation": "أدخل الرمز الحالي المكون من 6 أرقام من تطبيق المصادقة الخاص بك."
+    },
+    {
+        "id": "user.totp_manual_key",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:122",
+        "translation": "لا يمكنك مسح رمز الاستجابة السريعة؟ استخدم مفتاح الإعداد هذا:"
+    },
+    {
+        "id": "user.totp_setup_steps_title",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:106",
+        "translation": "إعداد المصادقة الثنائية"
+    },
+    {
+        "id": "user.totp_step_1",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:110",
+        "translation": "1. افتح تطبيق المصادقة (Google Authenticator، Microsoft Authenticator، Authy، إلخ)."
+    },
+    {
+        "id": "user.totp_step_2",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:114",
+        "translation": "2. امسح رمز الاستجابة السريعة (QR) أدناه لإضافة حسابك."
+    },
+    {
+        "id": "user.totp_step_3",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:118",
+        "translation": "3. أدخل الرمز المكون من 6 أرقام الذي أنشأته التطبيق لتأكيد الإعداد."
+    },
+    {
+        "id": "users.enter_totp_generated_code",
+        "description": "File: app/routes/$lang+/user+/totp-login.tsx:86",
+        "translation": "أدخل الرمز الموجود في تطبيق المصادقة لمواصلة العملية."
+    },
+    {
+        "id": "your_account_has_been_set_up_successfully.",
+        "description": "File: app/routes/$lang+/user+/accept-invite.tsx:171",
+        "translation": "تم إنشاء حسابك بنجاح. يمكنك تسجيل الدخول الآن"
     }
 ]

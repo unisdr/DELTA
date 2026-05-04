@@ -2957,7 +2957,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: routes/$lang+/user+/forgot-password.tsx:134",
-        "translation": "<p>Вы получили запрос на сброс пароля. Если вы не делали этого запроса, просто проигнорируйте это письмо.</p>\n<p>Перейдите по ссылке ниже, чтобы сбросить пароль:\n<a href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nСброс пароля\n</a>\n</p>\n<p>Эта ссылка истечет через 1 час.</p>"
+        "translation": "\u003cp\u003eВы получили запрос на сброс пароля. Если вы не делали этого запроса, просто проигнорируйте это письмо.\u003c/p\u003e\n\u003cp\u003eПерейдите по ссылке ниже, чтобы сбросить пароль:\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nСброс пароля\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003eЭта ссылка истечет через 1 час.\u003c/p\u003e"
     },
     {
         "id": "user_forgot_password.reset_password_email_text",
@@ -3052,7 +3052,7 @@
     {
         "id": "user_invite.admin_email_html",
         "description": "File: backend.server/models/user/invite.ts:266",
-        "translation": "<p>Вы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n</p>\n<p> Нажмите на ссылку ниже, чтобы создать свою учетную запись.</p>\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nСоздать учетную запись\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL} </a></p>"
+        "translation": "\u003cp\u003eВы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n\u003c/p\u003e\n\u003cp\u003e Нажмите на ссылку ниже, чтобы создать свою учетную запись.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nСоздать учетную запись\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "user_invite.admin_email_text",
@@ -3062,7 +3062,7 @@
     {
         "id": "user_invite.existing_email_html",
         "description": "File: backend.server/models/user/invite.ts:211",
-        "translation": "<p>Вы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n</p>\n<p> Нажмите на ссылку ниже, чтобы войти в свою учетную запись.</p>\n<p>\n<a href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nВойти\n</a>\n</p>\n<p> <a href=\"{rootUrl}\"> {rootUrl} </a></p>"
+        "translation": "\u003cp\u003eВы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n\u003c/p\u003e\n\u003cp\u003e Нажмите на ссылку ниже, чтобы войти в свою учетную запись.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nВойти\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{rootUrl}\"\u003e {rootUrl} \u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "user_invite.existing_email_text",
@@ -3072,7 +3072,7 @@
     {
         "id": "user_invite.new_email_html",
         "description": "File: backend.server/models/user/invite.ts:157",
-        "translation": "<p>Вы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n</p>\n<p> Нажмите на ссылку ниже, чтобы создать свою учетную запись.</p>\n<p>\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nСоздать учетную запись\n</a>\n</p>\n<p> <a href=\"{inviteURL}\"> {inviteURL} </a></p>"
+        "translation": "\u003cp\u003eВы были приглашены присоединиться к системе DELTA Resilience {siteName} в качестве\nпользователя {role} для страны {countryName} {countryAccountType} экземпляра.\n\u003c/p\u003e\n\u003cp\u003e Нажмите на ссылку ниже, чтобы создать свою учетную запись.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nСоздать учетную запись\n\u003c/a\u003e\n\u003c/p\u003e\n\u003cp\u003e \u003ca href=\"{inviteURL}\"\u003e {inviteURL} \u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "user_invite.new_email_subject",
@@ -3087,7 +3087,7 @@
     {
         "id": "user_invite.welcome_email_html",
         "description": "File: backend.server/models/user/invite.ts:465",
-        "translation": "<p>Дорогие {firstName} {lastName},</p>\n<p> Добро пожаловать в систему DELTA Resilience {siteName}. Ваша учетная запись пользователя успешно создана.</p>\n<p> Нажмите на ссылку ниже, чтобы получить доступ к вашей учетной записи.</p>\n<p>\n<a href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nАккаунт доступа\n</a>\n</p>"
+        "translation": "\u003cp\u003eДорогие {firstName} {lastName},\u003c/p\u003e\n\u003cp\u003e Добро пожаловать в систему DELTA Resilience {siteName}. Ваша учетная запись пользователя успешно создана.\u003c/p\u003e\n\u003cp\u003e Нажмите на ссылку ниже, чтобы получить доступ к вашей учетной записи.\u003c/p\u003e\n\u003cp\u003e\n\u003ca href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nАккаунт доступа\n\u003c/a\u003e\n\u003c/p\u003e"
     },
     {
         "id": "user_invite.welcome_email_subject",
@@ -3137,7 +3137,7 @@
     {
         "id": "user_reset_password.password_change_confirmation_email_html",
         "description": "File: backend.server/models/user/password.ts:200",
-        "translation": "<p>Ваш пароль был успешно изменен. Если вы не запрашивали это изменение, обратитесь к своему администратору.</p>"
+        "translation": "\u003cp\u003eВаш пароль был успешно изменен. Если вы не запрашивали это изменение, обратитесь к своему администратору.\u003c/p\u003e"
     },
     {
         "id": "user_reset_password.password_change_confirmation_email_subject",
@@ -3472,7 +3472,7 @@
     {
         "id": "email.validation_workflow.body_needs_revision_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:258",
-        "translation": "<p>Дорогой {submitterName},</p>\n<p>Ваша {recordTypeData} была возвращена на доработку.</p>\n<p>Комментарии: {rejectionComments}</p>\n<p><a href=\"{recordUrl}\">Просмотр и редактирование записи</a></p>"
+        "translation": "\u003cp\u003eДорогой {submitterName},\u003c/p\u003e\n\u003cp\u003eВаша {recordTypeData} была возвращена на доработку.\u003c/p\u003e\n\u003cp\u003eКомментарии: {rejectionComments}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eПросмотр и редактирование записи\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.validation_workflow.body_needs_revision_text",
@@ -3482,7 +3482,7 @@
     {
         "id": "email.validation_workflow.body_published_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:221",
-        "translation": "<p>Дорогой {submitterName},</p>\n<p>Ваша запись {recordTypeData} была опубликована и теперь находится в открытом доступе.</p>\n<p><a href=\"{recordUrl}\">Просмотреть запись</a></p>"
+        "translation": "\u003cp\u003eДорогой {submitterName},\u003c/p\u003e\n\u003cp\u003eВаша запись {recordTypeData} была опубликована и теперь находится в открытом доступе.\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eПросмотреть запись\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.validation_workflow.body_published_text",
@@ -3492,7 +3492,7 @@
     {
         "id": "email.validation_workflow.body_validated_html",
         "description": "File: backend.server/services/emailValidationWorkflowService.ts:303",
-        "translation": "<p>Дорогой {submitterName},</p>\n<p>Ваш {recordTypeData} был подтвержден.</p>\n<p><a href=\"{recordUrl}\">Просмотреть запись</a></p>"
+        "translation": "\u003cp\u003eДорогой {submitterName},\u003c/p\u003e\n\u003cp\u003eВаш {recordTypeData} был подтвержден.\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eПросмотреть запись\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.validation_workflow.body_validated_text",
@@ -4507,7 +4507,7 @@
     {
         "id": "disaster_records.disruption.duration_days_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:151",
-        "translation": "Продолжительность (дни) должна быть >= 0"
+        "translation": "Продолжительность (дни) должна быть \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.duration_hours",
@@ -4517,7 +4517,7 @@
     {
         "id": "disaster_records.disruption.duration_hours_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:152",
-        "translation": "Продолжительность (часы) должна быть >= 0"
+        "translation": "Продолжительность (часы) должна быть \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.number_of_people_affected",
@@ -4537,7 +4537,7 @@
     {
         "id": "disaster_records.disruption.response_cost_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:154",
-        "translation": "Стоимость ответа должна быть >= 0"
+        "translation": "Стоимость ответа должна быть \u003e= 0"
     },
     {
         "id": "disaster_records.disruption.response_currency",
@@ -4557,7 +4557,7 @@
     {
         "id": "disaster_records.disruption.users_affected_must_be_gte_zero",
         "description": "File: backend.server/models/disruption.ts:153",
-        "translation": "Количество пострадавших пользователей должно быть >= 0"
+        "translation": "Количество пострадавших пользователей должно быть \u003e= 0"
     },
     {
         "id": "disaster_records.disruptions",
@@ -5612,7 +5612,7 @@
     {
         "id": "email.welcome.html_body",
         "description": "HTML version of the user welcome email. File: routes/$lang+/user+/verify-email-complete.tsx:91",
-        "translation": "<p>Дорогие {firstName} {lastName},</p>\n<p>Добро пожаловать в систему DELTA Resilience {countryName}. Ваша учетная запись пользователя успешно создана.</p>\n<Нажмите на ссылку ниже, чтобы получить доступ к вашей учетной записи:</p>\n<p><a href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">Доступ к моему аккаунту</a></p>\n<p>Если кнопка выше не работает, скопируйте и вставьте в браузер следующий URL:<br><a href=\"{accountUrl}\">{accountUrl}</a></p>"
+        "translation": "\u003cp\u003eДорогие {firstName} {lastName},\u003c/p\u003e\n\u003cp\u003eДобро пожаловать в систему DELTA Resilience {countryName}. Ваша учетная запись пользователя успешно создана.\u003c/p\u003e\n\u003cНажмите на ссылку ниже, чтобы получить доступ к вашей учетной записи:\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{accountUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003eДоступ к моему аккаунту\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003eЕсли кнопка выше не работает, скопируйте и вставьте в браузер следующий URL:\u003cbr\u003e\u003ca href=\"{accountUrl}\"\u003e{accountUrl}\u003c/a\u003e\u003c/p\u003e"
     },
     {
         "id": "email.welcome.subject",
@@ -5627,7 +5627,7 @@
     {
         "id": "email.verify_account.html_body",
         "description": "HTML version of the account verification email. File: backend.server/models/user/verify_email.ts:38",
-        "translation": "<p>Чтобы продолжить настройку учетной записи DELTA Resilience, пожалуйста, проверьте, что это ваш адрес электронной почты.</p>\n<br/><br/>\n<p>Для активации и завершения настройки учетной записи воспользуйтесь следующим кодом. Срок действия кода истечет через 30 минут:</p>\n<br/><strong>{verificationCode}</strong>"
+        "translation": "\u003cp\u003eЧтобы продолжить настройку учетной записи DELTA Resilience, пожалуйста, проверьте, что это ваш адрес электронной почты.\u003c/p\u003e\n\u003cbr/\u003e\u003cbr/\u003e\n\u003cp\u003eДля активации и завершения настройки учетной записи воспользуйтесь следующим кодом. Срок действия кода истечет через 30 минут:\u003c/p\u003e\n\u003cbr/\u003e\u003cstrong\u003e{verificationCode}\u003c/strong\u003e"
     },
     {
         "id": "email.verify_account.subject",
@@ -6152,7 +6152,7 @@
     {
         "id": "human_effects.error.subtotal_larger_than_total",
         "description": "The subtotal for a group exceeds the overall total. {group} is the group name(s), {column} is the metric name, {value} is the group total, {totalValue} is the overall total. File: frontend/editabletable/validate.ts:266",
-        "translation": "Итого по группе ({group}), столбец \"{column}\" превышает общий итог {value} > {totalValue}"
+        "translation": "Итого по группе ({group}), столбец \"{column}\" превышает общий итог {value} \u003e {totalValue}"
     },
     {
         "id": "human_effects.error.subtotal_larger_than_total_row",
@@ -6736,5 +6736,553 @@
     {
         "id": "user_login.enter_your_password",
         "translation": "Введите пароль"
+    },
+    {
+        "id": "admin.add_fictitious_country",
+        "description": "File: app/routes/$lang+/admin+/fictitious-country-mgmt+/_layout.tsx:41",
+        "translation": "Добавить вымышленную страну"
+    },
+    {
+        "id": "admin.clone_country_account",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:73",
+        "translation": "Скопировать учетную запись страны"
+    },
+    {
+        "id": "admin.country_account_cloned",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:31",
+        "translation": "Учетная запись страны успешно скопирована"
+    },
+    {
+        "id": "admin.country_type",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/edit.$id.tsx:191",
+        "translation": "Тип страны"
+    },
+    {
+        "id": "admin.delete_instance_confirm_header",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/delete.$id.tsx:80",
+        "translation": "Удалить экземпляр"
+    },
+    {
+        "id": "admin.delete_instance_confirm_message",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/delete.$id.tsx:111",
+        "translation": "Вы уверены, что хотите удалить этот экземпляр? Это действие нельзя отменить."
+    },
+    {
+        "id": "admin.edit_fictitious_country",
+        "description": "File: app/routes/$lang+/admin+/fictitious-country-mgmt+/edit.$id.tsx:77",
+        "translation": "Редактировать вымышленную страну"
+    },
+    {
+        "id": "admin.fictitious_country_deleted",
+        "description": "File: app/routes/$lang+/admin+/fictitious-country-mgmt+/delete.$id.tsx:50",
+        "translation": "Вымышленная страна удалена успешно"
+    },
+    {
+        "id": "admin.fictitious_country_management",
+        "description": "File: app/routes/$lang+/admin+/fictitious-country-mgmt+/_layout.tsx:32",
+        "translation": "Управление вымышленной страной"
+    },
+    {
+        "id": "admin.instance_deleted",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/delete.$id.tsx:47",
+        "translation": "Экземпляр удален успешно"
+    },
+    {
+        "id": "admin.instance_type",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/edit.$id.tsx:311",
+        "translation": "Тип экземпляра"
+    },
+    {
+        "id": "admin.invitation_resent",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/resend-invitation.$id.tsx:56",
+        "translation": "Письмо с приглашением отправлено"
+    },
+    {
+        "id": "admin.resend_email",
+        "description": "File: app/pages/AccessManagementPage.tsx:145",
+        "translation": "Повторно отправить приглашение по электронной почте"
+    },
+    {
+        "id": "admin.resend_invitation_confirm_message",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/resend-invitation.$id.tsx:132",
+        "translation": "Хотите повторно отправить приглашение по электронной почте главному администратору?"
+    },
+    {
+        "id": "api_keys.session_secret",
+        "description": "File: app/routes/$lang+/settings+/api-key+/_layout.tsx:155",
+        "translation": "Сессионный секрет"
+    },
+    {
+        "id": "common.addedAt",
+        "description": "File: app/pages/AccessManagementPage.tsx:332",
+        "translation": "Добавлено"
+    },
+    {
+        "id": "common.clone",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:90",
+        "translation": "Клон"
+    },
+    {
+        "id": "common.close",
+        "description": "File: app/routes/$lang+/settings+/assets+/$id.tsx:60",
+        "translation": "Закрыть"
+    },
+    {
+        "id": "common.confirm_delete",
+        "description": "File: app/routes/$lang+/settings+/assets+/delete.$id.tsx:116",
+        "translation": "Вы уверены, что хотите удалить этот объект? Это действие нельзя отменить."
+    },
+    {
+        "id": "common.country_type",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/_layout.tsx:284",
+        "translation": "Тип страны"
+    },
+    {
+        "id": "common.disabled",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:117",
+        "translation": "Инвалиды"
+    },
+    {
+        "id": "common.enabled",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:116",
+        "translation": "Включено"
+    },
+    {
+        "id": "common.go_to_login",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:224",
+        "translation": "Перейти к входу"
+    },
+    {
+        "id": "common.import_csv",
+        "description": "File: app/routes/$lang+/settings+/assets+/_layout.tsx:187",
+        "translation": "Импорт CSV"
+    },
+    {
+        "id": "common.inviteUser",
+        "description": "File: app/routes/$lang+/settings+/access-mgmnt+/new.tsx:238",
+        "translation": "Пригласить пользователя"
+    },
+    {
+        "id": "common.name_already_exists",
+        "description": "File: app/services/organizationService.ts:83",
+        "translation": "Организация с таким названием уже существует"
+    },
+    {
+        "id": "common.name_required",
+        "description": "File: app/services/organizationService.ts:68",
+        "translation": "Поле «Имя» является обязательным для заполнения"
+    },
+    {
+        "id": "common.no_results",
+        "description": "File: app/routes/$lang+/settings+/assets+/_layout.tsx:212",
+        "translation": "Результаты не найдены"
+    },
+    {
+        "id": "common.no_users_available",
+        "description": "File: app/frontend/components/data-collection/View.tsx:333",
+        "translation": "Пользователей, которых можно назначить, нет."
+    },
+    {
+        "id": "common.notify",
+        "description": "File: app/frontend/components/data-collection/View.tsx:307",
+        "translation": "Уведомить"
+    },
+    {
+        "id": "common.return",
+        "description": "File: app/frontend/components/data-collection/View.tsx:227",
+        "translation": "Вернуться"
+    },
+    {
+        "id": "common.return_with_comments_description_to_user",
+        "description": "File: app/frontend/components/data-collection/View.tsx:274",
+        "translation": "Это будет возвращено с замечанием о необходимости внести изменения и повторно подать на утверждение."
+    },
+    {
+        "id": "common.save_error",
+        "description": "File: app/routes/$lang+/settings+/geography+/edit.$id.tsx:269",
+        "translation": "Произошла ошибка при сохранении данных. Попробуйте ещё раз."
+    },
+    {
+        "id": "common.search_organization",
+        "description": "File: app/pages/AccessManagementPage.tsx:221",
+        "translation": "Введите название организации"
+    },
+    {
+        "id": "common.select_users",
+        "description": "File: app/frontend/components/data-collection/View.tsx:321",
+        "translation": "Выбрать пользователей"
+    },
+    {
+        "id": "common.unexpected_error",
+        "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:44",
+        "translation": "Произошла непредвиденная ошибка"
+    },
+    {
+        "id": "common.unverified",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:103",
+        "translation": "Непроверенный"
+    },
+    {
+        "id": "common.user",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:67",
+        "translation": "Пользователь"
+    },
+    {
+        "id": "common.verified",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:102",
+        "translation": "Проверено"
+    },
+    {
+        "id": "content_repeater.file_upload_error",
+        "description": "File: app/components/ContentRepeater/PreUploadFile.tsx:186",
+        "translation": "При обработке загруженного файла произошла ошибка."
+    },
+    {
+        "id": "content_repeater.file_upload_max_size_error",
+        "description": "{maxSizeMB} is replaced with the max file size in MB. File: app/components/ContentRepeater/PreUploadFile.tsx:69",
+        "translation": "При обработке загрузки файла произошла ошибка: размер файла превышает ограничение в {maxSizeMB} МБ"
+    },
+    {
+        "id": "disaster_event.invalid_hazardous_event_reference",
+        "description": "File: app/backend.server/models/event.ts:1456",
+        "translation": "Неверная ссылка на опасное событие для данного экземпляра"
+    },
+    {
+        "id": "email.assigned_validators.body_html",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:112",
+        "translation": "\u003cp\u003eУважаемый {validatorName},\u003c/p\u003e\n\u003cp\u003eНовое {recordType} ожидает вашего участия. Перейдите по ссылке ниже, чтобы просмотреть мероприятие.\u003c/p\u003e\n\u003cp\u003eНазвание мероприятия: {recordEventName} \u003cbr /\u003eДата мероприятия: {recordDate} \u003cbr /\u003eАвтор: {recordSubmitterName}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eПросмотреть мероприятие\u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.assigned_validators.body_text",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:132",
+        "translation": "Уважаемый {validatorName},\n\nНовое {recordType} ждет вашего участия. Перейдите по ссылке ниже, чтобы просмотреть мероприятие.\n\nНазвание мероприятия: {recordEventName}\nДата мероприятия: {recordDate}\nАвтор: {recordSubmitterName}\n\nПросмотреть мероприятие: {recordUrl}"
+    },
+    {
+        "id": "email.assigned_validators.subject",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:50",
+        "translation": "Проверка события"
+    },
+    {
+        "id": "email.assignees_notification.body_returned_html",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:481",
+        "translation": "\u003cp\u003eУважаемый {assigneeName},\u003c/p\u003e\n\u003cp\u003eЗаявка {recordType} была возвращена на доработку.\u003c/p\u003e\n\u003cp\u003eВозвратил: {recordSubmitterName}\u003c/p\u003e\n\u003cp\u003eКомментарии: {rejectionMessage}\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{recordUrl}\"\u003eПросмотреть\u003c/a\u003e\u003c/p\u003e"
+    },
+    {
+        "id": "email.assignees_notification.body_returned_text",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:501",
+        "translation": "Уважаемый {assigneeName},\n\nЗаявка {recordType} была возвращена на доработку.\n\nВозвратил: {recordSubmitterName}\n\nКомментарии: {rejectionMessage}\n\nПросмотреть: {recordUrl}"
+    },
+    {
+        "id": "email.assignees_notification.subject_returned",
+        "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:450",
+        "translation": "Запись с возвратом — требуется действие"
+    },
+    {
+        "id": "geographies.edit_division_subtitle",
+        "description": "File: app/routes/$lang+/settings+/geography+/edit.$id.tsx:244",
+        "translation": "Обновите данные по данному административному району."
+    },
+    {
+        "id": "geographies.failed_imports",
+        "description": "File: app/routes/$lang+/settings+/geography+/upload.tsx:98",
+        "translation": "Неудавшиеся попытки импорта"
+    },
+    {
+        "id": "geographies.names_by_language",
+        "description": "File: app/routes/$lang+/settings+/geography+/edit.$id.tsx:302",
+        "translation": "Названия по языкам"
+    },
+    {
+        "id": "geographies.parent_id_placeholder",
+        "description": "File: app/routes/$lang+/settings+/geography+/edit.$id.tsx:291",
+        "translation": "Оставьте пустым для раздела верхнего уровня"
+    },
+    {
+        "id": "go_back",
+        "description": "File: app/routes/$.tsx:43",
+        "translation": "Вернуться"
+    },
+    {
+        "id": "go_to_home",
+        "description": "File: app/routes/$.tsx:37",
+        "translation": "Перейти на главную страницу"
+    },
+    {
+        "id": "home",
+        "description": "File: app/routes/$lang+/user+/accept-invite.tsx:401",
+        "translation": "Главная"
+    },
+    {
+        "id": "human_effects.human_effects_configure_builtin_disaggregations",
+        "description": "File: app/routes/$lang+/settings+/human-effects-dsg+/_index.tsx:105",
+        "translation": "Влияние на человека: настройка встроенных дезагрегаций"
+    },
+    {
+        "id": "human_effects.in_use",
+        "description": "File: app/routes/$lang+/settings+/human-effects-dsg+/_index.tsx:149",
+        "translation": "в эксплуатации"
+    },
+    {
+        "id": "human_effects.in_use_cant_delete",
+        "description": "File: app/frontend/human_effects/custom_editor.tsx:50",
+        "translation": "В эксплуатации"
+    },
+    {
+        "id": "human_effects.in_use_cant_edit",
+        "description": "File: app/frontend/human_effects/custom_editor.tsx:38",
+        "translation": "В эксплуатации"
+    },
+    {
+        "id": "human_effects.in_use_note",
+        "description": "File: app/routes/$lang+/settings+/human-effects-dsg+/custom.tsx:202",
+        "translation": "Используемые дезагрегации нельзя удалить или изменить их имя в базе данных, однако метки в пользовательском интерфейсе можно изменить."
+    },
+    {
+        "id": "human_effects.men",
+        "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1109",
+        "translation": "Но"
+    },
+    {
+        "id": "human_effects.other_non_binary",
+        "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1123",
+        "translation": "Другие небинарные"
+    },
+    {
+        "id": "human_effects.women",
+        "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1116",
+        "translation": "Женщины"
+    },
+    {
+        "id": "meta.change_password",
+        "description": "File: app/routes/$lang+/user+/change-password.tsx:281",
+        "translation": "Изменить пароль"
+    },
+    {
+        "id": "meta.user_profile",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:36",
+        "translation": "Профиль пользователя"
+    },
+    {
+        "id": "nav.faq",
+        "description": "File: app/components/RegularMenuBar.tsx:342",
+        "translation": "Часто задаваемые вопросы"
+    },
+    {
+        "id": "nav.organization_management",
+        "description": "File: app/components/RegularMenuBar.tsx:376",
+        "translation": "Управление организацией"
+    },
+    {
+        "id": "nav.profile",
+        "description": "File: app/components/RegularMenuBar.tsx:47",
+        "translation": "Профиль"
+    },
+    {
+        "id": "nav.super_admin",
+        "description": "File: app/components/SuperAdminMenuBar.tsx:159",
+        "translation": "Супер-администратор"
+    },
+    {
+        "id": "nav.switch_instance",
+        "description": "File: app/components/RegularMenuBar.tsx:141",
+        "translation": "Переключатель"
+    },
+    {
+        "id": "organization.delete_blocked_by_dependencies",
+        "description": "File: app/services/organizationService.ts:191",
+        "translation": "Эту организацию нельзя удалить, так как она по-прежнему используется одним или несколькими пользователями. Сначала необходимо отменить эти назначения."
+    },
+    {
+        "id": "page_not_found",
+        "description": "File: app/routes/$.tsx:22",
+        "translation": "Страница не найдена"
+    },
+    {
+        "id": "page_not_found_message",
+        "description": "File: app/routes/$.tsx:27",
+        "translation": "Страница, которую вы ищете, возможно, была удалена, переименована или временно недоступна."
+    },
+    {
+        "id": "profile.first_name_required",
+        "description": "File: app/services/userProfileService.ts:52",
+        "translation": "Имя является обязательным полем"
+    },
+    {
+        "id": "profile.last_name_required",
+        "description": "File: app/services/userProfileService.ts:59",
+        "translation": "Фамилия обязательна"
+    },
+    {
+        "id": "session.expired_message",
+        "description": "File: app/components/InactivityWarning.tsx:98",
+        "translation": "Ваша сессия истекла из-за отсутствия активности. Пожалуйста, войдите в систему заново, чтобы продолжить."
+    },
+    {
+        "id": "session.expiry_warning_minutes",
+        "description": "File: app/components/InactivityWarning.tsx:102",
+        "translation": {
+            "one": "В целях безопасности ваша сессия будет закрыта через {n} минут из-за отсутствия активности.",
+            "other": "В целях безопасности ваша сессия будет закрыта через {n} минут из-за отсутствия активности."
+        }
+    },
+    {
+        "id": "settings.system.instance_configuration",
+        "description": "File: app/routes/$lang+/settings+/system.tsx:295",
+        "translation": "Настройка экземпляра"
+    },
+    {
+        "id": "settings.system.software",
+        "description": "File: app/routes/$lang+/settings+/system.tsx:341",
+        "translation": "Программное обеспечение"
+    },
+    {
+        "id": "sign_in",
+        "description": "File: app/routes/$lang+/user+/accept-invite.tsx:420",
+        "translation": "Войти"
+    },
+    {
+        "id": "user_forgot_password.email_sent_inline_message",
+        "description": "A message when correct email format entered in forgot password page. File: app/routes/$lang+/user+/forgot-password.tsx:143",
+        "translation": "Проверьте свой почтовый ящик на наличие ссылки для сброса пароля, если этот адрес электронной почты привязан к учетной записи."
+    },
+    {
+        "id": "user_login.sign_in_to_continue",
+        "description": "File: app/routes/$lang+/user+/login.tsx:324",
+        "translation": "Войдите в свою учетную запись, чтобы продолжить"
+    },
+    {
+        "id": "user_login.welcome_back",
+        "description": "File: app/routes/$lang+/user+/login.tsx:318",
+        "translation": "С возвращением"
+    },
+    {
+        "id": "user_select_instance.instance_required",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:201",
+        "translation": "Требуется выбрать экземпляр"
+    },
+    {
+        "id": "user_select_instance.loading_instance_msg",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:293",
+        "translation": "Мы загружаем данные, это может занять несколько минут. Пожалуйста, не закрывайте окно."
+    },
+    {
+        "id": "user_select_instance.loading_instance_title",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:287",
+        "translation": "Загрузка экземпляра"
+    },
+    {
+        "id": "user_select_instance.no_instance_contact",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:329",
+        "translation": "Обратитесь к администратору вашей команды, чтобы получить доступ."
+    },
+    {
+        "id": "user_select_instance.no_instance_question",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:323",
+        "translation": "Не нашли нужный экземпляр?"
+    },
+    {
+        "id": "user_select_instance.no_selection_redirect_login",
+        "description": "File: app/routes/$lang+/user+/select-instance.tsx:210",
+        "translation": "Если вы не выберете экземпляр, вы будете перенаправлены на страницу входа в систему."
+    },
+    {
+        "id": "user.disable_totp_description",
+        "description": "File: app/routes/$lang+/user+/totp-disable.tsx:108",
+        "translation": "Введите код TOTP, чтобы подтвердить отключение двухфакторной аутентификации"
+    },
+    {
+        "id": "user.email_status",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:97",
+        "translation": "Статус электронной почты"
+    },
+    {
+        "id": "user.permission.add_country_account.label",
+        "description": "File: app/frontend/user/roles.ts:283",
+        "translation": "Добавить учетную запись в стране"
+    },
+    {
+        "id": "user.permission.add_fictitious_country.label",
+        "description": "File: app/frontend/user/roles.ts:235",
+        "translation": "Добавить вымышленную страну"
+    },
+    {
+        "id": "user.permission.clone_country_account.label",
+        "description": "File: app/frontend/user/roles.ts:267",
+        "translation": "Скопировать учетную запись страны"
+    },
+    {
+        "id": "user.permission.delete_country_account.label",
+        "description": "File: app/frontend/user/roles.ts:259",
+        "translation": "Удалить учетную запись страны"
+    },
+    {
+        "id": "user.permission.delete_fictitious_country.label",
+        "description": "File: app/frontend/user/roles.ts:251",
+        "translation": "Удалить вымышленную страну"
+    },
+    {
+        "id": "user.permission.edit_country_account.label",
+        "description": "File: app/frontend/user/roles.ts:291",
+        "translation": "Редактировать учетную запись страны"
+    },
+    {
+        "id": "user.permission.edit_fictitious_country.label",
+        "description": "File: app/frontend/user/roles.ts:243",
+        "translation": "Изменить вымышленную страну"
+    },
+    {
+        "id": "user.permission.view_country_accounts.label",
+        "description": "File: app/frontend/user/roles.ts:275",
+        "translation": "Просмотреть отчеты по странам"
+    },
+    {
+        "id": "user.permission.view_fictitious_countries.label",
+        "description": "File: app/frontend/user/roles.ts:227",
+        "translation": "Просмотреть вымышленные страны"
+    },
+    {
+        "id": "user.totp_2fa_status",
+        "description": "File: app/routes/$lang+/user+/profile+/_layout.tsx:111",
+        "translation": "Двухфакторная аутентификация (TOTP)"
+    },
+    {
+        "id": "user.totp_code_hint",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:126",
+        "translation": "Введите текущий 6-значный код из приложения-аутентификатора."
+    },
+    {
+        "id": "user.totp_manual_key",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:122",
+        "translation": "Не удается отсканировать QR-код? Воспользуйтесь этим ключом настройки:"
+    },
+    {
+        "id": "user.totp_setup_steps_title",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:106",
+        "translation": "Настроить двухфакторную аутентификацию"
+    },
+    {
+        "id": "user.totp_step_1",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:110",
+        "translation": "1. Откройте приложение-аутентификатор (Google Authenticator, Microsoft Authenticator, Authy и т. д.)."
+    },
+    {
+        "id": "user.totp_step_2",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:114",
+        "translation": "2. Отсканируйте QR-код ниже, чтобы добавить свою учетную запись."
+    },
+    {
+        "id": "user.totp_step_3",
+        "description": "File: app/routes/$lang+/user+/totp-enable.tsx:118",
+        "translation": "3. Введите 6-значный код, сгенерированный приложением, чтобы подтвердить настройку."
+    },
+    {
+        "id": "users.enter_totp_generated_code",
+        "description": "File: app/routes/$lang+/user+/totp-login.tsx:86",
+        "translation": "Введите код из приложения-аутентификатора, чтобы продолжить."
+    },
+    {
+        "id": "your_account_has_been_set_up_successfully.",
+        "description": "File: app/routes/$lang+/user+/accept-invite.tsx:171",
+        "translation": "Ваша учетная запись успешно создана. Теперь вы можете войти в систему"
     }
 ]

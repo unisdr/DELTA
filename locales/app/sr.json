@@ -3857,7 +3857,7 @@
     {
         "id": "email.validation_workflow.body_needs_revision_html",
         "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:276",
-        "translation": "Поштовани {submitterName},\nВаш {recordTypeData} је враћен на дораду.\nКоментари: {rejectionComments}\n\u003ca href=\"{recordUrl}\"\u003eПрегледајте и уредите запис"
+        "translation": "Поштовани {submitterName},\nВаш {recordTypeData} је враћен на дораду.\nКоментари: {rejectionComments}\n<a href=\"{recordUrl}\">Прегледајте и уредите запис"
     },
     {
         "id": "email.validation_workflow.body_needs_revision_text",
@@ -3867,7 +3867,7 @@
     {
         "id": "email.validation_workflow.body_published_html",
         "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:230",
-        "translation": "Поштовани {submitterName},\nВаш {recordTypeData} је објављен и сада је јавно доступан.\n\u003ca href=\"{recordUrl}\"\u003eПогледајте запис"
+        "translation": "Поштовани {submitterName},\nВаш {recordTypeData} је објављен и сада је јавно доступан.\n<a href=\"{recordUrl}\">Погледајте запис"
     },
     {
         "id": "email.validation_workflow.body_published_text",
@@ -3877,7 +3877,7 @@
     {
         "id": "email.validation_workflow.body_validated_html",
         "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:330",
-        "translation": "Поштовани {submitterName},\nВаш {recordTypeData} је потврђен.\n\u003ca href=\"{recordUrl}\"\u003eПогледајте запис"
+        "translation": "Поштовани {submitterName},\nВаш {recordTypeData} је потврђен.\n<a href=\"{recordUrl}\">Погледајте запис"
     },
     {
         "id": "email.validation_workflow.body_validated_text",
@@ -4722,7 +4722,7 @@
     {
         "id": "human_effects.error.subtotal_larger_than_total",
         "description": "The subtotal for a group exceeds the overall total. {group} is the group name(s), {column} is the metric name, {value} is the group total, {totalValue} is the overall total. File: app/frontend/editabletable/validate.ts:273",
-        "translation": "Укупно за групу ({group}), колона \"{column}\" прелази укупни збир {value} \u003e {totalValue}"
+        "translation": "Укупно за групу ({group}), колона \"{column}\" прелази укупни збир {value} > {totalValue}"
     },
     {
         "id": "human_effects.error.subtotal_larger_than_total_row",
@@ -5564,7 +5564,8 @@
         "description": "File: app/components/InactivityWarning.tsx:102",
         "translation": {
             "one": "Ради ваше безбедности, ваша сесија ће истећи за {n} минута због неактивности.",
-            "other": "Ради ваше безбедности, ваша сесија ће истећи за {n} минута због неактивности."
+            "few": "Ради ваше безбедности, ваша сесија ће истећи за {n} минута због неактивности.",
+            "other": ""
         }
     },
     {
@@ -5975,7 +5976,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: app/utils/emailUtil.ts:30",
-        "translation": "Поднет је захтев за ресетовање ваше лозинке. Ако нисте ви затражили ово, једноставно игноришите овај имејл.\nКликните на доњи линк да бисте ресетовали лозинку:\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nРесетуј лозинку\n\n\u003c/p\u003e\nОва веза истиче за 1 сат."
+        "translation": "Поднет је захтев за ресетовање ваше лозинке. Ако нисте ви затражили ово, једноставно игноришите овај имејл.\nКликните на доњи линк да бисте ресетовали лозинку:\n<a href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nРесетуј лозинку\n\n</p>\nОва веза истиче за 1 сат."
     },
     {
         "id": "user_forgot_password.reset_password_email_text",
@@ -5990,7 +5991,7 @@
     {
         "id": "user_invite.admin_email_html",
         "description": "File: app/backend.server/models/user/invite.ts:198",
-        "translation": "Позвани сте да се придружите DELTA Resilience {siteName} систему као {role} корисник за инстанцу земље {countryName} {countryAccountType}.\n\nКликните на доњи линк да бисте креирали свој налог.\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nПодесите налог\n\n\u003c/sep\u003e\n\u003ca href=\"{inviteURL}\"\u003e {inviteURL} "
+        "translation": "Позвани сте да се придружите DELTA Resilience {siteName} систему као {role} корисник за инстанцу земље {countryName} {countryAccountType}.\n\nКликните на доњи линк да бисте креирали свој налог.\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nПодесите налог\n\n</sep>\n<a href=\"{inviteURL}\"> {inviteURL} "
     },
     {
         "id": "user_invite.admin_email_text",
@@ -6000,7 +6001,7 @@
     {
         "id": "user_invite.existing_email_html",
         "description": "File: app/utils/emailUtil.ts:193",
-        "translation": "Позван сте да се придружите DELTA Resilience {siteName} систему као {role} корисник за инстанцу земље {countryName} {countryAccountType}.\n\nКликните на доњи линк да бисте се пријавили на свој налог.\n\u003ca href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nПријавите се\n\n\n \u003ca href=\"{rootUrl}\"\u003e {rootUrl} "
+        "translation": "Позван сте да се придружите DELTA Resilience {siteName} систему као {role} корисник за инстанцу земље {countryName} {countryAccountType}.\n\nКликните на доњи линк да бисте се пријавили на свој налог.\n<a href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nПријавите се\n\n\n <a href=\"{rootUrl}\"> {rootUrl} "
     },
     {
         "id": "user_invite.existing_email_text",
@@ -6010,7 +6011,7 @@
     {
         "id": "user_invite.new_email_html",
         "description": "File: app/utils/emailUtil.ts:130",
-        "translation": "Позвани сте да се придружите DELTA Resilience {siteName} систему као {role} корисник за инстанцу земље {countryName} {countryAccountType}.\n\nКликните на доњи линк да бисте креирали свој налог.\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nПодесите налог\n\n\u003c/sep\u003e\n\u003ca href=\"{inviteURL}\"\u003e {inviteURL} "
+        "translation": "Позвани сте да се придружите DELTA Resilience {siteName} систему као {role} корисник за инстанцу земље {countryName} {countryAccountType}.\n\nКликните на доњи линк да бисте креирали свој налог.\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nПодесите налог\n\n</sep>\n<a href=\"{inviteURL}\"> {inviteURL} "
     },
     {
         "id": "user_invite.new_email_subject",
@@ -6025,7 +6026,7 @@
     {
         "id": "user_invite.welcome_email_html",
         "description": "File: app/utils/emailUtil.ts:66",
-        "translation": "Поштовани {firstName} {lastName},\n\nДобродошли у DELTA Resilience {siteName} систем. Ваш кориснички налог је успешно креиран.\n\nКликните на доњи линк да бисте приступили свом налогу.\n\u003ca href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nПриступ налогу\n\n"
+        "translation": "Поштовани {firstName} {lastName},\n\nДобродошли у DELTA Resilience {siteName} систем. Ваш кориснички налог је успешно креиран.\n\nКликните на доњи линк да бисте приступили свом налогу.\n<a href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nПриступ налогу\n\n"
     },
     {
         "id": "user_invite.welcome_email_subject",

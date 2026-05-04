@@ -33,6 +33,7 @@ After English strings have changed or been added in code:
   - Lock
 
 - Back in your local repository:
+  - Run git pull
   - Run [App/UI string extraction command](./app-ui/string-extraction.md)
   - For content strings (HIP, assets, sectors), run [Content string extraction command](./content/string-extraction.md)
   - Run DeepL translator: [deepl](deepl.md)
@@ -57,4 +58,5 @@ Merge them into `dev`:
 ```bash
 git checkout dev
 git merge origin/weblate
+git push
 ```

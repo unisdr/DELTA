@@ -64,7 +64,6 @@ export const loader = authLoader(async (loaderArgs) => {
 	}
 
 	const settings = await getCountrySettingsFromSession(request);
-	console.log("totop issuer in loader", settings?.totpIssuer);
 	let totpIssuer = "";
 	if (settings) {
 		totpIssuer = settings.totpIssuer;

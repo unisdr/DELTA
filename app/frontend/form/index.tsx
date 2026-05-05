@@ -15,7 +15,12 @@ export type {
 	FormInputDefSpecific,
 };
 
-export { splitDefsIntoRows, getDefsForPage, getTotalPages } from "./types";
+export {
+	splitDefsIntoRows,
+	getDefsForPage,
+	getTotalPages,
+	getPageLabels,
+} from "./types";
 export { rowMeta } from "./row_meta";
 
 export { SubmitButton } from "./submit";

@@ -36,6 +36,7 @@ interface FormViewProps {
 
 	activeStep?: number;
 	totalSteps?: number;
+	pageLabels?: string[];
 }
 
 export function FormView(props: FormViewProps) {
@@ -67,7 +68,9 @@ export function FormView(props: FormViewProps) {
 	const prevAction = `${currentPath}?step=${activeStep}&_saveAction=prev`;
 
 	const stepperItems = Array.from({ length: totalSteps }, (_, i) => ({
-		label: ctx.t({ code: `common.step${i + 1}`, msg: `Step ${i + 1}` }),
+		label:
+			props.pageLabels?.[i] ||
+			ctx.t({ code: `common.step${i + 1}`, msg: `Step ${i + 1}` }),
 	}));
 
 	const hasStepper = totalSteps > 1;

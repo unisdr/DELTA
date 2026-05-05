@@ -43,6 +43,7 @@ export interface FormInputDef<T> {
 	uiRowNew?: boolean;
 	repeatable?: { group: string; index: number };
 	uiNewPage?: boolean;
+	uiPageLabel?: string;
 }
 
 export interface FormInputDefSpecific {
@@ -125,4 +126,23 @@ export function getTotalPages<T>(defs: FormInputDef<T>[]): number {
 		}
 	}
 	return totalPages;
+}
+
+export function getPageLabels<T>(defs: FormInputDef<T>[]): string[] {
+	let labels: string[] = [];
+	let currentPage = 0;
+
+	for (let d of defs) {
+		if (d.uiNewPage) {
+			currentPage++;
+		} else if (currentPage === 0) {
+			currentPage = 1;
+		}
+
+		if (d.uiPageLabel && labels.length < currentPage) {
+			labels.push(d.uiPageLabel);
+		}
+	}
+
+	return labels;
 }

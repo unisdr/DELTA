@@ -13,7 +13,12 @@ import {
 
 import { formSave } from "~/backend.server/handlers/form/form";
 
-import { formScreen, getDefsForPage, getTotalPages } from "~/frontend/form";
+import {
+	formScreen,
+	getDefsForPage,
+	getTotalPages,
+	getPageLabels,
+} from "~/frontend/form";
 
 import { route } from "~/frontend/events/disastereventform";
 
@@ -225,6 +230,7 @@ export default function Screen() {
 
 	const allFieldsDef = fieldsDef(ctx);
 	const totalPages = getTotalPages(allFieldsDef);
+	const pageLabels = getPageLabels(allFieldsDef);
 
 	const currentStep = parseInt(searchParams.get("step") || "1", 10);
 	const activeStep = Math.max(1, Math.min(currentStep, totalPages));
@@ -257,6 +263,7 @@ export default function Screen() {
 			fieldDef: fieldsFiltered,
 			activeStep,
 			totalSteps: totalPages,
+			pageLabels,
 		},
 		fieldsInitial: fieldsInitial,
 		form: DisasterEventForm,

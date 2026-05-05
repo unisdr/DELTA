@@ -254,21 +254,16 @@ function repeatOtherAssesments(
 
 export function fieldsDefCommon(
 	ctx: DContext,
+	hipFields: FormInputDef<DisasterEventFields>[] = [],
 ): FormInputDef<DisasterEventFields>[] {
 	return [
 		approvalStatusField2(ctx) as FormInputDef<DisasterEventFields>,
 		{
-			key: "nationalDisasterId",
-			label: ctx.t({
-				code: "disaster_event.national_disaster_id",
-				msg: "National disaster ID",
-			}),
-			type: "text",
-			uiRow: {},
-		},
-		...repeatOtherIds(ctx, 3),
-		{
 			key: "nameNational",
+			uiPageLabel: ctx.t({
+				code: "disaster_event.page_event_basics",
+				msg: "Event basics",
+			}),
 			label: ctx.t({
 				code: "disaster_event.national_name",
 				desc: "National name for disaster event",
@@ -280,17 +275,12 @@ export function fieldsDefCommon(
 				msg: "National disaster name (if any and applicable)",
 			}),
 			type: "text",
-			uiRow: {},
-		},
-		{
-			key: "glide",
-			label: ctx.t({
-				code: "disaster_event.glide_number",
-				desc: "GLIDE number is a type of ID",
-				msg: "GLIDE number",
-			}),
-			type: "text",
-			uiRow: {},
+			uiRow: {
+				label: ctx.t({
+					code: "disaster_event.event_basics",
+					msg: "Event basics",
+				}),
+			},
 		},
 		{
 			key: "nameGlobalOrRegional",
@@ -303,8 +293,43 @@ export function fieldsDefCommon(
 				msg: "Disaster event name in global or regional databases (if applicable)",
 			}),
 			type: "text",
+		},
+		{
+			key: "nationalDisasterId",
+			label: ctx.t({
+				code: "disaster_event.national_disaster_id",
+				msg: "National disaster ID",
+			}),
+			type: "text",
+		},
+		{
+			key: "glide",
+			label: ctx.t({
+				code: "disaster_event.glide_number",
+				desc: "GLIDE number is a type of ID",
+				msg: "GLIDE number",
+			}),
+			type: "text",
 			uiRow: {},
 		},
+		{
+			key: "recordingInstitution",
+			label: ctx.t({
+				code: "disaster_event.recording_institution",
+				msg: "Recording institution",
+			}),
+			type: "text",
+		},
+		{
+			key: "dataSource",
+			label: ctx.t({
+				code: "common.data_source",
+				msg: "Data source",
+			}),
+			type: "text",
+		},
+		...repeatOtherIds(ctx, 3),
+		...hipFields,
 		{
 			key: "startDate",
 			label: ctx.t({
@@ -353,6 +378,11 @@ export function fieldsDefCommon(
 			uiRow: {},
 		},
 		{
+			uiNewPage: true,
+			uiPageLabel: ctx.t({
+				code: "disaster_event.page_response_assessments",
+				msg: "Response & Assessments",
+			}),
 			// field definition
 			key: "disasterDeclaration",
 			label: ctx.t({
@@ -395,7 +425,6 @@ export function fieldsDefCommon(
 		},
 		...repeatDisasterDeclarations(ctx, 5),
 		{
-			uiNewPage: true,
 			key: "hadOfficialWarningOrWeatherAdvisory",
 			label: ctx.t({
 				code: "disaster_event.had_official_warning_or_weather_advisory",
@@ -438,29 +467,11 @@ export function fieldsDefCommon(
 		...repeatOtherAssesments(ctx, 5),
 
 		{
-			key: "dataSource",
-			label: ctx.t({
-				code: "common.data_source",
-				msg: "Data source",
-			}),
-			type: "text",
-			uiRow: {
-				label: ctx.t({
-					code: "common.data_source",
-					msg: "Data source",
-				}),
-			},
-		},
-		{
-			key: "recordingInstitution",
-			label: ctx.t({
-				code: "disaster_event.recording_institution",
-				msg: "Recording institution",
-			}),
-			type: "text",
-		},
-		{
 			uiNewPage: true,
+			uiPageLabel: ctx.t({
+				code: "disaster_event.page_effects",
+				msg: "Effects",
+			}),
 			key: "effectsTotalUsd",
 			label: ctx.t({
 				code: "disaster_event.effects_total_usd",
@@ -637,21 +648,33 @@ export function fieldsDefCommon(
 
 export function fieldsDef(ctx: DContext): FormInputDef<DisasterEventFields>[] {
 	return [
-		{
-			key: "linking_parameter" as keyof DisasterEventFields,
-			label: ctx.t({
-				code: "disaster_event.linking_parameter",
-				msg: "Linking parameter",
-			}),
-			type: "other",
-			uiRow: { colOverride: 2 },
-		},
-		{ key: "hazardousEventId", label: "", type: "uuid", uiRowNew: true },
-		{ key: "disasterEventId", label: "", type: "uuid" },
-		{ key: "hipHazardId", label: "", type: "other", uiRow: { colOverride: 1 } },
-		{ key: "hipClusterId", label: "", type: "other" },
-		{ key: "hipTypeId", label: "", type: "other" },
-		...fieldsDefCommon(ctx),
+		...fieldsDefCommon(ctx, [
+			{
+				key: "hipHazardId",
+				label: "",
+				type: "other",
+				uiRow: {
+					colOverride: 1,
+					label: ctx.t({
+						code: "disaster_event.hazard_and_timing",
+						msg: "Hazard and timing",
+					}),
+				},
+			},
+			{ key: "hipClusterId", label: "", type: "other" },
+			{ key: "hipTypeId", label: "", type: "other" },
+			{
+				key: "linking_parameter" as keyof DisasterEventFields,
+				label: ctx.t({
+					code: "disaster_event.linking_parameter",
+					msg: "Linking parameter",
+				}),
+				type: "other",
+				uiRow: { colOverride: 2 },
+			},
+			{ key: "hazardousEventId", label: "", type: "uuid", uiRowNew: true },
+			{ key: "disasterEventId", label: "", type: "uuid" },
+		]),
 	];
 }
 
@@ -661,10 +684,11 @@ export function fieldsDefApi(
 	return [
 		{ key: "hazardousEventId", label: "", type: "uuid" },
 		{ key: "disasterEventId", label: "", type: "uuid" },
-		{ key: "hipHazardId", label: "", type: "other" },
-		{ key: "hipClusterId", label: "", type: "other" },
-		{ key: "hipTypeId", label: "", type: "other" },
-		...fieldsDefCommon(ctx),
+		...fieldsDefCommon(ctx, [
+			{ key: "hipHazardId", label: "", type: "other" },
+			{ key: "hipClusterId", label: "", type: "other" },
+			{ key: "hipTypeId", label: "", type: "other" },
+		]),
 		{ key: "apiImportId", label: "", type: "other" },
 		{ key: "countryAccountsId", label: "", type: "other" },
 	];
@@ -683,11 +707,22 @@ export function fieldsDefView(
 			type: "uuid",
 		},
 		{ key: "disasterEventId", label: "", type: "uuid" },
-		{ key: "hipHazard", label: "", type: "other" },
-		...fieldsDefCommon(ctx),
+		...fieldsDefCommon(ctx, [
+			{
+				key: "hipHazard" as any,
+				label: "",
+				type: "other",
+				uiRow: {
+					label: ctx.t({
+						code: "disaster_event.hazard_and_timing",
+						msg: "Hazard and timing",
+					}),
+				},
+			},
+		]),
 		{ key: "createdAt", label: "", type: "other" },
 		{ key: "updatedAt", label: "", type: "other" },
-	];
+	] as FormInputDef<DisasterEventViewModel>[];
 }
 
 export function disasterEventLabel(args: { id?: string }): string {
@@ -720,6 +755,7 @@ interface DisasterEventFormProps extends UserFormProps<DisasterEventFields> {
 	ctryIso3: string;
 	activeStep?: number;
 	totalSteps?: number;
+	pageLabels?: string[];
 	fieldDef?: FormInputDef<DisasterEventFields>[];
 }
 
@@ -879,6 +915,7 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 			fieldsDef={props.fieldDef || fieldsDef(ctx)}
 			activeStep={props.activeStep}
 			totalSteps={props.totalSteps}
+			pageLabels={props.pageLabels}
 			override={{
 				linking_parameter: (
 					<WrapInputBasic

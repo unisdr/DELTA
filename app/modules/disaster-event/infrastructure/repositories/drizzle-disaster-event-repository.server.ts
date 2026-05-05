@@ -475,11 +475,11 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 				disasterEventId: String(row.disaster_event_id || ""),
 				geomGeoJson: row.geom_geojson ? String(row.geom_geojson) : null,
 				geometryType: row.geometry_type
-					? String(row.geometry_type) as
-						| "POINT"
-						| "LINESTRING"
-						| "POLYGON"
-						| "MULTIPOLYGON"
+					? (String(row.geometry_type) as
+							| "POINT"
+							| "LINESTRING"
+							| "POLYGON"
+							| "MULTIPOLYGON")
 					: null,
 				name: row.name ? String(row.name) : null,
 				isPrimary: Boolean(row.is_primary),

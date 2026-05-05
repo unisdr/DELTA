@@ -10,6 +10,7 @@
 		"test:run1": "vite build --ssr app/tests/all.ts && cross-env NODE_ENV=test node build/server/index.js",
 		"test:run2": "vitest run",
 		"test:run3": "vitest run --config vitest.integration-realdb.config.ts",
+		"test:run1-3": "yarn test:run1 && yarn test:run2 && yarn test:run3",
 		"dev": "yarn install && yarn dbsync && react-router dev --port 3000",
 		"dev2": "yarn install && react-router dev --host",
 		"start": "react-router-serve ./build/server/index.js",

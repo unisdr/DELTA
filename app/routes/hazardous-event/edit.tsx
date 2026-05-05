@@ -64,6 +64,40 @@ type SubmittedGeometry = {
 	isPrimary: boolean;
 };
 
+function normalizeGeometryType(
+	rawType: unknown,
+	geojson: unknown,
+): HazardousEventGeometryType | null {
+	if (typeof rawType === "string") {
+		const upper = rawType.toUpperCase();
+		if (ALLOWED_GEOMETRY_TYPES.has(upper as HazardousEventGeometryType)) {
+			return upper as HazardousEventGeometryType;
+		}
+	}
+
+	if (!geojson || typeof geojson !== "object") {
+		return null;
+	}
+
+	const geometryType = (geojson as { type?: unknown }).type;
+	if (typeof geometryType !== "string") {
+		return null;
+	}
+
+	switch (geometryType) {
+		case "Point":
+			return "POINT";
+		case "LineString":
+			return "LINESTRING";
+		case "Polygon":
+			return "POLYGON";
+		case "MultiPolygon":
+			return "MULTIPOLYGON";
+		default:
+			return null;
+	}
+}
+
 function parseSubmittedGeometries(formData: FormData): SubmittedGeometry[] {
 	const parsed: SubmittedGeometry[] = [];
 
@@ -84,17 +118,21 @@ function parseSubmittedGeometries(formData: FormData): SubmittedGeometry[] {
 				continue;
 			}
 
-			if (!value.geometryType || !ALLOWED_GEOMETRY_TYPES.has(value.geometryType as HazardousEventGeometryType)) {
+			if (!value.geojson || typeof value.geojson !== "object") {
 				continue;
 			}
 
-			if (!value.geojson || typeof value.geojson !== "object") {
+			const normalizedType = normalizeGeometryType(
+				value.geometryType,
+				value.geojson,
+			);
+			if (!normalizedType) {
 				continue;
 			}
 
 			parsed.push({
 				geojson: value.geojson,
-				geometryType: value.geometryType as HazardousEventGeometryType,
+				geometryType: normalizedType,
 				name: typeof value.name === "string" ? value.name.trim() : undefined,
 				isPrimary: Boolean(value.isPrimary),
 			});

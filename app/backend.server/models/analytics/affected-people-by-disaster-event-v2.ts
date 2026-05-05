@@ -1,4 +1,4 @@
-import { eq, sql, and, isNull, sum, isNotNull } from "drizzle-orm";
+import { eq, sql, and, isNull, sum, isNotNull, or } from "drizzle-orm";
 import { Tx } from "~/db.server";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { humanCategoryPresenceTable } from "~/drizzle/schema/humanCategoryPresenceTable";
@@ -8,6 +8,7 @@ import { affectedTablesAndCols } from "./affected-people-tables";
 
 interface Conditions {
 	divisionId?: string;
+	publishedOnly?: boolean;
 }
 
 export async function getAffected(
@@ -117,7 +118,10 @@ async function totalsForOneTable(
 			and(
 				eq(de.id, disasterEventId),
 				eq(presenceCol, true),
-				eq(dr.approvalStatus, "published"),
+				or(
+					eq(dr.approvalStatus, "published"),	
+					eq(dr.approvalStatus, "validated"),	
+				),
 				conditions?.divisionId
 					? sql`EXISTS (
 					SELECT 1
@@ -127,6 +131,7 @@ async function totalsForOneTable(
 					OR jsonb_path_exists(disaster_records.spatial_footprint, ${`$[*].geojson.properties.division_ids  ? (@ == "${conditions.divisionId}")`})
 				)`
 					: undefined,
+				conditions?.publishedOnly ? eq(dr.approvalStatus, "published") : undefined,
 			),
 		);
 
@@ -184,7 +189,10 @@ async function totalsForOneTableRecords(
 			and(
 				eq(de.id, disasterEventId),
 				eq(presenceCol, true),
-				eq(dr.approvalStatus, "published"),
+				or(
+					eq(dr.approvalStatus, "published"),
+					eq(dr.approvalStatus, "validated")
+				)
 			),
 		);
 
@@ -392,7 +400,10 @@ async function countsForOneTable(
 			and(
 				eq(de.id, disasterEventId),
 				eq(presenceCol, true),
-				eq(dr.approvalStatus, "published"),
+				or(
+					eq(dr.approvalStatus, "published"),
+					eq(dr.approvalStatus, "validated"),
+				),
 				groupBy == hd.sex ? isNotNull(hd.sex) : isNull(hd.sex),
 				groupBy == hd.age ? isNotNull(hd.age) : isNull(hd.age),
 				groupBy == hd.disability
@@ -420,8 +431,8 @@ async function countsForOneTable(
 					WHERE elem->'geojson'->'features'->0->'properties'->>'division_id' = ${conditions.divisionId}
 					OR elem->'geojson'->'features'->0->'properties'->'division_ids' @> to_jsonb(ARRAY[${conditions.divisionId}])
 					
-				)`
-					: undefined,
+				)` : undefined,
+				conditions?.publishedOnly ? eq(dr.approvalStatus, "published") : undefined,
 			),
 		)
 		.groupBy(groupBy);

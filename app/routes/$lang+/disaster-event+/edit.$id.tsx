@@ -30,6 +30,8 @@ import {
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
+	getUserIdFromSession,
+	getUserRoleFromSession,
 } from "~/utils/session";
 import { and, eq, isNotNull, isNull, sql } from "drizzle-orm";
 import { dr } from "~/db.server";
@@ -39,6 +41,12 @@ import { buildTree } from "~/components/TreeView";
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
+import {
+	getUserCountryAccountsWithValidatorRole,
+	getUserCountryAccountsWithAdminRole,
+} from "~/db/queries/userCountryAccountsRepository";
+import { handleApprovalWorkflowService } from "~/backend.server/services/approvalWorkflowService";
+import { canEditDataCollectionRecord } from "~/frontend/user/roles";
 
 // Helper function to get country ISO3 code
 async function getCountryIso3(request: Request): Promise<string> {
@@ -67,6 +75,8 @@ async function getDivisionGeoJSON(countryAccountsId: string) {
 
 export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const { request } = actionArgs;
+	const cloned = request.clone();
+	const formData = await cloned.formData();
 	const ctx = new BackendContext(actionArgs);
 	const userSession = authActionGetAuth(actionArgs);
 
@@ -79,13 +89,45 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 			const updatedData = {
 				...data,
 				countryAccountsId,
-				createdBy: userSession.user.id,
-				updatedBy: userSession.user.id,
+				updatedByUserId: userSession.user.id,
 			};
 			if (id) {
-				return disasterEventUpdate(ctx, tx, id, updatedData);
+				// Save normal for data to database using the disasterEventUpdate function
+				const returnValue = await disasterEventUpdate(ctx, tx, id, updatedData);
+
+				// continue to approval workflow processing if update is successful
+				if (returnValue.ok === true) {
+					await handleApprovalWorkflowService(ctx, tx, id, "disaster_event", {
+						...updatedData,
+						tempValidatorUserIds: formData.get("tempValidatorUserIds"),
+						tempAction: formData.get("tempAction"),
+					});
+				}
+
+				return returnValue;
 			} else {
-				return disasterEventCreate(ctx, tx, updatedData);
+				// Save normal for data to database using the disasterEventCreate function
+				const returnValue = await disasterEventCreate(ctx, tx, { 
+					...updatedData,
+					createdByUserId: userSession.user.id, 
+				});
+
+				if (returnValue.ok === true) {
+					// continue to approval workflow processing
+
+					await handleApprovalWorkflowService(
+						ctx,
+						tx,
+						returnValue.id,
+						"disaster_event",
+						{
+							...updatedData,
+							tempValidatorUserIds: formData.get("tempValidatorUserIds"),
+							tempAction: formData.get("tempAction"),
+					});
+				}
+
+				return returnValue;
 			}
 		},
 		redirectTo: (id: string) => route + "/" + id,
@@ -97,6 +139,29 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const ctx = new BackendContext(loaderArgs);
 	const ctryIso3 = await getCountryIso3(request);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const userId = await getUserIdFromSession(request);
+
+	// Get users with validator role
+	const usersWithValidatorRole =
+		await getUserCountryAccountsWithValidatorRole(countryAccountsId);
+
+	let filteredUsersWithValidatorRole: typeof usersWithValidatorRole = [];
+
+	if (usersWithValidatorRole.length > 0) {
+		// filter the usersWithValidatorRole to exclude the current user
+		filteredUsersWithValidatorRole = usersWithValidatorRole.filter(
+			(userAccount) => userAccount.id !== userId,
+		);
+	}
+
+	// if usersWithValidatorRole is empty, fall back to usersWithAdminRole excluding current user
+	if (filteredUsersWithValidatorRole.length === 0) {
+		const usersWithAdminRole =
+			await getUserCountryAccountsWithAdminRole(countryAccountsId);
+		filteredUsersWithValidatorRole = usersWithAdminRole.filter(
+			(userAccount) => userAccount.id !== userId,
+		);
+	}
 
 	// Handle 'new' case without DB query
 	if (params.id === "new") {
@@ -135,6 +200,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			ctryIso3: ctryIso3,
 			divisionGeoJSON: divisionGeoJSON || [],
 			user: await authLoaderGetUserForFrontend(loaderArgs),
+			usersWithValidatorRole: filteredUsersWithValidatorRole,
 		};
 	}
 
@@ -156,6 +222,12 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		}
 		// Re-throw other errors
 		throw error;
+	}
+	
+	const userRole = await getUserRoleFromSession(request) as string;
+
+	if (canEditDataCollectionRecord(userRole, item.approvalStatus) === false) {
+		throw new Response("Access forbidden", { status: 403 });
 	}
 
 	// Fetch division data & build tree
@@ -194,6 +266,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		ctryIso3,
 		divisionGeoJSON: divisionGeoJSON || [],
 		user: await authLoaderGetUserForFrontend(loaderArgs),
+		usersWithValidatorRole: filteredUsersWithValidatorRole,
 	};
 });
 
@@ -203,6 +276,8 @@ export default function Screen() {
 	let fieldsInitial: Partial<DisasterEventFields> = ld.item
 		? {
 				...ld.item,
+				createdByUserId: ld.item.createdByUserId ?? undefined,
+				updatedByUserId: ld.item.updatedByUserId ?? undefined,
 			}
 		: {};
 
@@ -228,5 +303,6 @@ export default function Screen() {
 		form: DisasterEventForm,
 		edit: !!ld.item,
 		id: ld.item?.id,
+		usersWithValidatorRole: ld.usersWithValidatorRole ?? [],
 	});
 }

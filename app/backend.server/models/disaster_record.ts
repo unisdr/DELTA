@@ -24,6 +24,7 @@ import {
 } from "~/backend.server/models/hip";
 import { deleteAllData as deleteAllDataHumanEffects } from "~/backend.server/handlers/human_effects";
 import { BackendContext } from "../context";
+import { approvalStatusIds } from "~/frontend/approval";
 
 export interface DisasterRecordsFields extends Omit<
 	SelectDisasterRecords,
@@ -287,6 +288,150 @@ export async function disasterRecordsUpdate(
 	return { ok: true };
 }
 
+export async function disasterRecordsUpdateApprovalStatus(
+	id: string,
+	status: approvalStatusIds,
+): Promise<UpdateResult<DisasterRecordsFields>> {
+	const updated = await dr
+		.update(disasterRecordsTable)
+		.set({ approvalStatus: status, updatedAt: sql`NOW()` })
+		.where(eq(disasterRecordsTable.id, id))
+		.returning({ id: disasterRecordsTable.id });
+
+	if (updated.length === 0) {
+		return {
+			ok: false,
+			errors: {
+				fields: {},
+				form: ["not-found"],
+			},
+		};
+	}
+
+	return { ok: true };
+}
+
+export async function disasterRecordsUpdateApprovalStatusOnGoing(
+	id: string,
+	status: "draft" | "waiting-for-validation" | "needs-revision",
+): Promise<UpdateResult<DisasterRecordsFields>> {
+	const updated = await dr
+		.update(disasterRecordsTable)
+		.set({
+			approvalStatus: status,
+			submittedByUserId: null,
+			submittedAt: null,
+			validatedByUserId: null,
+			validatedAt: null,
+			publishedByUserId: null,
+			publishedAt: null,
+			updatedAt: sql`NOW()`,
+		})
+		.where(eq(disasterRecordsTable.id, id))
+		.returning({ id: disasterRecordsTable.id });
+
+	if (updated.length === 0) {
+		return {
+			ok: false,
+			errors: {
+				fields: {},
+				form: ["not-found"],
+			},
+		};
+	}
+
+	return { ok: true };
+}
+
+export async function disasterRecordsUpdateApprovalStatusNeedRevision(
+	id: string,
+): Promise<UpdateResult<DisasterRecordsFields>> {
+	const updated = await dr
+		.update(disasterRecordsTable)
+		.set({
+			approvalStatus: "needs-revision",
+			validatedByUserId: null,
+			validatedAt: null,
+			publishedByUserId: null,
+			publishedAt: null,
+			updatedAt: sql`NOW()`,
+		})
+		.where(eq(disasterRecordsTable.id, id))
+		.returning({ id: disasterRecordsTable.id });
+
+	if (updated.length === 0) {
+		return {
+			ok: false,
+			errors: {
+				fields: {},
+				form: ["not-found"],
+			},
+		};
+	}
+
+	return { ok: true };
+}
+
+export async function disasterRecordsUpdateApprovalStatusValidate(
+	id: string,
+	validatedByUserId: string,
+): Promise<UpdateResult<DisasterRecordsFields>> {
+	const updated = await dr
+		.update(disasterRecordsTable)
+		.set({
+			approvalStatus: "validated",
+			validatedByUserId,
+			validatedAt: sql`NOW()`,
+			publishedByUserId: null,
+			publishedAt: null,
+			updatedAt: sql`NOW()`,
+		})
+		.where(eq(disasterRecordsTable.id, id))
+		.returning({ id: disasterRecordsTable.id });
+
+	if (updated.length === 0) {
+		return {
+			ok: false,
+			errors: {
+				fields: {},
+				form: ["not-found"],
+			},
+		};
+	}
+
+	return { ok: true };
+}
+
+export async function disasterRecordsUpdateApprovalStatusPublish(
+	id: string,
+	publishedByUserId: string,
+): Promise<UpdateResult<DisasterRecordsFields>> {
+	const updated = await dr
+		.update(disasterRecordsTable)
+		.set({
+			approvalStatus: "published",
+			validatedByUserId: publishedByUserId,
+			validatedAt: sql`NOW()`,
+			publishedByUserId,
+			publishedAt: sql`NOW()`,
+			updatedAt: sql`NOW()`,
+		})
+		.where(eq(disasterRecordsTable.id, id))
+		.returning({ id: disasterRecordsTable.id });
+
+	if (updated.length === 0) {
+		return {
+			ok: false,
+			errors: {
+				fields: {},
+				form: ["not-found"],
+			},
+		};
+	}
+
+	return { ok: true };
+}
+
 export type DisasterRecordsViewModel = Exclude<
 	Awaited<ReturnType<typeof disasterRecordsById>>,
 	undefined
@@ -444,7 +589,7 @@ export async function deleteAllDataByDisasterRecordId(
 	ctx: BackendContext,
 	idStr: string,
 	countryAccountsId: string,
-) {
+): Promise<DeleteResult> {
 	await dr.transaction(async (tx) => {
 		const existingRecord = tx
 			.select({})

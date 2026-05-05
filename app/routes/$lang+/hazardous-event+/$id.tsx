@@ -11,16 +11,14 @@ import { getTableName } from "drizzle-orm";
 import { hazardousEventTable } from "~/drizzle/schema/hazardousEventTable";
 import { LoaderFunctionArgs } from "react-router";
 import { optionalUser } from "~/utils/auth";
-import { getCountryAccountsIdFromSession } from "~/utils/session";
+import { getCountryAccountsIdFromSession, getUserIdFromSession } from "~/utils/session";
 import { useLoaderData } from "react-router";
 import { ViewContext } from "~/frontend/context";
 
 import { authActionGetAuth, authActionWithPerm } from "~/utils/auth";
-import { updateHazardousEventStatusService } from "~/services/hazardousEventService";
-import { emailValidationWorkflowStatusChangeNotificationService } from "~/backend.server/services/emailValidationWorkflowService";
-import { saveValidationWorkflowRejectionCommentService } from "~/services/validationWorkflowRejectionService";
-import { approvalStatusIds } from "~/frontend/approval";
 import { BackendContext } from "~/backend.server/context";
+import { processApprovalStatusActionService } from "~/services/approvalStatusWorkflowService";
+import { getReturnAssigneeUsers } from "~/db/queries/userCountryAccountsRepository";
 
 interface LoaderData {
 	item: any;
@@ -39,9 +37,9 @@ export const loader = async (
 		throw new Response("ID is required", { status: 400 });
 	}
 
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
-
 	const userSession = await optionalUser(loaderArgs);
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const userId = userSession ? await getUserIdFromSession(request) : null;
 	const loaderFunction = userSession
 		? createViewLoaderPublicApprovedWithAuditLog({
 				getById: hazardousEventById,
@@ -57,8 +55,22 @@ export const loader = async (
 		throw new Response("Unauthorized access", { status: 403 });
 	}
 
+	const returnAssignees =
+		userSession && countryAccountsId
+			? (
+					await getReturnAssigneeUsers(countryAccountsId, userId)
+				).map((user) => ({
+					label: `${user.firstName} ${user.lastName}`.trim(),
+					value: user.id,
+				}))
+			: [];
+
 	return {
 		...result,
+		item: {
+			...result.item,
+			returnAssignees,
+		},
 	};
 };
 
@@ -68,78 +80,16 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	const userSession = authActionGetAuth(actionArgs);
 	const formData = await request.formData();
-
-	const rejectionComments = formData.get("rejection-comments");
-	const actionType = String(formData.get("action") || "");
-	const id = String(formData.get("id") || "");
 	const ctx = new BackendContext(actionArgs);
 
-	// Basic validation
-	if (!id || request.url.indexOf(id) === -1) {
-		return Response.json({
-			ok: false,
-			message: ctx.t({
-				code: "common.invalid_id_provided",
-				msg: "Invalid ID provided.",
-			}),
-		});
-	}
-
-	// Business rules: map action -> status
-	const actionStatusMap: Record<string, string> = {
-		"submit-validate": "validated",
-		"submit-publish": "published",
-		"submit-reject": "needs-revision",
-	};
-
-	const newStatus = actionStatusMap[actionType] as approvalStatusIds;
-	if (!newStatus) {
-		return {
-			ok: false,
-			message: ctx.t({
-				code: "common.invalid_action_provided",
-				msg: "Invalid action provided.",
-			}),
-		};
-	}
-
-	// Delegate to service
-	let result = await updateHazardousEventStatusService({
-		ctx: ctx,
-		id: id,
-		approvalStatus: newStatus,
-		countryAccountsId: countryAccountsId,
+	const result = await processApprovalStatusActionService({
+		ctx,
+		request,
+		formData,
+		countryAccountsId,
 		userId: userSession.user.id,
+		recordType: "hazardous_event"
 	});
-
-	if (result.ok && newStatus === "needs-revision") {
-		// Delegate to service to handle save rejection comments to DB
-		result = await saveValidationWorkflowRejectionCommentService({
-			ctx: ctx,
-			approvalStatus: newStatus,
-			recordId: id,
-			recordType: "hazardous_event",
-			rejectedByUserId: userSession?.user.id,
-			rejectionMessage: rejectionComments ? String(rejectionComments) : "",
-		});
-	}
-
-	if (result.ok) {
-		// Delegate to service to send email notification
-		try {
-			await emailValidationWorkflowStatusChangeNotificationService({
-				ctx: ctx,
-				recordId: id,
-				recordType: "hazardous_event",
-				newStatus,
-				rejectionComments: rejectionComments
-					? String(rejectionComments)
-					: undefined,
-			});
-		} catch (err) {
-			console.error("Failed to send status change email notifications:", err);
-		}
-	}
 
 	return Response.json(result);
 });

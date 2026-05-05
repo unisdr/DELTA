@@ -564,7 +564,6 @@ export function validateFromMap<T>(
 					if (vs === "") {
 						return null;
 					}
-					console.log("field", field);
 					if (!isValidUUID(vs)) {
 						throw invalidTypeError(field, "uuid", value);
 					}

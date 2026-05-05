@@ -1,7 +1,12 @@
-import { ActionFunctionArgs } from "react-router";
+import { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 
 import { logout } from "~/utils/auth";
 import { redirectLangFromRoute } from "~/utils/url.backend";
+
+// Fallback for direct GET access to the logout route when no logout action runs.
+export const loader = async (loaderArgs: LoaderFunctionArgs) => {
+	return redirectLangFromRoute(loaderArgs, "/user/login/");
+};
 
 export const action = async (actionArgs: ActionFunctionArgs) => {
 	const { request } = actionArgs;

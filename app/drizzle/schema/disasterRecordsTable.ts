@@ -11,6 +11,7 @@ import {
 import { disasterEventTable } from "./disasterEventTable";
 import {
 	apiImportIdField,
+	approvalWorkflowFields,
 	hipRelationColumnsOptional,
 	ourRandomUUID,
 	approvalFields,
@@ -21,11 +22,13 @@ import { hipHazardTable } from "./hipHazardTable";
 import { hipTypeTable } from "./hipTypeTable";
 import { countryAccountsTable } from "./countryAccountsTable";
 import { sectorDisasterRecordsRelationTable } from "./sectorDisasterRecordsRelationTable";
+import { userTable } from "./userTable";
 
 export const disasterRecordsTable = pgTable(
 	"disaster_records",
 	{
 		...apiImportIdField(),
+		...approvalWorkflowFields,
 		...hipRelationColumnsOptional(),
 		id: ourRandomUUID(),
 		countryAccountsId: uuid("country_accounts_id").references(
@@ -99,6 +102,18 @@ export const disasterRecordsRel = relations(
 		hipType: one(hipTypeTable, {
 			fields: [disasterRecordsTable.hipTypeId],
 			references: [hipTypeTable.id],
+		}),
+		userSubmittedBy: one(userTable, {
+			fields: [disasterRecordsTable.submittedByUserId],
+			references: [userTable.id],
+		}),
+		userValidatedBy: one(userTable, {
+			fields: [disasterRecordsTable.validatedByUserId],
+			references: [userTable.id],
+		}),
+		userPublishedBy: one(userTable, {
+			fields: [disasterRecordsTable.publishedByUserId],
+			references: [userTable.id],
 		}),
 	}),
 );

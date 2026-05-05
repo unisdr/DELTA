@@ -11,6 +11,7 @@ import {
 import {
 	createdUpdatedTimestamps,
 	approvalFields,
+	approvalWorkflowFields,
 	apiImportIdField,
 	hipRelationColumnsOptional,
 	zeroText,
@@ -24,12 +25,14 @@ import { countryAccountsTable } from "./countryAccountsTable";
 import { hipHazardTable } from "./hipHazardTable";
 import { hipClusterTable } from "./hipClusterTable";
 import { hipTypeTable } from "./hipTypeTable";
+import { userTable } from "./userTable";
 
 export const disasterEventTable = pgTable(
 	"disaster_event",
 	{
 		...createdUpdatedTimestamps,
 		...approvalFields,
+		...approvalWorkflowFields,
 		...apiImportIdField(),
 		...hipRelationColumnsOptional(),
 		countryAccountsId: uuid("country_accounts_id").references(
@@ -269,5 +272,17 @@ export const disasterEventRel = relations(disasterEventTable, ({ one }) => ({
 	hipType: one(hipTypeTable, {
 		fields: [disasterEventTable.hipTypeId],
 		references: [hipTypeTable.id],
+	}),
+	userSubmittedBy: one(userTable, {
+		fields: [disasterEventTable.submittedByUserId],
+		references: [userTable.id],
+	}),
+	userValidatedBy: one(userTable, {
+		fields: [disasterEventTable.validatedByUserId],
+		references: [userTable.id],
+	}),
+	userPublishedBy: one(userTable, {
+		fields: [disasterEventTable.publishedByUserId],
+		references: [userTable.id],
 	}),
 }));

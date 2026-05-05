@@ -8,9 +8,13 @@ import {
 	hazardousEventCreate,
 } from "~/backend.server/models/event";
 import { dataForHazardPicker } from "~/backend.server/models/hip_hazard_picker";
+import { handleApprovalWorkflowService } from "~/backend.server/services/approvalWorkflowService";
 import { buildTree } from "~/components/TreeView";
 import { dr } from "~/db.server";
-import { getUserCountryAccountsWithValidatorRole } from "~/db/queries/userCountryAccountsRepository";
+import {
+	getUserCountryAccountsWithValidatorRole,
+	getUserCountryAccountsWithAdminRole,
+} from "~/db/queries/userCountryAccountsRepository";
 import { divisionTable } from "~/drizzle/schema/divisionTable";
 import { ViewContext } from "~/frontend/context";
 import {
@@ -27,6 +31,7 @@ import {
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
+	getUserIdFromSession,
 	type UserSession,
 } from "~/utils/session";
 
@@ -34,6 +39,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { request } = loaderArgs;
 	const ctx = new BackendContext(loaderArgs);
 	const user = await authLoaderGetUserForFrontend(loaderArgs);
+	const userId = await getUserIdFromSession(request);
 
 	// Get tenant context - we need to use the full user session from loaderArgs
 	const userSession = (loaderArgs as any).userSession as UserSession;
@@ -46,6 +52,27 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const parentId = u.searchParams.get("parent") || "";
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
+	// Get users with validator role
+	const usersWithValidatorRole =
+		await getUserCountryAccountsWithValidatorRole(countryAccountsId);
+	let filteredUsersWithValidatorRole: typeof usersWithValidatorRole = [];
+
+	if (usersWithValidatorRole.length > 0) {
+		// filter the usersWithValidatorRole to exclude the current user
+		filteredUsersWithValidatorRole = usersWithValidatorRole.filter(
+			(userAccount) => userAccount.id !== userId,
+		);
+	}
+
+	// if usersWithValidatorRole is empty, fall back to usersWithAdminRole excluding current user
+	if (filteredUsersWithValidatorRole.length === 0) {
+		const usersWithAdminRole =
+			await getUserCountryAccountsWithAdminRole(countryAccountsId);
+		filteredUsersWithValidatorRole = usersWithAdminRole.filter(
+			(userAccount) => userAccount.id !== userId,
+		);
+	}
+
 	if (parentId) {
 		const parent = await hazardousEventById(ctx, parentId);
 		if (!parent) {
@@ -55,9 +82,6 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		if (parent.countryAccountsId !== countryAccountsId) {
 			throw new Response("Unauthorized Access denied", { status: 403 });
 		}
-		// Get users with validator role
-		const usersWithValidatorRole =
-			await getUserCountryAccountsWithValidatorRole(countryAccountsId);
 
 		return {
 			hip,
@@ -67,7 +91,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			ctryIso3: [],
 			user,
 			countryAccountsId,
-			usersWithValidatorRole,
+			filteredUsersWithValidatorRole,
 		};
 	}
 
@@ -111,10 +135,6 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			),
 		);
 
-	// Get users with validator role
-	const usersWithValidatorRole =
-		await getUserCountryAccountsWithValidatorRole(countryAccountsId);
-
 	return {
 		hip,
 		treeData,
@@ -122,7 +142,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		divisionGeoJSON: divisionGeoJSON || [],
 		user,
 		countryAccountsId,
-		usersWithValidatorRole: usersWithValidatorRole,
+		usersWithValidatorRole: filteredUsersWithValidatorRole,
 	};
 });
 
@@ -144,7 +164,22 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 					createdByUserId: userSession.user.id,
 					updatedByUserId: userSession.user.id,
 				};
-				return hazardousEventCreate(ctx, tx, eventData);
+
+				// Save normal for data to database using the hazardousEventUpdate function
+				const returnValue = await hazardousEventCreate(ctx, tx, eventData);
+
+				if (returnValue.ok === true) {
+					// continue to approval workflow processing
+					await handleApprovalWorkflowService(
+						ctx,
+						tx,
+						returnValue.id,
+						"hazardous_event",
+						eventData,
+					);
+				}
+
+				return returnValue;
 			} else {
 				throw new Error("Not an update screen");
 			}

@@ -1,6 +1,6 @@
 import { useMatches } from "react-router";
 
-import { useEffect, useState, ReactElement } from "react";
+import { useEffect, useState, ReactElement, useRef } from "react";
 
 import {
 	DisasterEventFields,
@@ -16,7 +16,6 @@ import {
 	UserFormProps,
 	FormInputDef,
 	FieldsView,
-	ViewComponent,
 	FormView,
 	FieldErrors,
 	Field,
@@ -37,6 +36,16 @@ import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "../context";
 import { DContext } from "~/utils/dcontext";
 import { HazardousEventPickerType } from "~/routes/$lang+/hazardous-event+/picker";
+
+import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
+
+import {
+	SaveSubmitDialog,
+	SaveAction,
+	UserValidator,
+} from "~/frontend/components/approval-workflow/SaveSubmitDialog";
+import { ViewComponentMainDataCollection } from "../components/data-collection/View";
 
 export const route = "/disaster-event";
 
@@ -673,7 +682,7 @@ export function fieldsDefView(
 		},
 		{ key: "disasterEventId", label: "", type: "uuid" },
 		{ key: "hipHazard", label: "", type: "other" },
-		...fieldsDefCommon(ctx),
+		...(fieldsDefCommon(ctx) as FormInputDef<DisasterEventViewModel>[]),
 		{ key: "createdAt", label: "", type: "other" },
 		{ key: "updatedAt", label: "", type: "other" },
 	];
@@ -707,6 +716,7 @@ interface DisasterEventFormProps extends UserFormProps<DisasterEventFields> {
 	disasterEvent?: DisasterEventBasicInfoViewModel | null;
 	treeData: any[];
 	ctryIso3: string;
+	usersWithValidatorRole?: any[];
 }
 
 export function DisasterEventForm(props: DisasterEventFormProps) {
@@ -720,6 +730,115 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 	const [selectedDisasterEvent, setSelectedDisasterEvent] = useState(
 		props.disasterEvent,
 	);
+	// const [selected, setSelected] = useState(props.parent);
+	//const [selectedUserValidator, setSelectedUserValidator] = useState<UserValidator | null>(null);
+	const [selectedAction, setSelectedAction] = useState<string>("submit-draft");
+	selectedAction; // To avoid unused variable warning
+
+	// How to set default selected users with validator role
+	// const [selectedUserValidator, setSelectedUserValidator] = useState<UserValidator | null>([
+	// 	usersWithValidatorRole[1], // Example user
+	//  usersWithValidatorRole[3]  // Example user
+	// ]);
+	const usersWithValidatorRole: any[] =
+		props.usersWithValidatorRole?.map((user: any) => ({
+			name: user.firstName + " " + user.lastName,
+			id: user.id,
+			email: user.email,
+		})) || [];
+	// console.log(
+	// 	selectedCities.map((c) => c.name).join(", ")
+	// );
+
+	const handleSubmitAction = (action: SaveAction, validatorIds?: string) => {
+		// Set the hidden fields before submitting the main form
+		const tempActionField = document.getElementById(
+			"tempAction",
+		) as HTMLInputElement;
+		if (tempActionField) {
+			tempActionField.value = action;
+		}
+
+		const tempValidatorField = document.getElementById(
+			"tempValidatorUserIds",
+		) as HTMLInputElement;
+		if (tempValidatorField) {
+			tempValidatorField.value = validatorIds || "";
+		}
+
+		// Submit the form
+		let frmElement = null;
+		if (props.id) {
+			frmElement = document.getElementById(props.id) as HTMLFormElement | null;
+		}
+		else {
+			frmElement = document.getElementById("form-new") as HTMLFormElement | null;
+		}
+		
+		if (frmElement) {
+			if (!frmElement.checkValidity()) {
+				// Show native validation tooltips; keep the modal open so they stay visible
+				frmElement.reportValidity();
+				return;
+			}
+			// Form is valid — close the modal then submit
+			setVisibleModalSubmit(false);
+			frmElement.requestSubmit();
+			return;
+		}
+
+		// Close the modal
+		setVisibleModalSubmit(false);
+	};
+
+	const overrideSubmitButton = (
+		<>
+			<button
+				type="button"
+				className="mg-button mg-button-primary"
+				onClick={(e: any) => {
+					e.preventDefault();
+					setVisibleModalSubmit(true);
+				}}
+				style={
+					{
+						// display: "none"
+					}
+				}
+			>
+				{ctx.t({
+					code: "common.savesubmit",
+					desc: "Label for save submit action",
+					msg: "Save or submit",
+				})}
+			</button>
+			<button
+				type="button"
+				className="mg-button mg-button-system"
+				onClick={(e: any) => {
+					e.preventDefault();
+					setVisibleModalDiscard(true);
+				}}
+				style={
+					{
+						// display: "none"
+					}
+				}
+			>
+				{ctx.t({
+					code: "common.discard",
+					desc: "Label for disregard action",
+					msg: "Discard",
+				})}
+			</button>
+		</>
+	);
+
+	const [visibleModalSubmit, setVisibleModalSubmit] = useState<boolean>(false);
+	const [visibleModalDiscard, setVisibleModalDiscard] =
+		useState<boolean>(false);
+	const btnRefSubmit = useRef(null);
+
 	useEffect(() => {
 		const handleMessage = (event: any) => {
 			console.log("got message from another window", event.data);
@@ -738,7 +857,7 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 		return () => {
 			window.removeEventListener("message", handleMessage);
 		};
-	}, []);
+	}, [props.id]);
 
 	const treeData = props.treeData;
 	const ctryIso3 = props.ctryIso3;
@@ -841,200 +960,340 @@ export function DisasterEventForm(props: DisasterEventFormProps) {
 		);
 	}
 
-	return (
-		<FormView
-			ctx={ctx}
-			user={props.user}
-			path={route}
-			edit={props.edit}
-			id={props.id}
-			title={ctx.t({
-				code: "disaster_events",
-				msg: "Disaster events",
-			})}
-			editLabel={ctx.t({
-				code: "disaster_event.edit",
-				msg: "Edit disaster event",
-			})}
-			addLabel={ctx.t({
-				code: "disaster_event.add",
-				msg: "Add disaster event",
-			})}
-			errors={props.errors}
-			fields={props.fields}
-			fieldsDef={fieldsDef(ctx)}
-			infoNodes={
-				<>
-					<div className="mg-grid mg-grid__col-3">
-						<WrapInputBasic
-							label={ctx.t({
-								code: "disaster_event.linking_parameter",
-								msg: "Linking parameter",
-							})}
-							child={
-								<select
-									defaultValue={hazardousEventLinkType}
-									onChange={(e: any) =>
-										setHazardousEventLinkType(e.target.value)
-									}
-								>
-									<option value="none">
-										{ctx.t({
-											code: "common.no_link",
-											desc: "No link between records",
-											msg: "No link",
-										})}
-									</option>
-									<option value="hazardous_event">
-										{ctx.t({
-											code: "hazardous_event",
-											msg: "Hazardous event",
-										})}
-									</option>
-									<option value="disaster_event">
-										{ctx.t({
-											code: "disaster_event",
-											msg: "Disaster event",
-										})}
-									</option>
-								</select>
-							}
-						/>
-					</div>
-				</>
+	// Modal submit validation function
+	function validateBeforeSubmit(
+		selectedAction: string,
+		selectedUserValidator: UserValidator | null,
+	): boolean {
+		// Set the hidden fields before submitting the main form
+		const tempActionField = document.getElementById(
+			"tempAction",
+		) as HTMLInputElement;
+		if (tempActionField) {
+			tempActionField.value = selectedAction;
+		}
+		const tempValidatorField = document.getElementById(
+			"tempValidatorUserIds",
+		) as HTMLInputElement;
+		if (tempValidatorField) {
+			tempValidatorField.value = "";
+		}
+
+		// Require at least one validator
+		if (selectedAction === "submit-validation") {
+			// Extract just the IDs and join them as comma-separated string
+			const validatorIds = Array.isArray(selectedUserValidator)
+				? selectedUserValidator.map((c) => c.id).join(",")
+				: selectedUserValidator?.id || "";
+
+			//const validatorField = document.getElementById("tableValidatorUserIds") as HTMLInputElement;
+			if (tempValidatorField) {
+				tempValidatorField.value = validatorIds;
 			}
-			override={{
-				...calculationOverrides,
-				hazardousEventId:
-					hazardousEventLinkType == "hazardous_event" ? (
+
+			// return false;
+		}
+		// Add more validation as needed
+		let frmElement = null;
+		if (props.id) {
+			frmElement = document.getElementById(props.id) as HTMLFormElement | null;
+		}
+		else {
+			frmElement = document.getElementById("form-new") as HTMLFormElement | null;
+		}
+		
+		if (frmElement) {
+			if (!frmElement.checkValidity()) {
+				// Show native validation tooltips; keep the modal open so they stay visible
+				frmElement.reportValidity();
+				return false;
+			}
+			// Form is valid — close the modal then submit
+			setVisibleModalSubmit(false);
+			frmElement.requestSubmit();
+			return true;
+		}
+		return true;
+	}
+
+	// const rootData = useRouteLoaderData<typeof rootLoader>("root");
+	// console.log("Root loader data in HazardousEventForm:", rootData.common);
+
+	const footerDialogDiscard = (
+		<>
+			<div>
+				<Button
+					ref={btnRefSubmit}
+					className="mg-button mg-button-primary"
+					label={ctx.t({ code: "common.save_draft", msg: "Save as draft" })}
+					style={{ width: "100%" }}
+					onClick={() => {
+						setSelectedAction("submit-draft");
+						if (validateBeforeSubmit("submit-draft", null)) {
+							setVisibleModalDiscard(false);
+						}
+					}}
+				/>
+			</div>
+			<div style={{ marginTop: "10px" }}>
+				<Button
+					ref={btnRefSubmit}
+					className="mg-button mg-button-outline"
+					label={ctx.t({
+						code: "common.discard_work_and_exit",
+						msg: "Discard work and exit",
+					})}
+					style={{ width: "100%" }}
+					onClick={() => {
+						document.location.href = ctx.url("/disaster-event");
+					}}
+					autoFocus
+				/>
+			</div>
+		</>
+	);
+
+	return (
+		<>
+			<div className="card flex justify-content-center">
+				<Dialog
+					visible={visibleModalDiscard}
+					modal
+					header={ctx.t({
+						code: "common.exit_confirmation",
+						msg: "Are you sure you want to exit?",
+					})}
+					footer={footerDialogDiscard}
+					style={{ width: "50rem" }}
+					onHide={() => {
+						if (!visibleModalDiscard) return;
+						setVisibleModalDiscard(false);
+					}}
+				>
+					<div>
+						<p>
+							{ctx.t({
+								code: "common.unsaved_changes_warning",
+								msg: "If you leave this page, your work will not be saved.",
+							})}
+						</p>
+					</div>
+				</Dialog>
+
+				<SaveSubmitDialog
+					ctx={ctx}
+					visible={visibleModalSubmit}
+					onHide={() => setVisibleModalSubmit(false)}
+					onSubmit={handleSubmitAction}
+					usersWithValidatorRole={usersWithValidatorRole}
+					userRole={ctx.user?.role}
+				/>
+			</div>
+			<FormView
+				ctx={ctx}
+				user={props.user}
+				path={route}
+				edit={props.edit}
+				id={props.id}
+				title={ctx.t({
+					code: "disaster_events",
+					msg: "Disaster events",
+				})}
+				editLabel={ctx.t({
+					code: "disaster_event.edit",
+					msg: "Edit disaster event",
+				})}
+				addLabel={ctx.t({
+					code: "disaster_event.add",
+					msg: "Add disaster event",
+				})}
+				errors={props.errors}
+				fields={props.fields}
+				fieldsDef={fieldsDef(ctx)}
+				hiddenFields={
+					<>
+						<input
+							type="hidden"
+							id="tempValidatorUserIds"
+							name="tempValidatorUserIds"
+						/>
+						<input type="hidden" id="tempAction" name="tempAction" />
+					</>
+				}
+				infoNodes={
+					<>
+						<div className="mg-grid mg-grid__col-3">
+							<WrapInputBasic
+								label={ctx.t({
+									code: "disaster_event.linking_parameter",
+									msg: "Linking parameter",
+								})}
+								child={
+									<select
+										defaultValue={hazardousEventLinkType}
+										onChange={(e: any) =>
+											setHazardousEventLinkType(e.target.value)
+										}
+									>
+										<option value="none">
+											{ctx.t({
+												code: "common.no_link",
+												desc: "No link between records",
+												msg: "No link",
+											})}
+										</option>
+										<option value="hazardous_event">
+											{ctx.t({
+												code: "hazardous_event",
+												msg: "Hazardous event",
+											})}
+										</option>
+										<option value="disaster_event">
+											{ctx.t({
+												code: "disaster_event",
+												msg: "Disaster event",
+											})}
+										</option>
+									</select>
+								}
+							/>
+						</div>
+					</>
+				}
+				overrideSubmitMainForm={overrideSubmitButton}
+				override={{
+					...calculationOverrides,
+					hazardousEventId:
+						hazardousEventLinkType == "hazardous_event" ? (
+							<Field
+								key="hazardousEventId"
+								label={ctx.t({
+									code: "hazardous_event",
+									msg: "Hazardous event",
+								})}
+							>
+								{selectedHazardousEvent
+									? hazardousEventLink(ctx, selectedHazardousEvent)
+									: "-"}
+								&nbsp;
+								<LangLink
+									lang={ctx.lang}
+									target="_blank"
+									rel="opener"
+									to={"/hazardous-event/picker"}
+								>
+									{ctx.t({
+										code: "common.change",
+										msg: "Change",
+									})}
+								</LangLink>
+								<input
+									type="hidden"
+									name="hazardousEventId"
+									value={selectedHazardousEvent?.id || ""}
+								/>
+								<FieldErrors
+									errors={props.errors}
+									field="hazardousEventId"
+								></FieldErrors>
+							</Field>
+						) : (
+							<input type="hidden" name="hazardousEventId" value="" />
+						),
+					disasterEventId:
+						hazardousEventLinkType == "disaster_event" ? (
+							<Field
+								key="disasterEventId"
+								label={ctx.t({
+									code: "disaster_event",
+									msg: "Disaster event",
+								})}
+							>
+								{selectedDisasterEvent
+									? disasterEventLink(ctx, selectedDisasterEvent)
+									: "-"}
+								&nbsp;
+								<LangLink
+									lang={ctx.lang}
+									target="_blank"
+									rel="opener"
+									to={"/disaster-event/picker"}
+								>
+									{ctx.t({
+										code: "common.change",
+										msg: "Change",
+									})}
+								</LangLink>
+								<input
+									type="hidden"
+									name="disasterEventId"
+									value={selectedDisasterEvent?.id || ""}
+								/>
+								<FieldErrors
+									errors={props.errors}
+									field="disasterEventId"
+								></FieldErrors>
+							</Field>
+						) : (
+							<input type="hidden" name="disasterEventId" value="" />
+						),
+					hipTypeId: null,
+					hipClusterId: null,
+					hipHazardId: (
 						<Field
-							key="hazardousEventId"
+							key="hazardId"
 							label={ctx.t({
-								code: "hazardous_event",
-								msg: "Hazardous event",
+								code: "hip.hazard_classification",
+								msg: "Hazard classification",
 							})}
 						>
-							{selectedHazardousEvent
-								? hazardousEventLink(ctx, selectedHazardousEvent)
-								: "-"}
-							&nbsp;
-							<LangLink
-								lang={ctx.lang}
-								target="_blank"
-								rel="opener"
-								to={"/hazardous-event/picker"}
-							>
-								{ctx.t({
-									code: "common.change",
-									msg: "Change",
-								})}
-							</LangLink>
-							<input
-								type="hidden"
-								name="hazardousEventId"
-								value={selectedHazardousEvent?.id || ""}
+							<HazardPicker
+								ctx={ctx}
+								hip={props.hip}
+								typeId={fields.hipTypeId}
+								clusterId={fields.hipClusterId}
+								hazardId={fields.hipHazardId}
 							/>
 							<FieldErrors
 								errors={props.errors}
-								field="hazardousEventId"
+								field="hipHazardId"
 							></FieldErrors>
 						</Field>
-					) : (
-						<input type="hidden" name="hazardousEventId" value="" />
 					),
-				disasterEventId:
-					hazardousEventLinkType == "disaster_event" ? (
-						<Field
-							key="disasterEventId"
-							label={ctx.t({
-								code: "disaster_event",
-								msg: "Disaster event",
-							})}
-						>
-							{selectedDisasterEvent
-								? disasterEventLink(ctx, selectedDisasterEvent)
-								: "-"}
-							&nbsp;
-							<LangLink
-								lang={ctx.lang}
-								target="_blank"
-								rel="opener"
-								to={"/disaster-event/picker"}
-							>
-								{ctx.t({
-									code: "common.change",
-									msg: "Change",
-								})}
-							</LangLink>
-							<input
-								type="hidden"
-								name="disasterEventId"
-								value={selectedDisasterEvent?.id || ""}
+					spatialFootprint: props.edit ? (
+						<Field key="spatialFootprint" label="">
+							<SpatialFootprintFormView
+								ctx={ctx}
+								divisions={divisionGeoJSON}
+								ctryIso3={ctryIso3 || ""}
+								treeData={treeData ?? []}
+								initialData={props.fields?.spatialFootprint}
 							/>
-							<FieldErrors
-								errors={props.errors}
-								field="disasterEventId"
-							></FieldErrors>
 						</Field>
 					) : (
-						<input type="hidden" name="disasterEventId" value="" />
+						<Field key="spatialFootprint" label="">
+							<></>
+						</Field>
 					),
-				hipTypeId: null,
-				hipClusterId: null,
-				hipHazardId: (
-					<Field
-						key="hazardId"
-						label={ctx.t({
-							code: "hip.hazard_classification",
-							msg: "Hazard classification",
-						})}
-					>
-						<HazardPicker
-							ctx={ctx}
-							hip={props.hip}
-							typeId={fields.hipTypeId}
-							clusterId={fields.hipClusterId}
-							hazardId={fields.hipHazardId}
-						/>
-						<FieldErrors
-							errors={props.errors}
-							field="hipHazardId"
-						></FieldErrors>
-					</Field>
-				),
-				spatialFootprint: props.edit ? (
-					<Field key="spatialFootprint" label="">
-						<SpatialFootprintFormView
-							ctx={ctx}
-							divisions={divisionGeoJSON}
-							ctryIso3={ctryIso3 || ""}
-							treeData={treeData ?? []}
-							initialData={props.fields?.spatialFootprint}
-						/>
-					</Field>
-				) : (
-					<Field key="spatialFootprint" label="">
-						<></>
-					</Field>
-				),
-				attachments: props.edit ? (
-					<Field key="attachments" label="">
-						<AttachmentsFormView
-							ctx={ctx}
-							save_path_temp={TEMP_UPLOAD_PATH}
-							file_viewer_temp_url="/disaster-event/file-temp-viewer"
-							file_viewer_url="/disaster-event/file-viewer"
-							api_upload_url="/disaster-event/file-pre-upload"
-							initialData={props?.fields?.attachments}
-						/>
-					</Field>
-				) : (
-					<Field key="attachments" label="">
-						<></>
-					</Field>
-				),
-			}}
-		/>
+					attachments: props.edit ? (
+						<Field key="attachments" label="">
+							<AttachmentsFormView
+								ctx={ctx}
+								save_path_temp={TEMP_UPLOAD_PATH}
+								file_viewer_temp_url="/disaster-event/file-temp-viewer"
+								file_viewer_url="/disaster-event/file-viewer"
+								api_upload_url="/disaster-event/file-pre-upload"
+								initialData={props?.fields?.attachments}
+							/>
+						</Field>
+					) : (
+						<Field key="attachments" label="">
+							<></>
+						</Field>
+					),
+				}}
+			/>
+		</>
 	);
 }
 
@@ -1172,11 +1431,13 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 	};
 
 	return (
-		<ViewComponent
+		<ViewComponentMainDataCollection
+			approvalStatus={item?.approvalStatus}
 			ctx={props.ctx}
 			isPublic={props.isPublic}
 			path={route}
 			id={item.id}
+			returnAssigneeOptions={(item as any).returnAssignees}
 			title={ctx.t({
 				code: "disaster_events",
 				msg: "Disaster events",
@@ -1202,6 +1463,6 @@ export function DisasterEventView(props: DisasterEventViewProps) {
 					<AuditLogHistory ctx={ctx} auditLogs={auditLogs} />
 				</>
 			)}
-		</ViewComponent>
+		</ViewComponentMainDataCollection>
 	);
 }

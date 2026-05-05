@@ -507,6 +507,7 @@ export function authActionWithPerm<T extends ActionFunction>(
 		const userSession = await requireUser(args);
 		const userRole = await getUserRoleFromSession(args.request);
 		if (!roleHasPermission(userRole, permission)) {
+
 			throw new Response("Forbidden", { status: 403 });
 		}
 		return fn({

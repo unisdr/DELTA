@@ -10,7 +10,11 @@ import {
 import { ViewScreenPublicApproved } from "~/frontend/form";
 import { getTableName } from "drizzle-orm";
 import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
-import { optionalUser } from "~/utils/auth";
+import {
+	authActionGetAuth,
+	authActionWithPerm,
+	optionalUser,
+} from "~/utils/auth";
 
 import { dr } from "~/db.server";
 import { sql } from "drizzle-orm";
@@ -19,6 +23,10 @@ import { ViewContext } from "~/frontend/context";
 import { useLoaderData } from "react-router";
 
 import { LoaderFunctionArgs } from "react-router";
+import { BackendContext } from "~/backend.server/context";
+import { processApprovalStatusActionService } from "~/services/approvalStatusWorkflowService";
+import { getUserIdFromSession } from "~/utils/session";
+import { getReturnAssigneeUsers } from "~/db/queries/userCountryAccountsRepository";
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const { request, params } = args;
@@ -30,6 +38,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	const userSession = await optionalUser(args);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const userId = userSession ? await getUserIdFromSession(request) : null;
 
 	const loaderFunction = userSession
 		? createViewLoaderPublicApprovedWithAuditLog({
@@ -124,15 +133,46 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		de.name_national;
 	`);
 
+	const returnAssignees =
+		userSession && countryAccountsId
+			? (
+					await getReturnAssigneeUsers(countryAccountsId, userId)
+				).map((user) => ({
+					label: `${user.firstName} ${user.lastName}`.trim(),
+					value: user.id,
+				}))
+			: [];
+
 	return {
 		...result,
 
 		item: {
 			...result.item,
 			spatialFootprintsDataSource: disasterEvents.rows,
+			returnAssignees,
 		},
 	};
 };
+
+export const action = authActionWithPerm("EditData", async (actionArgs) => {
+	const { request } = actionArgs;
+
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const userSession = authActionGetAuth(actionArgs);
+	const formData = await request.formData();
+	const ctx = new BackendContext(actionArgs);
+
+	const result = await processApprovalStatusActionService({
+		ctx,
+		request,
+		formData,
+		countryAccountsId,
+		userId: userSession.user.id,
+		recordType: "disaster_event"
+	});
+
+	return Response.json(result);
+});
 
 export default function Screen() {
 	const ld = useLoaderData<typeof loader>();

@@ -2,7 +2,6 @@ import { useLoaderData, useRouteLoaderData } from "react-router";
 import { disasterEventsLoader } from "~/backend.server/handlers/events/disasterevent";
 
 import { DataScreen } from "~/frontend/data_screen";
-import { ActionLinks } from "~/frontend/form";
 
 import { route } from "~/frontend/events/disastereventform";
 
@@ -12,6 +11,7 @@ import { ViewContext } from "../context";
 import { LangLink } from "~/utils/link";
 import { Tooltip } from "primereact/tooltip";
 import { approvalStatusKeyToLabel } from "../approval";
+import { DataCollectionActionLinks } from "../components/data-collection/ActionLinks";
 
 interface ListViewProps {
 	ctx: ViewContext;
@@ -123,6 +123,8 @@ export function ListView(props: ListViewProps) {
 					fromDate={filters.fromDate}
 					toDate={filters.toDate}
 					recordStatus={filters.recordStatus}
+					viewMyRecords={filters.viewMyRecords}
+					pendingMyAction={filters.pendingMyAction}
 				/>
 
 				<section className="dts-page-section">
@@ -204,17 +206,16 @@ export function ListView(props: ListViewProps) {
 					{props.actions ? (
 						props.actions(item)
 					) : ld.isPublic ? null : (
-						<ActionLinks
-							ctx={props.ctx}
-							deleteTitle="Are you sure you want to delete this event?"
-							deleteMessage="This data cannot be recovered after being deleted."
-							confirmDeleteLabel="Delete permanently"
-							cancelDeleteLabel="Do not delete"
-							route={route}
-							id={item.id}
-							user={user}
-							approvalStatus={item.approvalStatus}
-						/>
+						<>
+							<DataCollectionActionLinks
+								ctx={ctx}
+								route={route}
+								id={item.id}
+								// hideEditButton={!canEdit(item, user)}
+								user={user}
+								approvalStatus={item.approvalStatus}
+							/>
+						</>
 					)}
 				</td>
 			</tr>

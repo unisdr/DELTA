@@ -5757,6 +5757,7 @@
 		"translation": "Website Logo URL",
 		"description": "File: app/routes/$lang+/settings+/system.tsx:492"
 	},
+
 	{
 		"id": "sign_in",
 		"translation": "Sign in",

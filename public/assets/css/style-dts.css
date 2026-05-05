@@ -464,6 +464,26 @@ nav ul {
 	gap: 0.57rem;
 }
 
+.return-modal-notify-multiselect .p-multiselect-label, .save-modal-notify-multiselect .p-multiselect-label {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.29rem;
+	white-space: normal;
+	max-width: 100%;
+}
+
+.return-modal-notify-multiselect .p-multiselect-token, .save-modal-notify-multiselect .p-multiselect-token {
+	max-width: 100%;
+}
+
+.return-modal-notify-multiselect .p-multiselect-token-label, .save-modal-notify-multiselect .p-multiselect-token-label {
+	display: block;
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 .mg-button,
 .dts-tablist__button {
 	background: transparent;

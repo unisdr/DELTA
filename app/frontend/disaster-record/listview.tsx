@@ -1,8 +1,6 @@
-import { useLoaderData } from "react-router";
+import { useLoaderData, useRouteLoaderData } from "react-router";
 
 import { Pagination } from "~/frontend/pagination/view";
-
-import { ActionLinks } from "~/frontend/form";
 
 import { route } from "~/frontend/disaster-record/form";
 
@@ -10,6 +8,7 @@ import { disasterRecordLoader } from "~/backend.server/handlers/disaster_record"
 
 import { ViewContext } from "~/frontend/context";
 import { LangLink } from "~/utils/link";
+import { DataCollectionActionLinks } from "../components/data-collection/ActionLinks";
 
 interface ListViewArgs {
 	isPublic: boolean;
@@ -23,6 +22,13 @@ export function ListView(args: ListViewArgs) {
 	const ctx = new ViewContext();
 
 	const { items } = ld.data;
+	const rootData = useRouteLoaderData("root") as any; // Get user data from root loader
+
+	// Get user data with role from root loader
+	const user = {
+		...rootData?.user,
+		role: rootData?.userRole || rootData?.user?.role, // Use userRole from root data if available
+	};
 
 	const pagination = Pagination({
 		ctx,
@@ -66,7 +72,16 @@ export function ListView(args: ListViewArgs) {
 										{args.actions ? (
 											args.actions(item)
 										) : args.isPublic ? null : (
-											<ActionLinks ctx={ctx} route={route} id={item.id} />
+											<>
+												<DataCollectionActionLinks
+													ctx={ctx}
+													route={route}
+													id={item.id}
+													// hideEditButton={!canEdit(item, user)}
+													user={user}
+													approvalStatus={item.approvalStatus}
+												/>
+											</>
 										)}
 									</td>
 								</tr>

@@ -28,6 +28,8 @@ import { getItem2 } from "~/backend.server/handlers/view";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
+	getUserIdFromSession,
+	getUserRoleFromSession,
 } from "~/utils/session";
 import { divisionTable } from "~/drizzle/schema/divisionTable";
 import { buildTree } from "~/components/TreeView";
@@ -36,7 +38,12 @@ import { and, eq, isNotNull, isNull } from "drizzle-orm";
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
-import { getUserCountryAccountsWithValidatorRole } from "~/db/queries/userCountryAccountsRepository";
+import {
+	getUserCountryAccountsWithValidatorRole,
+	getUserCountryAccountsWithAdminRole,
+} from "~/db/queries/userCountryAccountsRepository";
+import { handleApprovalWorkflowService } from "~/backend.server/services/approvalWorkflowService";
+import { canEditDataCollectionRecord } from "~/frontend/user/roles";
 
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { params, request } = loaderArgs;
@@ -47,6 +54,36 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		throw new Response("Unauthorized", { status: 403 });
 	}
 	const user = await authLoaderGetUserForFrontend(loaderArgs);
+	const userId = await getUserIdFromSession(request);
+
+	// Permission check
+	const userRole = await getUserRoleFromSession(request) as string;
+	
+	if (canEditDataCollectionRecord(userRole, item.approvalStatus) === false) {
+		throw new Response("Access forbidden", { status: 403 });
+	}
+
+	// Get users with validator role
+	const usersWithValidatorRole =
+		await getUserCountryAccountsWithValidatorRole(countryAccountsId);
+
+	let filteredUsersWithValidatorRole: typeof usersWithValidatorRole = [];
+
+	if (usersWithValidatorRole.length > 0) {
+		// filter the usersWithValidatorRole to exclude the current user
+		filteredUsersWithValidatorRole = usersWithValidatorRole.filter(
+			(userAccount) => userAccount.id !== userId,
+		);
+	}
+
+	// if usersWithValidatorRole is empty, fall back to usersWithAdminRole excluding current user
+	if (filteredUsersWithValidatorRole.length === 0) {
+		const usersWithAdminRole =
+			await getUserCountryAccountsWithAdminRole(countryAccountsId);
+		filteredUsersWithValidatorRole = usersWithAdminRole.filter(
+			(userAccount) => userAccount.id !== userId,
+		);
+	}
 
 	let hip = await dataForHazardPicker(ctx);
 
@@ -56,15 +93,14 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		if (parent2?.countryAccountsId !== countryAccountsId) {
 			throw new Response("Unauthorized", { status: 403 });
 		}
-		const usersWithValidatorRole =
-			await getUserCountryAccountsWithValidatorRole(countryAccountsId);
+
 		return {
 			hip,
 			item,
 			parent: parent2,
 			treeData: [],
 			user,
-			usersWithValidatorRole: usersWithValidatorRole,
+			usersWithValidatorRole: filteredUsersWithValidatorRole,
 		};
 	}
 
@@ -108,10 +144,6 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const settings = await getCountrySettingsFromSession(request);
 	const ctryIso3 = settings.ctryIso3;
 
-	// Get users with validator role
-	const usersWithValidatorRole =
-		await getUserCountryAccountsWithValidatorRole(countryAccountsId);
-
 	return {
 		hip: hip,
 		item: item,
@@ -120,7 +152,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		divisionGeoJSON: divisionGeoJSON || [],
 		user,
 		countryAccountsId,
-		usersWithValidatorRole: usersWithValidatorRole,
+		usersWithValidatorRole: filteredUsersWithValidatorRole,
 	};
 });
 
@@ -147,6 +179,17 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 					id,
 					updatedData,
 				);
+
+				if (returnValue.ok === true) {
+					// continue to approval workflow processing
+					await handleApprovalWorkflowService(
+						ctx,
+						tx,
+						id,
+						"hazardous_event",
+						updatedData,
+					);
+				}
 
 				return returnValue;
 			} else {
@@ -186,18 +229,14 @@ export default function Screen() {
 		ctx,
 		extraData: {
 			hip: ld.hip,
-			// @ts-ignore
 			parent: ld.parent,
 			treeData: ld.treeData,
-			// @ts-ignore
 			ctryIso3: ld.ctryIso3,
 			user: ld.user,
-			// @ts-ignore
 			divisionGeoJSON: ld.divisionGeoJSON,
-			// @ts-ignore
 			countryAccountsId: ld.countryAccountsId,
 		},
-		fieldsInitial,
+		fieldsInitial: fieldsInitial,
 		//form: HazardousEventForm,
 		form: HazardousEventForm,
 		edit: true,

@@ -18,6 +18,7 @@ interface FormViewProps {
 	edit: boolean;
 	id?: any;
 	infoNodes?: React.ReactNode;
+	hiddenFields?: React.ReactNode;
 	errors: any;
 	fields: any;
 	fieldsDef: any;
@@ -120,6 +121,7 @@ export function FormView(props: FormViewProps) {
 					className="dts-form"
 					id={props.id ? `${props.id}` : "form-new"}
 				>
+					{ props.hiddenFields }
 					<div ref={inputsRef}>
 						<Inputs
 							key={props.id}
@@ -134,27 +136,18 @@ export function FormView(props: FormViewProps) {
 						/>
 					</div>
 					<div className="dts-form__actions">
-						<SubmitButton
-							id="form-default-submit-button"
-							disabled={isSubmitting}
-							label={ctx.t({
-								code: "common.save",
-								msg: "Save",
-							})}
-						/>
-
 						{props.overrideSubmitMainForm ? (
 							props.overrideSubmitMainForm
 						) : (
 							<>
-								{/* <SubmitButton
+								<SubmitButton
 									id="form-default-submit-button"
 									disabled={isSubmitting}
 									label={ctx.t({
-										"code": "common.save",
-										"msg": "Save"
+										code: "common.save",
+										msg: "Save",
 									})}
-								/> */}
+								/>
 							</>
 						)}
 					</div>

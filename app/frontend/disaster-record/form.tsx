@@ -12,16 +12,14 @@ import {
 	FormView,
 	FieldErrors,
 	Field,
-	ViewComponent,
 	WrapInputBasic,
 } from "~/frontend/form";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { approvalStatusField2 } from "~/frontend/approval";
 
 import { ContentPicker } from "~/components/ContentPicker";
 import { contentPickerConfig } from "~/routes/$lang+/disaster-record+/content-picker-config";
-import AuditLogHistory from "~/components/AuditLogHistory";
 import { HazardPicker, Hip } from "~/frontend/hip/hazardpicker";
 
 import { SpatialFootprintFormView } from "~/frontend/spatialFootprintFormView";
@@ -34,6 +32,16 @@ import { ViewContext } from "../context";
 
 import { LangLink } from "~/utils/link";
 import { DContext } from "~/utils/dcontext";
+//import Dialog from "~/components/Dialog";
+import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
+
+import {
+	SaveSubmitDialog,
+	SaveAction,
+	UserValidator,
+} from "~/frontend/components/approval-workflow/SaveSubmitDialog";
+import { ViewComponentMainDataCollection } from "../components/data-collection/View";
 
 export const route = "/disaster-record";
 
@@ -254,6 +262,7 @@ interface DisasterRecordsFormProps extends UserFormProps<DisasterRecordsFields> 
 	cpDisplayName?: string;
 	ctryIso3?: string;
 	divisionGeoJSON?: any[];
+	usersWithValidatorRole?: any[];
 }
 
 export function disasterRecordsLabel(args: {
@@ -282,6 +291,105 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 	const { fields, treeData, cpDisplayName, ctryIso3, divisionGeoJSON, ctx } =
 		props;
 
+	const [selectedAction, setSelectedAction] = useState<string>("submit-draft");
+	selectedAction; // To avoid unused variable warning
+
+	const usersWithValidatorRole: any[] =
+		props.usersWithValidatorRole?.map((user: any) => ({
+			name: user.firstName + " " + user.lastName,
+			id: user.id,
+			email: user.email,
+		})) || [];
+
+	const handleSubmitAction = (action: SaveAction, validatorIds?: string) => {
+		// Set the hidden fields before submitting the main form
+		const tempActionField = document.getElementById(
+			"tempAction",
+		) as HTMLInputElement;
+		if (tempActionField) {
+			tempActionField.value = action;
+		}
+
+		const tempValidatorField = document.getElementById(
+			"tempValidatorUserIds",
+		) as HTMLInputElement;
+		if (tempValidatorField) {
+			tempValidatorField.value = validatorIds || "";
+		}
+
+		// Submit the form
+		let frmElement = null;
+		if (props.id) {
+			frmElement = document.getElementById(props.id) as HTMLFormElement | null;
+		}
+		else {
+			frmElement = document.getElementById("form-new") as HTMLFormElement | null;
+		}
+		
+		if (frmElement) {
+			if (!frmElement.checkValidity()) {
+				// Show native validation tooltips; keep the modal open so they stay visible
+				frmElement.reportValidity();
+				return;
+			}
+			// Form is valid — close the modal then submit
+			setVisibleModalSubmit(false);
+			frmElement.requestSubmit();
+			return;
+		}
+
+		// Close the modal
+		setVisibleModalSubmit(false);
+	};
+
+	const overrideSubmitButton = (
+		<>
+			<button
+				type="button"
+				className="mg-button mg-button-primary"
+				onClick={(e: any) => {
+					e.preventDefault();
+					setVisibleModalSubmit(true);
+				}}
+				style={
+					{
+						// display: "none"
+					}
+				}
+			>
+				{ctx.t({
+					code: "common.savesubmit",
+					desc: "Label for save submit action",
+					msg: "Save or submit",
+				})}
+			</button>
+			<button
+				type="button"
+				className="mg-button mg-button-system"
+				onClick={(e: any) => {
+					e.preventDefault();
+					setVisibleModalDiscard(true);
+				}}
+				style={
+					{
+						// display: "none"
+					}
+				}
+			>
+				{ctx.t({
+					code: "common.discard",
+					desc: "Label for disregard action",
+					msg: "Discard",
+				})}
+			</button>
+		</>
+	);
+
+	const [visibleModalSubmit, setVisibleModalSubmit] = useState<boolean>(false);
+	const [visibleModalDiscard, setVisibleModalDiscard] =
+		useState<boolean>(false);
+	const btnRefSubmit = useRef(null);
+
 	useEffect(() => {}, []);
 
 	let hazardousEventLinkInitial: "none" | "disaster_event" = "none";
@@ -293,8 +401,133 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 		hazardousEventLinkInitial,
 	);
 
+	// Modal submit validation function
+	function validateBeforeSubmit(
+		selectedAction: string,
+		selectedUserValidator: UserValidator | null,
+	): boolean {
+		// Set the hidden fields before submitting the main form
+		const tempActionField = document.getElementById(
+			"tempAction",
+		) as HTMLInputElement;
+		if (tempActionField) {
+			tempActionField.value = selectedAction;
+		}
+		const tempValidatorField = document.getElementById(
+			"tempValidatorUserIds",
+		) as HTMLInputElement;
+		if (tempValidatorField) {
+			tempValidatorField.value = "";
+		}
+
+		// Require at least one validator
+		if (selectedAction === "submit-validation") {
+			// Extract just the IDs and join them as comma-separated string
+			const validatorIds = Array.isArray(selectedUserValidator)
+				? selectedUserValidator.map((c) => c.id).join(",")
+				: selectedUserValidator?.id || "";
+
+			//const validatorField = document.getElementById("tableValidatorUserIds") as HTMLInputElement;
+			if (tempValidatorField) {
+				tempValidatorField.value = validatorIds;
+			}
+
+			// return false;
+		}
+		// Add more validation as needed
+		let frmElement = null;
+		if (props.id) {
+			frmElement = document.getElementById(props.id) as HTMLFormElement | null;
+		}
+		else {
+			frmElement = document.getElementById("form-new") as HTMLFormElement | null;
+		}
+
+		if (frmElement) {
+			if (!frmElement.checkValidity()) {
+				// Show native validation tooltips; keep the modal open so they stay visible
+				frmElement.reportValidity();
+				return false;
+			}
+			// Form is valid — close the modal then submit
+			setVisibleModalSubmit(false);
+			frmElement.requestSubmit();
+			return true;
+		}
+
+		return true;
+	}
+
+	const footerDialogDiscard = (
+		<>
+			<div>
+				<Button
+					ref={btnRefSubmit}
+					className="mg-button mg-button-primary"
+					label={ctx.t({ code: "common.save_draft", msg: "Save as draft" })}
+					style={{ width: "100%" }}
+					onClick={() => {
+						setSelectedAction("submit-draft");
+						if (validateBeforeSubmit("submit-draft", null)) {
+							setVisibleModalDiscard(false);
+						}
+					}}
+				/>
+			</div>
+			<div style={{ marginTop: "10px" }}>
+				<Button
+					ref={btnRefSubmit}
+					className="mg-button mg-button-outline"
+					label={ctx.t({
+						code: "common.discard_work_and_exit",
+						msg: "Discard work and exit",
+					})}
+					style={{ width: "100%" }}
+					onClick={() => {
+						document.location.href = ctx.url("/disaster-record");
+					}}
+					autoFocus
+				/>
+			</div>
+		</>
+	);
+
 	return (
 		<>
+			<div className="card flex justify-content-center">
+				<Dialog
+					visible={visibleModalDiscard}
+					modal
+					header={ctx.t({
+						code: "common.exit_confirmation",
+						msg: "Are you sure you want to exit?",
+					})}
+					footer={footerDialogDiscard}
+					style={{ width: "50rem" }}
+					onHide={() => {
+						if (!visibleModalDiscard) return;
+						setVisibleModalDiscard(false);
+					}}
+				>
+					<div>
+						<p>
+							{ctx.t({
+								code: "common.unsaved_changes_warning",
+								msg: "If you leave this page, your work will not be saved.",
+							})}
+						</p>
+					</div>
+				</Dialog>
+
+				<SaveSubmitDialog
+					ctx={ctx}
+					visible={visibleModalSubmit}
+					onHide={() => setVisibleModalSubmit(false)}
+					onSubmit={handleSubmitAction}
+					usersWithValidatorRole={usersWithValidatorRole}
+					userRole={ctx.user?.role}
+				/>
+			</div>
 			<FormView
 				ctx={ctx}
 				user={props.user}
@@ -313,6 +546,16 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 					code: "disaster_records.add",
 					msg: "Add disaster record",
 				})}
+				hiddenFields={
+					<>
+						<input
+							type="hidden"
+							id="tempValidatorUserIds"
+							name="tempValidatorUserIds"
+						/>
+						<input type="hidden" id="tempAction" name="tempAction" />
+					</>
+				}
 				infoNodes={
 					<>
 						<div className="mg-grid mg-grid__col-3">
@@ -346,6 +589,7 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 						</div>
 					</>
 				}
+				overrideSubmitMainForm={overrideSubmitButton}
 				override={{
 					disasterEventId:
 						hazardousEventLinkType == "disaster_event" ? (
@@ -422,32 +666,24 @@ interface DisasterRecordsViewProps {
 	ctx: ViewContext;
 	item: DisasterRecordsViewModel;
 	isPublic: boolean;
-	auditLogs?: any[];
 }
 
 export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 	const { ctx, item } = props;
-	const auditLogs = props.auditLogs;
 	const dataSource = (item as any)?.disasterRecord || [];
 
 	return (
-		<ViewComponent
+		<ViewComponentMainDataCollection
+			approvalStatus={item?.approvalStatus}
 			ctx={props.ctx}
 			isPublic={props.isPublic}
 			path={route}
 			id={item?.id || ""}
+			returnAssigneeOptions={(item as any).returnAssignees}
 			title={ctx.t({
 				code: "disaster_records",
 				msg: "Disaster records",
 			})}
-			// extraActions={
-			// 	<ul>
-			// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/human-effects"}>Human Direct Effects</Link></li>
-			// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/damages?sectorId=11"}>Damages (Sector id11)</Link></li>
-			// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/losses?sectorId=11"}>Losses (Sector id11)</Link></li>
-			// 		<li><LangLink to={"/disaster-record/edit-sub/" + item.id + "/disruptions?sectorId=11"}>Disruptions (Sector id11)</Link></li>
-			// 	</ul>
-			// }
 		>
 			<FieldsView
 				def={fieldsDefView(ctx)}
@@ -533,19 +769,6 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 					),
 				}}
 			/>
-			{/* Add Audit log history at the end */}
-			<br />
-			{auditLogs && auditLogs.length > 0 && (
-				<>
-					<h3>
-						{ctx.t({
-							code: "audit_log.history",
-							msg: "Audit log history",
-						})}
-					</h3>
-					<AuditLogHistory ctx={ctx} auditLogs={auditLogs} />
-				</>
-			)}
-		</ViewComponent>
+		</ViewComponentMainDataCollection>
 	);
 }

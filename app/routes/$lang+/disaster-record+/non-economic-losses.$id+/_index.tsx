@@ -15,6 +15,7 @@ import {
 	useNavigation,
 	useActionData,
 } from "react-router";
+import { InputTextarea } from "primereact/inputtextarea";
 
 import { useState, useEffect, useRef } from "react";
 
@@ -25,6 +26,7 @@ import { redirectLangFromRoute } from "~/utils/url.backend";
 import { ViewContext } from "~/frontend/context";
 import { BackendContext } from "~/backend.server/context";
 import { htmlTitle } from "~/utils/htmlmeta";
+import { requireDisasterRecordAccess } from "../requireDisasterRecordAccess.server";
 
 export const meta: MetaFunction = () => {
 	const ctx = new ViewContext();
@@ -52,19 +54,30 @@ export const meta: MetaFunction = () => {
 export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const ctx = new BackendContext(loaderArgs);
 	const { params } = loaderArgs;
-	const req = loaderArgs.request;
+	const request = loaderArgs.request;
 	let categoryDisplayName: string = "";
 
 	// Parse the request URL
-	const parsedUrl = new URL(req.url);
+	const parsedUrl = new URL(request.url);
+
+	const { countryAccountsId } = await requireDisasterRecordAccess(
+		request,
+		params.id,
+		() => redirectLangFromRoute(loaderArgs, "/user/select-instance"),
+	);
 
 	// Extract query string parameters
 	const queryParams = parsedUrl.searchParams;
-	const xId = queryParams.get("id") || "";
+	const nonEcoId = queryParams.get("id") || "";
 	let record: any = {};
 	let formAction = "new";
-	if (xId) {
-		record = await nonecoLossesById(xId);
+	if (nonEcoId) {
+		record = await nonecoLossesById(nonEcoId, countryAccountsId);
+
+		if (!params.id || record.disasterRecordId !== params.id) {
+			throw new Response("Not found", { status: 404 });
+		}
+
 		formAction = "edit";
 	}
 	if (record) {
@@ -83,9 +96,16 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 });
 
 export const action = authActionWithPerm("EditData", async (actionArgs) => {
-	const { params } = actionArgs;
-	const req = actionArgs.request;
-	const formData = await req.formData();
+	const { params, request } = actionArgs;
+	
+	// Route guard: ensures tenant is selected, record exists for that tenant,
+	// and current user has access to proceed with this disaster record.
+	await requireDisasterRecordAccess(
+		request,
+		params.id,
+		() => redirectLangFromRoute(actionArgs, "/user/select-instance"),
+	);
+	const formData = await request.formData();
 	let frmId = formData.get("id") || "";
 	let frmCategoryId = formData.get("categoryId")?.toString() || "";
 	let frmDescription = formData.get("description") || "";
@@ -230,7 +250,7 @@ export default function Screen() {
 											})}
 										</span>
 									</div>
-									<textarea
+									<InputTextarea
 										name="description"
 										required
 										rows={5}
@@ -245,7 +265,7 @@ export default function Screen() {
 											msg: "Describe the effect of the non-economic losses to the selected criteria.",
 										})}
 										style={{ width: "100%", height: "200px" }}
-									></textarea>
+									/>
 								</label>
 							</div>
 							<div className="dts-form__actions">

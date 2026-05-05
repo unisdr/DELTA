@@ -103,8 +103,14 @@ export async function disasterEventSectorsById(
 		.where(
 			and(
 				eq(disasterEventTable.id, id),
-				eq(disasterRecordsTable.approvalStatus, "published"),
-				eq(disasterEventTable.approvalStatus, "published"),
+				or(
+					eq(disasterRecordsTable.approvalStatus, "published"),
+					eq(disasterRecordsTable.approvalStatus, "validated"),
+				),
+				or(
+					eq(disasterEventTable.approvalStatus, "published"),
+					eq(disasterEventTable.approvalStatus, "validated"),
+				)
 			),
 		)
 		.orderBy(sectorTable.id)
@@ -130,8 +136,14 @@ export async function disasterEvent_DisasterRecordsCount__ById(id: any) {
 		.where(
 			and(
 				eq(disasterEventTable.id, id),
-				eq(disasterRecordsTable.approvalStatus, "published"),
-				eq(disasterEventTable.approvalStatus, "published"),
+				or(
+					eq(disasterRecordsTable.approvalStatus, "published"),
+					eq(disasterRecordsTable.approvalStatus, "validated"),
+				),
+				or(
+					eq(disasterEventTable.approvalStatus, "published"),
+					eq(disasterEventTable.approvalStatus, "validated"),
+				)
 			),
 		)
 		.execute();
@@ -198,8 +210,14 @@ export async function disasterEventTotalLosses_RecordsAssets__ById(
 				),
 				eq(lossesTable.recordId, disasterRecordId),
 				isNull(sectorDisasterRecordsRelationTable.lossesCost),
-				eq(disasterRecordsTable.approvalStatus, "published"),
-				eq(disasterEventTable.approvalStatus, "published"),
+				or(
+					eq(disasterRecordsTable.approvalStatus, "published"),
+					eq(disasterRecordsTable.approvalStatus, "validated"),
+				),
+				or(
+					eq(disasterEventTable.approvalStatus, "published"),
+					eq(disasterEventTable.approvalStatus, "validated"),
+				)
 			),
 		);
 
@@ -252,8 +270,14 @@ export async function disasterEventTotalRecovery_RecordsAssets__ById(
 				),
 				eq(damagesTable.recordId, disasterRecordId),
 				isNull(sectorDisasterRecordsRelationTable.damageRecoveryCost),
-				eq(disasterRecordsTable.approvalStatus, "published"),
-				eq(disasterEventTable.approvalStatus, "published"),
+				or(
+					eq(disasterRecordsTable.approvalStatus, "published"),
+					eq(disasterRecordsTable.approvalStatus, "validated"),
+				),
+				or(
+					eq(disasterEventTable.approvalStatus, "published"),
+					eq(disasterEventTable.approvalStatus, "validated"),
+				)
 			),
 		);
 
@@ -322,8 +346,14 @@ export async function disasterEventTotalDamages_RecordsAssets__ById(
 				),
 				eq(damagesTable.recordId, disasterRecordId),
 				isNull(sectorDisasterRecordsRelationTable.damageCost),
-				eq(disasterRecordsTable.approvalStatus, "published"),
-				eq(disasterEventTable.approvalStatus, "published"),
+				or(
+					eq(disasterRecordsTable.approvalStatus, "published"),
+					eq(disasterRecordsTable.approvalStatus, "validated"),
+				),
+				or(
+					eq(disasterEventTable.approvalStatus, "published"),
+					eq(disasterEventTable.approvalStatus, "validated"),
+				)
 			),
 		);
 
@@ -383,8 +413,14 @@ export async function disasterEventSectorTotal__ByDivisionId(
 					disaster_records.spatial_footprint->'geojson'->'properties'->'division_ids' @> to_jsonb(ARRAY[${divisionId}])
 					OR jsonb_path_exists(disaster_records.spatial_footprint, ${`$[*].geojson.properties.division_ids  ? (@ == "${divisionId}")`})
 				)`,
-				eq(disasterRecordsTable.approvalStatus, "published"),
-				eq(disasterEventTable.approvalStatus, "published"),
+				or(
+					eq(disasterRecordsTable.approvalStatus, "published"),
+					eq(disasterRecordsTable.approvalStatus, "validated"),
+				),
+				or(
+					eq(disasterEventTable.approvalStatus, "published"),
+					eq(disasterEventTable.approvalStatus, "validated"),
+				),
 				eq(disasterEventTable.id, disasterEventId),
 				or(
 					eq(sectorDisasterRecordsRelationTable.withDamage, true),
@@ -562,8 +598,14 @@ export async function disasterEventSectorTotal__ById(
 		)
 		.where(
 			and(
-				eq(disasterRecordsTable.approvalStatus, "published"),
-				eq(disasterEventTable.approvalStatus, "published"),
+				or(
+					eq(disasterRecordsTable.approvalStatus, "published"),
+					eq(disasterRecordsTable.approvalStatus, "validated"),
+				),
+				or(
+					eq(disasterEventTable.approvalStatus, "published"),
+					eq(disasterEventTable.approvalStatus, "validated"),
+				),
 				eq(disasterEventTable.id, disasterEventId),
 				or(
 					eq(sectorDisasterRecordsRelationTable.withDamage, true),
@@ -766,8 +808,14 @@ export async function disasterEventSectorDamageDetails__ById(
 		)
 		.where(
 			and(
-				eq(disasterRecordsTable.approvalStatus, "published"),
-				eq(disasterEventTable.approvalStatus, "published"),
+				or(
+					eq(disasterRecordsTable.approvalStatus, "published"),
+					eq(disasterRecordsTable.approvalStatus, "validated"),
+				),
+				or(
+					eq(disasterEventTable.approvalStatus, "published"),
+					eq(disasterEventTable.approvalStatus, "validated"),
+				),
 				eq(disasterEventTable.id, disasterEventId),
 				isInSectorIds.length > 0
 					? inArray(damagesTable.sectorId, isInSectorIds)
@@ -850,8 +898,14 @@ export async function disasterEventSectorLossesDetails__ById(
 		)
 		.where(
 			and(
-				eq(disasterRecordsTable.approvalStatus, "published"),
-				eq(disasterEventTable.approvalStatus, "published"),
+				or(
+					eq(disasterRecordsTable.approvalStatus, "published"),
+					eq(disasterRecordsTable.approvalStatus, "validated"),
+				),
+				or(
+					eq(disasterEventTable.approvalStatus, "published"),
+					eq(disasterEventTable.approvalStatus, "validated"),
+				),
 				eq(disasterEventTable.id, disasterEventId),
 				isInSectorIds.length > 0
 					? inArray(lossesTable.sectorId, isInSectorIds)
@@ -929,8 +983,14 @@ export async function disasterEventSectorDisruptionDetails__ById(
 		)
 		.where(
 			and(
-				eq(disasterRecordsTable.approvalStatus, "published"),
-				eq(disasterEventTable.approvalStatus, "published"),
+				or(
+					eq(disasterRecordsTable.approvalStatus, "published"),
+					eq(disasterRecordsTable.approvalStatus, "validated"),
+				),
+				or(
+					eq(disasterEventTable.approvalStatus, "published"),
+					eq(disasterEventTable.approvalStatus, "validated"),
+				),
 				eq(disasterEventTable.id, disasterEventId),
 				isInSectorIds.length > 0
 					? inArray(disruptionTable.sectorId, isInSectorIds)

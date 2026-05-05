@@ -2864,6 +2864,7 @@
 		"description": "File: routes/$lang+/settings+/system.tsx:381",
 		"translation": "网站徽标 URL"
 	},
+
 	{
 		"id": "spatial_footprint",
 		"description": "File: frontend/disaster-record/form.tsx:157",

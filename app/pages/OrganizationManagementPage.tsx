@@ -14,7 +14,7 @@ import { FilterMatchMode } from "primereact/api";
 import { MainContainer } from "~/frontend/container";
 import { ViewContext } from "~/frontend/context";
 import { NavSettings } from "~/frontend/components/NavSettings";
-import { canAddNewRecord, canEditRecord } from "~/frontend/user/roles";
+import { canAddNewRecord, roleHasPermission } from "~/frontend/user/roles";
 import type { loader } from "../routes/$lang+/settings+/organizations+/_layout";
 
 type OrganizationItem = { id: string; name: string };
@@ -65,9 +65,20 @@ export default function OrganizationManagementPage() {
 
     const navSettings = <NavSettings ctx={ctx} userRole={ld.common.user?.role} />;
 
-    const canAdd = canAddNewRecord(ctx.user?.role ?? null);
-    const canEdit = canEditRecord(ctx.user?.role ?? null);
-    const canDelete = canEditRecord(ctx.user?.role ?? null);
+    const canManageOrganizations = roleHasPermission(
+        ctx.user?.role ?? null,
+        "ManageOrganizations",
+    );
+    const canAdd =
+        canManageOrganizations && canAddNewRecord(ctx.user?.role ?? null);
+
+    const canEditOrganization = (item: OrganizationItem) => {
+        return canManageOrganizations && !!item.id;
+    };
+
+    const canDeleteOrganization = (item: OrganizationItem) => {
+        return canManageOrganizations && !!item.id;
+    };
 
     const withCurrentSearch = (path: string) =>
         location.search ? `${path}${location.search}` : path;
@@ -114,7 +125,7 @@ export default function OrganizationManagementPage() {
 
     const actionsBodyTemplate = (item: OrganizationItem) => (
         <div className="flex w-full items-center justify-end gap-1">
-            {canEdit && (
+            {canEditOrganization(item) && (
                 <Button
                     type="button"
                     aria-label={ctx.t({ code: "common.edit", msg: "Edit" })}
@@ -124,7 +135,7 @@ export default function OrganizationManagementPage() {
                     <i className="pi pi-pencil" aria-hidden="true" />
                 </Button>
             )}
-            {canDelete && (
+            {canDeleteOrganization(item) && (
                 <Button
                     type="button"
                     text

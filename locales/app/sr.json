@@ -5752,6 +5752,7 @@
 		"description": "File: app/routes/$lang+/settings+/system.tsx:492",
 		"translation": "URL логотипа веб-сајта"
 	},
+
 	{
 		"id": "sign_in",
 		"description": "File: app/routes/$lang+/user+/accept-invite.tsx:420",

@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useLoaderData, useRouteLoaderData } from "react-router";
 import { Pagination } from "~/frontend/pagination/view";
 import { HazardousEventFilters } from "~/frontend/events/hazardevent-filters";
-import { HazardousEventDeleteButton } from "~/frontend/components/delete-dialog";
+
 import { hazardousEventsLoader } from "~/backend.server/handlers/events/hazardevent";
 import { formatDateDisplay } from "~/utils/date";
 import { route } from "~/frontend/events/hazardeventform";
@@ -11,75 +11,7 @@ import { LangLink } from "~/utils/link";
 import { Tooltip } from "primereact/tooltip";
 import { ListLegend } from "~/components/ListLegend";
 import { approvalStatusKeyToLabel } from "../approval";
-
-// Permission check functions will be defined below
-
-function roleHasPermission(role: any, permission: string): boolean {
-	// Basic role check - can be enhanced later
-	return role && role.permissions?.includes(permission);
-}
-
-/**
- * Specialized ActionLinks component for hazardous events that uses the
- * HazardousEventDeleteButton with the required confirmation dialog
- */
-function HazardousEventActionLinks(props: {
-	ctx: ViewContext;
-	route: string;
-	id: string | number;
-	hideViewButton?: boolean;
-	hideEditButton?: boolean;
-	hideDeleteButton?: boolean;
-	user?: any;
-	approvalStatus?: string;
-}) {
-	const ctx = props.ctx;
-	return (
-		<>
-			{!props.hideEditButton && (
-				<LangLink lang={ctx.lang} to={`${props.route}/edit/${props.id}`}>
-					<button
-						type="button"
-						className="mg-button mg-button-table"
-						aria-label={ctx.t({
-							code: "common.edit",
-							msg: "Edit",
-						})}
-					>
-						<svg aria-hidden="true" focusable="false" role="img">
-							<use href="/assets/icons/edit.svg#edit" />
-						</svg>
-					</button>
-				</LangLink>
-			)}
-			{!props.hideViewButton && (
-				<LangLink lang={ctx.lang} to={`${props.route}/${props.id}`}>
-					<button
-						type="button"
-						className="mg-button mg-button-table"
-						aria-label={ctx.t({
-							code: "common.view",
-							msg: "View",
-						})}
-					>
-						<svg aria-hidden="true" focusable="false" role="img">
-							<use href="/assets/icons/eye-show-password.svg#eye-show" />
-						</svg>
-					</button>
-				</LangLink>
-			)}
-			{(props.approvalStatus === "draft" || props.user.role === "admin") &&
-				props.approvalStatus !== "validated" &&
-				props.approvalStatus !== "published" && (
-					<HazardousEventDeleteButton
-						ctx={ctx}
-						action={ctx.url(`${props.route}/delete/${props.id}`)}
-						useIcon
-					/>
-				)}
-		</>
-	);
-}
+import { DataCollectionActionLinks } from "../components/data-collection/ActionLinks";
 
 interface ListViewArgs {
 	ctx: ViewContext;
@@ -102,76 +34,6 @@ function getHazardDisplayName(item: any): string {
 		return item.hipType.name || "";
 	}
 	return "";
-}
-
-/**
- * Determines if a user can edit a hazardous event
- * Based on business rules:
- * - Data-viewers cannot edit any records
- * - Data collectors can edit their own records when status is Draft or Waiting for validation
- * - Data validators/Admins can edit their own created records under same statuses
- */
-function canEdit(item: any, user: any): boolean {
-	if (!user) return false;
-
-	// Data-viewers cannot edit any records
-	if (user.role === "data-viewer") return false;
-
-	// Admin users should always be able to edit draft and waiting for validation records
-	if (user.role === "admin" || user.role === "super_admin") {
-		// Check record status - only Draft or Waiting for validation can be edited
-		const editableStatuses = ["draft", "waiting-for-validation"];
-		return editableStatuses.includes(item.approvalStatus.toLowerCase());
-	}
-
-	// For non-admin users
-	// Check if user has edit permission
-	const hasEditPermission = roleHasPermission(user.role, "EditData");
-	if (!hasEditPermission) return false;
-
-	// Check record status - only Draft or Waiting for validation can be edited
-	const editableStatuses = ["draft", "waiting-for-validation"];
-	if (!editableStatuses.includes(item.approvalStatus.toLowerCase()))
-		return false;
-
-	// Check if user created the record (simplified check - would need actual user ID comparison)
-	// This is a placeholder - actual implementation would need to check item.createdBy against user.id
-	return true;
-}
-
-/**
- * Determines if a user can delete a hazardous event
- * Based on business rules:
- * - Data-viewers cannot delete any records
- * - Only Data validators/Admins who are assigned to validate or have already validated a record can delete
- * - Records that are Published or Validated by someone else cannot be deleted
- */
-function canDelete(item: any, user: any): boolean {
-	if (!user) return false;
-
-	// Data-viewers cannot delete any records
-	if (user.role === "data-viewer") return false;
-
-	// Admin users should be able to delete non-published records
-	if (user.role === "admin" || user.role === "super_admin") {
-		// Published records cannot be deleted
-		return item.approvalStatus.toLowerCase() !== "published";
-	}
-
-	// For non-admin users
-	// Check if user has delete permission
-	const hasDeletePermission = roleHasPermission(
-		user.role,
-		"DeleteValidatedData",
-	);
-	if (!hasDeletePermission) return false;
-
-	// Published records cannot be deleted
-	if (item.approvalStatus.toLowerCase() === "published") return false;
-
-	// Check if user is assigned to validate or has validated the record
-	// This is a placeholder - actual implementation would need to check validation assignments
-	return true;
 }
 
 export function ListView(args: ListViewArgs) {
@@ -362,12 +224,11 @@ export function ListView(args: ListViewArgs) {
 												{args.actions ? (
 													args.actions(item)
 												) : (
-													<HazardousEventActionLinks
+													<DataCollectionActionLinks
 														ctx={ctx}
 														route={route}
 														id={item.id}
-														hideEditButton={!canEdit(item, user)}
-														hideDeleteButton={!canDelete(item, user)}
+														//hideEditButton={!canEdit(item, user)}
 														user={user}
 														approvalStatus={item.approvalStatus}
 													/>

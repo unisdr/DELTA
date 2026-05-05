@@ -6,6 +6,7 @@ import {
 } from "~/backend.server/models/noneco_losses";
 
 import { redirectLangFromRoute } from "~/utils/url.backend";
+import { requireDisasterRecordAccess } from "../requireDisasterRecordAccess.server";
 
 export const loader = authLoaderWithPerm("EditData", async (actionArgs) => {
 	const { params } = actionArgs;
@@ -18,10 +19,18 @@ export const loader = authLoaderWithPerm("EditData", async (actionArgs) => {
 	const queryParams = parsedUrl.searchParams;
 	const xId = queryParams.get("id") || "";
 
-	console.log("xId: ", xId);
+	const { countryAccountsId } = await requireDisasterRecordAccess(
+		req,
+		params.id,
+		() => redirectLangFromRoute(actionArgs, "/user/select-instance"),
+	);
 
-	const record = await nonecoLossesById(xId);
+	const record = await nonecoLossesById(xId, countryAccountsId);
 	if (record) {
+		if (!params.id || record.disasterRecordId !== params.id) {
+			return Response.json({}, { status: 404 });
+		}
+
 		try {
 			// Delete noneco losses by id
 			await nonecoLossesDeleteById(xId).catch(console.error);

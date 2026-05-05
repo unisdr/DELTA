@@ -17,8 +17,11 @@ import { approvalStatusIds } from "~/frontend/approval";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
+	getUserIdFromSession,
+	getUserRoleFromSession,
 } from "~/utils/session";
 import { getCommonData } from "../commondata";
+import { entityValidationAssignmentTable } from "~/drizzle/schema/entityValidationAssignmentTable";
 
 interface disasterEventLoaderArgs {
 	loaderArgs: {
@@ -30,9 +33,10 @@ interface disasterEventLoaderArgs {
 export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 	const { loaderArgs } = args;
 	const { request } = loaderArgs;
-
+	const userId = (await getUserIdFromSession(request)) as string;
+	const userRole = await getUserRoleFromSession(request);
 	const url = new URL(request.url);
-	const extraParams = ["search"];
+	const extraParams = ["search", "viewMyRecords", "pendingMyAction"];
 
 	const filters: {
 		approvalStatus?: approvalStatusIds;
@@ -44,6 +48,9 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 		fromDate?: string;
 		toDate?: string;
 		recordStatus?: string;
+		viewMyRecords?: boolean;
+		pendingMyAction?: boolean;
+		userId?: string; // For user-specific filters
 	} = {
 		approvalStatus: "published",
 		search: url.searchParams.get("search") || "",
@@ -54,6 +61,8 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 		fromDate: url.searchParams.get("fromDate") || "",
 		toDate: url.searchParams.get("toDate") || "",
 		recordStatus: url.searchParams.get("recordStatus") || "",
+		viewMyRecords: url.searchParams.get("viewMyRecords") === "on",
+		pendingMyAction: url.searchParams.get("pendingMyAction") === "on",
 	};
 
 	const isPublic = authLoaderIsPublic(loaderArgs);
@@ -64,6 +73,8 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 	if (isPublic) {
 		filters.recordStatus = undefined;
 	}
+
+	filters.userId = userId;
 
 	filters.search = filters.search.trim();
 
@@ -98,6 +109,38 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 		filters.recordStatus
 			? sql`${disasterEventTable.approvalStatus}::text ILIKE ${filters.recordStatus}`
 			: undefined,
+
+		// User-specific filters - Note: These fields may need to be added to schema
+		// For now, commenting out until proper user tracking fields are available
+		filters.viewMyRecords && filters.userId
+			? or(
+					eq(disasterEventTable.createdByUserId, filters.userId),
+					eq(disasterEventTable.validatedByUserId, filters.userId),
+					eq(disasterEventTable.publishedByUserId, filters.userId),
+				)
+			: undefined,
+
+		// Pending action filter - simplified for now
+		filters.pendingMyAction && filters.userId
+			? or(
+					and(
+						eq(disasterEventTable.approvalStatus, "needs-revision"),
+						eq(disasterEventTable.submittedByUserId, filters.userId),
+					),
+					and(
+						eq(disasterEventTable.approvalStatus, "waiting-for-validation"),
+						sql`EXISTS (
+						SELECT 1 FROM ${entityValidationAssignmentTable}
+						WHERE (
+							entity_validation_assignment.entity_Id = ${disasterEventTable.id}
+							AND entity_validation_assignment.entity_type = 'disaster_event'
+							AND entity_validation_assignment.assigned_to_user_id = ${filters.userId}
+						)
+					)`,
+					),
+				)
+			: undefined,
+
 		// Date range filters (for event dates, not record creation)
 		// filters.fromDate ? sql`${disasterEventTable.startDate} >= ${filters.fromDate}` : undefined,
 		filters.fromDate
@@ -261,6 +304,14 @@ export async function disasterEventsLoader(args: disasterEventLoaderArgs) {
 				)
 			: undefined,
 	);
+
+	// in case of data viewer role, force the filter on approvalStatus to validated and published
+	if (userRole === 'data-viewer') {
+		condition = and(condition, or(
+			eq(disasterEventTable.approvalStatus, "validated"),
+			eq(disasterEventTable.approvalStatus, "published")
+		));
+	}
 
 	const count = await dr.$count(disasterEventTable, condition);
 	// const events = async (offsetLimit: OffsetLimit) => {

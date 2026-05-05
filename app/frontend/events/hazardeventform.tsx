@@ -10,8 +10,8 @@ import {
 	FormInputDef,
 	FieldsView,
 	FormView,
-	ViewComponentMainDataCollection,
 } from "~/frontend/form";
+import { ViewComponentMainDataCollection } from "~/frontend/components/data-collection/View";
 
 import { formatDate } from "~/utils/date";
 
@@ -32,10 +32,15 @@ import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/utils/link";
 import { DContext } from "~/utils/dcontext";
-import { MultiSelect, MultiSelectChangeEvent } from "primereact/multiselect";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { canAddNewRecord } from "../user/roles";
+
+import {
+	SaveSubmitDialog,
+	SaveAction,
+	UserValidator,
+} from "~/frontend/components/approval-workflow/SaveSubmitDialog";
 
 export const route = "/hazardous-event";
 
@@ -241,7 +246,6 @@ interface HazardousEventFormProps extends UserFormProps<HazardousEventFields> {
 	parent?: HazardousEventViewModel;
 	treeData?: any[];
 	usersWithValidatorRole?: any[];
-	extraHiddenFields?: any;
 }
 
 export function hazardousEventLabel(args: {
@@ -277,12 +281,6 @@ export function hazardousEventLink(
 	);
 }
 
-interface UserValidator {
-	name: string;
-	id: string;
-	email: string;
-}
-
 export function HazardousEventForm(props: HazardousEventFormProps) {
 	const ctx = props.ctx;
 	const fields = props.fields;
@@ -291,16 +289,16 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 	const divisionGeoJSON = props.divisionGeoJSON;
 
 	const [selected, setSelected] = useState(props.parent);
-	const [selectedUserValidator, setSelectedUserValidator] =
-		useState<UserValidator | null>(null);
+	// const [selectedUserValidator, setSelectedUserValidator] = useState<UserValidator | null>(null);
 	const [selectedAction, setSelectedAction] = useState<string>("submit-draft");
+	selectedAction; // To avoid unused variable warning
 
 	// How to set default selected users with validator role
 	// const [selectedUserValidator, setSelectedUserValidator] = useState<UserValidator | null>([
 	// 	usersWithValidatorRole[1], // Example user
 	//  usersWithValidatorRole[3]  // Example user
 	// ]);
-	const usersWithValidatorRole: any[] =
+	const usersWithValidatorRole: UserValidator[] =
 		props.usersWithValidatorRole?.map((user: any) => ({
 			name: user.firstName + " " + user.lastName,
 			id: user.id,
@@ -309,6 +307,47 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 	// console.log(
 	// 	selectedCities.map((c) => c.name).join(", ")
 	// );
+
+	const handleSubmitAction = (action: SaveAction, validatorIds?: string) => {
+		// Set the hidden fields before submitting the main form
+		const tempActionField = document.getElementById(
+			"tempAction",
+		) as HTMLInputElement;
+		if (tempActionField) {
+			tempActionField.value = action;
+		}
+
+		const tempValidatorField = document.getElementById(
+			"tempValidatorUserIds",
+		) as HTMLInputElement;
+		if (tempValidatorField) {
+			tempValidatorField.value = validatorIds || "";
+		}
+
+		// Submit the form
+		let frmElement = null;
+		if (props.id) {
+			frmElement = document.getElementById(props.id) as HTMLFormElement | null;
+		}
+		else {
+			frmElement = document.getElementById("form-new") as HTMLFormElement | null;
+		}
+
+		if (frmElement) {
+			if (!frmElement.checkValidity()) {
+				// Show native validation tooltips; keep the modal open so they stay visible
+				frmElement.reportValidity();
+				return;
+			}
+			// Form is valid — close the modal then submit
+			setVisibleModalSubmit(false);
+			frmElement.requestSubmit();
+			return;
+		}
+
+		// Close the modal
+		setVisibleModalSubmit(false);
+	};
 
 	const overrideSubmitButton = (
 		<>
@@ -319,9 +358,11 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 					e.preventDefault();
 					setVisibleModalSubmit(true);
 				}}
-				style={{
-					display: "none",
-				}}
+				style={
+					{
+						// display: "none"
+					}
+				}
 			>
 				{ctx.t({
 					code: "common.savesubmit",
@@ -336,9 +377,11 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 					e.preventDefault();
 					setVisibleModalDiscard(true);
 				}}
-				style={{
-					display: "none",
-				}}
+				style={
+					{
+						// display: "none"
+					}
+				}
 			>
 				{ctx.t({
 					code: "common.discard",
@@ -387,23 +430,6 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 
 		// Require at least one validator
 		if (selectedAction === "submit-validation") {
-			// if (!selectedUserValidator || (Array.isArray(selectedUserValidator) && selectedUserValidator.length === 0)) {
-			// 	alert('Please select at least one validator.');
-			// 	return false;
-			// }
-
-			// console.log(
-			// 	Array.isArray(selectedUserValidator)
-			// 		// ? selectedUserValidator.map((c) => c.id)
-			// 		? selectedUserValidator.map((c) => c.email).join(",")
-			// 		: selectedUserValidator?.email || ""
-			// );
-			// console.log(
-			// 	Array.isArray(selectedUserValidator)
-			// 		? selectedUserValidator.map((c) => c.id).join('", "')
-			// 		: selectedUserValidator?.id || ""
-			// );
-
 			// Extract just the IDs and join them as comma-separated string
 			const validatorIds = Array.isArray(selectedUserValidator)
 				? selectedUserValidator.map((c) => c.id).join(",")
@@ -414,51 +440,34 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 				tempValidatorField.value = validatorIds;
 			}
 
-			//console.log("validatorIds:", validatorIds);
-			//console.log("tempValidatorField.value:", tempValidatorField.value);
-
 			// return false;
 		}
 		// Add more validation as needed
-		const submitBtn = document.getElementById("form-default-submit-button");
-		if (submitBtn) {
-			(submitBtn as HTMLButtonElement).click();
+		let frmElement = null;
+		if (props.id) {
+			frmElement = document.getElementById(props.id) as HTMLFormElement | null;
 		}
+		else {
+			frmElement = document.getElementById("form-new") as HTMLFormElement | null;
+		}
+
+		if (frmElement) {
+			if (!frmElement.checkValidity()) {
+				// Show native validation tooltips; keep the modal open so they stay visible
+				frmElement.reportValidity();
+				return false;
+			}
+			// Form is valid — close the modal then submit
+			setVisibleModalSubmit(false);
+			frmElement.requestSubmit();
+			return true;
+		}
+
 		return true;
 	}
 
 	// const rootData = useRouteLoaderData<typeof rootLoader>("root");
 	// console.log("Root loader data in HazardousEventForm:", rootData.common);
-
-	const footerDialogSubmitSave = (
-		<div>
-			<Button
-				ref={btnRefSubmit}
-				disabled={
-					selectedAction === "submit-validation" &&
-					(!selectedUserValidator ||
-						(Array.isArray(selectedUserValidator) &&
-							selectedUserValidator.length === 0))
-				}
-				className="mg-button mg-button-primary"
-				label={
-					selectedAction === "submit-draft"
-						? ctx.t({ code: "common.save_draft", msg: "Save as draft" })
-						: ctx.t({
-								code: "common.submit_for_validation",
-								msg: "Submit for validation",
-							})
-				}
-				style={{ width: "100%" }}
-				onClick={() => {
-					if (validateBeforeSubmit(selectedAction, selectedUserValidator)) {
-						setVisibleModalSubmit(false);
-					}
-				}}
-				autoFocus
-			/>
-		</div>
-	);
 
 	const footerDialogDiscard = (
 		<>
@@ -470,7 +479,7 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 					style={{ width: "100%" }}
 					onClick={() => {
 						setSelectedAction("submit-draft");
-						if (validateBeforeSubmit("submit-draft", selectedUserValidator)) {
+						if (validateBeforeSubmit("submit-draft", null)) {
 							setVisibleModalDiscard(false);
 						}
 					}}
@@ -520,133 +529,15 @@ export function HazardousEventForm(props: HazardousEventFormProps) {
 						</p>
 					</div>
 				</Dialog>
-				<Dialog
-					visible={visibleModalSubmit}
-					modal
-					header={ctx.t({ code: "common.savesubmit", msg: "Save or submit" })}
-					footer={footerDialogSubmitSave}
-					style={{ width: "50rem" }}
-					onHide={() => {
-						if (!visibleModalSubmit) return;
-						setVisibleModalSubmit(false);
-					}}
-				>
-					<div>
-						<p>
-							{ctx.t({
-								code: "validationflow.savesubmitmodal.decide_action",
-								msg: "Decide what you’d like to do with this data that you’ve added or updated.",
-							})}
-						</p>
-					</div>
 
-					<div>
-						<ul className="dts-attachments">
-							<li
-								className="dts-attachments__item"
-								style={{ justifyContent: "left" }}
-							>
-								<div className="dts-form-component">
-									<label>
-										<div className="dts-form-component__field--horizontal">
-											<input
-												type="radio"
-												name="radiobuttonFieldsetName"
-												aria-controls="linkAttachment"
-												aria-expanded="false"
-												checked={selectedAction === "submit-draft"}
-												onChange={() => setSelectedAction("submit-draft")}
-											/>
-										</div>
-									</label>
-								</div>
-								<div
-									style={{
-										justifyContent: "left",
-										display: "flex",
-										flexDirection: "column",
-										gap: "4px",
-									}}
-								>
-									<span>
-										{ctx.t({ code: "common.save_draft", msg: "Save as draft" })}
-									</span>
-									<span style={{ color: "#aaa" }}>
-										{ctx.t({
-											code: "common.store_for_future_editing",
-											msg: "Store this entry for future editing",
-										})}
-									</span>
-								</div>
-							</li>
-							<li
-								className="dts-attachments__item"
-								style={{ justifyContent: "left" }}
-							>
-								<div className="dts-form-component">
-									<label>
-										<div className="dts-form-component__field--horizontal">
-											<input
-												type="radio"
-												name="radiobuttonFieldsetName"
-												aria-controls="linkAttachment"
-												aria-expanded="false"
-												checked={selectedAction === "submit-validation"}
-												onChange={() => setSelectedAction("submit-validation")}
-											/>
-										</div>
-									</label>
-								</div>
-								<div
-									style={{
-										justifyContent: "left",
-										display: "flex",
-										flexDirection: "column",
-										gap: "10px",
-									}}
-								>
-									<span>
-										{ctx.t({
-											code: "common.submit_for_validation",
-											msg: "Submit for validation",
-										})}
-									</span>
-									<span style={{ color: "#aaa" }}>
-										{ctx.t({
-											code: "common.request_entry_validation",
-											msg: "Request this entry to be validated",
-										})}
-									</span>
-									<div>
-										*{" "}
-										{ctx.t({
-											code: "common.select_validators",
-											msg: "Select validator(s)",
-										})}
-									</div>
-									<div>
-										<MultiSelect
-											filter
-											value={selectedUserValidator}
-											disabled={selectedAction !== "submit-validation"}
-											onChange={(e: MultiSelectChangeEvent) =>
-												setSelectedUserValidator(e.value)
-											}
-											options={usersWithValidatorRole}
-											optionLabel="name"
-											placeholder={ctx.t({
-												code: "common.select_validators",
-												msg: "Select validator(s)",
-											})}
-											maxSelectedLabels={3}
-											className="w-full md:w-20rem"
-										/>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</div>
-				</Dialog>
+				<SaveSubmitDialog
+					ctx={ctx}
+					visible={visibleModalSubmit}
+					onHide={() => setVisibleModalSubmit(false)}
+					onSubmit={handleSubmitAction}
+					usersWithValidatorRole={usersWithValidatorRole}
+					userRole={ctx.user?.role}
+				/>
 			</div>
 			<FormView
 				ctx={ctx}
@@ -809,6 +700,7 @@ export function HazardousEventView(props: HazardousEventViewProps) {
 			isPublic={props.isPublic}
 			path={route}
 			id={item.id}
+			returnAssigneeOptions={(item as any).returnAssignees}
 			title={ctx.t({
 				code: "hazardous_events",
 				desc: "Label used in multiple places to refer to this type of records",

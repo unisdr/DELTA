@@ -22,6 +22,7 @@ import {
     parseStepState,
     toDisasterEventWriteModel,
 } from "~/modules/disaster-event/presentation/step-state";
+import type { GeometryType } from "~/modules/disaster-event/presentation/steps/spatial/types";
 import { hazardousEventTable } from "~/modules/hazardous-event/infrastructure/db/schema";
 import {
     authActionWithPerm,
@@ -46,6 +47,78 @@ const LOCKED_STATUSES = new Set([
     "rejected",
     "published",
 ]);
+
+const ALLOWED_GEOMETRY_TYPES = new Set<GeometryType>([
+    "POINT",
+    "LINESTRING",
+    "POLYGON",
+    "MULTIPOLYGON",
+]);
+
+type SubmittedGeometry = {
+    geojson: unknown;
+    geometryType: GeometryType;
+    name?: string;
+    isPrimary: boolean;
+};
+
+function parseSubmittedGeometries(formData: FormData): SubmittedGeometry[] {
+    const parsed: SubmittedGeometry[] = [];
+
+    for (const raw of formData.getAll("geometries[]")) {
+        if (typeof raw !== "string") {
+            continue;
+        }
+
+        try {
+            const value = JSON.parse(raw) as {
+                geojson?: unknown;
+                geometryType?: string;
+                name?: string;
+                isPrimary?: boolean;
+            };
+
+            if (!value || typeof value !== "object") {
+                continue;
+            }
+
+            if (!value.geometryType || !ALLOWED_GEOMETRY_TYPES.has(value.geometryType as GeometryType)) {
+                continue;
+            }
+
+            if (!value.geojson || typeof value.geojson !== "object") {
+                continue;
+            }
+
+            parsed.push({
+                geojson: value.geojson,
+                geometryType: value.geometryType as GeometryType,
+                name: typeof value.name === "string" ? value.name.trim() : undefined,
+                isPrimary: Boolean(value.isPrimary),
+            });
+        } catch {
+            continue;
+        }
+    }
+
+    if (!parsed.length) {
+        return parsed;
+    }
+
+    let seenPrimary = false;
+    return parsed.map((item, index) => {
+        if (item.isPrimary && !seenPrimary) {
+            seenPrimary = true;
+            return item;
+        }
+
+        if (!seenPrimary && index === parsed.length - 1) {
+            return { ...item, isPrimary: true };
+        }
+
+        return { ...item, isPrimary: false };
+    });
+}
 
 function getFileExtension(fileName: string): string {
     const lastDot = fileName.lastIndexOf(".");
@@ -296,21 +369,14 @@ export const action = authActionWithPerm(
         const stepState = parseStepState(formData.get("stepState"));
         const writeModel = toDisasterEventWriteModel(countryAccountsId, stepState);
 
-        const rawGeometries = formData.getAll("geometries[]");
-        if (rawGeometries.length > 0) {
-            const geometryItems = rawGeometries
-                .map((raw) => {
-                    try { return JSON.parse(String(raw)) as { geojson: object; isPrimary?: boolean; geometryType?: string; name?: string }; }
-                    catch { return null; }
-                })
-                .filter((item): item is { geojson: object; isPrimary?: boolean; geometryType?: string; name?: string } => item !== null);
-            const primaryGeometry = geometryItems.find((item) => item.isPrimary) ?? geometryItems[0];
-            writeModel.geography = primaryGeometry?.geojson
-                ? { source: "manual" as const, divisionId: null, geomGeoJson: JSON.stringify(primaryGeometry.geojson) }
-                : null;
-        } else {
-            writeModel.geography = null;
-        }
+        const submittedGeometries = parseSubmittedGeometries(formData);
+        writeModel.geometries = submittedGeometries.map((item) => ({
+            geojson: JSON.stringify(item.geojson),
+            geometryType: item.geometryType,
+            name: item.name || null,
+            isPrimary: item.isPrimary,
+        }));
+        writeModel.geography = null;
 
         const updatedByUserId = await getUserIdFromSession(request);
         writeModel.updatedByUserId = updatedByUserId ?? null;

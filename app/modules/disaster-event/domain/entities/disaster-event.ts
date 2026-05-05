@@ -35,6 +35,19 @@ export interface DisasterEventGeographyInput {
 	geomGeoJson: string | null;
 }
 
+export type DisasterEventGeometryType =
+	| "POINT"
+	| "LINESTRING"
+	| "POLYGON"
+	| "MULTIPOLYGON";
+
+export interface DisasterEventGeometryInput {
+	geojson: string;
+	geometryType: DisasterEventGeometryType;
+	name?: string | null;
+	isPrimary: boolean;
+}
+
 export interface DisasterCausalityInput {
 	causeDisasterId: string;
 	effectDisasterId: string;
@@ -115,6 +128,7 @@ export interface DisasterEventWriteModel {
 	responses?: DisasterEventResponseInput[];
 	assessments?: DisasterEventAssessmentInput[];
 	geography?: DisasterEventGeographyInput | null;
+	geometries?: DisasterEventGeometryInput[];
 	causedByDisasters?: DisasterCausalityInput[];
 	hazardousCausalities?: DisasterHazardousCausalityInput[];
 	notifiedUserIds?: string[];

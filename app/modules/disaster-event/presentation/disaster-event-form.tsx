@@ -117,6 +117,10 @@ function fromInitialValues(
 ): DisasterEventStepState {
     if (!initialValues) return makeEmptyDisasterEventStepState();
 
+    const primaryGeometry =
+        initialValues.disasterEventGeometry?.find((geometry) => geometry.isPrimary) ||
+        initialValues.disasterEventGeometry?.[0];
+
     return normalizeStepState({
         coreEvent: {
             nationalDisasterId: initialValues.nationalDisasterId || "",
@@ -134,11 +138,11 @@ function fromInitialValues(
             approvalStatus:
                 initialValues.workflowStatus || initialValues.approvalStatus || "draft",
         },
-        geography: initialValues.disasterEventGeometry?.[0]
+        geography: primaryGeometry
             ? {
                 source: "manual",
                 divisionId: "",
-                geomGeoJson: initialValues.disasterEventGeometry[0].geomGeoJson || "",
+                geomGeoJson: primaryGeometry.geomGeoJson || "",
             }
             : undefined,
         causedByDisasters:
@@ -209,9 +213,9 @@ export default function DisasterEventForm({
             return initialValues.disasterEventGeometry.map((geom) => ({
                 id: geom.id,
                 geojson: geom.geomGeoJson ? JSON.parse(geom.geomGeoJson) : { type: "Point" as const, coordinates: [0, 0] },
-                geometryType: "POINT" as const,
-                name: undefined,
-                isPrimary: true,
+                geometryType: geom.geometryType || "POINT",
+                name: geom.name || undefined,
+                isPrimary: geom.isPrimary,
             }));
         }
         return EMPTY_GEOMETRIES;

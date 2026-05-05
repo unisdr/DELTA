@@ -4,6 +4,7 @@ import type {
 	DisasterEvent,
 	DisasterEventAssessmentInput,
 	DisasterEventDeclarationInput,
+	DisasterEventGeometryInput,
 	DisasterEventGeographyInput,
 	DisasterEventResponseInput,
 	DisasterEventWriteModel,
@@ -241,6 +242,33 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 			}
 		}
 
+		if ("geometries" in data) {
+			await tx
+				.delete(disasterEventGeometryTable)
+				.where(eq(disasterEventGeometryTable.disasterEventId, disasterEventId));
+
+			const rows = (data.geometries || []).filter((item) => item.geojson);
+			for (const item of rows) {
+				const geometryItem = item as DisasterEventGeometryInput;
+				await tx.execute(sql`
+					INSERT INTO disaster_event_geometry (
+						disaster_event_id,
+						geometry,
+						geometry_type,
+						name,
+						is_primary
+					)
+					VALUES (
+						${disasterEventId}::uuid,
+						ST_SetSRID(ST_GeomFromGeoJSON(${geometryItem.geojson}), 4326),
+						${geometryItem.geometryType},
+						${geometryItem.name || null},
+						${geometryItem.isPrimary}
+					)
+				`);
+			}
+		}
+
 		if (data.causedByDisasters) {
 			await tx
 				.delete(eventCausalityTable)
@@ -415,7 +443,7 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 		]);
 
 		const geometryResult = await this.db.execute(sql`
-			SELECT id, disaster_event_id, ST_AsGeoJSON(geometry)::text AS geom_geojson, created_at, updated_at
+			SELECT id, disaster_event_id, ST_AsGeoJSON(geometry)::text AS geom_geojson, geometry_type, name, is_primary, created_at, updated_at
 			FROM disaster_event_geometry
 			WHERE disaster_event_id = ${id}::uuid
 		`);
@@ -446,6 +474,15 @@ export class DrizzleDisasterEventRepository implements DisasterEventRepositoryPo
 				id: String(row.id || ""),
 				disasterEventId: String(row.disaster_event_id || ""),
 				geomGeoJson: row.geom_geojson ? String(row.geom_geojson) : null,
+				geometryType: row.geometry_type
+					? String(row.geometry_type) as
+						| "POINT"
+						| "LINESTRING"
+						| "POLYGON"
+						| "MULTIPOLYGON"
+					: null,
+				name: row.name ? String(row.name) : null,
+				isPrimary: Boolean(row.is_primary),
 				createdAt: toDateOrNull(row.created_at as string | null),
 				updatedAt: toDateOrNull(row.updated_at as string | null),
 			})),

@@ -18,7 +18,7 @@ export const SettingsService = {
 		privacyUrl: string | null,
 		termsUrl: string | null,
 		websiteLogoUrl: string,
-		websiteName: string,
+		instanceName: string,
 		isApprovedRecordsPublic: boolean,
 		totpIssuer: string,
 		currency: string,
@@ -34,8 +34,8 @@ export const SettingsService = {
 			errors.websiteLogoUrl = "Website logo URL is required";
 		}
 
-		if (!websiteName || websiteName.trim().length === 0) {
-			errors.websiteName = "Website name is required";
+		if (!instanceName || instanceName.trim().length === 0) {
+			errors.instanceName = "Instance name is required";
 		}
 
 		if (!totpIssuer || totpIssuer.trim().length === 0) {
@@ -81,7 +81,7 @@ export const SettingsService = {
 						footerUrlPrivacyPolicy: privacyUrl,
 						footerUrlTermsConditions: termsUrl,
 						websiteLogo: websiteLogoUrl,
-						websiteName,
+						websiteName: instanceName,
 						approvedRecordsArePublic: isApprovedRecordsPublic,
 						totpIssuer,
 						currencyCode: currency,

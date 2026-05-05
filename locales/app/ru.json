@@ -2865,11 +2865,6 @@
 		"translation": "URL-адрес логотипа веб-сайта"
 	},
 	{
-		"id": "settings.system.website_name",
-		"description": "File: routes/$lang+/settings+/system.tsx:396",
-		"translation": "Название сайта"
-	},
-	{
 		"id": "spatial_footprint",
 		"description": "File: frontend/disaster-record/form.tsx:157",
 		"translation": "Пространственный след"

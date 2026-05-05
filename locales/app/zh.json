@@ -2865,11 +2865,6 @@
 		"translation": "网站徽标 URL"
 	},
 	{
-		"id": "settings.system.website_name",
-		"description": "File: routes/$lang+/settings+/system.tsx:396",
-		"translation": "网站名称"
-	},
-	{
 		"id": "spatial_footprint",
 		"description": "File: frontend/disaster-record/form.tsx:157",
 		"translation": "空间足迹"

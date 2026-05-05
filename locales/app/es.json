@@ -2865,11 +2865,6 @@
 		"translation": "URL del logotipo del sitio web"
 	},
 	{
-		"id": "settings.system.website_name",
-		"description": "File: routes/$lang+/settings+/system.tsx:396",
-		"translation": "Nombre del sitio web"
-	},
-	{
 		"id": "spatial_footprint",
 		"description": "File: frontend/disaster-record/form.tsx:157",
 		"translation": "Huella espacial"

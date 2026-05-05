@@ -2865,11 +2865,6 @@
 		"translation": "رابط شعار الموقع الإلكتروني"
 	},
 	{
-		"id": "settings.system.website_name",
-		"description": "File: routes/$lang+/settings+/system.tsx:396",
-		"translation": "اسم الموقع الإلكتروني"
-	},
-	{
 		"id": "spatial_footprint",
 		"description": "File: frontend/disaster-record/form.tsx:157",
 		"translation": "البصمة المكانية"

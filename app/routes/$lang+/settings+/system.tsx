@@ -86,7 +86,7 @@ export const action: ActionFunction = authLoaderWithPerm(
 		const privacyUrl = formData.get("privacyUrl") as string;
 		const termsUrl = formData.get("termsUrl") as string;
 		const websiteLogoUrl = formData.get("websiteLogoUrl") as string;
-		const websiteName = formData.get("websiteName") as string;
+		const instanceName = formData.get("instanceName") as string;
 		const approvedRecordsArePublic =
 			formData.get("approvedRecordsArePublic") === "true";
 		const totpIssuer = formData.get("totpIssuer") as string;
@@ -98,7 +98,7 @@ export const action: ActionFunction = authLoaderWithPerm(
 				privacyUrl,
 				termsUrl,
 				websiteLogoUrl,
-				websiteName,
+				instanceName,
 				approvedRecordsArePublic,
 				totpIssuer,
 				currency,
@@ -158,7 +158,7 @@ export default function Settings() {
 	const [privacyUrl, setPrivacyUrl] = useState("");
 	const [termsUrl, setTermsUrl] = useState("");
 	const [websiteLogoUrl, setWebsiteLogoUrl] = useState("");
-	const [websiteName, setWebsiteName] = useState("");
+	const [instanceName, setInstanceName] = useState("");
 	const [approvedRecordsArePublic, setApprovedRecordsArePublic] =
 		useState(false);
 	const [currency, setCurrency] = useState("");
@@ -180,7 +180,7 @@ export default function Settings() {
 				loaderData.instanceSystemSettings.footerUrlTermsConditions || "",
 			);
 			setWebsiteLogoUrl(loaderData.instanceSystemSettings.websiteLogo || "");
-			setWebsiteName(loaderData.instanceSystemSettings.websiteName || "");
+			setInstanceName(loaderData.instanceSystemSettings.websiteName || "");
 			setApprovedRecordsArePublic(
 				loaderData.instanceSystemSettings.approvedRecordsArePublic,
 			);
@@ -511,26 +511,29 @@ export default function Settings() {
 								)}
 							</div>
 
-							{/* Website name */}
+							{/* Instance name */}
 							<div className="flex flex-col gap-1">
 								<label className="font-semibold">
 									{ctx.t({
-										code: "settings.system.website_name",
-										msg: "Website Name",
+										code: "settings.system.instance_name",
+										msg: "Instance Name",
 									})}
 									<span className="text-red-500 ml-1">*</span>
 								</label>
 
 								<InputText
-									name="websiteName"
-									value={websiteName}
-									onChange={(e) => setWebsiteName(e.target.value)}
-									placeholder="Enter website name"
-									invalid={!!errors.websiteName}
+									name="instanceName"
+									value={instanceName}
+									onChange={(e) =>
+										setInstanceName(e.target.value.slice(0, 20))
+									}
+									placeholder="Enter instance name (max 20 characters)"
+									invalid={!!errors.instanceName}
+									maxLength={20}
 								/>
 
-								{errors.websiteName && (
-									<small className="text-red-500">{errors.websiteName}</small>
+								{errors.instanceName && (
+									<small className="text-red-500">{errors.instanceName}</small>
 								)}
 							</div>
 

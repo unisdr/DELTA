@@ -15,12 +15,12 @@ export class SettingsValidationError extends Error {
 export const SettingsService = {
 	async updateSettings(
 		id: string | null,
-		privacyUrl: string | null,
-		termsUrl: string | null,
-		websiteLogoUrl: string,
+		// privacyUrl: string | null,
+		// termsUrl: string | null,
+		// websiteLogoUrl: string,
 		instanceName: string,
-		isApprovedRecordsPublic: boolean,
-		totpIssuer: string,
+		// isApprovedRecordsPublic: boolean,
+		// totpIssuer: string,
 		currency: string,
 		language: string,
 	) {
@@ -30,33 +30,29 @@ export const SettingsService = {
 			errors.id = "Instance system settings Id is required";
 		}
 
-		if (!websiteLogoUrl || websiteLogoUrl.trim().length === 0) {
-			errors.websiteLogoUrl = "Website logo URL is required";
-		}
-
 		if (!instanceName || instanceName.trim().length === 0) {
 			errors.instanceName = "Instance name is required";
 		}
 
-		if (!totpIssuer || totpIssuer.trim().length === 0) {
-			errors.totpIssuer = "Totp Issuer is required";
-		}
+		// if (!totpIssuer || totpIssuer.trim().length === 0) {
+		// 	errors.totpIssuer = "Totp Issuer is required";
+		// }
 
-		if (!privacyUrl || privacyUrl.trim().length === 0) {
-			privacyUrl = null;
-		}
+		// if (!privacyUrl || privacyUrl.trim().length === 0) {
+		// 	privacyUrl = null;
+		// }
 
-		if (!termsUrl || termsUrl.trim().length === 0) {
-			termsUrl = null;
-		}
+		// if (!termsUrl || termsUrl.trim().length === 0) {
+		// 	termsUrl = null;
+		// }
 
-		if (
-			isApprovedRecordsPublic === null ||
-			isApprovedRecordsPublic === undefined
-		) {
-			errors.approvedRecordsArePublic =
-				"Approved records visibility is required";
-		}
+		// if (
+		// 	isApprovedRecordsPublic === null ||
+		// 	isApprovedRecordsPublic === undefined
+		// ) {
+		// 	errors.approvedRecordsArePublic =
+		// 		"Approved records visibility is required";
+		// }
 
 		if (!checkValidCurrency(currency)) {
 			errors.currency = "Invalid currency";
@@ -78,12 +74,12 @@ export const SettingsService = {
 				await InstanceSystemSettingRepository.update(
 					idNonNull,
 					{
-						footerUrlPrivacyPolicy: privacyUrl,
-						footerUrlTermsConditions: termsUrl,
-						websiteLogo: websiteLogoUrl,
+						// footerUrlPrivacyPolicy: privacyUrl,
+						// footerUrlTermsConditions: termsUrl,
+						// websiteLogo: websiteLogoUrl,
 						websiteName: instanceName,
-						approvedRecordsArePublic: isApprovedRecordsPublic,
-						totpIssuer,
+						// approvedRecordsArePublic: isApprovedRecordsPublic,
+						// totpIssuer,
 						currencyCode: currency,
 						language,
 					},

@@ -33,5 +33,14 @@ SELECT (version_no='0.2.0') AS is_version_0_2_0 FROM dts_system_info LIMIT 1 \gs
     \ir upgrade_from_0.2.0_to_0.2.1.sql
 \endif
 
+-- ================================
+-- Upgrade 0.2.1 -> 0.2.2
+-- ================================
+SELECT (version_no='0.2.1') AS is_version_0_2_1 FROM dts_system_info LIMIT 1 \gset
+\if :is_version_0_2_1
+    \echo Upgrading from 0.2.1 to 0.2.2...
+    \ir upgrade_from_0.2.1_to_0.2.2.sql
+\endif
+
 
 COMMIT;

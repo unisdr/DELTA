@@ -255,16 +255,16 @@ export default function Settings() {
 									label: ctx.t({ code: "common.type", msg: "Type" }),
 									value: loaderData.countryAccountType ? `${loaderData.countryAccountType} instance` : undefined,
 								},
-								{
-									label: ctx.t({ code: "settings.system.iso_3", msg: "ISO 3" }),
-									value: loaderData.instanceSystemSettings?.dtsInstanceCtryIso3,
-								},
-								{
-									label: ctx.t({ code: "settings.system.instance_type", msg: "Instance type" }),
-									value: loaderData.instanceSystemSettings?.approvedRecordsArePublic
-										? ctx.t({ code: "common.public", msg: "Public" })
-										: ctx.t({ code: "common.private", msg: "Private" }),
-								},
+								// {
+								// 	label: ctx.t({ code: "settings.system.iso_3", msg: "ISO 3" }),
+								// 	value: loaderData.instanceSystemSettings?.dtsInstanceCtryIso3,
+								// },
+								// {
+								// 	label: ctx.t({ code: "settings.system.instance_type", msg: "Instance type" }),
+								// 	value: loaderData.instanceSystemSettings?.approvedRecordsArePublic
+								// 		? ctx.t({ code: "common.public", msg: "Public" })
+								// 		: ctx.t({ code: "common.private", msg: "Private" }),
+								// },
 								{
 									label: ctx.t({ code: "common.language", msg: "Language" }),
 									value: loaderData.instanceSystemSettings?.language,
@@ -300,22 +300,22 @@ export default function Settings() {
 									label: ctx.t({ code: "settings.system.application_url", msg: "Application URL" }),
 									value: loaderData.publicURL,
 								},
-								{
-									label: ctx.t({ code: "settings.system.instance_logo_url", msg: "Instance Logo URL" }),
-									value: loaderData.instanceSystemSettings?.websiteLogo,
-								},
+								// {
+								// 	label: ctx.t({ code: "settings.system.instance_logo_url", msg: "Instance Logo URL" }),
+								// 	value: loaderData.instanceSystemSettings?.websiteLogo,
+								// },
 								{
 									label: ctx.t({ code: "settings.system.2fa_totp_issuer_name", msg: "2FA/TOTP Issuer Name" }),
 									value: loaderData.instanceSystemSettings?.totpIssuer,
 								},
-								{
-									label: ctx.t({ code: "settings.system.page_footer_privacy_policy_url", msg: "Privacy Policy URL" }),
-									value: loaderData.instanceSystemSettings?.footerUrlPrivacyPolicy,
-								},
-								{
-									label: ctx.t({ code: "settings.system.page_footer_terms_and_conditions_url", msg: "Terms & Conditions URL" }),
-									value: loaderData.instanceSystemSettings?.footerUrlTermsConditions,
-								},
+								// {
+								// 	label: ctx.t({ code: "settings.system.page_footer_privacy_policy_url", msg: "Privacy Policy URL" }),
+								// 	value: loaderData.instanceSystemSettings?.footerUrlPrivacyPolicy,
+								// },
+								// {
+								// 	label: ctx.t({ code: "settings.system.page_footer_terms_and_conditions_url", msg: "Terms & Conditions URL" }),
+								// 	value: loaderData.instanceSystemSettings?.footerUrlTermsConditions,
+								// },
 							].map(({ label, value }) => (
 								<div key={label} className="flex flex-col gap-1 px-5 py-4">
 									<dt className="text-xs font-medium text-gray-500 uppercase tracking-wide">{label}</dt>

@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v0.2.2 - 2026-05-06
+
+### Added
+- Data collection validation workflow enhancements, including submitted-at/by tracking, returned-state handling, save-and-submit modal UX, validator assignment flow improvements, and expanded role-based route guards.
+- Provision for new Serbian (`sr`) language support.
+- Deployment and operations additions for dev environments, including GHCR-backed dev image refresh workflow/scripts, webhook-based dev deploy improvements, and supporting compose/template updates.
+- OpenSpec AI development workflow integrated into the repo (skills, prompts, commands, specs, and documentation) to support structured proposal/explore/apply/archive workflows.
+### Changed
+- Refactored large backend/frontend modules into smaller units (notably event models, form/editable table rendering, and human effects tests) to improve maintainability and testability.
+- Reworked data-collection and approval-related UI/logic across hazardous events and disaster records, including list/filter behavior, action links, analytics gating, and publish/validate visibility rules.
+- Updated super-admin and system settings flows: moved currency setup into country account creation, simplified/hid selected system settings fields, and renamed instance labeling from website-oriented wording.
+- Modernized settings management pages (assets, geography, sectors, access/settings UX) with PrimeReact-focused layout and interaction updates.
+- Content update alignment and related page consistency updates.
+### Fixed
+- Corrected disaster event/disaster record form behavior and validation edge cases (missing declaration/assessment fields, approval status regressions, direct submit flow issues, and required-field handling).
+- Fixed multiple P0 reliability/security defects: dead/no-op checks and APIs removed, secret logging eliminated, session-destroy edge cases handled gracefully, SMTP transport hardening, and HTTP status code consistency improvements.
+- Resolved data-model/schema issues, including circular/type export problems, removal of obsolete columns/tables, and migration/upgrade script corrections for the 0.2.2 line.
+- Fixed country/account and settings UX defects (icon alignment, hidden irrelevant options/placeholders, action label cleanup, and minor accessibility/form warning issues).
+- Addressed assorted test/build/dev tooling issues, including translation export path fixes, fatal build failure handling, and updated test command support.
+
 ## v0.2.1 - 2026-04-20
 
 ### Added

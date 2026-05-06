@@ -57,9 +57,14 @@ export const loader = authLoaderWithPerm(
     "ViewCountryAccounts",
     async (loaderArgs) => {
         const { request } = loaderArgs;
+        const url = new URL(request.url);
+        if (!url.searchParams.has("pageSize")) {
+            url.searchParams.set("pageSize", "20");
+        }
+        const requestWithDefaults = new Request(url.toString(), request);
         const totalItems = await dr.$count(countryAccountsTable);
         const data = await executeQueryForPagination3(
-            request,
+            requestWithDefaults,
             totalItems,
             (pagination) =>
                 CountryAccountsRepository.getAllWithUserCountryAccountsAndUserPaginated(
@@ -176,7 +181,7 @@ export default function CountryAccountsLayout() {
         const adminUser = countryAccount.userCountryAccounts[0]?.user;
 
         return (
-            <>
+            <div className="flex flex-row flex-nowrap items-center">
                 <Button
                     text
                     severity="secondary"
@@ -243,7 +248,7 @@ export default function CountryAccountsLayout() {
                         <i className="pi pi-trash" style={{ fontSize: "1rem" }}></i>
                     </Button>
                 )}
-            </>
+            </div>
         );
     }
 
@@ -302,7 +307,7 @@ export default function CountryAccountsLayout() {
                             msg: "Primary admin's email",
                         })}
                         body={(countryAccount: CountryAccountWithCountryAndPrimaryAdminUser) =>
-                            countryAccount.userCountryAccounts[0].user.email}
+                            countryAccount.userCountryAccounts?.[0]?.user?.email ?? "-"}
                     />
                     <Column
                         header={ctx.t({ code: "common.created_at", msg: "Created at" })}
@@ -314,7 +319,7 @@ export default function CountryAccountsLayout() {
                         body={modifiedAtBodyTemplate}
                     />
                     <Column
-                        header={ctx.t({ code: "common.actions", msg: "Actions" })}
+                        // header={ctx.t({ code: "common.actions", msg: "Actions" })}
                         body={actionsBodyTemplate}
                     />
                 </DataTable>

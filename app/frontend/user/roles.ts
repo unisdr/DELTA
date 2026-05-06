@@ -1,4 +1,5 @@
 import { DContext } from "~/utils/dcontext";
+import { approvalStatusIds } from "~/frontend/approval";
 
 export type RoleId =
 	| "data-viewer"
@@ -401,4 +402,79 @@ export function getCountryRoles(ctx: DContext) {
 export function getCountryRole(ctx: DContext, roleId: RoleId | string | null) {
 	if (!roleId) return null;
 	return getCountryRoles(ctx).find((role) => role.id === roleId);
+}
+
+export function canDeleteDataCollectionRecord(
+	role: RoleId | string | null,
+	approvalStatus: string | undefined | approvalStatusIds,
+): boolean {
+	if (!role) return false;
+
+	// Admins and data validators can delete all records regardless of status
+	if (role === "admin" || role === "data-validator") return true;
+
+	if (
+		role === "data-collector" &&
+		approvalStatus &&
+		approvalStatus.toLowerCase() !== "published" &&
+		approvalStatus.toLowerCase() !== "validated" &&
+		approvalStatus.toLowerCase() !== "waiting-for-validation"
+	) {
+		return true;
+	}
+
+	// Data-viewers cannot delete
+	if (role === "data-viewer") return false;
+
+	return false;
+}
+
+/**
+ * Determines if a user with the given role can edit a data collection record
+ * based on the record's approval status.
+ *
+ * @param role - The user's role ID (data-viewer, data-collector, data-validator, admin, super_admin)
+ * @param approvalStatus - The current approval status of the record (draft, waiting-for-validation, needs-revision, validated, published)
+ * @returns true if the user can edit the record, false otherwise
+ *
+ * Permission rules:
+ * - data-viewer: Cannot edit (read-only)
+ * - data-collector: Can edit draft and needs-revision records only
+ * - data-validator: Can edit all records except those waiting-for-validation, published, or validated
+ * - admin: Can edit all records except those waiting-for-validation, published, or validated
+ * - Records with "waiting-for-validation" status are locked for all roles
+ */
+export function canEditDataCollectionRecord(
+	role: RoleId | string | null,
+	approvalStatus: string | undefined | approvalStatusIds,
+): boolean {
+	// No role means no permissions
+	if (!role) return false;
+
+	// Record with approvalStatus "waiting-for-validation" cannot be edited
+	// This applies to all roles - once submitted for validation, it's locked
+	if (
+		approvalStatus &&
+		approvalStatus.toLowerCase() == "waiting-for-validation"
+	) {
+		return false;
+	}
+
+	// published or validated records cannot be modified 
+	if (
+		approvalStatus &&
+		(approvalStatus.toLowerCase() === "published" ||
+			approvalStatus.toLowerCase() === "validated")
+	) {
+		return false;
+	}
+
+	// Data-viewers have read-only access
+	if (role === "data-viewer") return false;
+
+	// Allow editing for:
+	// - data-collectors (for draft/needs-revision records)
+	// - data-validators (all statuses except waiting-for-validation)
+	// - admins (all statuses except waiting-for-validation)
+	return true;
 }

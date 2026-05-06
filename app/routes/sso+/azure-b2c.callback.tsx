@@ -405,9 +405,13 @@ export const loader = async (loaderArgs: LoaderFunctionArgs) => {
 			if (error instanceof Response) {
 				throw error;
 			}
-			console.error("Error:", error);
+			console.error("Azure B2C callback error:", {
+				code: queryStringCode ? "present" : "missing",
+				errorType: error?.constructor?.name,
+				message: error instanceof Error ? error.message : String(error),
+			});
 			throw new Response(
-				error instanceof Error ? error.message : String(error),
+				"An error occurred during authentication. Please try again.",
 				{ status: 500, statusText: "Internal Server Error" },
 			);
 		}

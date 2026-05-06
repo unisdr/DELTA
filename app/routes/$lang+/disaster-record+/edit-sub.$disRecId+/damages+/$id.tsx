@@ -20,7 +20,7 @@ export const loader = authLoaderWithPerm("ViewData", async (loaderArgs) => {
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 	if (!settings) {
-		throw new Response("Unauthorized access", { status: 401 });
+		throw new Response("Unauthorized access", { status: 403 });
 	}
 	const currencies = settings.currencyCode ? [settings.currencyCode] : ["USD"];
 	if (!params.id) {

@@ -128,11 +128,10 @@ export async function destroyUserSession(
 	const session = await sessionCookie().getSession(cookieHeader);
 	const sessionId = session.get("sessionId");
 
-	if (!sessionId) {
-		throw new Error("Session is missing sessionId");
+	// Keep logout idempotent: missing/invalid sessionId should still clear cookie.
+	if (typeof sessionId === "string") {
+		await dr.delete(sessionTable).where(eq(sessionTable.id, sessionId));
 	}
-
-	await dr.delete(sessionTable).where(eq(sessionTable.id, sessionId));
 
 	const setCookie = await sessionCookie().destroySession(session);
 	return {

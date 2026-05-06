@@ -26,6 +26,7 @@ import {
 	CountryAccountValidationError,
 } from "~/services/countryAccountService";
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
+import { getCurrencyList } from "~/utils/currency";
 import { redirectWithMessage } from "~/utils/session";
 import { ViewContext } from "~/frontend/context";
 
@@ -58,6 +59,7 @@ export const action = authActionWithPerm(
 		const email = formData.get("email") as string;
 		const shortDescription = formData.get("shortDescription") as string;
 		const countryAccountType = formData.get("countryAccountTypeChoice") as string;
+		const currency = formData.get("currency") as string;
 
 		try {
 			await CountryAccountService.create(
@@ -67,6 +69,7 @@ export const action = authActionWithPerm(
 				email,
 				Number(status),
 				countryAccountType,
+				currency,
 			);
 			return redirectWithMessage(actionArgs, "/admin/country-accounts", {
 				type: "success",
@@ -110,6 +113,14 @@ export default function CountryAccountsNewPage() {
 		[countries, selectedCountryType],
 	);
 
+	const currencyOptions = useMemo(
+		() => getCurrencyList().map((currencyCode) => ({
+			label: currencyCode,
+			value: currencyCode,
+		})),
+		[],
+	);
+
 	const actionData = useActionData<typeof action>();
 	const errors = actionData?.errors ?? [];
 	const countryError = errors.find(
@@ -124,6 +135,9 @@ export default function CountryAccountsNewPage() {
 	const statusError = errors.find(
 		(error) => error.includes("Status") || error.includes("status"),
 	);
+	const currencyError = errors.find(
+		(error) => error.includes("Currency") || error.includes("currency"),
+	);
 	const emailError = errors.find(
 		(error) => error.includes("email") || error.includes("Email"),
 	);
@@ -133,6 +147,7 @@ export default function CountryAccountsNewPage() {
 			error !== countryError &&
 			error !== shortDescriptionError &&
 			error !== statusError &&
+			error !== currencyError &&
 			error !== emailError &&
 			error !== typeError,
 	);
@@ -149,6 +164,7 @@ export default function CountryAccountsNewPage() {
 	const [status, setStatus] = useState<CountryAccountStatus>(
 		countryAccountStatuses.ACTIVE,
 	);
+	const [currency, setCurrency] = useState("");
 	const [shortDescription, setShortDescription] = useState("");
 	const isFictionalCountryType = selectedCountryType === COUNTRY_TYPE.FICTIONAL;
 
@@ -296,6 +312,40 @@ export default function CountryAccountsNewPage() {
 							invalid={!!statusError}
 						/>
 						{statusError ? <small className="text-red-700">{statusError}</small> : null}
+					</div>
+					<div className="space-y-2">
+						<label htmlFor="currency" className="mb-1 block font-medium text-gray-700">
+							{ctx.t({ code: "common.currency", msg: "Currency" })}
+							<span className="ml-1 text-red-600">*</span>
+						</label>
+						<Dropdown
+							inputId="currency"
+							name="currency"
+							value={currency}
+							options={currencyOptions}
+							optionLabel="label"
+							optionValue="value"
+							onChange={(e) => setCurrency(e.value as string)}
+							placeholder={ctx.t({
+								code: "admin.select_currency",
+								msg: "Select a currency",
+							})}
+							filter
+							filterBy="label"
+							virtualScrollerOptions={{ itemSize: 38 }}
+							scrollHeight="260px"
+							className="w-full"
+							invalid={!!currencyError}
+						/>
+						{currencyError ? <small className="text-red-700">{currencyError}</small> : null}
+						<div>
+							<small className="text-gray-600">
+								{ctx.t({
+									code: "admin.currency_lock_notice",
+									msg: "Currency is fixed after setup and can be changed only when currency conversion is available.",
+								})}
+							</small>
+						</div>
 					</div>
 					<div className="space-y-2">
 						<label htmlFor="email" className="mb-1 block font-medium text-gray-700">

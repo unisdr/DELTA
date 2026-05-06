@@ -2,6 +2,9 @@
 
 This directory contains custom agent definitions for GitHub Copilot and compatible AI coding tools. Agents extend the base AI assistant with deep, project-specific knowledge for recurring task types.
 
+For the full OpenSpec workflow guide (install → propose → apply → archive), see
+[`_docs/workflows/openspec.md`](../../_docs/workflows/openspec.md).
+
 ## How agents work
 
 Each `.agent.md` file defines a specialist agent:
@@ -37,6 +40,21 @@ Don't add agents for one-off tasks, or for things the generic assistant handles 
 | Agent | When it's invoked |
 |---|---|
 | `tech-architect-writer` | Designing project structure, establishing conventions, architectural documentation, reviewing how the codebase is organized for both humans and AI tools |
+| `spec-writer` | Translating a developer's intent into a complete OpenSpec proposal (proposal → specs → design → tasks). Used before any implementation begins. |
+| `tdd-test-writer` | Writing failing Vitest tests from an OpenSpec proposal (Red phase of TDD). Stops before any implementation. |
+| `sdd-implementer` | Implementing a change from its OpenSpec proposal and failing tests, running the Green → Refactor loop until all quality gates pass. |
+| `test-writer` | Writing comprehensive test suites across all tiers — unit, PGlite integration, real-DB integration, and Playwright E2E. Knows when to use each tier and DELTA's full test infrastructure. |
+| `solid-reviewer` | Reviewing code changes against SOLID principles, with primary focus on SRP and DIP. Reports violations with concrete refactoring steps. Invoked by sdd-implementer during the Refactor phase. |
+
+## Skills
+
+Reusable methodology and quality gate documents referenced by agents and humans alike.
+Located in `.github/skills/`.
+
+| Skill | Purpose |
+|---|---|
+| `tdd-cycle/SKILL.md` | Red→Green→Refactor methodology with DELTA-specific tooling and conventions |
+| `anti-pattern-check/SKILL.md` | Full quality gate checklist: known anti-patterns, auth, multi-tenancy, DB, error handling, code quality |
 
 ## Proposed agents
 
@@ -59,12 +77,6 @@ These would add real value given the project's structure. None are implemented y
 **What it would know:** How to scaffold a new API route in this project — `$lang+/api+/` path convention, correct `authLoaderWithPerm` / `authActionWithPerm` wrapping, `BackendContext` initialisation, JSON response shape, and how the `form_api.ts` handler functions (`jsonCreate`, `jsonUpdate`, `jsonUpsert`) map to route files.
 
 **Trigger phrases:** "add a new API endpoint", "create a JSON API route", "add an API for...", "expose ... via the API"
-
-### `test-writer`
-
-**What it would know:** The project's two test modes — Vitest + PGlite for integration tests (no external DB), Playwright for e2e. PGlite mock setup in `tests/integration/db/setup.ts`, `createTestBackendContext()` for constructing contexts in tests, single-test commands (`yarn vitest run path/to/test.ts`), and the e2e port note (playwright expects 4000; set `PORT=4000` in `.env.test`).
-
-**Trigger phrases:** "write a test for...", "add integration tests", "test this model function", "add e2e tests for..."
 
 ## Keeping agents current
 

@@ -39,7 +39,7 @@ import { Toast } from "primereact/toast";
 import RegularMenuBar from "./components/RegularMenuBar";
 import SuperAdminMenuBar from "./components/SuperAdminMenuBar";
 import InactivityWarning from "./components/InactivityWarning";
-import { isRouteErrorResponse, useRouteError } from "react-router";
+import { isRouteErrorResponse, useRouteError, useRouteLoaderData } from "react-router";
 import { Footer } from "./frontend/footer/footer";
 
 import { getUserRoleFromSession } from "~/utils/session";
@@ -144,6 +144,8 @@ export const loader = async (
 			env: {
 				CURRENCY_CODES: currencyCode,
 				DTS_INSTANCE_CTRY_ISO3: dtsInstanceCtryIso3,
+				SUPPORT_EMAIL: process.env.SUPPORT_EMAIL || "",
+				SUPPORT_URL: process.env.SUPPORT_URL || "",
 			},
 		},
 		{
@@ -270,6 +272,10 @@ export function ErrorBoundary() {
 	const error = useRouteError();
 
 	const isDev = process.env.NODE_ENV === "development";
+	// Runtime env vars unavailable client-side via process.env — must be serialised through the root loader
+	const rootData = useRouteLoaderData("root") as any;
+	const supportUrl = rootData?.env?.SUPPORT_URL || "";
+	const supportEmail = rootData?.env?.SUPPORT_EMAIL || "";
 
 	let title = "Unexpected Error";
 	let message = "Something went wrong. Please try again later.";
@@ -320,16 +326,18 @@ export function ErrorBoundary() {
 						</a>
 
 						{/* Support Contact */}
-						<div className="mt-8 border-t pt-6 text-sm text-gray-600">
-							If the problem persists, please contact support at{" "}
-							<a
-								href="mailto:support@example.org"
-								className="text-blue-600 hover:underline font-medium"
-							>
-								support@example.org
-							</a>
-							.
-						</div>
+						{(supportUrl || supportEmail) && (
+							<div className="mt-8 border-t pt-6 text-sm text-gray-600">
+								If the problem persists, please contact support at{" "}
+								<a
+									href={supportUrl ? supportUrl : `mailto:${supportEmail}`}
+									className="text-blue-600 hover:underline font-medium"
+								>
+									Contact Us
+								</a>
+								.
+							</div>
+						)}
 
 						{isDev && error instanceof Error && (
 							<pre className="mt-8 text-xs bg-gray-100 p-4 rounded overflow-auto border">

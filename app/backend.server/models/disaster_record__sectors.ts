@@ -413,18 +413,35 @@ export async function disRecSectorsIdByImportIdAndCountryAccountsId(
 	return String(res[0].id);
 }
 
-export async function disRecSectorsById(id: string) {
-	return disRecSectorsByIdTx(dr, id);
+export async function disRecSectorsById(id: string, countryAccountsId: string) {
+	return disRecSectorsByIdTx(dr, id, countryAccountsId);
 }
 
-export async function disRecSectorsByIdTx(tx: Tx, id: string) {
-	let res = await tx.query.sectorDisasterRecordsRelationTable.findFirst({
-		where: eq(sectorDisasterRecordsRelationTable.id, id),
-	});
-	if (!res) {
+export async function disRecSectorsByIdTx(tx: Tx, id: string, countryAccountsId: string) {
+	const res = await tx
+		.select({
+			record: sectorDisasterRecordsRelationTable,
+		})
+		.from(sectorDisasterRecordsRelationTable)
+		.innerJoin(
+			disasterRecordsTable,
+			eq(
+				sectorDisasterRecordsRelationTable.disasterRecordId,
+				disasterRecordsTable.id,
+			),
+		)
+		.where(
+			and(
+				eq(sectorDisasterRecordsRelationTable.id, id),
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+			),
+		)
+		.limit(1);
+
+	if (!res[0]) {
 		throw new Error("Id is invalid");
 	}
-	return res;
+	return res[0].record;
 }
 
 export async function disRecSectorsDeleteById(

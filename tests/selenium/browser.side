@@ -2,7 +2,7 @@
   "id": "6ffe3018-51ce-44bd-b280-e4aaf11a7545",
   "version": "2.0",
   "name": "DELTA Resilience Selenium Browser UI Test",
-  "url": "http://localhost:3000/",
+  "url": "https://app.dts.ddev.site/",
   "tests": [{
     "id": "7463622a-ef47-4cca-83cb-bf9004b5984f",
     "name": "1 Hazardous event #1 - add",
@@ -150,12 +150,23 @@
       "id": "c8bfb6c1-b055-4744-82e1-9e0bafc80ab2",
       "comment": "",
       "command": "click",
-      "target": "id=form-default-submit-button",
+      "target": "css=.fields > .dts-form__actions > .mg-button-primary",
       "targets": [
-        ["id=form-default-submit-button", "id"],
-        ["css=#form-default-submit-button", "css:finder"],
-        ["xpath=//button[@id='form-default-submit-button']", "xpath:attributes"],
-        ["xpath=//div[2]/button", "xpath:position"]
+        ["css=.fields > .dts-form__actions > .mg-button-primary", "css:finder"],
+        ["xpath=(//button[@type='button'])[9]", "xpath:attributes"],
+        ["xpath=//form[@id='form-new']/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//div[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Save or submit')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2594386c-077a-4a38-bb1f-b40d871c54ee",
+      "comment": "",
+      "command": "click",
+      "target": "css=[data-testid='save-draft']",
+      "targets": [
+        ["css=[data-testid='save-draft']", "css:finder"],
+        ["xpath=//button[normalize-space(.)='Save as draft']", "xpath:innerText"]
       ],
       "value": ""
     }]
@@ -215,12 +226,23 @@
       "id": "394cf0af-0f58-43b2-a045-38841bdeeb20",
       "comment": "",
       "command": "click",
-      "target": "id=form-default-submit-button",
+      "target": "css=.fields > .dts-form__actions > .mg-button-primary",
       "targets": [
-        ["id=form-default-submit-button", "id"],
-        ["css=#form-default-submit-button", "css:finder"],
-        ["xpath=//button[@id='form-default-submit-button']", "xpath:attributes"],
-        ["xpath=//div[2]/button", "xpath:position"]
+        ["css=.fields > .dts-form__actions > .mg-button-primary", "css:finder"],
+        ["xpath=(//button[@type='button'])[9]", "xpath:attributes"],
+        ["xpath=//form[@id='86b07944-efc6-4552-a248-8b069a6ed29d']/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//div[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Save or submit')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "8a0c2249-0a88-4c71-a372-cf7b6b6b256a",
+      "comment": "",
+      "command": "click",
+      "target": "css=[data-testid='save-draft']",
+      "targets": [
+        ["css=[data-testid='save-draft']", "css:finder"],
+        ["xpath=//button[normalize-space(.)='Save as draft']", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -252,9 +274,11 @@
       "id": "f498b50d-f2a2-41c4-b590-efdbb9966823",
       "comment": "",
       "command": "clickAt",
-      "target": "css=tr:nth-child(1) > .dts-table__actions > .mg-button > svg",
+      "target": "css=.mg-button:nth-child(3)",
       "targets": [
-        ["css=tr:nth-child(1) > .dts-table__actions > .mg-button > svg", "css:finder"]
+        ["css=.mg-button:nth-child(3)", "css:finder"],
+        ["xpath=(//button[@type='button'])[5]", "xpath:attributes"],
+        ["xpath=//td[6]/button", "xpath:position"]
       ],
       "value": ""
     }, {
@@ -366,23 +390,23 @@
       "id": "c1bdce4f-21c7-4fbd-ab85-e19c7375b02f",
       "comment": "",
       "command": "click",
-      "target": "css=.mg-grid:nth-child(12) > div:nth-child(2)",
+      "target": "css=.fields > .dts-form__actions > .mg-button-primary",
       "targets": [
-        ["css=.mg-grid:nth-child(12) > div:nth-child(2)", "css:finder"],
-        ["xpath=//div[10]/div[2]", "xpath:position"]
+        ["css=.fields > .dts-form__actions > .mg-button-primary", "css:finder"],
+        ["xpath=(//button[@type='button'])[9]", "xpath:attributes"],
+        ["xpath=//form[@id='form-new']/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//div[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Save or submit')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
       "id": "faa14a20-9504-4bfe-9565-aae3cf99c901",
       "comment": "",
       "command": "click",
-      "target": "id=form-default-submit-button",
+      "target": "css=[data-testid='save-draft']",
       "targets": [
-        ["id=form-default-submit-button", "id"],
-        ["css=#form-default-submit-button", "css:finder"],
-        ["xpath=//button[@id='form-default-submit-button']", "xpath:attributes"],
-        ["xpath=//div[2]/button", "xpath:position"],
-        ["xpath=//button[contains(.,'Save')]", "xpath:innerText"]
+        ["css=[data-testid='save-draft']", "css:finder"],
+        ["xpath=//button[normalize-space(.)='Save as draft']", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -447,12 +471,23 @@
       "id": "50067006-69ee-4df2-9545-425c0d5504c4",
       "comment": "",
       "command": "click",
-      "target": "id=form-default-submit-button",
+      "target": "css=.dts-form__actions:nth-child(4) > .mg-button-primary",
       "targets": [
-        ["id=form-default-submit-button", "id"],
-        ["css=#form-default-submit-button", "css:finder"],
-        ["xpath=//button[@id='form-default-submit-button']", "xpath:attributes"],
-        ["xpath=//div[2]/button", "xpath:position"]
+        ["css=.dts-form__actions:nth-child(4) > .mg-button-primary", "css:finder"],
+        ["xpath=(//button[@type='button'])[9]", "xpath:attributes"],
+        ["xpath=//form[@id='ca5d4a5f-5d90-41f7-870b-3f3b7ee82dbd']/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//div[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Save or submit')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "4c02974a-8529-44d8-ae2b-790793ff972e",
+      "comment": "",
+      "command": "click",
+      "target": "css=[data-testid='save-draft']",
+      "targets": [
+        ["css=[data-testid='save-draft']", "css:finder"],
+        ["xpath=//button[normalize-space(.)='Save as draft']", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -484,9 +519,11 @@
       "id": "f50b7573-e0da-4e5e-bb95-1af1efec4d3c",
       "comment": "",
       "command": "clickAt",
-      "target": "css=tr:nth-child(1) > .dts-table__actions > div > .mg-button use",
+      "target": "css=tr:nth-child(1) > .dts-table__actions > .mg-button",
       "targets": [
-        ["css=tr:nth-child(1) > .dts-table__actions > div > .mg-button use", "css:finder"]
+        ["css=tr:nth-child(1) > .dts-table__actions > .mg-button", "css:finder"],
+        ["xpath=(//button[@type='button'])[5]", "xpath:attributes"],
+        ["xpath=//td[7]/button", "xpath:position"]
       ],
       "value": ""
     }, {
@@ -686,12 +723,23 @@
       "id": "84a2ca5f-7a40-40f4-8eb3-04c273c96f0a",
       "comment": "",
       "command": "click",
-      "target": "id=form-default-submit-button",
+      "target": "css=.dts-form__actions:nth-child(4) > .mg-button-primary",
       "targets": [
-        ["id=form-default-submit-button", "id"],
-        ["css=#form-default-submit-button", "css:finder"],
-        ["xpath=//button[@id='form-default-submit-button']", "xpath:attributes"],
-        ["xpath=//div[2]/button", "xpath:position"]
+        ["css=.dts-form__actions:nth-child(4) > .mg-button-primary", "css:finder"],
+        ["xpath=(//button[@type='button'])[9]", "xpath:attributes"],
+        ["xpath=//form[@id='form-new']/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//div[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Save or submit')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9d6cb8c8-0a9f-4810-927e-f3921ed80074",
+      "comment": "",
+      "command": "click",
+      "target": "css=[data-testid='save-draft']",
+      "targets": [
+        ["css=[data-testid='save-draft']", "css:finder"],
+        ["xpath=//button[normalize-space(.)='Save as draft']", "xpath:innerText"]
       ],
       "value": ""
     }]
@@ -749,12 +797,23 @@
       "id": "598fa61a-8b26-4827-9070-ea285c230174",
       "comment": "",
       "command": "click",
-      "target": "id=form-default-submit-button",
+      "target": "css=.fields > .dts-form__actions > .mg-button-primary",
       "targets": [
-        ["id=form-default-submit-button", "id"],
-        ["css=#form-default-submit-button", "css:finder"],
-        ["xpath=//button[@id='form-default-submit-button']", "xpath:attributes"],
-        ["xpath=//div[2]/button", "xpath:position"]
+        ["css=.fields > .dts-form__actions > .mg-button-primary", "css:finder"],
+        ["xpath=(//button[@type='button'])[9]", "xpath:attributes"],
+        ["xpath=//form[@id='6cab0655-1b50-480c-a48f-0e44a6339f64']/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//div[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Save or submit')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "50cdd620-5e31-4382-b47b-df1fe3545da8",
+      "comment": "",
+      "command": "click",
+      "target": "css=[data-testid='save-draft']",
+      "targets": [
+        ["css=[data-testid='save-draft']", "css:finder"],
+        ["xpath=//button[normalize-space(.)='Save as draft']", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -786,9 +845,11 @@
       "id": "5e686a60-c8e0-4feb-90b7-9e68ac9b99f6",
       "comment": "",
       "command": "clickAt",
-      "target": "css=tr:nth-child(1) > .dts-table__actions > div > .mg-button use",
+      "target": "css=tr:nth-child(1) > .dts-table__actions > .mg-button",
       "targets": [
-        ["css=tr:nth-child(1) > .dts-table__actions > div > .mg-button use", "css:finder"]
+        ["css=tr:nth-child(1) > .dts-table__actions > .mg-button", "css:finder"],
+        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=//td[6]/button", "xpath:position"]
       ],
       "value": ""
     }, {
@@ -894,9 +955,9 @@
       "id": "eed2e295-84f6-4589-b022-b126ee695dbb",
       "comment": "",
       "command": "click",
-      "target": "css=button:nth-child(2)",
+      "target": "css=.gap-1\\.5:nth-child(2)",
       "targets": [
-        ["css=button:nth-child(2)", "css:finder"],
+        ["css=.gap-1\\.5:nth-child(2)", "css:finder"],
         ["xpath=//button[2]", "xpath:position"],
         ["xpath=//button[contains(.,'Save')]", "xpath:innerText"]
       ],
@@ -1012,9 +1073,9 @@
       "id": "ffbb088b-9920-4bc0-a9f0-4243b2e8f7d0",
       "comment": "",
       "command": "click",
-      "target": "css=button:nth-child(2)",
+      "target": "css=.gap-1\\.5:nth-child(2)",
       "targets": [
-        ["css=button:nth-child(2)", "css:finder"],
+        ["css=.gap-1\\.5:nth-child(2)", "css:finder"],
         ["xpath=//button[2]", "xpath:position"],
         ["xpath=//button[contains(.,'Save')]", "xpath:innerText"]
       ],
@@ -1130,7 +1191,7 @@
       "id": "9dfb7281-e72b-4f93-b0b1-d58bcf307186",
       "comment": "",
       "command": "click",
-      "target": "css=button:nth-child(2)",
+      "target": "css=.gap-1\\.5:nth-child(2)",
       "targets": [
         ["css=button:nth-child(2)", "css:finder"],
         ["xpath=//button[2]", "xpath:position"],
@@ -1248,7 +1309,7 @@
       "id": "a06249a3-b502-4b2a-905d-86d57d39f5a5",
       "comment": "",
       "command": "click",
-      "target": "css=button:nth-child(2)",
+      "target": "css=.gap-1\\.5:nth-child(2)",
       "targets": [
         ["css=button:nth-child(2)", "css:finder"],
         ["xpath=//button[2]", "xpath:position"],
@@ -1366,7 +1427,7 @@
       "id": "430595f3-cff1-47df-9874-276a0ba95d1c",
       "comment": "",
       "command": "click",
-      "target": "css=button:nth-child(2)",
+      "target": "css=.gap-1\\.5:nth-child(2)",
       "targets": [
         ["css=button:nth-child(2)", "css:finder"],
         ["xpath=//button[2]", "xpath:position"],
@@ -1484,7 +1545,7 @@
       "id": "bc39734c-666e-4183-bf31-41297c726802",
       "comment": "",
       "command": "click",
-      "target": "css=button:nth-child(2)",
+      "target": "css=.gap-1\\.5:nth-child(2)",
       "targets": [
         ["css=button:nth-child(2)", "css:finder"],
         ["xpath=//button[2]", "xpath:position"],
@@ -1533,10 +1594,10 @@
       "id": "38382596-6e65-4262-a901-7591c702f788",
       "comment": "",
       "command": "click",
-      "target": "css=section:nth-child(5) a",
+      "target": "css=section:nth-child(3) .text-blue-600",
       "targets": [
-        ["css=section:nth-child(5) a", "css:finder"],
-        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sec/7532ba90-241e-4eb3-90e2-0adfa1244840')]", "xpath:href"],
+        ["css=section:nth-child(3) .text-blue-600", "css:finder"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sec/38b25eac-be62-4564-8571-a0597ed70262')]", "xpath:href"],
         ["xpath=//section[2]/div/fieldset/div[2]/div/a", "xpath:position"]
       ],
       "value": ""
@@ -1562,31 +1623,35 @@
       ],
       "value": ""
     }, {
+      "id": "25816707-abae-4dce-b56a-078eadc9764e",
+      "comment": "",
+      "command": "click",
+      "target": "id=search-input",
+      "targets": [
+        ["id=search-input", "id"],
+        ["name=search", "name"],
+        ["css=#search-input", "css:finder"],
+        ["xpath=//input[@id='search-input']", "xpath:attributes"],
+        ["xpath=//form[@id='frmFilter']/div/div/label/div/div/dialog/div/div[2]/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "93a2f12a-6ce6-4fa2-b467-dcd84bf5f605",
+      "comment": "",
+      "command": "type",
+      "target": "id=search-input",
+      "targets": [
+        ["id=search-input", "id"],
+        ["name=search", "name"],
+        ["css=#search-input", "css:finder"],
+        ["xpath=//input[@id='search-input']", "xpath:attributes"],
+        ["xpath=//form[@id='frmFilter']/div/div/label/div/div/dialog/div/div[2]/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "crop"
+    }, {
       "id": "9ccfe1f5-7a6b-4a75-a7d3-a65842ebab36",
-      "comment": "",
-      "command": "click",
-      "target": "css=.tree:nth-child(3) > li:nth-child(1) > .mg-button",
-      "targets": [
-        ["css=.tree:nth-child(3) > li:nth-child(1) > .mg-button", "css:finder"],
-        ["xpath=//form[@id='frmFilter']/div/div/label/div/div/dialog/div/div[2]/div/div/div[2]/ul/li/ul/li/button", "xpath:idRelative"],
-        ["xpath=//li/ul/li/button", "xpath:position"],
-        ["xpath=//button[contains(.,'►')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "5ace5a75-e229-4000-8e2e-54d1b34fa5d7",
-      "comment": "",
-      "command": "click",
-      "target": "css=.tree:nth-child(3) .tree > li:nth-child(1) > .mg-button",
-      "targets": [
-        ["css=.tree:nth-child(3) .tree > li:nth-child(1) > .mg-button", "css:finder"],
-        ["xpath=//form[@id='frmFilter']/div/div/label/div/div/dialog/div/div[2]/div/div/div[2]/ul/li/ul/li/ul/li/button", "xpath:idRelative"],
-        ["xpath=//li/ul/li/ul/li/button", "xpath:position"],
-        ["xpath=//button[contains(.,'►')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "c4f1a6df-a0ca-4448-b327-43fb25f163f2",
       "comment": "",
       "command": "click",
       "target": "css=li:nth-child(1) > div:nth-child(1) > span",
@@ -1594,7 +1659,7 @@
         ["css=li:nth-child(1) > div:nth-child(1) > span", "css:finder"],
         ["xpath=//form[@id='frmFilter']/div/div/label/div/div/dialog/div/div[2]/div/div/div[2]/ul/li/ul/li/ul/li/ul/li/div/span", "xpath:idRelative"],
         ["xpath=//li/ul/li/ul/li/ul/li/div/span", "xpath:position"],
-        ["xpath=//span[contains(.,'Temporary - annual crops')]", "xpath:innerText"]
+        ["xpath=//span[contains(.,'Permanent- perennial crops')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -1725,10 +1790,14 @@
       "id": "191485b1-52a7-4906-aeba-b19eb0f4c41f",
       "comment": "",
       "command": "click",
-      "target": "css=section:nth-child(5) td:nth-child(3) > a",
+      "target": "linkText=Yes",
       "targets": [
-        ["css=section:nth-child(5) td:nth-child(3)", "css:finder"],
-        ["xpath=//section[2]/div/fieldset/div[2]/div[2]/div/table/tbody/tr/td[3]", "xpath:position"]
+        ["linkText=Yes", "linkText"],
+        ["css=.border:nth-child(3) > .text-blue-600", "css:finder"],
+        ["xpath=//a[contains(text(),'Yes')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/38b25eac-be62-4564-8571-a0597ed70262/damages?sectorId=5a525ef1-592d-4808-977c-1e2cc2d2de8f')]", "xpath:href"],
+        ["xpath=//td[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Yes')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -1741,7 +1810,7 @@
         ["xpath=//h1", "xpath:position"],
         ["xpath=//h1[contains(.,'Damages: Sector effects: Crops > Agriculture > Productive')]", "xpath:innerText"]
       ],
-      "value": "Damages: Sector effects: Temporary - annual crops > Crops > Agriculture > Productive"
+      "value": "Damages: Sector effects: Permanent- perennial crops > Crops > Agriculture > Productive"
     }, {
       "id": "c45ff171-9087-42af-83db-458ff3888d68",
       "comment": "",
@@ -1783,7 +1852,7 @@
       "command": "select",
       "target": "name=assetId",
       "targets": [],
-      "value": "label=Carrots"
+      "value": "label=Apples 2"
     }, {
       "id": "b19f5819-edd6-4a82-97e7-5468683acfcb",
       "comment": "",
@@ -2069,10 +2138,12 @@
       "id": "3ca456ac-ce65-4f0c-a859-83b6fa72b73f",
       "comment": "",
       "command": "click",
-      "target": "css=section:nth-child(5) td:nth-child(8) > a",
+      "target": "css=.border:nth-child(8) > .text-blue-600",
       "targets": [
-        ["css=section:nth-child(5) td:nth-child(3)", "css:finder"],
-        ["xpath=//section[2]/div/fieldset/div[2]/div[2]/div/table/tbody/tr/td[3]", "xpath:position"]
+        ["css=.border:nth-child(8) > .text-blue-600", "css:finder"],
+        ["xpath=(//a[contains(text(),'Yes')])[3]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/38b25eac-be62-4564-8571-a0597ed70262/disruptions?sectorId=5a525ef1-592d-4808-977c-1e2cc2d2de8f')]", "xpath:href"],
+        ["xpath=//td[8]/a", "xpath:position"]
       ],
       "value": ""
     }, {
@@ -2085,7 +2156,7 @@
         ["xpath=//h1", "xpath:position"],
         ["xpath=//h1[contains(.,'Damages: Sector effects: Crops > Agriculture > Productive')]", "xpath:innerText"]
       ],
-      "value": "Disruptions: Sector effects: Temporary - annual crops > Crops > Agriculture > Productive"
+      "value": "Disruptions: Sector effects: Permanent- perennial crops > Crops > Agriculture > Productive"
     }, {
       "id": "aed71f1d-ee00-456c-88fc-896321c492d1",
       "comment": "",
@@ -2328,10 +2399,12 @@
       "id": "66ac75d1-9ed4-4875-8835-ce2eda3ef9c1",
       "comment": "",
       "command": "click",
-      "target": "css=section:nth-child(5) td:nth-child(6) > a",
+      "target": "css=.border:nth-child(6) > .text-blue-600",
       "targets": [
-        ["css=section:nth-child(5) td:nth-child(3)", "css:finder"],
-        ["xpath=//section[2]/div/fieldset/div[2]/div[2]/div/table/tbody/tr/td[3]", "xpath:position"]
+        ["css=.border:nth-child(6) > .text-blue-600", "css:finder"],
+        ["xpath=(//a[contains(text(),'Yes')])[2]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/38b25eac-be62-4564-8571-a0597ed70262/losses?sectorId=5a525ef1-592d-4808-977c-1e2cc2d2de8f')]", "xpath:href"],
+        ["xpath=//td[6]/a", "xpath:position"]
       ],
       "value": ""
     }, {
@@ -2344,19 +2417,18 @@
         ["xpath=//h1", "xpath:position"],
         ["xpath=//h1[contains(.,'Damages: Sector effects: Crops > Agriculture > Productive')]", "xpath:innerText"]
       ],
-      "value": "Losses: Sector effects: Temporary - annual crops > Crops > Agriculture > Productive"
+      "value": "Losses: Sector effects: Permanent- perennial crops > Crops > Agriculture > Productive"
     }, {
       "id": "0e757938-e4fc-4702-9406-b2678a9e8b2b",
       "comment": "",
       "command": "click",
-      "target": "linkText=Add new losses",
+      "target": "id=add_new_event_link",
       "targets": [
-        ["linkText=Add new Losses", "linkText"],
-        ["css=.mg-button", "css:finder"],
-        ["xpath=//a[contains(text(),'Add new Losses')]", "xpath:link"],
-        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/7532ba90-241e-4eb3-90e2-0adfa1244840/losses/edit/new?sectorId=dd16548d-4087-4bef-8861-7069624859e3')]", "xpath:href"],
-        ["xpath=//div/div/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Add new Losses')]", "xpath:innerText"]
+        ["id=add_new_event_link", "id"],
+        ["css=#add_new_event_link", "css:finder"],
+        ["xpath=//button[@id='add_new_event_link']", "xpath:attributes"],
+        ["xpath=//div[2]/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Add new losses')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -2563,10 +2635,12 @@
       "id": "63c2229b-1b62-4b4c-8edf-5a891096400d",
       "comment": "",
       "command": "click",
-      "target": "css=section:nth-child(5) td:nth-child(6) > a",
+      "target": "css=.border:nth-child(6) > .text-blue-600",
       "targets": [
-        ["css=section:nth-child(5) td:nth-child(3)", "css:finder"],
-        ["xpath=//section[2]/div/fieldset/div[2]/div[2]/div/table/tbody/tr/td[3]", "xpath:position"]
+        ["css=.border:nth-child(6) > .text-blue-600", "css:finder"],
+        ["xpath=(//a[contains(text(),'Yes')])[2]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/61c09c1c-7e03-488b-94bc-76b6d944404d/losses?sectorId=5a525ef1-592d-4808-977c-1e2cc2d2de8f')]", "xpath:href"],
+        ["xpath=//td[6]/a", "xpath:position"]
       ],
       "value": ""
     }, {
@@ -2579,7 +2653,7 @@
         ["xpath=//h1", "xpath:position"],
         ["xpath=//h1[contains(.,'Damages: Sector effects: Crops > Agriculture > Productive')]", "xpath:innerText"]
       ],
-      "value": "Losses: Sector effects: Temporary - annual crops > Crops > Agriculture > Productive"
+      "value": "Losses: Sector effects: Permanent- perennial crops > Crops > Agriculture > Productive"
     }, {
       "id": "b8dc13a0-6751-41ab-bf69-a7c30fd3eff2",
       "comment": "",
@@ -2631,10 +2705,14 @@
       "id": "a7883f7a-2a71-45f7-8dc3-a2f630ad84da",
       "comment": "",
       "command": "click",
-      "target": "css=section:nth-child(5) td:nth-child(3) > a",
+      "target": "linkText=Yes",
       "targets": [
-        ["css=section:nth-child(5) td:nth-child(3)", "css:finder"],
-        ["xpath=//section[2]/div/fieldset/div[2]/div[2]/div/table/tbody/tr/td[3]", "xpath:position"]
+        ["linkText=Yes", "linkText"],
+        ["css=.border:nth-child(3) > .text-blue-600", "css:finder"],
+        ["xpath=//a[contains(text(),'Yes')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/61c09c1c-7e03-488b-94bc-76b6d944404d/damages?sectorId=5a525ef1-592d-4808-977c-1e2cc2d2de8f')]", "xpath:href"],
+        ["xpath=//td[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Yes')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -2647,7 +2725,7 @@
         ["xpath=//h1", "xpath:position"],
         ["xpath=//h1[contains(.,'Damages: Sector effects: Crops > Agriculture > Productive')]", "xpath:innerText"]
       ],
-      "value": "Damages: Sector effects: Temporary - annual crops > Crops > Agriculture > Productive"
+      "value": "Damages: Sector effects: Permanent- perennial crops > Crops > Agriculture > Productive"
     }, {
       "id": "23d3ca3c-6b51-441c-91bd-cd0b2476c8a5",
       "comment": "",
@@ -2699,10 +2777,12 @@
       "id": "ddad22bc-bd4e-4d00-b225-0595717b81b6",
       "comment": "",
       "command": "click",
-      "target": "css=section:nth-child(5) td:nth-child(8) > a",
+      "target": "css=.border:nth-child(8) > .text-blue-600",
       "targets": [
-        ["css=section:nth-child(5) td:nth-child(3)", "css:finder"],
-        ["xpath=//section[2]/div/fieldset/div[2]/div[2]/div/table/tbody/tr/td[3]", "xpath:position"]
+        ["css=.border:nth-child(8) > .text-blue-600", "css:finder"],
+        ["xpath=(//a[contains(text(),'Yes')])[3]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sub/61c09c1c-7e03-488b-94bc-76b6d944404d/disruptions?sectorId=5a525ef1-592d-4808-977c-1e2cc2d2de8f')]", "xpath:href"],
+        ["xpath=//td[8]/a", "xpath:position"]
       ],
       "value": ""
     }, {
@@ -2715,7 +2795,7 @@
         ["xpath=//h1", "xpath:position"],
         ["xpath=//h1[contains(.,'Damages: Sector effects: Crops > Agriculture > Productive')]", "xpath:innerText"]
       ],
-      "value": "Disruptions: Sector effects: Temporary - annual crops > Crops > Agriculture > Productive"
+      "value": "Disruptions: Sector effects: Permanent- perennial crops > Crops > Agriculture > Productive"
     }, {
       "id": "301c90f2-ba0c-4f83-8737-f08a9abc09ff",
       "comment": "",
@@ -2757,20 +2837,26 @@
     }, {
       "id": "ce5f53a3-b31b-48c4-b8b8-14a4dc7cc3be",
       "comment": "",
-      "command": "clickAt",
-      "target": "css=tr:nth-child(1) a:nth-child(1) use",
+      "command": "click",
+      "target": "css=tr:nth-child(1) a:nth-child(1) > .mg-button",
       "targets": [
-        ["css=tr:nth-child(1) a:nth-child(1) use", "css:finder"]
+        ["css=tr:nth-child(1) a:nth-child(1) > .mg-button", "css:finder"],
+        ["xpath=(//button[@type='button'])[4]", "xpath:attributes"],
+        ["xpath=//a/button", "xpath:position"]
       ],
       "value": ""
     }, {
       "id": "1d23762c-5817-48aa-aeff-2fcb23d00e4a",
       "comment": "",
       "command": "click",
-      "target": "css=section:nth-child(5) td:nth-child(9) > a",
+      "target": "linkText=Delete",
       "targets": [
-        ["css=section:nth-child(5) td:nth-child(3)", "css:finder"],
-        ["xpath=//section[2]/div/fieldset/div[2]/div[2]/div/table/tbody/tr/td[3]", "xpath:position"]
+        ["linkText=Delete", "linkText"],
+        ["css=.text-red-600", "css:finder"],
+        ["xpath=//a[contains(text(),'Delete')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/en/disaster-record/edit-sec/61c09c1c-7e03-488b-94bc-76b6d944404d/delete/?id=a8d4e8a5-749f-4ba5-9ec7-85ac6f8aff3b')]", "xpath:href"],
+        ["xpath=//td[9]/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Delete')]", "xpath:innerText"]
       ],
       "value": ""
     }]
@@ -2871,6 +2957,6 @@
     "timeout": 300,
     "tests": ["35a239e8-843f-48eb-aa10-0e5a418a6903", "f0f026af-9a36-4f61-aeef-70e5ec5245b1", "3b862350-14c5-4651-8b93-c25c19b9d2cf", "dca0254e-4be1-4e1a-806b-8fbe78dce9cf", "496c45ae-f0e8-4d78-a572-82686c3d3a30", "4e765e42-276a-458b-b66c-5adbb522441a", "be17413b-81ea-4483-8d47-30283d0185bb"]
   }],
-  "urls": ["http://localhost:3000/", "https://app.dts.ddev.site/", "https://dts-training.undrr.org/", "https://deltaresilience.undrr.org/"],
+  "urls": ["http://localhost:3000/", "https://app.dts.ddev.site/", "https://dts-testing.undrr.org/", "https://dts-training.undrr.org/", "https://www.deltaresilience.org/"],
   "plugins": []
 }

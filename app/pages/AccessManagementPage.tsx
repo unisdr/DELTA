@@ -4,12 +4,14 @@ import { MainContainer } from "~/frontend/container";
 import { NavSettings } from "~/frontend/components/NavSettings";
 import { ViewContext } from "~/frontend/context";
 import { getCountryRole, getCountryRoles } from "~/frontend/user/roles";
-import { useLoaderData, useLocation, useNavigate } from "react-router";
+import { Form, useLoaderData, useLocation, useNavigate } from "react-router";
 import type { loader } from "../routes/$lang+/settings+/access-mgmnt+/_layout";
 import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Paginator } from "primereact/paginator";
+import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext";
 
 export default function AccessManagementPage() {
     const ld = useLoaderData<typeof loader>();
@@ -29,7 +31,7 @@ export default function AccessManagementPage() {
     // State for search and filtered users
     const [filteredItems, setFilteredItems] = useState(items);
     const [organizationFilter, setOrganizationFilter] = useState("");
-    const [roleFilter, setRoleFilter] = useState("");
+    const [roleFilter, setRoleFilter] = useState("all");
 
     const pageSizeOptions = [10, 20, 30, 40, 50];
 
@@ -40,26 +42,29 @@ export default function AccessManagementPage() {
         navigate(`${location.pathname}?${params.toString()}`);
     };
 
-    const handleOrganizationFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value.toLowerCase();
-        setOrganizationFilter(value);
-        setFilteredItems(
-            items.filter((item) =>
-                item.organization?.name.toLowerCase().includes(value),
-            ),
-        );
+    const applyFilters = (organizationValue: string, selectedRole: string) => {
+        const orgSearch = organizationValue.trim().toLowerCase();
+        const filteredData = items.filter((item) => {
+            const matchesOrganization = orgSearch
+                ? item.organization?.name.toLowerCase().includes(orgSearch)
+                : true;
+            const matchesRole =
+                selectedRole === "all" ? true : item.role === selectedRole;
+            return matchesOrganization && matchesRole;
+        });
+        setFilteredItems(filteredData);
     };
 
-    const handleRoleFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedRole = e.target.value;
-        setRoleFilter(selectedRole);
+    const handleOrganizationFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setOrganizationFilter(value);
+        applyFilters(value, roleFilter);
+    };
 
-        // Update the table data based on the selected role
-        const filteredData =
-            selectedRole === "all"
-                ? items // Show all roles
-                : items.filter((item) => item.role === selectedRole);
-        setFilteredItems(filteredData);
+    const handleRoleFilter = (e: DropdownChangeEvent) => {
+        const selectedRole = (e.value as string | null) ?? "all";
+        setRoleFilter(selectedRole);
+        applyFilters(organizationFilter, selectedRole);
     };
 
     // Calculate user stats
@@ -78,20 +83,21 @@ export default function AccessManagementPage() {
 
     const statusBodyTemplate = (item: (typeof filteredItems)[number]) => (
         <span
-            className={`dts-access-management__status-dot ${item.user.emailVerified
-                ? "dts-access-management__status-dot--activated"
-                : "dts-access-management__status-dot--pending"
+            className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ${item.user.emailVerified
+                ? "bg-emerald-100 text-emerald-700"
+                : "bg-amber-100 text-amber-700"
                 }`}
         >
-            <span className="dts-access-management__tooltip-text">
-                {item.user.emailVerified
-                    ? ctx.t({
-                        code: "common.activated",
-                        msg: "Activated",
-                    })
-                    : ctx.t({ code: "common.pending", msg: "Pending" })}
-            </span>
-            <span className="dts-access-management__tooltip-pointer"></span>
+            <span
+                className={`mr-1.5 inline-block h-1.5 w-1.5 rounded-full ${item.user.emailVerified ? "bg-emerald-600" : "bg-amber-600"
+                    }`}
+            />
+            {item.user.emailVerified
+                ? ctx.t({
+                    code: "common.activated",
+                    msg: "Activated",
+                })
+                : ctx.t({ code: "common.pending", msg: "Pending" })}
         </span>
     );
 
@@ -170,7 +176,7 @@ export default function AccessManagementPage() {
             headerExtra={navSettings}
         >
             <div className="dts-page-intro">
-                <div className="dts-additional-actions">
+                <div className="flex justify-end">
                     <Button
                         type="button"
                         label={ctx.t({ code: "settings.access_mgmnt.add_user", msg: "Add user" })}
@@ -194,51 +200,65 @@ export default function AccessManagementPage() {
                         </span>
                     </h2>
                 </div>
-            </section>
 
-            {/* Filter Form */}
-            <form method="get" className="dts-form">
-                <div className="mg-grid mg-grid__col-3">
-                    {/* Organisation Filter */}
-                    <div className="dts-form-component">
-                        <label className="dts-form-component__label">
-                            {ctx.t({ code: "common.organization", msg: "Organization" })}
-                            <input
-                                type="search"
+
+                <Form method="get" className="mb-6">
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:max-w-3xl">
+                        <div className="flex flex-col gap-2">
+                            <label
+                                htmlFor="organization-filter"
+                                className="text-sm font-semibold text-gray-800"
+                            >
+                                {ctx.t({ code: "common.organization", msg: "Organization" })}
+                            </label>
+                            <InputText
+                                id="organization-filter"
                                 name="organization"
+                                type="search"
                                 value={organizationFilter}
-                                placeholder="Type organisation name"
                                 onChange={handleOrganizationFilter}
                                 autoComplete="organization"
+                                placeholder={ctx.t({
+                                    code: "common.search_organization",
+                                    msg: "Type organization name",
+                                })}
+                                className="w-full p-inputtext-sm"
                             />
-                        </label>
-                    </div>
+                        </div>
 
-                    {/* Role Filter */}
-                    <div className="dts-form-component">
-                        <label className="dts-form-component__label">
-                            {ctx.t({ code: "common.role", msg: "Role" })}
-                            <select
+                        <div className="flex flex-col gap-2">
+                            <label
+                                htmlFor="role-filter"
+                                className="text-sm font-semibold text-gray-800"
+                            >
+                                {ctx.t({ code: "common.role", msg: "Role" })}
+                            </label>
+                            <Dropdown
+                                inputId="role-filter"
                                 name="role"
                                 value={roleFilter}
                                 onChange={handleRoleFilter}
-                            >
-                                <option value="all">
-                                    {ctx.t({
-                                        code: "access_management.all_roles",
-                                        msg: "All Roles",
-                                    })}
-                                </option>
-                                {getCountryRoles(ctx).map((role) => (
-                                    <option key={role.id} value={role.id}>
-                                        {role.label}
-                                    </option>
-                                ))}
-                            </select>
-                        </label>
+                                options={[
+                                    {
+                                        id: "all",
+                                        label: ctx.t({
+                                            code: "access_management.all_roles",
+                                            msg: "All Roles",
+                                        }),
+                                    },
+                                    ...getCountryRoles(ctx).map((role) => ({
+                                        id: role.id,
+                                        label: role.label,
+                                    })),
+                                ]}
+                                optionLabel="label"
+                                optionValue="id"
+                                className="w-full p-inputtext-sm"
+                            />
+                        </div>
                     </div>
-                </div>
-            </form>
+                </Form>
+            </section>
 
             <section className="dts-page-section">
                 <div>

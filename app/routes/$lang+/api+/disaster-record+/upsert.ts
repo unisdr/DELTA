@@ -12,7 +12,7 @@ import {
 import { fieldsDefApi } from "~/frontend/disaster-record/form";
 import { apiAuth } from "~/backend.server/models/api_key";
 import { ActionFunction, ActionFunctionArgs } from "react-router";
-import { SelectDisasterRecords } from "~/drizzle/schema/hipHazardTable";
+import { SelectDisasterRecords } from "~/drizzle/schema/disasterRecordsTable";
 import { FormInputDef } from "~/frontend/form";
 import { BackendContext } from "~/backend.server/context";
 

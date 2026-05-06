@@ -1,6 +1,6 @@
 {
 	"name": "undrr-delta",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"description": "desc",
 	"type": "module",
 	"main": "vite.config.js",
@@ -10,6 +10,7 @@
 		"test:run1": "vite build --ssr app/tests/all.ts && cross-env NODE_ENV=test node build/server/index.js",
 		"test:run2": "vitest run",
 		"test:run3": "vitest run --config vitest.integration-realdb.config.ts",
+		"test:run1-3": "yarn test:run1 && yarn test:run2 && yarn test:run3",
 		"dev": "yarn install && yarn dbsync && react-router dev --port 3000",
 		"dev2": "yarn install && react-router dev --host",
 		"start": "react-router-serve ./build/server/index.js",
@@ -88,7 +89,7 @@
 		"zod": "^3.24.1"
 	},
 	"devDependencies": {
-		"@electric-sql/pglite": "^0.3.15",
+		"@electric-sql/pglite": "^0.4.4",
 		"@playwright/test": "^1.58.2",
 		"@react-router/dev": "^7.12.0",
 		"@react-router/remix-routes-option-adapter": "^7.0.0",

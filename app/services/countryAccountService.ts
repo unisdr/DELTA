@@ -16,7 +16,6 @@ import { CountryRepository } from "~/db/queries/countriesRepository";
 import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 import { DamagesRepository } from "~/db/queries/damagesRepository";
 import { DeathRepository } from "~/db/queries/deathRepository";
-import { DevExample1Repository } from "~/db/queries/devExample1Repository";
 import { DisasterEventRepository } from "~/db/queries/disasterEventRepository";
 import { DisasterRecordsRepository } from "~/db/queries/disasterRecordsRepository";
 import { DisplacedRepository } from "~/db/queries/displacedRepository";
@@ -45,6 +44,7 @@ import {
 	countryAccountTypesTable,
 } from "~/drizzle/schema/countryAccountsTable";
 import { COUNTRY_TYPE } from "~/drizzle/schema/countriesTable";
+import { checkValidCurrency } from "~/utils/currency";
 import { BASE_UPLOAD_PATH } from "~/utils/paths";
 
 // Create a custom error class for validation errors
@@ -246,6 +246,7 @@ export const CountryAccountService = {
 		email: string,
 		status: number = countryAccountStatuses.ACTIVE,
 		countryAccountType: string = countryAccountTypesTable.OFFICIAL,
+		currencyCode: string,
 	) {
 		const errors: string[] = [];
 		if (!countryId) errors.push("Country is required");
@@ -255,6 +256,11 @@ export const CountryAccountService = {
 		if (!shortDescription || shortDescription.trim() === "")
 			errors.push("Short description is required");
 		if (!countryAccountType) errors.push("Choose instance type");
+		if (!currencyCode || currencyCode.trim() === "") {
+			errors.push("Currency is required");
+		} else if (!checkValidCurrency(currencyCode)) {
+			errors.push("Invalid currency");
+		}
 
 		if (countryId && countryId === "-1") {
 			errors.push("Please select a country");
@@ -339,9 +345,9 @@ export const CountryAccountService = {
 			const instanceSystemSetting =
 				await InstanceSystemSettingRepository.create(
 					{
-						countryName: country.name,
 						dtsInstanceCtryIso3: country.iso3 || "",
 						countryAccountsId: countryAccount.id,
+						currencyCode,
 					},
 					tx,
 				);
@@ -575,7 +581,6 @@ export const CountryAccountService = {
 			} else {
 				await InstanceSystemSettingRepository.create(
 					{
-						countryName: countryAccount.country.name,
 						dtsInstanceCtryIso3: countryAccount.country.iso3 || "",
 						countryAccountsId: newCountryAccountId,
 					},
@@ -691,22 +696,6 @@ export const CountryAccountService = {
 						...row,
 						id: getMappedId(apiKeyIdMap, row.id, "api key"),
 						secret: randomBytes(32).toString("hex"),
-						countryAccountsId: newCountryAccountId,
-					})),
-					tx,
-				);
-			}
-
-			const devExampleRows = await DevExample1Repository.getByCountryAccountsId(
-				countryAccountId,
-				tx,
-			);
-			const devExampleIdMap = createIdMap(devExampleRows.map((row) => row.id));
-			if (devExampleRows.length > 0) {
-				await DevExample1Repository.createMany(
-					devExampleRows.map((row) => ({
-						...row,
-						id: getMappedId(devExampleIdMap, row.id, "dev example"),
 						countryAccountsId: newCountryAccountId,
 					})),
 					tx,
@@ -1328,11 +1317,6 @@ export const CountryAccountService = {
 				countryAccountId,
 				tx,
 			);
-			await DevExample1Repository.deleteByCountryAccountId(
-				countryAccountId,
-				tx,
-			);
-
 			// 3. Delete all disaster records for this country account
 			await DisasterRecordsRepository.deleteByCountryAccountId(
 				countryAccountId,

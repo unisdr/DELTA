@@ -32,7 +32,7 @@ export async function getDisasterEventCount(
 
 	const conditions: any[] = [
 		eq(disasterEventTable.countryAccountsId, countryAccountsId),
-		eq(disasterEventTable.approvalStatus, "published"),
+		sql`${disasterEventTable.approvalStatus} IN ('published', 'validated')`,
 	];
 
 	if (hazardTypeId) {
@@ -98,7 +98,7 @@ export async function getDisasterEventCountByYear(
 
 	const conditions: any[] = [
 		eq(disasterEventTable.countryAccountsId, countryAccountsId),
-		eq(disasterEventTable.approvalStatus, "published"),
+		sql`${disasterEventTable.approvalStatus} IN ('published', 'validated')`,
 	];
 
 	if (hazardTypeId) {
@@ -189,7 +189,7 @@ export async function getAffectedPeopleByHazardFilters(
 
 	// Build WHERE conditions for disaster_records
 	const whereConditions: SQL[] = [];
-	whereConditions.push(sql`dr."approvalStatus" = 'published'`);
+	whereConditions.push(sql`dr."approvalStatus" IN ('published', 'validated')`);
 	whereConditions.push(sql`dr."country_accounts_id" = ${countryAccountsId}`);
 	if (hazardTypeId)
 		whereConditions.push(sql`dr."hip_type_id" = ${hazardTypeId}`);
@@ -361,7 +361,7 @@ export async function getGenderTotalsByHazardFilters(
 
 	// Build WHERE conditions for disaster_records
 	const whereConditions: SQL[] = [];
-	whereConditions.push(sql`"approvalStatus" = ${"published"}`);
+	whereConditions.push(sql`"approvalStatus" IN (${"published"}, ${"validated"})`);
 	whereConditions.push(sql`"country_accounts_id" = ${countryAccountsId}`);
 	if (hazardTypeId) whereConditions.push(sql`"hip_type_id" = ${hazardTypeId}`);
 	if (hazardClusterId)
@@ -570,7 +570,7 @@ export async function getAgeTotalsByHazardFilters(
 
 	// Build WHERE conditions for disaster_records
 	const whereConditions: SQL[] = [];
-	whereConditions.push(sql`dr."approvalStatus" = 'published'`);
+	whereConditions.push(sql`dr."approvalStatus" IN (${"published"}, ${"validated"})`);
 	whereConditions.push(sql`dr."country_accounts_id" = ${countryAccountsId}`);
 	if (hazardTypeId)
 		whereConditions.push(sql`dr."hip_type_id" = ${hazardTypeId}`);
@@ -768,7 +768,7 @@ export async function getDisabilityTotalByHazardFilters(
 
 	// Build WHERE conditions for disaster_records
 	const whereConditions: SQL[] = [];
-	whereConditions.push(sql`dr."approvalStatus" = 'published'`);
+	whereConditions.push(sql`dr."approvalStatus" IN ('published', 'validated')`);
 	whereConditions.push(sql`dr."country_accounts_id" = ${countryAccountsId}`);
 	if (hazardTypeId)
 		whereConditions.push(sql`dr."hip_type_id" = ${hazardTypeId}`);
@@ -933,7 +933,7 @@ export async function getInternationalPovertyTotalByHazardFilters(
 
 	// Build WHERE conditions for disaster_records
 	const whereConditions: SQL[] = [];
-	whereConditions.push(sql`dr."approvalStatus" = 'published'`);
+	whereConditions.push(sql`dr."approvalStatus" IN ('published', 'validated')`);
 	whereConditions.push(sql`dr."country_accounts_id" = ${countryAccountsId}`);
 	if (hazardTypeId)
 		whereConditions.push(sql`dr."hip_type_id" = ${hazardTypeId}`);
@@ -1095,7 +1095,7 @@ export async function getNationalPovertyTotalByHazardFilters(
 
 	// Build WHERE conditions for disaster_records
 	const whereConditions: SQL[] = [];
-	whereConditions.push(sql`dr."approvalStatus" = 'published'`);
+	whereConditions.push(sql`dr."approvalStatus" IN ('published', 'validated')`);
 	whereConditions.push(sql`dr."country_accounts_id" = ${countryAccountsId}`);
 	if (hazardTypeId)
 		whereConditions.push(sql`dr."hip_type_id" = ${hazardTypeId}`);
@@ -1326,7 +1326,7 @@ export async function getFilteredDisasterRecords(filters: HazardFilters) {
 
 	// Build WHERE conditions
 	const whereConditions: SQL[] = [
-		sql`"approvalStatus" = ${"published"}`,
+		sql`"approvalStatus" IN ('published', 'validated')`,
 		sql`"country_accounts_id" = ${countryAccountsId}`,
 	];
 
@@ -1974,7 +1974,7 @@ export async function getTotalDeathsByDivision(
 
 	// Build WHERE conditions for disaster_records as SQL objects
 	const whereConditions: SQL[] = [];
-	whereConditions.push(sql`"approvalStatus" = ${"published"}`);
+	whereConditions.push(sql`"approvalStatus" IN ('published', 'validated')`);
 	whereConditions.push(sql`"country_accounts_id" = ${countryAccountsId}`);
 	if (hazardTypeId) whereConditions.push(sql`"hip_type_id" = ${hazardTypeId}`);
 	if (hazardClusterId)
@@ -2096,7 +2096,7 @@ export async function getTotalAffectedPeopleByDivision(
 
 	// Build WHERE conditions for disaster_records as SQL objects
 	const whereConditions: SQL[] = [];
-	whereConditions.push(sql`"approvalStatus" = ${"published"}`);
+	whereConditions.push(sql`"approvalStatus" IN ('published', 'validated')`);
 	whereConditions.push(sql`"country_accounts_id" = ${countryAccountsId}`);
 	if (hazardTypeId) whereConditions.push(sql`"hip_type_id" = ${hazardTypeId}`);
 	if (hazardClusterId)
@@ -2224,7 +2224,7 @@ export async function getDisasterEventCountByDivision(
 
 	// Build WHERE conditions for disaster_event as SQL objects
 	const whereConditions: SQL[] = [];
-	whereConditions.push(sql`"approvalStatus" = ${"published"}`);
+	whereConditions.push(sql`"approvalStatus" IN ('published', 'validated')`);
 	whereConditions.push(sql`"country_accounts_id" = ${countryAccountsId}`);
 	if (hazardTypeId) whereConditions.push(sql`"hip_type_id" = ${hazardTypeId}`);
 	if (hazardClusterId)
@@ -2338,7 +2338,7 @@ export async function getDisasterSummary(
 
 	// ---- Step 1: Get all disaster events that match filters ----
 	const whereConditions: SQL[] = [];
-	whereConditions.push(sql`"approvalStatus" = ${"published"}`);
+	whereConditions.push(sql`"approvalStatus" IN ('published', 'validated')`);
 	whereConditions.push(sql`"country_accounts_id" = ${countryAccountsId}`);
 	if (hazardTypeId) whereConditions.push(sql`"hip_type_id" = ${hazardTypeId}`);
 	if (hazardClusterId)
@@ -2378,7 +2378,7 @@ export async function getDisasterSummary(
     SELECT id, disaster_event_id
     FROM disaster_records
     WHERE disaster_event_id = ANY(ARRAY[${sql.raw(eventIdsList)}]::uuid[])
-    AND "approvalStatus" = 'published'
+    AND "approvalStatus" IN ('published', 'validated')
   `);
 	const disasterRecords = recordsRes.rows as Array<{
 		id: string;
@@ -2531,7 +2531,7 @@ export async function getDisasterSummary(
     LEFT JOIN "displaced" dsp ON hd."id" = dsp."dsg_id"
     LEFT JOIN "injured" inj ON hd."id" = inj."dsg_id"
     LEFT JOIN "affected" aff ON hd."id" = aff."dsg_id"
-    WHERE dr."approvalStatus" = 'published'
+    WHERE dr."approvalStatus" IN ('published', 'validated')
     GROUP BY dr."disaster_event_id"
   `);
 	const affectedByEvent = new Map<string, number>();

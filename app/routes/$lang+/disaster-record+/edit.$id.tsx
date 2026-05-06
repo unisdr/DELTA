@@ -1,4 +1,5 @@
 import {
+	authActionGetAuth,
 	authLoaderGetUserForFrontend,
 	authLoaderWithPerm,
 	authActionWithPerm,
@@ -42,6 +43,8 @@ import { DeleteButton } from "~/frontend/components/delete-dialog";
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
+	getUserIdFromSession,
+	getUserRoleFromSession,
 } from "~/utils/session";
 import { buildTree } from "~/components/TreeView";
 import { DISASTER_RECORDS_UPLOAD_PATH, TEMP_UPLOAD_PATH } from "~/utils/paths";
@@ -49,6 +52,12 @@ import { ViewContext } from "~/frontend/context";
 
 import { LangLink } from "~/utils/link";
 import { BackendContext } from "~/backend.server/context";
+import {
+	getUserCountryAccountsWithValidatorRole,
+	getUserCountryAccountsWithAdminRole,
+} from "~/db/queries/userCountryAccountsRepository";
+import { handleApprovalWorkflowService } from "~/backend.server/services/approvalWorkflowService";
+import { canEditDataCollectionRecord } from "~/frontend/user/roles";
 
 type NonecoLossRow = {
 	noneccoId: string;
@@ -60,8 +69,10 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const { request, params } = loaderArgs;
 	const ctx = new BackendContext(loaderArgs);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const userId = await getUserIdFromSession(request);
+
 	if (!countryAccountsId) {
-		throw new Response("Unauthorized access", { status: 401 });
+		throw new Response("Unauthorized access", { status: 403 });
 	}
 	if (!params.id) {
 		throw "Route does not have $id param";
@@ -110,6 +121,28 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			),
 		);
 
+	// Get users with validator role
+	const usersWithValidatorRole =
+		await getUserCountryAccountsWithValidatorRole(countryAccountsId);
+
+	let filteredUsersWithValidatorRole: typeof usersWithValidatorRole = [];
+
+	if (usersWithValidatorRole.length > 0) {
+		// filter the usersWithValidatorRole to exclude the current user
+		filteredUsersWithValidatorRole = usersWithValidatorRole.filter(
+			(userAccount) => userAccount.id !== userId,
+		);
+	}
+
+	// if usersWithValidatorRole is empty, fall back to usersWithAdminRole excluding current user
+	if (filteredUsersWithValidatorRole.length === 0) {
+		const usersWithAdminRole =
+			await getUserCountryAccountsWithAdminRole(countryAccountsId);
+		filteredUsersWithValidatorRole = usersWithAdminRole.filter(
+			(userAccount) => userAccount.id !== userId,
+		);
+	}
+
 	if (params.id === "new") {
 		const treeData = await initializeNewTreeView();
 		let ctryIso3: string = "";
@@ -129,12 +162,19 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			divisionGeoJSON: divisionGeoJSON,
 			user,
 			dbDisRecHumanEffectsSummaryTable: null,
+			usersWithValidatorRole: filteredUsersWithValidatorRole,
 		};
 	}
 
 	const item = await disasterRecordsById(params.id, countryAccountsId);
 	if (!item) {
 		throw new Response("Not Found", { status: 404 });
+	}
+	
+	const userRole = await getUserRoleFromSession(request) as string;
+	
+	if (canEditDataCollectionRecord(userRole, item.approvalStatus) === false) {
+		throw new Response("Access forbidden", { status: 403 });
 	}
 
 	const dbNonecoLosses: NonecoLossRow[] =
@@ -175,6 +215,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		divisionGeoJSON: divisionGeoJSON,
 		user,
 		dbDisRecHumanEffectsSummaryTable: dbDisRecHumanEffectsSummaryTable,
+		usersWithValidatorRole: filteredUsersWithValidatorRole,
 	};
 });
 
@@ -182,7 +223,10 @@ export const action = authActionWithPerm(
 	"EditData",
 	async (args: ActionFunctionArgs) => {
 		const { request } = args;
+		const cloned = request.clone();
+		const formData = await cloned.formData();
 		const ctx = new BackendContext(args);
+		const userSession = authActionGetAuth(args);
 
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
@@ -192,7 +236,30 @@ export const action = authActionWithPerm(
 			id: string,
 			fields: any,
 		) => {
-			return disasterRecordsUpdate(ctx, tx, id, fields, countryAccountsId);
+			// Save normal for data to database using the disasterRecordsUpdate function
+			const returnValue = await disasterRecordsUpdate(
+				ctx,
+				tx,
+				id,
+				fields,
+				countryAccountsId,
+			);
+
+			// continue to approval workflow processing if update is successful
+			if (returnValue.ok === true) {
+				const updatedData = {
+					...fields,
+					countryAccountsId,
+					updatedByUserId: userSession.user.id,
+				};
+				await handleApprovalWorkflowService(ctx, tx, id, "disaster_records", {
+					...updatedData,
+					tempValidatorUserIds: formData.get("tempValidatorUserIds"),
+					tempAction: formData.get("tempAction"),
+				});
+			}
+
+			return returnValue;
 		};
 		const getByIdWithTenant = async (
 			_ctx: BackendContext,
@@ -211,7 +278,31 @@ export const action = authActionWithPerm(
 		const actionHandler = createOrUpdateAction<DisasterRecordsFields>({
 			fieldsDef: fieldsDef(ctx),
 			create: async (ctx: BackendContext, tx: any, fields: any) => {
-				return disasterRecordsCreate(ctx, tx, fields);
+				const updatedData = {
+					...fields,
+					countryAccountsId,
+					createdByUserId: userSession.user.id,
+					updatedByUserId: userSession.user.id,
+				};
+				// Save normal for data to database using the disasterRecordsCreate function
+				const returnValue = await disasterRecordsCreate(ctx, tx, updatedData);
+
+				// continue to approval workflow processing if update is successful
+				if (returnValue.ok === true) {
+					await handleApprovalWorkflowService(
+						ctx,
+						tx,
+						returnValue.id,
+						"disaster_records",
+						{
+							...updatedData,
+							tempValidatorUserIds: formData.get("tempValidatorUserIds"),
+							tempAction: formData.get("tempAction"),
+						},
+					);
+				}
+
+				return returnValue;
 			},
 			update: updateWithTenant,
 			getById: getByIdWithTenant,
@@ -268,6 +359,7 @@ export default function Screen() {
 						cpDisplayName={ld.cpDisplayName}
 						divisionGeoJSON={ld.divisionGeoJSON}
 						user={ld.user}
+						usersWithValidatorRole={ld.usersWithValidatorRole ?? []}
 					/>
 				)}
 			/>

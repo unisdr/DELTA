@@ -133,7 +133,7 @@ export async function fetchHazardImpactData(
 
 	// Build base conditions array
 	let baseConditions: SQL[] = [
-		sql`${disasterRecordsTable.approvalStatus} = 'published'`,
+		sql`${disasterRecordsTable.approvalStatus} IN ('published', 'validated')`,
 		// Add tenant isolation filter
 		sql`${disasterRecordsTable.countryAccountsId} = ${countryAccountsId}`,
 	];

@@ -318,8 +318,10 @@ export async function saveHumanEffectsData(
 		});
 	} catch (e) {
 		if (Array.isArray(e)) {
+			// TODO: should this return HTTP error code 400 for validation and parse error or 500 for unexpected error?
 			return Response.json({ ok: false, errors: e });
 		} else if (e instanceof ETError || e instanceof GroupError) {
+			// TODO: should this return HTTP error code 400 for validation and parse error or 500 for unexpected error?
 			return Response.json({ ok: false, error: e });
 		} else {
 			console.log("unknown human_effects.save error", e);
@@ -360,6 +362,7 @@ export async function clear(
 		});
 	} catch (e) {
 		if (e instanceof ETError) {
+			// TODO: should this return HTTP error code 400 for validation and parse error or 500 for unexpected error?
 			return Response.json({ ok: false, error: e });
 		} else {
 			throw e;

@@ -1,6 +1,11 @@
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
 
-import { useActionData } from "react-router";
+import { useActionData, useNavigate } from "react-router";
+import { Button } from "primereact/button";
+import { Card } from "primereact/card";
+import { Column } from "primereact/column";
+import { DataTable } from "primereact/datatable";
+import { Message } from "primereact/message";
 
 import { NavSettings } from "~/frontend/components/NavSettings";
 import { MainContainer } from "~/frontend/container";
@@ -9,8 +14,6 @@ import { handleRequest } from "~/backend.server/handlers/geography_upload";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
-
-import { LangLink } from "~/utils/link";
 
 export const loader = authLoaderWithPerm("ManageCountrySettings", async () => {
 	return {};
@@ -27,6 +30,7 @@ export const action = authActionWithPerm(
 
 export default function Screen() {
 	const ctx = new ViewContext();
+	const navigate = useNavigate();
 
 	let error = "";
 	const actionData = useActionData<typeof action>();
@@ -46,6 +50,13 @@ export default function Screen() {
 		}
 	}
 
+	const failedRows = Object.entries(failedDetails).map(
+		([divisionId, errorMsg]) => ({
+			divisionId,
+			errorMsg,
+		}),
+	);
+
 	const navSettings = <NavSettings ctx={ctx} userRole={ctx.user?.role} />;
 
 	return (
@@ -56,86 +67,94 @@ export default function Screen() {
 			})}
 			headerExtra={navSettings}
 		>
-			<>
-				<form method="post" encType="multipart/form-data">
+			<Card className="w-full">
+				<form method="post" encType="multipart/form-data" className="flex flex-col gap-4">
 					{submitted && (
-						<div className="dts-form-component">
-							<p className="dts-body-text">
-								{ctx.t(
+						<>
+							<Message
+								severity={failed > 0 ? "warn" : "success"}
+								text={`${ctx.t(
 									{
 										code: "geographies.successfully_imported_records",
 										msg: "Successfully imported {imported} records",
 									},
 									{ imported },
-								)}
-								{failed > 0 &&
-									` (${ctx.t(
+								)}${failed > 0
+									? ` (${ctx.t(
 										{
 											code: "geographies.records_failed",
 											msg: "{failed} records failed",
 										},
 										{ failed },
-									)})`}
-							</p>
+									)})`
+									: ""
+									}`}
+							/>
 
-							{/* Display validation errors for failed imports */}
-							{failed > 0 && Object.keys(failedDetails).length > 0 && (
-								<div className="dts-message dts-message--error">
-									<h3 className="dts-body-text-bold">Failed imports:</h3>
-									<ul className="dts-list dts-list--bullet">
-										{Object.entries(failedDetails).map(
-											([divisionId, errorMsg]) => (
-												<li key={divisionId}>
-													<strong>{divisionId}:</strong> {errorMsg}
-												</li>
-											),
-										)}
-									</ul>
+							{failed > 0 && failedRows.length > 0 && (
+								<div>
+									<Message
+										severity="error"
+										text={ctx.t({
+											code: "geographies.failed_imports",
+											msg: "Failed imports",
+										})}
+									/>
+									<DataTable
+										value={failedRows}
+										size="small"
+										stripedRows
+										className="mt-2 w-full"
+									>
+										<Column
+											header={ctx.t({ code: "common.id", msg: "ID" })}
+											field="divisionId"
+										/>
+										<Column
+											header={ctx.t({ code: "common.error", msg: "Error" })}
+											field="errorMsg"
+										/>
+									</DataTable>
 								</div>
 							)}
-						</div>
+						</>
 					)}
 
-					{error ? (
-						<p className="dts-message dts-message--error">{error}</p>
-					) : null}
+					{error ? <Message severity="error" text={error} /> : null}
 
-					<div className="dts-form-component">
-						<label>
-							<span className="dts-form-component__label">
-								{ctx.t({
-									code: "geographies.upload_division_zip_file",
-									msg: "Upload division ZIP file",
-								})}
-							</span>
-							<input
-								name="file"
-								type="file"
-								accept=".zip"
-								className="dts-form-component__input"
-							/>
+					<div className="flex flex-col gap-2">
+						<label htmlFor="geography-upload-file" className="font-semibold">
+							{ctx.t({
+								code: "geographies.upload_division_zip_file",
+								msg: "Upload division ZIP file",
+							})}
 						</label>
+						<input
+							id="geography-upload-file"
+							name="file"
+							type="file"
+							accept=".zip"
+							className="p-inputtext w-full md:w-30rem"
+						/>
 					</div>
 
-					<div className="mg-grid mg-grid__col-6 dts-form__actions">
-						<input
-							className="mg-button mg-button-primary"
+					<div className="flex justify-end gap-2">
+						<Button
 							type="submit"
-							value={ctx.t({
+							label={ctx.t({
 								code: "common.upload_and_import",
 								msg: "Upload and import",
 							})}
 						/>
-						<LangLink
-							lang={ctx.lang}
-							to="/settings/geography"
-							className="mg-button mg-button-secondary"
-						>
-							{ctx.t({ code: "common.back_to_list", msg: "Back to list" })}
-						</LangLink>
+						<Button
+							type="button"
+							outlined
+							label={ctx.t({ code: "common.back_to_list", msg: "Back to list" })}
+							onClick={() => navigate(ctx.url("/settings/geography?view=table"))}
+						/>
 					</div>
 				</form>
-			</>
+			</Card>
 		</MainContainer>
 	);
 }

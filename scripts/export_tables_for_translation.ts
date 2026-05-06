@@ -22,10 +22,7 @@ async function main() {
 	// Sort by ID
 	items.sort((a, b) => a.id.localeCompare(b.id));
 
-	// const filePath = 'app/locales/content/en.json';
-	const filePath = path.resolve(process.cwd(), "locales", "content");
-
-	// const filePath = "build/server/locales/content/en.json";
+	const filePath = path.resolve(process.cwd(), "locales", "content", "en.json");
 	const dir = dirname(filePath);
 	fs.mkdirSync(dir, { recursive: true });
 	fs.writeFileSync(filePath, JSON.stringify(items, null, 2));

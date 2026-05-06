@@ -130,7 +130,7 @@ export function validateTotalsAreInData(
 	defs: DefData[],
 	data: DataWithIdBasic[],
 ): ValidateRes {
-	console.log("validateTotalsAreInData", data);
+	// console.log("validateTotalsAreInData", data);
 	let { dataNoTotals, totals } = getTotalsFromData(defs, data);
 	return validate(ctx, defs, dataNoTotals, totals);
 }

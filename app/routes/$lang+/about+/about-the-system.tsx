@@ -51,9 +51,13 @@ export default function AboutTheSystem() {
 			headerExtra={<NavSettings ctx={ctx} />}
 		>
 			<>
-				<section className="dts-page-section">
+				<style>{`
+					.about-page-section {
+						margin-top: 1rem;
+					}
+				`}</style>
+				<section className="dts-page-section about-page-section">
 					<div className="wip-message">
-						<h2>About DELTA Resilience</h2>
 						{fullContent ? (
 							<div
 								className="markdown-content"

@@ -147,19 +147,36 @@ export type NonecoLossesViewModel = Exclude<
 	undefined
 >;
 
-export async function nonecoLossesById(idStr: string) {
+export async function nonecoLossesById(idStr: string, countryAccountsId: string) {
 	let id = idStr;
-	const res = await dr.query.nonecoLossesTable.findFirst({
-		where: eq(nonecoLossesTable.id, id),
-		with: {
-			category: true,
-		},
-	});
+	const res = await dr
+		.select({
+			record: nonecoLossesTable,
+			category: categoriesTable,
+			disasterRecordsTable: disasterRecordsTable,
+		})
+		.from(nonecoLossesTable)
+		.innerJoin(
+			disasterRecordsTable,
+			eq(nonecoLossesTable.disasterRecordId, disasterRecordsTable.id),
+		)
+		.innerJoin(categoriesTable, eq(nonecoLossesTable.categoryId, categoriesTable.id))
+		.where(
+			and(
+				eq(nonecoLossesTable.id, id),
+				eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+			),
+		)
+		.limit(1);
 
-	if (!res) {
+	if (!res[0]) {
 		throw new Error("Id is invalid");
 	}
-	return res;
+	return {
+		...res[0].record,
+		category: res[0].category,
+		disasterRecordsTable: res[0].disasterRecordsTable,
+	};
 }
 
 export async function nonecoLossesDeleteById(

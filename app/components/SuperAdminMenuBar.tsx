@@ -145,6 +145,7 @@ export default function SuperAdminMenuBar({
                 <Button
                     label={ctx.t({
                         code: "common.signin",
+												msg: "Sign-in",
                     })}
                 />
             </Link>

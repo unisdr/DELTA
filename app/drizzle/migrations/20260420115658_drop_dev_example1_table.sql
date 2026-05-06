@@ -1,0 +1,1 @@
+DROP TABLE dev_example1;

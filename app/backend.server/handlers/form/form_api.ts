@@ -5,7 +5,7 @@ import { Errors, FormInputDef } from "~/frontend/form";
 import {
 	validateFromJson,
 	validateFromJsonFull,
-} from "~/frontend/form_validate";
+} from "~/frontend/form/validate";
 
 import {
 	CreateResult,

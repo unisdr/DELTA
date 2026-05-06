@@ -3,7 +3,7 @@ import {
 	userCountryAccountsTable,
 } from "~/drizzle/schema/userCountryAccountsTable";
 import { userTable } from "~/drizzle/schema";
-import { and, count, eq, sql } from "drizzle-orm";
+import { and, count, eq, ne, sql } from "drizzle-orm";
 import { dr, Tx } from "~/db.server";
 import {
 	countryAccountsTable,
@@ -141,6 +141,64 @@ export async function getUserCountryAccountsWithValidatorRole(
 		.orderBy(userTable.firstName, userTable.lastName);
 
 	return users;
+}
+
+export async function getUserCountryAccountsWithAdminRole(
+	countryAccountsId: string,
+) {
+	const users = await dr
+		.select({
+			id: userTable.id,
+			email: userTable.email,
+			firstName: userTable.firstName,
+			lastName: userTable.lastName,
+			role: userCountryAccountsTable.role,
+			isPrimaryAdmin: userCountryAccountsTable.isPrimaryAdmin,
+			// organization: userTable.organization,
+		})
+		.from(userCountryAccountsTable)
+		.where(
+			and(
+				eq(userCountryAccountsTable.countryAccountsId, countryAccountsId),
+				eq(userCountryAccountsTable.role, "admin"),
+				eq(userTable.emailVerified, true),
+			),
+		)
+		.innerJoin(userTable, eq(userTable.id, userCountryAccountsTable.userId))
+		.orderBy(userTable.firstName, userTable.lastName);
+
+	return users;
+}
+
+export async function getReturnAssigneeUsers(
+	countryAccountsId: string,
+	currentUserId?: string | null,
+) {
+	const users = await dr
+		.select({
+			id: userTable.id,
+			email: userTable.email,
+			firstName: userTable.firstName,
+			lastName: userTable.lastName,
+			role: userCountryAccountsTable.role,
+			isPrimaryAdmin: userCountryAccountsTable.isPrimaryAdmin,
+		})
+		.from(userCountryAccountsTable)
+		.innerJoin(userTable, eq(userTable.id, userCountryAccountsTable.userId))
+		.where(
+			and(
+				eq(userCountryAccountsTable.countryAccountsId, countryAccountsId),
+				eq(userTable.emailVerified, true),
+				ne(userCountryAccountsTable.role, "data-viewer"),
+			),
+		)
+		.orderBy(userTable.firstName, userTable.lastName);
+
+	if (!currentUserId) {
+		return users;
+	}
+
+	return users.filter((userAccount) => userAccount.id !== currentUserId);
 }
 
 export async function updateUserCountryAccountsById(

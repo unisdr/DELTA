@@ -113,7 +113,7 @@ const getDisasterRecordsForSector = async (
 
 		// Initialize conditions array with tenant isolation
 		let conditions: SQL[] = [
-			sql`${disasterRecordsTable.approvalStatus} = 'published'`,
+			sql`${disasterRecordsTable.approvalStatus} IN ('published', 'validated')`,
 			sql`${disasterRecordsTable.countryAccountsId} = ${countryAccountsId}`,
 		];
 

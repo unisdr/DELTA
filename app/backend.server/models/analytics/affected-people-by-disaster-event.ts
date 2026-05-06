@@ -1,4 +1,4 @@
-import { eq, and, sum } from "drizzle-orm";
+import { eq, and, sum, sql } from "drizzle-orm";
 import { Tx } from "~/db.server";
 import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { humanCategoryPresenceTable } from "~/drizzle/schema/humanCategoryPresenceTable";
@@ -83,7 +83,11 @@ async function getTotalForDisasterEvent(
 		.from(de)
 		.innerJoin(dr, eq(de.id, dr.disasterEventId))
 		.innerJoin(hcp, eq(dr.id, hcp.recordId))
-		.where(and(eq(de.id, disasterEventId), eq(dr.approvalStatus, "published")));
+		.where(
+			and(
+				eq(de.id, disasterEventId), sql`${dr.approvalStatus} IN ('published', 'validated')`
+			)
+		);
 
 	if (!res || !res.length) {
 		return 0;

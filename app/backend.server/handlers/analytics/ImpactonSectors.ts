@@ -1,6 +1,6 @@
 import { fetchSectorImpactData } from "~/backend.server/models/analytics/ImpactonSectors";
 
-import { eq, and, sql, SQL } from "drizzle-orm";
+import { eq, and, sql, SQL, or } from "drizzle-orm";
 
 import { dr } from "~/db.server";
 import { sectorDisasterRecordsRelationTable } from "~/drizzle/schema/sectorDisasterRecordsRelationTable";
@@ -176,7 +176,10 @@ export async function getSectorImpactTotal(
 	// base where conditions
 	const baseWhere: SQL[] = [
 		eq(disasterRecordsTable.countryAccountsId, args.countryAccountsId),
-		eq(disasterRecordsTable.approvalStatus, "published"),
+		or(
+			eq(disasterRecordsTable.approvalStatus, "published"),
+			eq(disasterRecordsTable.approvalStatus, "validated")
+		)!
 	];
 
 	const distinctOnCols = [

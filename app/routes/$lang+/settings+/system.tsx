@@ -16,7 +16,6 @@ import {
 	SettingsValidationError,
 } from "~/services/settingsService";
 import { Toast } from "primereact/toast";
-import { getCurrencyList } from "~/utils/currency";
 import { getUserRoleFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
@@ -83,25 +82,23 @@ export const action: ActionFunction = authLoaderWithPerm(
 		const request = args.request;
 		const formData = await request.formData();
 		const id = formData.get("id") as string;
-		const privacyUrl = formData.get("privacyUrl") as string;
-		const termsUrl = formData.get("termsUrl") as string;
-		const websiteLogoUrl = formData.get("websiteLogoUrl") as string;
-		const websiteName = formData.get("websiteName") as string;
-		const approvedRecordsArePublic =
-			formData.get("approvedRecordsArePublic") === "true";
-		const totpIssuer = formData.get("totpIssuer") as string;
-		const currency = formData.get("currency") as string;
+		// const privacyUrl = formData.get("privacyUrl") as string;
+		// const termsUrl = formData.get("termsUrl") as string;
+		// const websiteLogoUrl = formData.get("websiteLogoUrl") as string;
+		const instanceName = formData.get("instanceName") as string;
+		// const approvedRecordsArePublic =
+		// formData.get("approvedRecordsArePublic") === "true";
+		// const totpIssuer = formData.get("totpIssuer") as string;
 		const language = formData.get("language") as string;
 		try {
 			await SettingsService.updateSettings(
 				id,
-				privacyUrl,
-				termsUrl,
-				websiteLogoUrl,
-				websiteName,
-				approvedRecordsArePublic,
-				totpIssuer,
-				currency,
+				// privacyUrl,
+				// termsUrl,
+				// websiteLogoUrl,
+				instanceName,
+				// approvedRecordsArePublic,
+				// totpIssuer,
 				language,
 			);
 			return { success: "ok" };
@@ -155,15 +152,14 @@ export default function Settings() {
 	// 	return null;
 	// };
 
-	const [privacyUrl, setPrivacyUrl] = useState("");
-	const [termsUrl, setTermsUrl] = useState("");
-	const [websiteLogoUrl, setWebsiteLogoUrl] = useState("");
-	const [websiteName, setWebsiteName] = useState("");
-	const [approvedRecordsArePublic, setApprovedRecordsArePublic] =
-		useState(false);
-	const [currency, setCurrency] = useState("");
+	// const [privacyUrl, setPrivacyUrl] = useState("");
+	// const [termsUrl, setTermsUrl] = useState("");
+	// const [websiteLogoUrl, setWebsiteLogoUrl] = useState("");
+	const [instanceName, setInstanceName] = useState("");
+	// const [approvedRecordsArePublic, setApprovedRecordsArePublic] =
+	// 	useState(false);
 	const [language, setLanguage] = useState(loaderData.systemLanguage);
-	const [totpIssuer, setTotpIssuer] = useState("");
+	// const [totpIssuer, setTotpIssuer] = useState("");
 
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const toast = useRef<Toast>(null);
@@ -173,19 +169,18 @@ export default function Settings() {
 
 	function showEditSettings() {
 		if (loaderData.instanceSystemSettings) {
-			setPrivacyUrl(
-				loaderData.instanceSystemSettings.footerUrlPrivacyPolicy || "",
-			);
-			setTermsUrl(
-				loaderData.instanceSystemSettings.footerUrlTermsConditions || "",
-			);
-			setWebsiteLogoUrl(loaderData.instanceSystemSettings.websiteLogo || "");
-			setWebsiteName(loaderData.instanceSystemSettings.websiteName || "");
-			setApprovedRecordsArePublic(
-				loaderData.instanceSystemSettings.approvedRecordsArePublic,
-			);
-			setTotpIssuer(loaderData.instanceSystemSettings.totpIssuer || "");
-			setCurrency(loaderData.instanceSystemSettings.currencyCode);
+			// setPrivacyUrl(
+			// 	loaderData.instanceSystemSettings.footerUrlPrivacyPolicy || "",
+			// );
+			// setTermsUrl(
+			// 	loaderData.instanceSystemSettings.footerUrlTermsConditions || "",
+			// );
+			// setWebsiteLogoUrl(loaderData.instanceSystemSettings.websiteLogo || "");
+			setInstanceName(loaderData.instanceSystemSettings.websiteName || "");
+			// setApprovedRecordsArePublic(
+			// 	loaderData.instanceSystemSettings.approvedRecordsArePublic,
+			// );
+			// setTotpIssuer(loaderData.instanceSystemSettings.totpIssuer || "");
 		}
 		setIsDialogOpen(true);
 	}
@@ -260,16 +255,16 @@ export default function Settings() {
 									label: ctx.t({ code: "common.type", msg: "Type" }),
 									value: loaderData.countryAccountType ? `${loaderData.countryAccountType} instance` : undefined,
 								},
-								{
-									label: ctx.t({ code: "settings.system.iso_3", msg: "ISO 3" }),
-									value: loaderData.instanceSystemSettings?.dtsInstanceCtryIso3,
-								},
-								{
-									label: ctx.t({ code: "settings.system.instance_type", msg: "Instance type" }),
-									value: loaderData.instanceSystemSettings?.approvedRecordsArePublic
-										? ctx.t({ code: "common.public", msg: "Public" })
-										: ctx.t({ code: "common.private", msg: "Private" }),
-								},
+								// {
+								// 	label: ctx.t({ code: "settings.system.iso_3", msg: "ISO 3" }),
+								// 	value: loaderData.instanceSystemSettings?.dtsInstanceCtryIso3,
+								// },
+								// {
+								// 	label: ctx.t({ code: "settings.system.instance_type", msg: "Instance type" }),
+								// 	value: loaderData.instanceSystemSettings?.approvedRecordsArePublic
+								// 		? ctx.t({ code: "common.public", msg: "Public" })
+								// 		: ctx.t({ code: "common.private", msg: "Private" }),
+								// },
 								{
 									label: ctx.t({ code: "common.language", msg: "Language" }),
 									value: loaderData.instanceSystemSettings?.language,
@@ -305,22 +300,22 @@ export default function Settings() {
 									label: ctx.t({ code: "settings.system.application_url", msg: "Application URL" }),
 									value: loaderData.publicURL,
 								},
-								{
-									label: ctx.t({ code: "settings.system.instance_logo_url", msg: "Instance Logo URL" }),
-									value: loaderData.instanceSystemSettings?.websiteLogo,
-								},
+								// {
+								// 	label: ctx.t({ code: "settings.system.instance_logo_url", msg: "Instance Logo URL" }),
+								// 	value: loaderData.instanceSystemSettings?.websiteLogo,
+								// },
 								{
 									label: ctx.t({ code: "settings.system.2fa_totp_issuer_name", msg: "2FA/TOTP Issuer Name" }),
 									value: loaderData.instanceSystemSettings?.totpIssuer,
 								},
-								{
-									label: ctx.t({ code: "settings.system.page_footer_privacy_policy_url", msg: "Privacy Policy URL" }),
-									value: loaderData.instanceSystemSettings?.footerUrlPrivacyPolicy,
-								},
-								{
-									label: ctx.t({ code: "settings.system.page_footer_terms_and_conditions_url", msg: "Terms & Conditions URL" }),
-									value: loaderData.instanceSystemSettings?.footerUrlTermsConditions,
-								},
+								// {
+								// 	label: ctx.t({ code: "settings.system.page_footer_privacy_policy_url", msg: "Privacy Policy URL" }),
+								// 	value: loaderData.instanceSystemSettings?.footerUrlPrivacyPolicy,
+								// },
+								// {
+								// 	label: ctx.t({ code: "settings.system.page_footer_terms_and_conditions_url", msg: "Terms & Conditions URL" }),
+								// 	value: loaderData.instanceSystemSettings?.footerUrlTermsConditions,
+								// },
 							].map(({ label, value }) => (
 								<div key={label} className="flex flex-col gap-1 px-5 py-4">
 									<dt className="text-xs font-medium text-gray-500 uppercase tracking-wide">{label}</dt>
@@ -443,7 +438,7 @@ export default function Settings() {
 							</div>
 
 							{/* Privacy URL */}
-							<div className="flex flex-col gap-1">
+							{/* <div className="flex flex-col gap-1">
 								<label className="font-semibold">
 									{ctx.t({
 										code: "settings.system.privacy_policy_url",
@@ -462,10 +457,10 @@ export default function Settings() {
 								{errors.privacyUrl && (
 									<small className="text-red-500">{errors.privacyUrl}</small>
 								)}
-							</div>
+							</div> */}
 
 							{/* Terms URL */}
-							<div className="flex flex-col gap-1">
+							{/* <div className="flex flex-col gap-1">
 								<label className="font-semibold">
 									{ctx.t({
 										code: "settings.system.terms_and_conditions_url",
@@ -484,10 +479,10 @@ export default function Settings() {
 								{errors.termsUrl && (
 									<small className="text-red-500">{errors.termsUrl}</small>
 								)}
-							</div>
+							</div> */}
 
 							{/* Logo URL */}
-							<div className="flex flex-col gap-1">
+							{/* <div className="flex flex-col gap-1">
 								<label className="font-semibold">
 									{ctx.t({
 										code: "settings.system.website_logo_url",
@@ -509,33 +504,36 @@ export default function Settings() {
 										{errors.websiteLogoUrl}
 									</small>
 								)}
-							</div>
+							</div> */}
 
-							{/* Website name */}
+							{/* Instance name */}
 							<div className="flex flex-col gap-1">
 								<label className="font-semibold">
 									{ctx.t({
-										code: "settings.system.website_name",
-										msg: "Website Name",
+										code: "settings.system.instance_name",
+										msg: "Instance Name",
 									})}
 									<span className="text-red-500 ml-1">*</span>
 								</label>
 
 								<InputText
-									name="websiteName"
-									value={websiteName}
-									onChange={(e) => setWebsiteName(e.target.value)}
-									placeholder="Enter website name"
-									invalid={!!errors.websiteName}
+									name="instanceName"
+									value={instanceName}
+									onChange={(e) =>
+										setInstanceName(e.target.value.slice(0, 20))
+									}
+									placeholder="Enter instance name (max 20 characters)"
+									invalid={!!errors.instanceName}
+									maxLength={20}
 								/>
 
-								{errors.websiteName && (
-									<small className="text-red-500">{errors.websiteName}</small>
+								{errors.instanceName && (
+									<small className="text-red-500">{errors.instanceName}</small>
 								)}
 							</div>
 
 							{/* Visibility */}
-							<div className="flex flex-col gap-1">
+							{/* <div className="flex flex-col gap-1">
 								<label className="font-semibold">
 									{ctx.t({
 										code: "settings.system.approved_records_visibility",
@@ -568,30 +566,10 @@ export default function Settings() {
 										{errors.approvedRecordsArePublic}
 									</small>
 								)}
-							</div>
-
-							{/* Currency */}
-							<div className="flex flex-col gap-1">
-								<label className="font-semibold">
-									{ctx.t({ code: "common.currency", msg: "Currency" })}
-									<span className="text-red-500 ml-1">*</span>
-								</label>
-
-								<Dropdown
-									name="currency"
-									value={currency}
-									options={getCurrencyList()}
-									onChange={(e) => setCurrency(e.value)}
-									invalid={!!errors.currency}
-								/>
-
-								{errors.currency && (
-									<small className="text-red-500">{errors.currency}</small>
-								)}
-							</div>
+							</div> */}
 
 							{/* TOTP Issuer */}
-							<div className="flex flex-col gap-1">
+							{/* <div className="flex flex-col gap-1">
 								<label className="font-semibold">
 									{ctx.t({
 										code: "settings.system.totp_issuer",
@@ -613,7 +591,7 @@ export default function Settings() {
 										{errors.totpIssuer}
 									</small>
 								)}
-							</div>
+							</div> */}
 						</div>
 
 						{/* Footer */}

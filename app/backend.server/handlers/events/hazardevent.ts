@@ -19,6 +19,7 @@ import { approvalStatusIds } from "~/frontend/approval";
 import {
 	getCountryAccountsIdFromSession,
 	getUserIdFromSession,
+	getUserRoleFromSession,
 } from "~/utils/session";
 import { redirectLangFromRoute } from "~/utils/url.backend";
 import { BackendContext } from "~/backend.server/context";
@@ -27,6 +28,7 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
 	const { request } = args;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 	const userId = (await getUserIdFromSession(request)) as string;
+	const userRole = await getUserRoleFromSession(request);
 	if (!countryAccountsId) {
 		throw redirectLangFromRoute(args, "/user/select-instance");
 	}
@@ -213,6 +215,14 @@ export async function hazardousEventsLoader(args: LoaderFunctionArgs) {
 				)
 			: undefined,
 	);
+
+	// in case of data viewer role, force the filter on approvalStatus to validated and published
+	if (userRole === 'data-viewer') {
+		condition = and(condition, or(
+			eq(hazardousEventTable.approvalStatus, "validated"),
+			eq(hazardousEventTable.approvalStatus, "published")
+		));
+	}
 
 	const count = await dr.$count(hazardousEventTable, condition);
 

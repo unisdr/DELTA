@@ -51,7 +51,7 @@ export const loader = authLoaderWithPerm("EditUsers", async (loaderArgs) => {
     const { id } = params;
 
     if (!id) {
-        throw new Response("Missing user ID", { status: 404 });
+        throw new Response("Missing user ID", { status: 400 });
     }
 
     const countryAccountsId = await getCountryAccountsIdFromSession(request);

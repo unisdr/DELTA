@@ -29,9 +29,7 @@ mkdir -p dts_shared_binary/dts_database
 
 # Step 3: Build React Router App
 next_step "Build React Router App"
-if ! yarn build; then
-  echo "WARNING: yarn build failed, continuing anyway..."
-fi
+yarn build
 
 # Step 4: Copy build folder into dts_shared_binary
 next_step "Copying build folder into dts_shared_binary"
@@ -53,6 +51,7 @@ cp -f scripts/dts_database/upgrade_from_1.0.0_to_0.1.2.sql dts_shared_binary/dts
 cp -f scripts/dts_database/upgrade_from_0.1.2_to_0.1.3.sql dts_shared_binary/dts_database/upgrade_from_0.1.2_to_0.1.3.sql
 cp -f scripts/dts_database/upgrade_from_0.1.3_to_0.2.0.sql dts_shared_binary/dts_database/upgrade_from_0.1.3_to_0.2.0.sql
 cp -f scripts/dts_database/upgrade_from_0.2.0_to_0.2.1.sql dts_shared_binary/dts_database/upgrade_from_0.2.0_to_0.2.1.sql
+cp -f scripts/dts_database/upgrade_from_0.2.1_to_0.2.2.sql dts_shared_binary/dts_database/upgrade_from_0.2.1_to_0.2.2.sql
 
 # Step 8: Copy shell and batch scripts into dts_shared_binary
 next_step "Copying shell scripts into dts_shared_binary"

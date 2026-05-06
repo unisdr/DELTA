@@ -359,7 +359,7 @@ CREATE TABLE public.countries (
     iso3 character varying(3),
     flag_url character varying(255) DEFAULT 'https://example.com/default-flag.png'::character varying NOT NULL,
     type character varying DEFAULT 'Real'::character varying NOT NULL,
-    CONSTRAINT countries_type_check CHECK (((type)::text = ANY ((ARRAY['Real'::character varying, 'Fictional'::character varying])::text[])))
+    CONSTRAINT countries_type_check CHECK (((type)::text = ANY (ARRAY[('Real'::character varying)::text, ('Fictional'::character varying)::text])))
 );
 
 
@@ -436,31 +436,6 @@ CREATE TABLE public.deaths (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     dsg_id uuid NOT NULL,
     deaths integer
-);
-
-
---
--- Name: dev_example1; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.dev_example1 (
-    api_import_id text,
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    field1 text NOT NULL,
-    field2 text NOT NULL,
-    field3 bigint NOT NULL,
-    field4 bigint,
-    field6 text DEFAULT 'one'::text NOT NULL,
-    field7 timestamp without time zone,
-    field8 text DEFAULT ''::text NOT NULL,
-    repeatable_num1 integer,
-    repeatable_text1 text,
-    repeatable_num2 integer,
-    repeatable_text2 text,
-    repeatable_num3 integer,
-    repeatable_text3 text,
-    json_data jsonb,
-    country_accounts_id uuid
 );
 
 
@@ -575,7 +550,9 @@ CREATE TABLE public.disaster_event (
     validated_by_user_id uuid,
     validated_at timestamp without time zone,
     published_by_user_id uuid,
-    published_at timestamp without time zone
+    published_at timestamp without time zone,
+    submitted_by_user_id uuid,
+    submitted_at timestamp without time zone
 );
 
 
@@ -614,7 +591,9 @@ CREATE TABLE public.disaster_records (
     validated_by_user_id uuid,
     validated_at timestamp without time zone,
     published_by_user_id uuid,
-    published_at timestamp without time zone
+    published_at timestamp without time zone,
+    submitted_by_user_id uuid,
+    submitted_at timestamp without time zone
 );
 
 
@@ -897,7 +876,6 @@ CREATE TABLE public.instance_system_settings (
     dts_instance_type character varying DEFAULT 'country'::character varying NOT NULL,
     dts_instance_ctry_iso3 character varying DEFAULT ''::character varying NOT NULL,
     currency_code character varying DEFAULT 'USD'::character varying NOT NULL,
-    country_name character varying DEFAULT 'United State of America'::character varying NOT NULL,
     country_accounts_id uuid,
     language character varying(10) DEFAULT 'en'::character varying NOT NULL
 );
@@ -1834,12 +1812,6 @@ INSERT INTO public.countries VALUES ('e681fd57-6ef2-4ef5-ac4f-d6199092941f', 'Zi
 
 
 --
--- Data for Name: dev_example1; Type: TABLE DATA; Schema: public; Owner: -
---
-
-
-
---
 -- Data for Name: disaster_event; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -1873,7 +1845,7 @@ INSERT INTO public.countries VALUES ('e681fd57-6ef2-4ef5-ac4f-d6199092941f', 'Zi
 -- Data for Name: dts_system_info; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.dts_system_info VALUES ('73f0defb-4eba-4398-84b3-5e6737fec2b7', NULL, '2026-04-17 17:04:56.001217', '0.2.1', NULL);
+INSERT INTO public.dts_system_info VALUES ('73f0defb-4eba-4398-84b3-5e6737fec2b7', NULL, '2026-05-06 15:14:48.195087', '0.2.2', NULL);
 
 
 --
@@ -2691,12 +2663,6 @@ INSERT INTO public.sector VALUES ('b1dfc9d3-9b54-4d02-81d3-637988b4d0a2', '5b8d5
 
 
 --
--- Data for Name: spatial_ref_sys; Type: TABLE DATA; Schema: public; Owner: -
---
-
-
-
---
 -- Data for Name: super_admin_users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -2824,22 +2790,6 @@ ALTER TABLE ONLY public.damages
 
 ALTER TABLE ONLY public.deaths
     ADD CONSTRAINT deaths_pkey PRIMARY KEY (id);
-
-
---
--- Name: dev_example1 dev_example1_api_import_id_tenant_unique; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.dev_example1
-    ADD CONSTRAINT dev_example1_api_import_id_tenant_unique UNIQUE (api_import_id, country_accounts_id);
-
-
---
--- Name: dev_example1 dev_example1_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.dev_example1
-    ADD CONSTRAINT dev_example1_pkey PRIMARY KEY (id);
 
 
 --
@@ -3246,14 +3196,6 @@ ALTER TABLE ONLY public.deaths
 
 
 --
--- Name: dev_example1 dev_example1_country_accounts_id_country_accounts_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.dev_example1
-    ADD CONSTRAINT dev_example1_country_accounts_id_country_accounts_id_fk FOREIGN KEY (country_accounts_id) REFERENCES public.country_accounts(id) ON DELETE CASCADE;
-
-
---
 -- Name: disaster_event disaster_event_country_accounts_id_country_accounts_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3326,6 +3268,14 @@ ALTER TABLE ONLY public.disaster_event
 
 
 --
+-- Name: disaster_event disaster_event_submitted_by_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.disaster_event
+    ADD CONSTRAINT disaster_event_submitted_by_user_id_fkey FOREIGN KEY (submitted_by_user_id) REFERENCES public."user"(id) NOT VALID;
+
+
+--
 -- Name: disaster_event disaster_event_updated_by_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3395,6 +3345,14 @@ ALTER TABLE ONLY public.disaster_records
 
 ALTER TABLE ONLY public.disaster_records
     ADD CONSTRAINT disaster_records_published_by_user_id_fkey FOREIGN KEY (published_by_user_id) REFERENCES public."user"(id) NOT VALID;
+
+
+--
+-- Name: disaster_records disaster_records_submitted_by_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.disaster_records
+    ADD CONSTRAINT disaster_records_submitted_by_user_id_fkey FOREIGN KEY (submitted_by_user_id) REFERENCES public."user"(id) NOT VALID;
 
 
 --

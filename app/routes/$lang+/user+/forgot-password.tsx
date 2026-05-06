@@ -117,6 +117,10 @@ export const action = async (actionArgs: ActionFunctionArgs) => {
 		try {
 			await sendForgotPasswordEmail(ctx, data.email, resetToken);
 		} catch (error) {
+			console.error("Failed to send forgot password email:", {
+				email: data.email,
+				error: error instanceof Error ? error.message : String(error),
+			});
 			return Response.json(
 				{
 					data,

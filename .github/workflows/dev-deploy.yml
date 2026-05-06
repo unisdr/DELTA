@@ -3,13 +3,6 @@ name: Deploy Container to Dev
 on:
   workflow_dispatch:
     inputs:
-      branch:
-        description: "Git Branch"
-        type: choice
-        options:
-          - dev
-        required: true
-        default: "dev"
       environment:
         description: "Environment"
         type: choice
@@ -58,6 +51,10 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.environment }}-latest
             ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.environment }}-${{ github.sha }}
+          labels: |
+            org.opencontainers.image.title=delta-country
+            org.opencontainers.image.description=DELTA country instance container image for development deployments.
+            org.opencontainers.image.source=https://github.com/unisdr/delta
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

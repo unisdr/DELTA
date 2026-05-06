@@ -215,14 +215,6 @@ export function checkValidCurrency(value: string): boolean {
 	return currencyList.includes(value.toUpperCase());
 }
 
-export function formatNumber(
-	value: number,
-	locale: string = "en-US",
-	options: Intl.NumberFormatOptions = {},
-): string {
-	return new Intl.NumberFormat(locale, options).format(value);
-}
-
 /**
  * format number without decimals
  * @param value

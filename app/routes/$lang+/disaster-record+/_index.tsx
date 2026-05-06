@@ -1,7 +1,6 @@
 import { disasterRecordLoader } from "~/backend.server/handlers/disaster_record";
 
 import { DataScreen } from "~/frontend/data_screen";
-import { ActionLinks } from "~/frontend/form";
 
 import { useLoaderData, MetaFunction } from "react-router";
 
@@ -16,6 +15,7 @@ import { LangLink } from "~/utils/link";
 import { Tooltip } from "primereact/tooltip";
 import { approvalStatusKeyToLabel } from "~/frontend/approval";
 import { htmlTitle } from "~/utils/htmlmeta";
+import { DataCollectionActionLinks } from "~/frontend/components/data-collection/ActionLinks";
 
 export const loader = authLoaderPublicOrWithPerm(
 	"ViewData",
@@ -152,6 +152,8 @@ export default function Data() {
 					sectors={ld.sectors}
 					sectorId={ld.filters.sectorId}
 					subSectorId={ld.filters.subSectorId}
+					viewMyRecords={ld.filters.viewMyRecords}
+					pendingMyAction={ld.filters.pendingMyAction}
 				/>
 
 				<section className="dts-page-section">
@@ -215,20 +217,20 @@ export default function Data() {
 				</td>
 				<td className="dts-table__actions">
 					{ld.isPublic ? null : (
-						<ActionLinks
+						<DataCollectionActionLinks
 							ctx={ctx}
 							route={route}
 							id={item.id}
-							deleteMessage={ctx.t({
-								code: "record.no_recovery_after_delete_warning",
-								msg: "This data cannot be recovered after being deleted.",
-							})}
-							deleteTitle={ctx.t({
-								code: "record.confirm_delete",
-								msg: "Are you sure you want to delete this record?",
-							})}
-							confirmDeleteLabel="Delete permanently"
-							cancelDeleteLabel="Do not delete"
+							// deleteMessage={ctx.t({
+							// 	code: "record.no_recovery_after_delete_warning",
+							// 	msg: "This data cannot be recovered after being deleted.",
+							// })}
+							// deleteTitle={ctx.t({
+							// 	code: "record.confirm_delete",
+							// 	msg: "Are you sure you want to delete this record?",
+							// })}
+							// confirmDeleteLabel="Delete permanently"
+							// cancelDeleteLabel="Do not delete"
 							user={ld.user}
 							approvalStatus={item.approvalStatus}
 						/>

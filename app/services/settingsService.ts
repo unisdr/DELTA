@@ -1,7 +1,6 @@
 import { getAvailableLanguages } from "~/backend.server/translations";
 import { dr } from "~/db.server";
 import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
-import { checkValidCurrency } from "~/utils/currency";
 
 export class SettingsValidationError extends Error {
 	errors: Record<string, string>;
@@ -21,7 +20,6 @@ export const SettingsService = {
 		instanceName: string,
 		// isApprovedRecordsPublic: boolean,
 		// totpIssuer: string,
-		currency: string,
 		language: string,
 	) {
 		const errors: Record<string, string> = {};
@@ -54,10 +52,6 @@ export const SettingsService = {
 		// 		"Approved records visibility is required";
 		// }
 
-		if (!checkValidCurrency(currency)) {
-			errors.currency = "Invalid currency";
-		}
-
 		if (!language || !getAvailableLanguages().includes(language)) {
 			errors.language = "Language is required and must be supported";
 		}
@@ -80,7 +74,6 @@ export const SettingsService = {
 						websiteName: instanceName,
 						// approvedRecordsArePublic: isApprovedRecordsPublic,
 						// totpIssuer,
-						currencyCode: currency,
 						language,
 					},
 					tx,

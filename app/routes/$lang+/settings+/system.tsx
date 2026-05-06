@@ -16,7 +16,6 @@ import {
 	SettingsValidationError,
 } from "~/services/settingsService";
 import { Toast } from "primereact/toast";
-import { getCurrencyList } from "~/utils/currency";
 import { getUserRoleFromSession } from "~/utils/session";
 
 import { ViewContext } from "~/frontend/context";
@@ -90,7 +89,6 @@ export const action: ActionFunction = authLoaderWithPerm(
 		// const approvedRecordsArePublic =
 		// formData.get("approvedRecordsArePublic") === "true";
 		// const totpIssuer = formData.get("totpIssuer") as string;
-		const currency = formData.get("currency") as string;
 		const language = formData.get("language") as string;
 		try {
 			await SettingsService.updateSettings(
@@ -101,7 +99,6 @@ export const action: ActionFunction = authLoaderWithPerm(
 				instanceName,
 				// approvedRecordsArePublic,
 				// totpIssuer,
-				currency,
 				language,
 			);
 			return { success: "ok" };
@@ -161,7 +158,6 @@ export default function Settings() {
 	const [instanceName, setInstanceName] = useState("");
 	// const [approvedRecordsArePublic, setApprovedRecordsArePublic] =
 	// 	useState(false);
-	const [currency, setCurrency] = useState("");
 	const [language, setLanguage] = useState(loaderData.systemLanguage);
 	// const [totpIssuer, setTotpIssuer] = useState("");
 
@@ -185,7 +181,6 @@ export default function Settings() {
 			// 	loaderData.instanceSystemSettings.approvedRecordsArePublic,
 			// );
 			// setTotpIssuer(loaderData.instanceSystemSettings.totpIssuer || "");
-			setCurrency(loaderData.instanceSystemSettings.currencyCode);
 		}
 		setIsDialogOpen(true);
 	}
@@ -572,26 +567,6 @@ export default function Settings() {
 									</small>
 								)}
 							</div> */}
-
-							{/* Currency */}
-							<div className="flex flex-col gap-1">
-								<label className="font-semibold">
-									{ctx.t({ code: "common.currency", msg: "Currency" })}
-									<span className="text-red-500 ml-1">*</span>
-								</label>
-
-								<Dropdown
-									name="currency"
-									value={currency}
-									options={getCurrencyList()}
-									onChange={(e) => setCurrency(e.value)}
-									invalid={!!errors.currency}
-								/>
-
-								{errors.currency && (
-									<small className="text-red-500">{errors.currency}</small>
-								)}
-							</div>
 
 							{/* TOTP Issuer */}
 							{/* <div className="flex flex-col gap-1">

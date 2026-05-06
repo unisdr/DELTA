@@ -44,6 +44,7 @@ import {
 	countryAccountTypesTable,
 } from "~/drizzle/schema/countryAccountsTable";
 import { COUNTRY_TYPE } from "~/drizzle/schema/countriesTable";
+import { checkValidCurrency } from "~/utils/currency";
 import { BASE_UPLOAD_PATH } from "~/utils/paths";
 
 // Create a custom error class for validation errors
@@ -245,6 +246,7 @@ export const CountryAccountService = {
 		email: string,
 		status: number = countryAccountStatuses.ACTIVE,
 		countryAccountType: string = countryAccountTypesTable.OFFICIAL,
+		currencyCode: string,
 	) {
 		const errors: string[] = [];
 		if (!countryId) errors.push("Country is required");
@@ -254,6 +256,11 @@ export const CountryAccountService = {
 		if (!shortDescription || shortDescription.trim() === "")
 			errors.push("Short description is required");
 		if (!countryAccountType) errors.push("Choose instance type");
+		if (!currencyCode || currencyCode.trim() === "") {
+			errors.push("Currency is required");
+		} else if (!checkValidCurrency(currencyCode)) {
+			errors.push("Invalid currency");
+		}
 
 		if (countryId && countryId === "-1") {
 			errors.push("Please select a country");
@@ -340,6 +347,7 @@ export const CountryAccountService = {
 					{
 						dtsInstanceCtryIso3: country.iso3 || "",
 						countryAccountsId: countryAccount.id,
+						currencyCode,
 					},
 					tx,
 				);

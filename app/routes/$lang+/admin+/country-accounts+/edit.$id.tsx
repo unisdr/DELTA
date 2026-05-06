@@ -16,6 +16,7 @@ import { SelectButton } from "primereact/selectbutton";
 import { BackendContext } from "~/backend.server/context";
 import { dr } from "~/db.server";
 import { CountryRepository } from "~/db/queries/countriesRepository";
+import { InstanceSystemSettingRepository } from "~/db/queries/instanceSystemSettingRepository";
 import {
     CountryAccountStatus,
     countryAccountStatuses,
@@ -28,6 +29,7 @@ import {
     CountryAccountValidationError,
 } from "~/services/countryAccountService";
 import { authActionWithPerm, authLoaderWithPerm } from "~/utils/auth";
+import { getCurrencyList } from "~/utils/currency";
 import { redirectWithMessage } from "~/utils/session";
 import { ViewContext } from "~/frontend/context";
 
@@ -68,7 +70,14 @@ export const loader = authLoaderWithPerm(
         }
 
         const countries = await CountryRepository.getAll();
-        return { countryAccount, countries };
+        const instanceSystemSettings =
+            await InstanceSystemSettingRepository.getByCountryAccountId(id);
+
+        return {
+            countryAccount,
+            countries,
+            currencyCode: instanceSystemSettings?.currencyCode || "",
+        };
     },
 );
 
@@ -112,11 +121,16 @@ export const action = authActionWithPerm(
 export default function CountryAccountsEditPage() {
     const ld = useLoaderData<typeof loader>();
     const ctx = new ViewContext();
-    const { countryAccount, countries } = ld;
+    const { countryAccount, countries, currencyCode } = ld;
 
     const countryOptions = useMemo(
         () => countries.map((c) => ({ label: c.name, value: c.id })),
         [countries],
+    );
+
+    const currencyOptions = useMemo(
+        () => getCurrencyList().map((value) => ({ label: value, value })),
+        [],
     );
 
     const actionData = useActionData<typeof action>();
@@ -285,6 +299,30 @@ export default function CountryAccountsEditPage() {
                             />
                         </label>
                         {statusError ? <small className="text-red-700">{statusError}</small> : null}
+                    </div>
+                    <div className="space-y-2">
+                        <label>
+                            <div className="mb-1 font-medium text-gray-700">
+                                {ctx.t({ code: "common.currency", msg: "Currency" })}
+                            </div>
+                            <input type="hidden" name="currency" value={currencyCode} />
+                            <Dropdown
+                                value={currencyCode}
+                                options={currencyOptions}
+                                optionLabel="label"
+                                optionValue="value"
+                                disabled
+                                filter
+                                filterBy="label"
+                                className="w-full"
+                            />
+                        </label>
+                        <small className="text-gray-600">
+                            {ctx.t({
+                                code: "admin.currency_lock_notice",
+                                msg: "Currency is fixed after setup and can be changed only when currency conversion is available.",
+                            })}
+                        </small>
                     </div>
                     <div className="space-y-2">
                         <label>

@@ -69,7 +69,7 @@
 		"ol": "10.8.0",
 		"otpauth": "^9.5.0",
 		"pg": "^8.18.0",
-		"postcss": "^8.0.0",
+		"postcss": "^8.5.10",
 		"postgres": "^3.4.8",
 		"primeicons": "^7.0.0",
 		"primereact": "^10.9.7",

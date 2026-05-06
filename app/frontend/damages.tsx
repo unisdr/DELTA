@@ -234,12 +234,12 @@ export function DamagesForm(props: DamagesFormProps) {
 
 	let pdDamageAmountErrors: string[] | undefined;
 	if (props.errors && props.errors.fields) {
-		assetIdErrors = errorsToStrings(props.errors.fields.pdDamageAmount);
+		pdDamageAmountErrors = errorsToStrings(props.errors.fields.pdDamageAmount);
 	}
 
 	let tdDamageAmountErrors: string[] | undefined;
 	if (props.errors && props.errors.fields) {
-		assetIdErrors = errorsToStrings(props.errors.fields.tdDamageAmount);
+		tdDamageAmountErrors = errorsToStrings(props.errors.fields.tdDamageAmount);
 	}
 
 	let override = {
@@ -267,10 +267,7 @@ export function DamagesForm(props: DamagesFormProps) {
 								<LangLink
 									lang={ctx.lang}
 									target="_blank"
-									to={
-										"/settings/assets/new?sectorId=" +
-										props.fields.sectorId
-									}
+									to={"/settings/assets/new?sectorId=" + props.fields.sectorId}
 								>
 									{ctx.t({ code: "assets.add_asset", msg: "Add asset" })}
 								</LangLink>

@@ -125,6 +125,15 @@ function invalidMoneyFormatError(
 	};
 }
 
+function numberTooLargeError(def: FormInputDefSpecific): FormError {
+	let label = def.label || def.key;
+	return {
+		def,
+		code: "number_too_large",
+		message: `The field "${label}" value is too large.`,
+	};
+}
+
 function isValidMoneyFormat(value: string): boolean {
 	if (typeof value !== "string") {
 		return false;
@@ -355,6 +364,9 @@ export function validateFromJson<T>(
 					) {
 						throw invalidTypeError(field, "number", value);
 					}
+					if (value != null && !Number.isSafeInteger(value)) {
+						throw numberTooLargeError(field);
+					}
 					return value ?? null;
 				case "uuid":
 					if (value === undefined && value === null) {
@@ -536,6 +548,9 @@ export function validateFromMap<T>(
 					parsedValue = vs === "" ? null : Number(value);
 					if (isNaN(parsedValue)) {
 						throw invalidTypeError(field, "number", value);
+					}
+					if (parsedValue != null && !Number.isSafeInteger(parsedValue)) {
+						throw numberTooLargeError(field);
 					}
 					return parsedValue;
 				case "money":

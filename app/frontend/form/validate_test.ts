@@ -1,11 +1,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { errorsToCodes, FormInputDef } from "./index";
-import {
-	validateFromMap,
-	validateFromJson,
-	validateRes,
-} from "./validate";
+import { validateFromMap, validateFromJson, validateRes } from "./validate";
 
 interface TestType {
 	k1: string;
@@ -314,6 +310,23 @@ describe("validateFromMap", function () {
 		expectedOk: true,
 		expectedData: { k7: null },
 	});
+
+	runTest({
+		name: "number field rejects unsafe integer (too large)",
+		defs: [{ key: "k2", type: "number", label: "Number Field" }],
+		data: { k2: "99999999999999999999" },
+		expectedOk: false,
+		expectedData: null,
+		expectedCodes: { k2: ["number_too_large"] },
+	});
+
+	runTest({
+		name: "number field accepts safe integer",
+		defs: [{ key: "k2", type: "number", label: "Number Field" }],
+		data: { k2: "123" },
+		expectedOk: true,
+		expectedData: { k2: 123 },
+	});
 });
 
 describe("validateFromJson", function () {
@@ -453,5 +466,22 @@ describe("validateFromJson", function () {
 		data: { k7: null },
 		expectedOk: true,
 		expectedData: { k7: null },
+	});
+
+	runTest({
+		name: "number field rejects unsafe integer (too large)",
+		defs: [{ key: "k2", type: "number", label: "Number Field" }],
+		data: { k2: 1.1111111111111111e24 },
+		expectedOk: false,
+		expectedData: null,
+		expectedCodes: { k2: ["number_too_large"] },
+	});
+
+	runTest({
+		name: "number field accepts safe integer",
+		defs: [{ key: "k2", type: "number", label: "Number Field" }],
+		data: { k2: 123 },
+		expectedOk: true,
+		expectedData: { k2: 123 },
 	});
 });

@@ -7,6 +7,7 @@ import {
 	FormView,
 	WrapInput,
 	errorsToStrings,
+	type Errors,
 } from "~/frontend/form";
 
 import {
@@ -45,6 +46,42 @@ interface DamagesFormProps extends UserFormProps<DamagesFields> {
 	fieldDef: FormInputDef<DamagesFields>[];
 	assets: Asset[];
 	treeData?: any;
+}
+
+function getFieldErrors<T>(
+	errors: Errors<T> | undefined,
+	field: keyof T,
+): string[] | undefined {
+	if (!errors || !errors.fields) return undefined;
+	return errorsToStrings(errors.fields[field]);
+}
+
+function DisruptionToggle({
+	ctx,
+	prefix,
+}: {
+	ctx: ViewContext;
+	prefix: "pd" | "td";
+}) {
+	return (
+		<div className={prefix + "Disruption"}>
+			<a className="add" href="#">
+				{ctx.t({
+					code: "disaster_record.disruption.add",
+					msg: "Add disruption",
+				})}
+			</a>
+			<a className="hide" href="#">
+				{ctx.t({
+					code: "disaster_record.disruption.hide",
+					msg: "Hide disruption",
+				})}
+			</a>
+			<h3 className="header">
+				{ctx.t({ code: "disaster_record.disruption", msg: "Disruption" })}
+			</h3>
+		</div>
+	);
 }
 
 export function DamagesForm(props: DamagesFormProps) {
@@ -192,11 +229,6 @@ export function DamagesForm(props: DamagesFormProps) {
 		throw new Error("assetId def does not exist");
 	}
 
-	let assetIdErrors: string[] | undefined;
-	if (props.errors && props.errors.fields) {
-		assetIdErrors = errorsToStrings(props.errors.fields["assetId"]);
-	}
-
 	let [assetId, setAssetId] = useState(
 		props.fields.assetId || (props.assets.length ? props.assets[0].id : ""),
 	);
@@ -232,16 +264,6 @@ export function DamagesForm(props: DamagesFormProps) {
 	}
 	tdDam.label = pdDam.label;
 
-	let pdDamageAmountErrors: string[] | undefined;
-	if (props.errors && props.errors.fields) {
-		assetIdErrors = errorsToStrings(props.errors.fields.pdDamageAmount);
-	}
-
-	let tdDamageAmountErrors: string[] | undefined;
-	if (props.errors && props.errors.fields) {
-		assetIdErrors = errorsToStrings(props.errors.fields.tdDamageAmount);
-	}
-
 	let override = {
 		assetId: (
 			<>
@@ -267,16 +289,13 @@ export function DamagesForm(props: DamagesFormProps) {
 								<LangLink
 									lang={ctx.lang}
 									target="_blank"
-									to={
-										"/settings/assets/new?sectorId=" +
-										props.fields.sectorId
-									}
+									to={"/settings/assets/new?sectorId=" + props.fields.sectorId}
 								>
 									{ctx.t({ code: "assets.add_asset", msg: "Add asset" })}
 								</LangLink>
 							</>
 						}
-						errors={assetIdErrors}
+						errors={getFieldErrors(props.errors, "assetId")}
 					/>
 				) : (
 					<p>
@@ -302,7 +321,7 @@ export function DamagesForm(props: DamagesFormProps) {
 						/>
 					</>
 				}
-				errors={pdDamageAmountErrors}
+				errors={getFieldErrors(props.errors, "pdDamageAmount")}
 			/>
 		),
 		tdDamageAmount: (
@@ -319,7 +338,7 @@ export function DamagesForm(props: DamagesFormProps) {
 						/>
 					</>
 				}
-				errors={tdDamageAmountErrors}
+				errors={getFieldErrors(props.errors, "tdDamageAmount")}
 			/>
 		),
 		recordId: (
@@ -425,44 +444,8 @@ export function DamagesForm(props: DamagesFormProps) {
 						)}
 					</h2>
 				),
-				pdRecoveryCostTotalOverride: (
-					<div className="pdDisruption">
-						<a className="add" href="#">
-							{ctx.t({
-								code: "disaster_record.disruption.add",
-								msg: "Add disruption",
-							})}
-						</a>
-						<a className="hide" href="#">
-							{ctx.t({
-								code: "disaster_record.disruption.hide",
-								msg: "Hide disruption",
-							})}
-						</a>
-						<h3 className="header">
-							{ctx.t({ code: "disaster_record.disruption", msg: "Disruption" })}
-						</h3>
-					</div>
-				),
-				tdRecoveryCostTotalOverride: (
-					<div className="tdDisruption">
-						<a className="add" href="#">
-							{ctx.t({
-								code: "disaster_record.disruption.add",
-								msg: "Add disruption",
-							})}
-						</a>
-						<a className="hide" href="#">
-							{ctx.t({
-								code: "disaster_record.disruption.hide",
-								msg: "Hide disruption",
-							})}
-						</a>
-						<h3 className="header">
-							{ctx.t({ code: "disaster_record.disruption", msg: "Disruption" })}
-						</h3>
-					</div>
-				),
+				pdRecoveryCostTotalOverride: <DisruptionToggle ctx={ctx} prefix="pd" />,
+				tdRecoveryCostTotalOverride: <DisruptionToggle ctx={ctx} prefix="td" />,
 			}}
 			override={override}
 		/>

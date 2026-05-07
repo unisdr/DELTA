@@ -120,5 +120,11 @@
 		"*.{ts,tsx,js,jsx,json,css,md}": [
 			"prettier --write"
 		]
+	},
+	"resolutions": {
+		"esbuild": "^0.27.0",
+		"picomatch": "^4.0.4",
+		"postcss": "^8.5.10",
+		"minimatch": "^10.2.3"
 	}
 }

@@ -279,12 +279,12 @@ export function validate(fields: Partial<LossesFields>): Errors<LossesFields> {
 			errors.fields![k] = [msg];
 	};
 	[
-		"publicValue",
-		"publicCostPerUnit",
-		"publicTotalCost",
-		"privateValue",
-		"privateCostPerUnit",
-		"privateTotalCost",
+		"publicUnits",
+		"publicCostUnit",
+		"publicCostTotal",
+		"privateUnits",
+		"privateCostUnit",
+		"privateCostTotal",
 	].forEach((k) => check(k as keyof LossesFields));
 
 	return errors;
@@ -347,10 +347,11 @@ export async function lossesUpdateByIdAndCountryAccountsId(
 
 	let recordId = await getRecordId(tx, id);
 
-	const disasterRecords = await DisasterRecordsRepository.getByIdAndCountryAccountsId(
-		recordId,
-		countryAccountsId,
-	);
+	const disasterRecords =
+		await DisasterRecordsRepository.getByIdAndCountryAccountsId(
+			recordId,
+			countryAccountsId,
+		);
 	if (!disasterRecords || disasterRecords.length === 0) {
 		return {
 			ok: false,

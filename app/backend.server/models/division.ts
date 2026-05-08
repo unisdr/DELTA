@@ -503,7 +503,20 @@ async function processDivisions(
 	return { successfulImports, failedImports, updatedCount, insertedCount };
 }
 
-// Build hierarchical levels (roots at 0, their children at 1, etc.)
+/**
+ * Builds a hierarchical processing order for division imports.
+ *
+ * Organizes divisions into BFS-like levels: root divisions (no parent) at level 0,
+ * their children at level 1, grandchildren at level 2, etc. This ensures parent
+ * divisions are imported before their children in the database.
+ *
+ * Safety limit of 100 iterations prevents infinite loops from circular references.
+ *
+ * After building levels, performs two validation passes:
+ * - **Orphaned divisions**: parent ID references a division not in the import data
+ * - **Unprocessed divisions**: not assigned to any level (could indicate circular
+ *   references or other structural issues)
+ */
 function buildHierarchicalLevels(
 	divisions: Map<string, DivisionData>,
 ): string[][] {
@@ -795,7 +808,23 @@ async function processSingleDivision(
 	}
 }
 
-// Import a single division into the database
+/**
+ * Imports a single division into the database.
+ *
+ * Handles three GeoJSON input types to extract geometry:
+ * - FeatureCollection: uses first feature's geometry
+ * - Feature: extracts geometry directly
+ * - Raw geometry object: used as-is
+ *
+ * Resolves parent ID from the `idMap` (which may contain mappings from either the
+ * current import batch or pre-loaded existing divisions), calculates hierarchy level
+ * by querying the parent's level, and performs an upsert:
+ * - If a division with the same `importId` + `countryAccountsId` exists: update it
+ * - Otherwise: insert a new record
+ *
+ * PostGIS geometry conversion uses `ST_MakeValid(ST_GeomFromGeoJSON(...))` with
+ * automatic bounding box calculation via `ST_Envelope`.
+ */
 async function importDivision(
 	tx: any, // Your transaction type
 	division: DivisionData,
@@ -946,9 +975,17 @@ export function fromForm(formData: Record<string, string>): InsertDivision {
 }
 
 /**
- * Validates division data before creation or update
- * Checks for duplicate divisions, validates parent-child relationships,
- * and ensures proper level calculation based on parent
+ * Validates division data before creation or update.
+ *
+ * Four validation passes:
+ * 1. **Parent validation**: checks parent exists, belongs to same tenant, and
+ *    calculates hierarchy level. For updates, also checks for circular references
+ *    via `checkCircularReference` (traverses entire parent chain).
+ * 2. **Name validation**: division name must be present
+ * 3. **Duplicate national ID check**: within the same tenant, excluding self on update
+ * 4. **Duplicate import ID check**: within the same tenant, excluding self on update
+ *
+ * Returns the calculated level (parent's level + 1, or 1 for root divisions).
  */
 async function validateDivisionData(
 	tx: Tx,

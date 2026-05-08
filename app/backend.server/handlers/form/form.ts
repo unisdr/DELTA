@@ -209,6 +209,18 @@ function adjustApprovalStatsBasedOnUserRole(
 	return null;
 }
 
+/**
+ * Generic form save handler used by all create/update form actions.
+ *
+ * Pipeline:
+ * 1. Parse request formData and merge any query string params
+ * 2. Parse JSON strings for JSONB fields (with per-field error handling)
+ * 3. Validate all fields via `validateFromMapFull`
+ * 4. Enforce role-based approval status restrictions via `adjustApprovalStatsBasedOnUserRole`
+ * 5. Run the caller-provided `save` callback inside a database transaction
+ * 6. Run optional `postProcess` hook (e.g. for attachments) after commit
+ * 7. Redirect with a localized success message
+ */
 export async function formSave<T>(
 	args: FormSaveArgs<T>,
 ): Promise<FormResponse2<T> | Response> {
@@ -580,7 +592,12 @@ interface CreateActionArgsWithCountryAccountsId<T> {
 		| FormInputDef<T>[]
 		| ((ctx: BackendContext) => Promise<FormInputDef<T>[]>);
 
-	create: (ctx: BackendContext, tx: Tx, data: T, countryAccountsId: string) => Promise<SaveResult<T>>;
+	create: (
+		ctx: BackendContext,
+		tx: Tx,
+		data: T,
+		countryAccountsId: string,
+	) => Promise<SaveResult<T>>;
 	update: (
 		ctx: BackendContext,
 		tx: Tx,
@@ -588,7 +605,12 @@ interface CreateActionArgsWithCountryAccountsId<T> {
 		countryAccountsId: string,
 		data: T,
 	) => Promise<SaveResult<T>>;
-	getById: (ctx: BackendContext, tx: Tx, id: string, countryAccountsId: string) => Promise<T | null>;
+	getById: (
+		ctx: BackendContext,
+		tx: Tx,
+		id: string,
+		countryAccountsId: string,
+	) => Promise<T | null>;
 	redirectTo: (id: string) => string;
 	tableName: string;
 	action?: (isCreate: boolean) => string;
@@ -601,7 +623,6 @@ export function createActionWithCountryAccountsId<T>(
 		const request = actionArgs.request;
 		const ctx = new BackendContext(actionArgs);
 		const countryAccountsId = await getCountryAccountsIdFromSession(request);
-
 
 		let fieldsDef: FormInputDef<T>[] = [];
 		if (typeof args.fieldsDef == "function") {
@@ -633,7 +654,13 @@ export function createActionWithCountryAccountsId<T>(
 					if (!oldRecord) {
 						throw new Response("Not Found", { status: 404 });
 					}
-					const updateResult = await args.update(ctx, tx, id, countryAccountsId, data);
+					const updateResult = await args.update(
+						ctx,
+						tx,
+						id,
+						countryAccountsId,
+						data,
+					);
 					if (updateResult.ok) {
 						await logAudit({
 							tableName: args.tableName,

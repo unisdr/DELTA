@@ -655,6 +655,22 @@ export async function getDescendantDivisionIds(
 	}
 }
 
+/**
+ * Finds disaster records that geographically intersect with a given division.
+ *
+ * Uses a multi-strategy spatial matching approach:
+ * 1. **JSONB path matching**: division IDs stored in `geojson.properties.division_ids`
+ *    or `geojson.dts_info.division_ids` / `division_id`
+ * 2. **Geographic level name matching**: `geographic_level` field matching division name
+ * 3. **Coordinate containment**: markers (points), circles, rectangles, polygons, lines
+ * 4. **GeoJSON feature geometry**: Point and LineString features
+ *
+ * After the SQL spatial query, a TypeScript-level re-verification filter runs to confirm
+ * matches using the same metadata checks (division IDs, geographic level names, geometry
+ * validity). This catches false positives from the SQL path-matching.
+ *
+ * Falls back to text matching on `locationDesc` if no spatial matches are found.
+ */
 async function getDisasterRecordsForDivision(
 	countryAccountsId: string,
 	divisionId: string,
@@ -1195,6 +1211,18 @@ export async function fetchGeographicImpactData(
 	}
 }
 
+/**
+ * Aggregates damage costs by year across disaster records.
+ *
+ * Uses two calculation paths that are merged:
+ * 1. **Sector overrides**: where `withDamage = true` and `damageCost IS NOT NULL` in
+ *    `sector_disaster_records_relation` — uses the SDR cost directly
+ * 2. **Detailed damages**: where no override exists — calculates using the formula:
+ *    `pdDamageAmount * pdRepairCostUnit + tdDamageAmount * tdReplacementCostUnit`
+ *
+ * The `NOT EXISTS` subquery on path 2 excludes records that have an override on path 1,
+ * preventing double-counting. Results from both paths are merged by year.
+ */
 async function aggregateDamagesData(
 	recordIds: string[],
 	sectorIds?: string[],
@@ -1330,6 +1358,19 @@ async function aggregateDamagesData(
 	}
 }
 
+/**
+ * Aggregates loss costs by year across disaster records.
+ *
+ * Same dual-path structure as `aggregateDamagesData` but for losses. The detailed
+ * loss calculation is more complex because it has two independent override flags:
+ * - `publicCostTotalOverride`: if true, uses `publicCostTotal` directly; otherwise
+ *   calculates `publicUnits * publicCostUnit`
+ * - `privateCostTotalOverride`: if true, uses `privateCostTotal` directly; otherwise
+ *   calculates `privateUnits * privateCostUnit`
+ *
+ * Total loss per row = public portion + private portion.
+ * The `NOT EXISTS` subquery checks for `withLosses = true` and `lossesCost IS NOT NULL`.
+ */
 async function aggregateLossesData(
 	recordIds: string[],
 	sectorIds?: string[],

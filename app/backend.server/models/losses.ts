@@ -400,6 +400,7 @@ export async function lossesIdByImportId(tx: Tx, importId: string) {
 		.where(eq(lossesTable.apiImportId, importId));
 	return res.length == 0 ? null : String(res[0].id);
 }
+// BUG: join on sectorId looks wrong — should probably be recordId to link through the disaster record for tenant scoping
 export async function lossesIdByImportIdAndCountryAccountsId(
 	tx: Tx,
 	importId: string,

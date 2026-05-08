@@ -352,7 +352,7 @@ describe("DataManager", () => {
 		assert.deepEqual(res, want);
 	});
 
-	it("get group totals - basic", () => {
+	it("get group totals - with total group string", () => {
 		let manager = new DataManager();
 		manager.init(
 			defs,
@@ -367,6 +367,74 @@ describe("DataManager", () => {
 		let res = manager.groupTotals();
 		let want = new Map([["1", [11]]]);
 		assert.deepEqual(res, want);
+	});
+
+	it("addRow('end') places row at end of sort order", () => {
+		const initialData = [
+			["John", 25],
+			["Jane", 30],
+		];
+		const ids = ["1", "2"];
+		const manager = new DataManager();
+		manager.init(defs, cols, initialData, ids);
+		let id = manager.addRow("end");
+		manager.updateField(id, 0, "Bob");
+		manager.updateField(id, 1, 22);
+
+		let res = manager.applyUpdates();
+		assert.deepEqual(res, [
+			[
+				{ id: "2", data: ["Jane", 30], from: ["i", "i"] },
+				{ id: "1", data: ["John", 25], from: ["i", "i"] },
+				{ id: "_temp1", data: ["Bob", 22], from: ["n", "n"] },
+			],
+		]);
+	});
+
+	it("sortByColumn asc order", () => {
+		const initialData = [
+			["John", 25],
+			["Jane", 30],
+			["Bob", 22],
+		];
+		const ids = ["1", "2", "3"];
+		const manager = new DataManager();
+		manager.init(defs, cols, initialData, ids);
+		manager.sortByColumn(1, "asc");
+
+		let res = manager.applyUpdates();
+		assert.deepEqual(res, [
+			[
+				{ id: "3", data: ["Bob", 22], from: ["i", "i"] },
+				{ id: "1", data: ["John", 25], from: ["i", "i"] },
+				{ id: "2", data: ["Jane", 30], from: ["i", "i"] },
+			],
+		]);
+	});
+
+	it("updateField on non-existent row throws", () => {
+		const manager = new DataManager();
+		manager.init(defs, cols, [["John", 25]], ["1"]);
+		assert.throws(() => {
+			manager.updateField("nonexistent", 0, "Jane");
+		}, /Row with ID not found/);
+	});
+
+	it("deleteRow on non-existent row throws", () => {
+		const manager = new DataManager();
+		manager.init(defs, cols, [["John", 25]], ["1"]);
+		assert.throws(() => {
+			manager.deleteRow("nonexistent");
+		}, /row not found by id/);
+	});
+
+	it("hasUnsavedChanges tracks updates", () => {
+		const manager = new DataManager();
+		manager.init(defs, cols, [["John", 25]], ["1"]);
+		assert.equal(manager.hasUnsavedChanges(), false);
+
+		manager.updateField("1", 0, "Jane");
+		assert.equal(manager.hasUnsavedChanges(), true);
 	});
 });
 

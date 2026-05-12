@@ -7,7 +7,7 @@
     {
         "id": "admin.add_country_account",
         "description": "File: app/routes/$lang+/admin+/country-accounts+/_layout.tsx:261",
-        "translation": "Додајте земљу рачун"
+        "translation": "Додајте налог земље"
     },
     {
         "id": "admin.add_fictitious_country",
@@ -22,12 +22,12 @@
     {
         "id": "admin.clone_country_account",
         "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:73",
-        "translation": "Клонирати налог за земљу"
+        "translation": "Дуплирајте налог за земљу"
     },
     {
         "id": "admin.country_account_cloned",
         "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:31",
-        "translation": "Налог за земљу је успешно клониран"
+        "translation": "Налог за земљу је успешно дуплиран"
     },
     {
         "id": "admin.country_account_created",
@@ -47,7 +47,7 @@
     {
         "id": "admin.country_account_updated",
         "description": "File: app/routes/$lang+/admin+/country-accounts+/edit.$id.tsx:94",
-        "translation": "Кредитни рачун успешно ажуриран"
+        "translation": "Налог земље је успешно ажуриран"
     },
     {
         "id": "admin.country_type",
@@ -62,7 +62,7 @@
     {
         "id": "admin.db_connection_string_missing",
         "description": "File: app/routes/$lang+/admin+/login.tsx:133",
-        "translation": "Недостаје низ за повезивање на базу података"
+        "translation": "Недостаје веза за повезивање на базу података"
     },
     {
         "id": "admin.delete_instance_confirm_header",
@@ -77,7 +77,7 @@
     {
         "id": "admin.edit_country_account",
         "description": "File: app/routes/$lang+/admin+/country-accounts+/edit.$id.tsx:175",
-        "translation": "Уреди рачун земље"
+        "translation": "Уреди налог земље"
     },
     {
         "id": "admin.edit_fictitious_country",
@@ -87,7 +87,7 @@
     {
         "id": "admin.email_password_dont_match",
         "description": "File: app/routes/$lang+/admin+/login.tsx:103",
-        "translation": "Имејл или лозинка не одговарају"
+        "translation": "Имејл или лозинка се не слажу"
     },
     {
         "id": "admin.enter_email",
@@ -102,7 +102,7 @@
     {
         "id": "admin.fictitious_country_management",
         "description": "File: app/routes/$lang+/admin+/fictitious-country-mgmt+/_layout.tsx:32",
-        "translation": "Фиктивни менаџмент у земљи"
+        "translation": "Менаџмент фиктивне земље"
     },
     {
         "id": "admin.instance_deleted",
@@ -212,7 +212,7 @@
     {
         "id": "analysis.affected_population",
         "description": "File: app/components/CustomMap.tsx:180",
-        "translation": "Популација погођена"
+        "translation": "Погођена популација"
     },
     {
         "id": "analysis.affected_population_icon",
@@ -227,7 +227,7 @@
     {
         "id": "analysis.age_group_distribution_tooltip",
         "description": "File: app/frontend/analytics/hazards/sections/HumanAffects.tsx:454",
-        "translation": "Распределба погођених особа по старосној групи"
+        "translation": "Подела погођених особа по старосној групи"
     },
     {
         "id": "analysis.apply_filters",
@@ -282,7 +282,7 @@
     {
         "id": "analysis.damages",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.sector.tsx:343",
-        "translation": "Штета"
+        "translation": "Штете"
     },
     {
         "id": "analysis.damages_and_losses",
@@ -297,7 +297,7 @@
     {
         "id": "analysis.damages_in_currency_due_to_hazard",
         "description": "Title showing total damages in a specific currency caused by a hazard type. {currency} is the currency code (e.g. USD), {hazard} is the display name of the hazard. File: app/frontend/analytics/sectors/sections/ImpactOnSector.tsx:547",
-        "translation": "Штета у {currency} због {hazard}"
+        "translation": "Штета у {currency} због {currency}"
     },
     {
         "id": "analysis.dashboard_description",
@@ -317,7 +317,7 @@
     {
         "id": "analysis.date_format_error_database",
         "description": "File: app/frontend/analytics/sectors/sections/ImpactOnSector.tsx:281",
-        "translation": "Систем је наишао на проблем са форматом датума. Молимо контактирајте свог администратора да реши овај проблем са базом података."
+        "translation": "Систем је наишао на проблем са форматом датума. Молимо контактирајте свог администратора да реши овај проблем у бази података."
     },
     {
         "id": "analysis.date_range",
@@ -327,7 +327,7 @@
     {
         "id": "analysis.dead_icon",
         "description": "Alt text for the icon that represents a deceased person File: app/frontend/analytics/hazards/sections/HumanAffects.tsx:162",
-        "translation": "Мртва икона"
+        "translation": "Икона мртвих"
     },
     {
         "id": "analysis.death",
@@ -357,12 +357,12 @@
     {
         "id": "analysis.disability_poverty_distribution_tooltip",
         "description": "File: app/frontend/analytics/hazards/sections/HumanAffects.tsx:418",
-        "translation": "Распредељење погођених особа по статусу инвалидитета и сиромаштва"
+        "translation": "Преглед погођених особа по статусу инвалидитета и сиромаштва"
     },
     {
         "id": "analysis.disaster_event",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:596",
-        "translation": "Случај катастрофе"
+        "translation": "Опасни догађај"
     },
     {
         "id": "analysis.disaster_event_impacts_on_sectors",
@@ -387,7 +387,7 @@
     {
         "id": "analysis.disaster_summary.damages",
         "description": "File: app/frontend/analytics/hazards/sections/DisasterEventsList.tsx:63",
-        "translation": "Штета"
+        "translation": "Штете"
     },
     {
         "id": "analysis.disaster_summary.event_name",
@@ -422,7 +422,7 @@
     {
         "id": "analysis.disruption_id",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.sector.tsx:670",
-        "translation": "Идентификација поремећаја"
+        "translation": "ИД број поремећаја"
     },
     {
         "id": "analysis.disruptions",
@@ -432,12 +432,12 @@
     {
         "id": "analysis.distribution_of_affected_people_by_gender",
         "description": "File: app/frontend/analytics/hazards/sections/HumanAffects.tsx:383",
-        "translation": "Распредељење погођених особа по полу"
+        "translation": "Преглед погођених особа по полу"
     },
     {
         "id": "analysis.distribution_of_impacts_geographic_levels",
         "description": "File: app/frontend/analytics/sectors/sections/ImpactMap.tsx:234",
-        "translation": "Распредељење утицаја на различитим географским нивоима"
+        "translation": "Преглед утицаја на различитим географским нивоима"
     },
     {
         "id": "analysis.duration_days",
@@ -487,12 +487,12 @@
     {
         "id": "analysis.events_over_time_tooltip",
         "description": "File: app/frontend/analytics/sectors/sections/ImpactOnSector.tsx:515",
-        "translation": "Распрострањење догађаја током времена које показује учесталост и обрасце"
+        "translation": "Распрострањеност догађаја током времена које показује учесталост и обрасце"
     },
     {
         "id": "analysis.failed_to_fetch_geographic_data",
         "description": "File: app/frontend/analytics/sectors/sections/ImpactMap.tsx:219",
-        "translation": "Није успело да се преузму географски подаци"
+        "translation": "Преузимање географских података није успело"
     },
     {
         "id": "analysis.failed_to_load_hazard_impact_data",
@@ -502,7 +502,7 @@
     {
         "id": "analysis.failed_to_load_sector_data",
         "description": "File: app/frontend/analytics/sectors/sections/Filters.tsx:136",
-        "translation": "Учитавање података сектора није успело. Молимо покушајте поново касније."
+        "translation": "Учитавање података о сектору није успело. Молимо покушајте поново касније."
     },
     {
         "id": "analysis.fatalities",
@@ -532,7 +532,7 @@
     {
         "id": "analysis.hazard_impact_description",
         "description": "File: app/frontend/analytics/sectors/sections/ImpactByHazard.tsx:596",
-        "translation": "Анализа начина на који различити ризици утичу на овај сектор"
+        "translation": "Анализа утицаја различитих ризика на овај сектор"
     },
     {
         "id": "analysis.hazard_impacts_across_country",
@@ -572,37 +572,37 @@
     {
         "id": "analysis.human_effects.children_adults_and_seniors_affected_tooltip",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1213",
-        "translation": "Деца, одрасли и старији погођени је број деце, одраслих и старијих који су погођени катастрофом."
+        "translation": "Термин \"деца, одрасли и старији погођени\" представља збир броја деце, одраслих и старијих који су погођени катастрофом."
     },
     {
         "id": "analysis.human_effects.death_tooltip",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:907",
-        "translation": "Смрт је број људи који су погинули услед катастрофе."
+        "translation": "Термин \"смрт\" означава број људи који су погинули услед катастрофе."
     },
     {
         "id": "analysis.human_effects.displaced_tooltip",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1046",
-        "translation": "Расељени су број људи који су расељени услед катастрофе."
+        "translation": "Термин расељени представља број људи који су расељени услед катастрофе."
     },
     {
         "id": "analysis.human_effects.injured_tooltip",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:940",
-        "translation": "Повређени је број људи који су повређени услед катастрофе."
+        "translation": "Термин повређени представља број људи који су повређени услед катастрофе."
     },
     {
         "id": "analysis.human_effects.men_and_women_affected_tooltip",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1091",
-        "translation": "Мушкарци и жене погођени су број мушкараца и жена који су погођени катастрофом."
+        "translation": "Термин \"мушкарци и жене погођени\" се односи на број мушкараца и жена који су погођени катастрофом."
     },
     {
         "id": "analysis.human_effects.missing_tooltip",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:973",
-        "translation": "Недостаје број људи који су нестали услед катастрофе."
+        "translation": "Термин \"недостаје\" се односи на број људи који су нестали услед катастрофе."
     },
     {
         "id": "analysis.human_effects.people_directly_affected_tooltip",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1013",
-        "translation": "Директно погођени људи (стари DesInventar) је број људи који су били директно погођени катастрофом."
+        "translation": "Термин директно погођени људи (стари DesInventar) се односи на број људи који су били директно погођени катастрофом."
     },
     {
         "id": "analysis.human_effects.persons_with_disabilities_and_living_in_poverty_affected_tooltip",
@@ -612,7 +612,7 @@
     {
         "id": "analysis.human_effects.total_people_affected_tooltip",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:868",
-        "translation": "Укупан број погођених људи је збир повређених, несталих, директно погођених и расељених."
+        "translation": "Термин \"укупан број погођених људи\" се односи на збир повређених, несталих, директно погођених и расељених."
     },
     {
         "id": "analysis.impact_by_geographic_level",
@@ -627,7 +627,7 @@
     {
         "id": "analysis.impact_in_sector",
         "description": "Selected sector name to be interpolated in the impact analysis title. {sector} is the name of the sector. File: app/frontend/analytics/sectors/sections/ImpactOnSector.tsx:210",
-        "translation": "Удар у сектору {sector}"
+        "translation": "Утицај на сектор {sector}"
     },
     {
         "id": "analysis.impact_in_sector_by_geographic_level",
@@ -652,7 +652,7 @@
     {
         "id": "analysis.impact_in_subsector_with_sector",
         "description": "Subsector name and sector name to be interpolated in the impact analysis title. {subsector} is the specific subsector, {sector} is the parent sector. File: app/frontend/analytics/sectors/sections/ImpactOnSector.tsx:192",
-        "translation": "Удар у {subsector} ({sector} сектор)"
+        "translation": "Утицај у {subsector} ({sector} сектор)"
     },
     {
         "id": "analysis.impact_summary",
@@ -667,7 +667,7 @@
     {
         "id": "analysis.injured_icon",
         "description": "Alt text for the icon that represents injured people File: app/frontend/analytics/hazards/sections/HumanAffects.tsx:205",
-        "translation": "Повређена икона"
+        "translation": "Икона повређеног"
     },
     {
         "id": "analysis.injuries",
@@ -677,7 +677,7 @@
     {
         "id": "analysis.internally_displaced_icon",
         "description": "File: app/frontend/analytics/hazards/sections/HumanAffects.tsx:351",
-        "translation": "Унутрашње расељена Икона"
+        "translation": "Икона интерног расељења"
     },
     {
         "id": "analysis.invalid_data_structure",
@@ -712,7 +712,7 @@
     {
         "id": "analysis.losses_id",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.sector.tsx:536",
-        "translation": "Губици ID"
+        "translation": "ИД губитака"
     },
     {
         "id": "analysis.losses_in_currency",
@@ -727,7 +727,7 @@
     {
         "id": "analysis.men_and_women_affected",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1079",
-        "translation": "Мушкарци и жене погођени"
+        "translation": "Погођени мушкарци и жене"
     },
     {
         "id": "analysis.metric_in_currency",
@@ -737,7 +737,7 @@
     {
         "id": "analysis.missing",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:962",
-        "translation": "Нестало"
+        "translation": "Недостаје"
     },
     {
         "id": "analysis.missing_icon",
@@ -747,7 +747,7 @@
     {
         "id": "analysis.most_damaging_events",
         "description": "File: app/frontend/analytics/sectors/sections/MostDamagingEvents.tsx:133",
-        "translation": "Најштетнији догађаји"
+        "translation": "Догађаји са највише штета"
     },
     {
         "id": "analysis.most_damaging_events_description",
@@ -757,7 +757,7 @@
     {
         "id": "analysis.most_damaging_events_for_sector",
         "description": "Title showing the most damaging events for a specific sector. {sector} is the name of the sector. File: app/frontend/analytics/sectors/sections/MostDamagingEvents.tsx:164",
-        "translation": "Најштетнији догађаји за сектор {sector}"
+        "translation": "Најштетнији догађаји за {sector} сектор"
     },
     {
         "id": "analysis.most_damaging_events_for_subsector_and_sector",
@@ -767,12 +767,12 @@
     {
         "id": "analysis.most_recent_events_across_country",
         "description": "Header for the most recent events of a hazard when no specific geographic area is selected (across the whole country). {hazard}=hazard name. File: app/frontend/analytics/hazards/sections/DisasterEventsList.tsx:32",
-        "translation": "Најновији {hazard} догађаји широм земље"
+        "translation": "Најскорији {hazard} догађаји широм земље"
     },
     {
         "id": "analysis.most_recent_events_in_geographic",
         "description": "Header for the most recent events of a hazard in a specific geographic area. {hazard}=hazard name, {geographic}=geographic name. File: app/frontend/analytics/hazards/sections/DisasterEventsList.tsx:24",
-        "translation": "Најновији {hazard} догађаји у {geographic}"
+        "translation": "Најскорији {hazard} догађаји на {geographic}"
     },
     {
         "id": "analysis.no_admin_divisions_available",
@@ -807,7 +807,7 @@
     {
         "id": "analysis.no_disruption_records_details",
         "description": "File: app/frontend/analytics/sectors/sections/EffectDetails.tsx:480",
-        "translation": "Нема доступних детаља о поремећајима за изабране критеријуме."
+        "translation": "Нема доступних детаља о прекидима за изабране критеријуме."
     },
     {
         "id": "analysis.no_economic_impact",
@@ -822,7 +822,7 @@
     {
         "id": "analysis.no_geographic_data_available",
         "description": "File: app/components/CustomMap.tsx:848",
-        "translation": "Није доступно географско особље"
+        "translation": "Нису доступни географски подаци"
     },
     {
         "id": "analysis.no_geographic_data_for_filters",
@@ -832,7 +832,7 @@
     {
         "id": "analysis.no_geographic_impact_data_found_for_filters",
         "description": "File: app/components/CustomMap.tsx:855",
-        "translation": "Није пронађено географских података о утицају за изабране филтере. Покушајте да прилагодите свој избор."
+        "translation": "Нису пронађени географски подаци о утицају за изабране филтере. Покушајте да прилагодите свој избор."
     },
     {
         "id": "analysis.no_impact_data_for_filters",
@@ -857,7 +857,7 @@
     {
         "id": "analysis.no_metric_unit",
         "description": "Indicates no data is available for a count-type metric. {unit} is the unit of measurement (e.g. impact, event). File: app/components/CustomMap.tsx:581",
-        "translation": "Од {unit}"
+        "translation": "Број {unit}"
     },
     {
         "id": "analysis.no_sector_selected",
@@ -872,7 +872,7 @@
     {
         "id": "analysis.no_unit_count",
         "description": "Indicates no items counted. {unit} is the unit of measurement (e.g. people, events). File: app/components/CustomMap.tsx:242",
-        "translation": "Од {unit}"
+        "translation": "Број {unit}"
     },
     {
         "id": "analysis.number_of_deaths",
@@ -922,7 +922,7 @@
     {
         "id": "analysis.persons_with_disabilities_and_living_in_poverty_affected",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1152",
-        "translation": "Лица са инвалидитетом и лица која живе у сиромаштву погођена"
+        "translation": "Погођена лица са инвалидитетом и лица која живе у сиромаштву"
     },
     {
         "id": "analysis.please_select_filters_to_view_geographic_impact",
@@ -967,7 +967,7 @@
     {
         "id": "analysis.repair_replacement",
         "description": "File: app/frontend/analytics/sectors/sections/EffectDetails.tsx:305",
-        "translation": "Поправка/Замена"
+        "translation": "Поправка/замена"
     },
     {
         "id": "analysis.repair_replacement_cost",
@@ -977,7 +977,7 @@
     {
         "id": "analysis.response_cost",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.sector.tsx:742",
-        "translation": "Трошак одговора"
+        "translation": "Трошак реаговања"
     },
     {
         "id": "analysis.search_by_geographic_level_placeholder",
@@ -1002,7 +1002,7 @@
     {
         "id": "analysis.search_disaster_events",
         "description": "File: app/frontend/analytics/sectors/sections/Filters.tsx:1093",
-        "translation": "Претрага догађаја катастрофа"
+        "translation": "Претрага катастрофалних догађаја"
     },
     {
         "id": "analysis.sector",
@@ -1017,17 +1017,17 @@
     {
         "id": "analysis.sector_dashboard_description",
         "description": "File: app/frontend/analytics/sectors/sections/ImpactOnSector.tsx:264",
-        "translation": "Ова контролна табла приказује агрегиране податке о утицају за изабрани сектор, укључујући све његове подсекторе."
+        "translation": "Ова табла приказује агрегиране податке о утицају за изабрани сектор, укључујући све његове подсекторе."
     },
     {
         "id": "analysis.sector_impact_analysis",
         "description": "File: app/frontend/analytics/sectors/sections/ImpactOnSector.tsx:179",
-        "translation": "Анализа утицаја сектора"
+        "translation": "Анализа утицаја на сектор"
     },
     {
         "id": "analysis.sectors",
         "description": "File: app/routes/$lang+/analytics+/sectors.tsx:720",
-        "translation": "Анализа сектора"
+        "translation": "Анализа по секторима"
     },
     {
         "id": "analysis.select_and_apply_filters",
@@ -1112,12 +1112,12 @@
     {
         "id": "analysis.total_damages",
         "description": "File: app/frontend/analytics/sectors/sections/ImpactMap.tsx:62",
-        "translation": "Укупна штета"
+        "translation": "Укупне штета"
     },
     {
         "id": "analysis.total_damages_in_currency",
         "description": "Label showing total damages in the selected currency; {currency} is the currency code (e.g. USD). File: app/frontend/analytics/hazards/sections/DamagesAndLoses.tsx:61",
-        "translation": "Штета у {currency}"
+        "translation": "Штете у {currency}"
     },
     {
         "id": "analysis.total_damages_legend",
@@ -1187,7 +1187,7 @@
     {
         "id": "analysis.total_number_of_assets",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.sector.tsx:416",
-        "translation": "Број имовине"
+        "translation": "Количина (број) имовине"
     },
     {
         "id": "analysis.total_number_of_deaths",
@@ -1197,7 +1197,7 @@
     {
         "id": "analysis.total_number_of_displaced",
         "description": "File: app/frontend/analytics/hazards/sections/HumanAffects.tsx:330",
-        "translation": "Укупни број расељених лица"
+        "translation": "Укупан број расељених лица"
     },
     {
         "id": "analysis.total_number_of_injured",
@@ -1207,7 +1207,7 @@
     {
         "id": "analysis.total_number_of_missing",
         "description": "File: app/frontend/analytics/hazards/sections/HumanAffects.tsx:233",
-        "translation": "Укупни број несталих лица"
+        "translation": "Укупан број несталих лица"
     },
     {
         "id": "analysis.total_people_affected",
@@ -1217,7 +1217,7 @@
     {
         "id": "analysis.total_people_affected_tooltip",
         "description": "File: app/frontend/analytics/hazards/sections/HumanAffects.tsx:113",
-        "translation": "Укупан број погођених људи је збир повређених, несталих, директно погођених и расељених."
+        "translation": "Укупан број погођених људи представља збир повређених, несталих, директно погођених и расељених."
     },
     {
         "id": "analysis.total_people_directly_affected",
@@ -1247,7 +1247,7 @@
     {
         "id": "analysis.welcome_disaster_events_dashboard",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:668",
-        "translation": "Добродошли на контролну таблу догађаја катастрофа! 🌟"
+        "translation": "Добродошли на контролну таблу са приказом катастрофалних догађаја! 🌟"
     },
     {
         "id": "analysis.welcome_hazard_dashboard",
@@ -1277,7 +1277,7 @@
     {
         "id": "api_keys.add_new",
         "description": "File: app/routes/$lang+/settings+/api-key+/_layout.tsx:110",
-        "translation": "Додајте нови API кључ"
+        "translation": "Додајте нови АПИ кључ"
     },
     {
         "id": "api_keys.api_keys",
@@ -1302,7 +1302,7 @@
     {
         "id": "api_keys.assigned_user_info",
         "description": "File: app/frontend/api_key.tsx:115",
-        "translation": "Ако буде изабран, овај API кључ ће бити важећи само када је додељени корисник активан."
+        "translation": "Ако буде изабран, овај АПИ кључ ће бити важећи само када је додељени корисник активан."
     },
     {
         "id": "api_keys.created_at",
@@ -1317,7 +1317,7 @@
     {
         "id": "api_keys.disabled_warning",
         "description": "File: app/frontend/api_key.tsx:194",
-        "translation": "Овај API кључ је онемогућен"
+        "translation": "Овај АПИ кључ је онемогућен"
     },
     {
         "id": "api_keys.edit",
@@ -1327,7 +1327,7 @@
     {
         "id": "api_keys.inactive_user",
         "description": "File: app/frontend/api_key.tsx:202",
-        "translation": "Статус корисника је неактиван"
+        "translation": "Неактиван статус корисника"
     },
     {
         "id": "api_keys.key_name",
@@ -1362,7 +1362,7 @@
     {
         "id": "api_keys.session_secret",
         "description": "File: app/routes/$lang+/settings+/api-key+/_layout.tsx:155",
-        "translation": "Сесија тајна"
+        "translation": "Тајна сесија"
     },
     {
         "id": "approval_status.draft",
@@ -1372,7 +1372,7 @@
     {
         "id": "approval_status.label",
         "description": "Label for the approval status field File: app/frontend/approval.ts:30",
-        "translation": "Статус рекорда"
+        "translation": "Статус податка"
     },
     {
         "id": "approval_status.needs_revision",
@@ -1462,7 +1462,7 @@
     {
         "id": "attachments.file_or_url",
         "description": "File: app/frontend/attachmentsFormView.tsx:78",
-        "translation": "Датотека/URL"
+        "translation": "Датотека/УРЛ"
     },
     {
         "id": "attachments.file_upload",
@@ -1482,7 +1482,7 @@
     {
         "id": "audit_log_history",
         "description": "File: app/frontend/events/disastereventform.tsx:1197",
-        "translation": "Историја логова ревизије"
+        "translation": "Историја логовања"
     },
     {
         "id": "audit_log.action_taken",
@@ -1517,12 +1517,12 @@
     {
         "id": "audit_log.history",
         "description": "File: app/frontend/disaster-record/form.tsx:541",
-        "translation": "Историја логова ревизије"
+        "translation": "Историја логовања"
     },
     {
         "id": "audit_log.history_title",
         "description": "Title for the audit log history section File: app/frontend/events/hazardeventform.tsx:919",
-        "translation": "Историја логова ревизије"
+        "translation": "Историја логовања"
     },
     {
         "id": "audit_log.organisation",
@@ -1667,7 +1667,7 @@
     {
         "id": "common.characters",
         "description": "File: app/frontend/form/view_main_data_collection.tsx:362",
-        "translation": "ликови"
+        "translation": "карактери"
     },
     {
         "id": "common.clear",
@@ -1677,7 +1677,7 @@
     {
         "id": "common.clone",
         "description": "File: app/routes/$lang+/admin+/country-accounts+/clone.$id.tsx:90",
-        "translation": "Клон"
+        "translation": "дупликат"
     },
     {
         "id": "common.close",
@@ -1732,7 +1732,7 @@
     {
         "id": "common.country_instance",
         "description": "File: app/routes/$lang+/settings+/system.tsx:250",
-        "translation": "Пример земље"
+        "translation": "Инстанца земље"
     },
     {
         "id": "common.country_type",
@@ -1772,7 +1772,7 @@
     {
         "id": "common.damages",
         "description": "File: app/components/StackedBarChart.tsx:45",
-        "translation": "Штета"
+        "translation": "Штете"
     },
     {
         "id": "common.data_source",
@@ -1812,7 +1812,7 @@
     {
         "id": "common.date_to",
         "description": "Date to File: app/frontend/events/hazardevent-filters.tsx:380",
-        "translation": "Да"
+        "translation": "До"
     },
     {
         "id": "common.delete",
@@ -1837,12 +1837,12 @@
     {
         "id": "common.discard",
         "description": "File: app/components/ContentPicker/index.tsx:805",
-        "translation": "Баци"
+        "translation": "Одбаци"
     },
     {
         "id": "common.discard_work_and_exit",
         "description": "File: app/frontend/events/hazardeventform.tsx:483",
-        "translation": "Баците рад и изађите"
+        "translation": "Одбаците рад и изађите"
     },
     {
         "id": "common.do_you_want_to_continue",
@@ -1952,7 +1952,7 @@
     {
         "id": "common.first_name",
         "description": "File: app/routes/$lang+/user+/profile+/edit.tsx:90",
-        "translation": "Прво име"
+        "translation": "Име"
     },
     {
         "id": "common.form_errors",
@@ -1972,12 +1972,12 @@
     {
         "id": "common.from_date_cannot_be_later_than_to_date",
         "description": "File: app/frontend/analytics/sectors/sections/Filters.tsx:716",
-        "translation": "Датум не може бити каснији од датума. Молимо прилагодите свој избор датума."
+        "translation": "Датум \"од\" не може бити каснији од датума \"до\". Молимо прилагодите свој избор датума."
     },
     {
         "id": "common.from_date_later_than_to_date",
         "description": "File: app/frontend/analytics/sectors/sections/Filters.tsx:616",
-        "translation": "Од датума је касније него до датума. До датума је поништен."
+        "translation": "Датум \"од\" је каснији него датум \"до\". Датум \"до\" је поништен."
     },
     {
         "id": "common.go_to_login",
@@ -1992,7 +1992,7 @@
     {
         "id": "common.id",
         "description": "File: app/frontend/asset-content-picker-config.tsx:25",
-        "translation": "Идентитет"
+        "translation": "ИД"
     },
     {
         "id": "common.import_csv",
@@ -2087,7 +2087,7 @@
     {
         "id": "common.map_coordinates_geographic_level",
         "description": "File: app/frontend/spatialFootprintFormView.tsx:250",
-        "translation": "Координате мапе / Географски ниво"
+        "translation": "Координате мапа / Географски ниво"
     },
     {
         "id": "common.missing_required_fields",
@@ -2147,7 +2147,7 @@
     {
         "id": "common.month_may",
         "description": "File: app/utils/date.ts:10",
-        "translation": "Постоји"
+        "translation": "Мај"
     },
     {
         "id": "common.month_november",
@@ -2187,7 +2187,7 @@
     {
         "id": "common.national_id",
         "description": "File: app/backend.server/models/asset.ts:54",
-        "translation": "Национални идентификациони број"
+        "translation": "Национални ИД"
     },
     {
         "id": "common.new_record_created",
@@ -2227,22 +2227,22 @@
     {
         "id": "common.no_link",
         "description": "File: app/frontend/disaster-record/form.tsx:332",
-        "translation": "Нема везе"
+        "translation": "Нема линка"
     },
     {
         "id": "common.no_match_found",
         "description": "File: app/frontend/analytics/sectors/sections/Filters.tsx:876",
-        "translation": "Није пронађен ниједан подудар"
+        "translation": "Није пронађена ни једна подударност"
     },
     {
         "id": "common.no_results",
         "description": "File: app/routes/$lang+/settings+/assets+/_layout.tsx:212",
-        "translation": "Није пронађено ниједно резултат"
+        "translation": "Није пронађен ниједан резултат"
     },
     {
         "id": "common.no_results_found",
         "description": "File: app/components/TreeView.tsx:875",
-        "translation": "Није пронађено ниједно резултат"
+        "translation": "Није пронађен ниједан резултат"
     },
     {
         "id": "common.none",
@@ -2342,12 +2342,12 @@
     {
         "id": "common.parent_id",
         "description": "File: app/routes/$lang+/disaster-record+/content-picker-config.tsx:428",
-        "translation": "Идентификација родитеља"
+        "translation": "ИД родитеља"
     },
     {
         "id": "common.pending",
         "description": "File: app/pages/AccessManagementPage.tsx:100",
-        "translation": "Учешће"
+        "translation": "На чекању"
     },
     {
         "id": "common.previous",
@@ -2372,7 +2372,7 @@
     {
         "id": "common.publish_undrr_instance",
         "description": "File: app/frontend/form/view_main_data_collection.tsx:279",
-        "translation": "Објави на UNDRR инстанцу"
+        "translation": "Објави на UNDRR инстанци"
     },
     {
         "id": "common.publish_undrr_instance_description",
@@ -2412,7 +2412,7 @@
     {
         "id": "common.related_disaster_event",
         "description": "File: app/routes/$lang+/disaster-record+/_index.tsx:70",
-        "translation": "Повезани догађај катастрофе"
+        "translation": "Повезани катастрофалан догађај"
     },
     {
         "id": "common.request_entry_validation",
@@ -2632,17 +2632,17 @@
     {
         "id": "common.to",
         "description": "To date File: app/frontend/components/DisasterRecordsFilter.tsx:235",
-        "translation": "Да"
+        "translation": "Упућено"
     },
     {
         "id": "common.to_date",
         "description": "To date File: app/frontend/components/list-page-disasterevents-filters.tsx:141",
-        "translation": "Да"
+        "translation": "Упућено"
     },
     {
         "id": "common.to_date_before_from_date",
         "description": "Detail message explaining that 'To' date cannot be earlier than 'From' date File: app/frontend/components/DisasterRecordsFilter.tsx:120",
-        "translation": "Датум 'To' не може бити ранији од датума 'From'."
+        "translation": "Датум 'До' не може бити ранији од датума 'Од'."
     },
     {
         "id": "common.to_date_cannot_be_earlier_than_from_date",
@@ -2712,7 +2712,7 @@
     {
         "id": "common.upload_and_import",
         "description": "File: app/routes/$lang+/settings+/geography+/upload.tsx:144",
-        "translation": "Отпреми и увези"
+        "translation": "Учитај и увези"
     },
     {
         "id": "common.upload_csv",
@@ -2722,7 +2722,7 @@
     {
         "id": "common.uploading_please_wait",
         "description": "Message shown while file is uploading File: app/components/ContentRepeater/index.tsx:2088",
-        "translation": "Постављање, молим сачекајте..."
+        "translation": "Учитавање, молим сачекајте..."
     },
     {
         "id": "common.user",
@@ -2737,7 +2737,7 @@
     {
         "id": "common.user_no_country_accounts",
         "description": "File: app/backend.server/models/event/hazardous_event_create_update.ts:269",
-        "translation": "Корисник нема налоге у ниједној земљи."
+        "translation": "Корисник нема налоге ни у једној земљи."
     },
     {
         "id": "common.user_no_instance_assigned",
@@ -2762,7 +2762,7 @@
     {
         "id": "common.validate_description",
         "description": "File: app/frontend/form/view_main_data_collection.tsx:246",
-        "translation": "Ово указује да је догађај проверен на тачност."
+        "translation": "Ово указује да је догађај проверен у смислу тачности."
     },
     {
         "id": "common.validate_or_return",
@@ -2777,12 +2777,12 @@
     {
         "id": "common.validate_record",
         "description": "File: app/frontend/form/view_main_data_collection.tsx:39",
-        "translation": "Важећи запис"
+        "translation": "Потврдите запис"
     },
     {
         "id": "common.validated_and_ready_to_publish",
         "description": "File: app/frontend/form/view_main_data_collection.tsx:131",
-        "translation": "Догађај испод је валидиран и спреман је за објављивање."
+        "translation": "Догађај испод је потврђен и спреман је за објављивање."
     },
     {
         "id": "common.value",
@@ -2862,7 +2862,7 @@
     {
         "id": "disaster_event",
         "description": "File: app/components/AuditLogHistory.tsx:24",
-        "translation": "Случај катастрофе"
+        "translation": "Катастрофалан догађај"
     },
     {
         "id": "disaster_event.add",
@@ -2872,17 +2872,17 @@
     {
         "id": "disaster_event.all_disaster_events",
         "description": "File: app/frontend/components/DisasterRecordsFilter.tsx:168",
-        "translation": "Сви догађаји катастрофа"
+        "translation": "Сви катастрофални догађаји"
     },
     {
         "id": "disaster_event.caption",
         "description": "File: app/routes/$lang+/analytics+/content-picker-config.tsx:16",
-        "translation": "Случај катастрофе"
+        "translation": "Катастрофални догађај"
     },
     {
         "id": "disaster_event.count_header",
         "description": "Header text showing total number of disaster events and instance name. {total} is the number of events, {instance_name} is the name of the current instance. File: app/frontend/events/disastereventlist.tsx:99",
-        "translation": "{total} катастрофални догађаји у {instance_name}"
+        "translation": "{total}  катастрофални догађаји у {instance_name}"
     },
     {
         "id": "disaster_event.damages_subtotal_local_currency",
@@ -2922,7 +2922,7 @@
     {
         "id": "disaster_event.edit",
         "description": "File: app/frontend/events/disastereventform.tsx:855",
-        "translation": "Уреди догађај катастрофе"
+        "translation": "Уреди катастрофални догађај"
     },
     {
         "id": "disaster_event.effects",
@@ -2937,7 +2937,7 @@
     {
         "id": "disaster_event.end_date_local",
         "description": "File: app/frontend/events/disastereventform.tsx:336",
-        "translation": "Датум завршетка у локалном формату"
+        "translation": "Датум завршетка (у локалном формату)"
     },
     {
         "id": "disaster_event.error_loading_events",
@@ -2947,12 +2947,12 @@
     {
         "id": "disaster_event.failed_to_load_events",
         "description": "File: app/frontend/analytics/sectors/sections/Filters.tsx:206",
-        "translation": "Није успело учитавање догађаја катастрофа. Молимо покушајте поново касније."
+        "translation": "Није успело учитавање катастрофалног догађаја. Молимо покушајте поново касније."
     },
     {
         "id": "disaster_event.glide_number",
         "description": "GLIDE number is a type of ID File: app/frontend/events/disastereventform.tsx:287",
-        "translation": "Глајд број"
+        "translation": "GLIDE број"
     },
     {
         "id": "disaster_event.global_regional_name",
@@ -2962,7 +2962,7 @@
     {
         "id": "disaster_event.global_regional_name_description",
         "description": "File: app/frontend/events/disastereventform.tsx:301",
-        "translation": "Назив догађаја катастрофе у глобалним или регионалним базама података (ако је применљиво)"
+        "translation": "Назив катастрофалног догађаја у глобалним или регионалним базама података (ако је применљиво)"
     },
     {
         "id": "disaster_event.had_official_warning_or_weather_advisory",
@@ -2997,17 +2997,17 @@
     {
         "id": "disaster_event.name",
         "description": "File: app/frontend/components/DisasterRecordsFilter.tsx:159",
-        "translation": "Назив догађаја катастрофе"
+        "translation": "Назив катастрофалног догађаја"
     },
     {
         "id": "disaster_event.name_label",
         "description": "File: app/frontend/components/list-page-disasterevents-filters.tsx:69",
-        "translation": "Назив догађаја катастрофе"
+        "translation": "Назив катастрофалног догађаја"
     },
     {
         "id": "disaster_event.national_disaster_id",
         "description": "File: app/frontend/events/disastereventform.tsx:262",
-        "translation": "Национални идентификатор катастрофе"
+        "translation": "Национални ИД катастрофе"
     },
     {
         "id": "disaster_event.national_name",
@@ -3027,7 +3027,7 @@
     {
         "id": "disaster_event.no_permission_update",
         "description": "File: app/backend.server/models/event/disaster_event_create_update.ts:171",
-        "translation": "Немате дозволу да ажурирате овај догађај катастрофе."
+        "translation": "Немате дозволу да ажурирате овај катастрофални догађај."
     },
     {
         "id": "disaster_event.non_economic_losses",
@@ -3057,17 +3057,17 @@
     {
         "id": "disaster_event.rapid_preliminary_assessment",
         "description": "File: app/frontend/events/disastereventform.tsx:158",
-        "translation": "Брза/предварична процена"
+        "translation": "Брза/прелиминарна процена"
     },
     {
         "id": "disaster_event.recording_institution",
         "description": "File: app/frontend/events/disastereventform.tsx:455",
-        "translation": "Завод за евиденцију"
+        "translation": "Институција која је забележила"
     },
     {
         "id": "disaster_event.recording_organization",
         "description": "File: app/frontend/components/list-page-disasterevents-filters.tsx:93",
-        "translation": "Организација за снимање"
+        "translation": "Организација која је забележила"
     },
     {
         "id": "disaster_event.records_affiliated",
@@ -3082,7 +3082,7 @@
     {
         "id": "disaster_event.rehabilitation_costs_local_currency_override",
         "description": "File: app/frontend/events/disastereventform.tsx:571",
-        "translation": "Трошкови рехабилитације - укупно у локалној валути"
+        "translation": "Трошкови опоравка - укупно у локалној валути"
     },
     {
         "id": "disaster_event.repair_costs_local_currency_override",
@@ -3097,37 +3097,37 @@
     {
         "id": "disaster_event.response_cost_total_local_currency",
         "description": "Label for emergency response cost total in local currency File: app/frontend/events/disastereventform.tsx:526",
-        "translation": "(Хитни) трошак одговора – укупно – у локалној валути"
+        "translation": "(Хитни) трошак реаговања – укупно – у локалној валути"
     },
     {
         "id": "disaster_event.response_cost_total_usd",
         "description": "Label for emergency response cost total in USD File: app/frontend/events/disastereventform.tsx:536",
-        "translation": "(Хитни) трошак одговора – укупно – у USD"
+        "translation": "(Хитни) трошак реаговања – укупно – у USD"
     },
     {
         "id": "disaster_event.response_operations",
         "description": "File: app/frontend/events/disastereventform.tsx:428",
-        "translation": "Операције одговора"
+        "translation": "Операције реаговања"
     },
     {
         "id": "disaster_event.response_operations_costs_local_currency",
         "description": "File: app/frontend/events/disastereventform.tsx:517",
-        "translation": "Трошкови операција одговора (укупни издаци, у локалној валути)"
+        "translation": "Оперативни трошкови реаговања (укупни издаци, у локалној валути)"
     },
     {
         "id": "disaster_event.response_operations_description",
         "description": "Label for response operations description field File: app/frontend/events/disastereventform.tsx:507",
-        "translation": "(Хитне) операције одговора (опис)"
+        "translation": "(Хитне) операције реаговања (опис)"
     },
     {
         "id": "disaster_event.search_by_name_id_glide_placeholder",
         "description": "File: app/frontend/analytics/sectors/sections/Filters.tsx:1099",
-        "translation": "Унесите текст за претрагу по имену, ИД-у, ГЛАИД броју..."
+        "translation": "Унесите текст за претрагу по имену, ИД-у, GLIDE броју..."
     },
     {
         "id": "disaster_event.search_name_placeholder",
         "description": "Placeholder for disaster event name search input File: app/frontend/components/list-page-disasterevents-filters.tsx:78",
-        "translation": "Сви догађаји катастрофа"
+        "translation": "Сви катастрофални догађаји"
     },
     {
         "id": "disaster_event.search_organization_placeholder",
@@ -3137,22 +3137,22 @@
     {
         "id": "disaster_event.select",
         "description": "File: app/routes/$lang+/analytics+/content-picker-config.tsx:21",
-        "translation": "Изаберите догађај катастрофе"
+        "translation": "Изаберите катастрофални догађај"
     },
     {
         "id": "disaster_event.select_related_disaster_event",
         "description": "File: app/routes/$lang+/disaster-event+/picker.tsx:22",
-        "translation": "Изаберите повезани догађај катастрофе"
+        "translation": "Изаберите повезани катастрофални догађај"
     },
     {
         "id": "disaster_event.start_date_local",
         "description": "File: app/frontend/events/disastereventform.tsx:327",
-        "translation": "Датум почетка у локалном формату"
+        "translation": "Датум почетка(у локалном формату)"
     },
     {
         "id": "disaster_event.uuid",
         "description": "File: app/frontend/events/disastereventlist.tsx:51",
-        "translation": "UUID догађаја катастрофе"
+        "translation": "UUID број катастрофалног догађаја"
     },
     {
         "id": "disaster_events",
@@ -3187,7 +3187,7 @@
     {
         "id": "disaster_record",
         "description": "File: app/components/AuditLogHistory.tsx:36",
-        "translation": "Евиденција о катастрофама"
+        "translation": "Податак о катастрофи"
     },
     {
         "id": "disaster_record.add_new",
@@ -3197,7 +3197,7 @@
     {
         "id": "disaster_record.assessment_modes",
         "description": "File: app/frontend/disaster-record/form.tsx:109",
-        "translation": "Методологије процењивања"
+        "translation": "Методологије процене"
     },
     {
         "id": "disaster_record.asset",
@@ -3207,7 +3207,7 @@
     {
         "id": "disaster_record.back",
         "description": "File: app/routes/$lang+/disaster-record+/non-economic-losses.$id+/_index.tsx:155",
-        "translation": "Повратак на списак катастрофа"
+        "translation": "Повратак на податак о катастрофама"
     },
     {
         "id": "disaster_record.checked_by",
@@ -3232,7 +3232,7 @@
     {
         "id": "disaster_record.damages",
         "description": "File: app/frontend/damages.tsx:390",
-        "translation": "Штета"
+        "translation": "Штете"
     },
     {
         "id": "disaster_record.damages_sector_effects_path",
@@ -3242,7 +3242,7 @@
     {
         "id": "disaster_record.damages.add_label",
         "description": "File: app/frontend/damages.tsx:398",
-        "translation": "Додајте штету"
+        "translation": "Додајте штете"
     },
     {
         "id": "disaster_record.damages.add_new",
@@ -3267,7 +3267,7 @@
     {
         "id": "disaster_record.damages.comment",
         "description": "File: app/backend.server/models/damages.ts:153",
-        "translation": "Како"
+        "translation": "Коментар"
     },
     {
         "id": "disaster_record.damages.currency",
@@ -3307,7 +3307,7 @@
     {
         "id": "disaster_record.damages.partially_damaged_asset_name",
         "description": "File: app/frontend/damages.tsx:408",
-        "translation": "Делимично оштећен ({assetName})"
+        "translation": "Делимично оштећен ({unitNamе})"
     },
     {
         "id": "disaster_record.damages.total_damage_amount",
@@ -3347,7 +3347,7 @@
     {
         "id": "disaster_record.damages.unit_recovery_cost",
         "description": "File: app/backend.server/models/damages.ts:85",
-        "translation": "Трошак опоравка јединице"
+        "translation": "Трошак опоравка по јединици"
     },
     {
         "id": "disaster_record.damages.unit_repair_or_replacement_cost",
@@ -3367,22 +3367,22 @@
     {
         "id": "disaster_record.disruption",
         "description": "File: app/frontend/damages.tsx:443",
-        "translation": "Пометање"
+        "translation": "Прекид"
     },
     {
         "id": "disaster_record.disruption_section_title",
         "description": "File: app/routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:505",
-        "translation": "Пометање"
+        "translation": "Прекид"
     },
     {
         "id": "disaster_record.disruption.add",
         "description": "File: app/frontend/damages.tsx:431",
-        "translation": "Додајте поремећај"
+        "translation": "Додајте прекид"
     },
     {
         "id": "disaster_record.disruption.hide",
         "description": "File: app/frontend/damages.tsx:437",
-        "translation": "Сакриј поремећај"
+        "translation": "Сакриј прекид"
     },
     {
         "id": "disaster_record.enter_damage_cost",
@@ -3397,12 +3397,12 @@
     {
         "id": "disaster_record.enter_recovery_cost",
         "description": "File: app/routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:328",
-        "translation": "Унесите трошкове опоравка штете"
+        "translation": "Унесите трошкове надокнаде штете"
     },
     {
         "id": "disaster_record.field_assessment_date",
         "description": "Label for field assessment conducted date File: app/frontend/disaster-record/form.tsx:99",
-        "translation": "Проведена је теренска процена"
+        "translation": "Спроведена је теренска процена"
     },
     {
         "id": "disaster_record.has_damage",
@@ -3412,12 +3412,12 @@
     {
         "id": "disaster_record.has_disruption",
         "description": "File: app/routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:526",
-        "translation": "Има поремећај"
+        "translation": "Има прекида"
     },
     {
         "id": "disaster_record.has_losses",
         "description": "File: app/routes/$lang+/disaster-record+/edit-sec.$disRecId+/_index.tsx:447",
-        "translation": "Има губитке"
+        "translation": "Има губитака"
     },
     {
         "id": "disaster_record.local_warning_instructions",
@@ -3462,7 +3462,7 @@
     {
         "id": "disaster_record.recording_institution",
         "description": "File: app/frontend/disaster-record/form.tsx:117",
-        "translation": "Завод за евиденцију"
+        "translation": "Институција која је извршила евиденцију"
     },
     {
         "id": "disaster_record.recovery_cost",
@@ -3477,12 +3477,12 @@
     {
         "id": "disaster_records",
         "description": "File: app/frontend/disaster-record/form-non-economic-losses.tsx:96",
-        "translation": "Евиденција о катастрофама"
+        "translation": "Подаци о катастрофама"
     },
     {
         "id": "disaster_records.add",
         "description": "File: app/frontend/disaster-record/form-non-economic-losses.tsx:101",
-        "translation": "Додај запис о катастрофи"
+        "translation": "Додај податак о катастрофи"
     },
     {
         "id": "disaster_records.back_to_disaster_record",
@@ -3492,7 +3492,7 @@
     {
         "id": "disaster_records.damages",
         "description": "File: app/frontend/damages.tsx:583",
-        "translation": "Штета"
+        "translation": "Штете"
     },
     {
         "id": "disaster_records.damages.partially_damaged",
@@ -3517,7 +3517,7 @@
     {
         "id": "disaster_records.disruption",
         "description": "File: app/frontend/damages.tsx:537",
-        "translation": "Пометање"
+        "translation": "Прекид"
     },
     {
         "id": "disaster_records.disruption.add_comments",
@@ -3527,7 +3527,7 @@
     {
         "id": "disaster_records.disruption.comment",
         "description": "File: app/routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:157",
-        "translation": "Како"
+        "translation": "Коментар"
     },
     {
         "id": "disaster_records.disruption.currency",
@@ -3567,22 +3567,22 @@
     {
         "id": "disaster_records.disruption.response_cost",
         "description": "File: app/backend.server/models/disruption.ts:84",
-        "translation": "Трошак одговора"
+        "translation": "Трошак реаговања"
     },
     {
         "id": "disaster_records.disruption.response_cost_must_be_gte_zero",
         "description": "File: app/backend.server/models/disruption.ts:174",
-        "translation": "Трошак одговора мора бити ≥ 0"
+        "translation": "Трошак реаговања мора бити ≥ 0"
     },
     {
         "id": "disaster_records.disruption.response_currency",
         "description": "File: app/routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:166",
-        "translation": "Валута одговора"
+        "translation": "Валута реаговања"
     },
     {
         "id": "disaster_records.disruption.response_operation",
         "description": "File: app/backend.server/models/disruption.ts:76",
-        "translation": "Операција одговора"
+        "translation": "Операција реаговања"
     },
     {
         "id": "disaster_records.disruption.users_affected",
@@ -3597,7 +3597,7 @@
     {
         "id": "disaster_records.disruptions",
         "description": "File: app/frontend/disruption.tsx:127",
-        "translation": "Поремећаји"
+        "translation": "Прекиди"
     },
     {
         "id": "disaster_records.disruptions.add_label",
@@ -3607,7 +3607,7 @@
     {
         "id": "disaster_records.disruptions.add_new",
         "description": "File: app/routes/$lang+/disaster-record+/edit-sub.$disRecId+/disruptions+/_index.tsx:132",
-        "translation": "Додајте ново узнемиравање"
+        "translation": "Додајте нове прекиде"
     },
     {
         "id": "disaster_records.disruptions.edit_label",
@@ -3797,12 +3797,12 @@
     {
         "id": "disaster_records.losses.type.number_of_persons_whose_livelihoods_related_to_sector_lost",
         "description": "File: app/frontend/losses_enums.ts:164",
-        "translation": "Број особа чији су извори прихода били везани за сектор изгубљени"
+        "translation": "Број особа чији су извори прихода били везани за губитке у сектору"
     },
     {
         "id": "disaster_records.losses.type.number_of_work_days_lost",
         "description": "File: app/frontend/losses_enums.ts:148",
-        "translation": "Број радних дана изгубљених"
+        "translation": "Број изгубљених радних дана"
     },
     {
         "id": "disaster_records.losses.type.number_of_workers_who_loss_their_jobs",
@@ -3817,12 +3817,12 @@
     {
         "id": "disaster_records.losses.type.production_inputs",
         "description": "File: app/frontend/losses_enums.ts:206",
-        "translation": "Улази у производњу"
+        "translation": "Производни инпути"
     },
     {
         "id": "disaster_records.losses.type.production_outputs",
         "description": "File: app/frontend/losses_enums.ts:214",
-        "translation": "Исходи производње"
+        "translation": "Резултати производње"
     },
     {
         "id": "disaster_records.losses.type.risks_and_vulnerabilities_increased",
@@ -3857,7 +3857,7 @@
     {
         "id": "email.validation_workflow.body_needs_revision_html",
         "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:276",
-        "translation": "Поштовани {submitterName},\nВаш {recordTypeData} је враћен на дораду.\nКоментари: {rejectionComments}\n\u003ca href=\"{recordUrl}\"\u003eПрегледајте и уредите запис"
+        "translation": "Поштовани {submitterName},\nВаш {recordTypeData} је враћен на дораду.\nКоментари: {rejectionComments}\n<a href=\"{recordUrl}\">Прегледајте и уредите запис"
     },
     {
         "id": "email.validation_workflow.body_needs_revision_text",
@@ -3867,7 +3867,7 @@
     {
         "id": "email.validation_workflow.body_published_html",
         "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:230",
-        "translation": "Поштовани {submitterName},\nВаш {recordTypeData} је објављен и сада је јавно доступан.\n\u003ca href=\"{recordUrl}\"\u003eПогледајте запис"
+        "translation": "Поштовани {submitterName},\nВаш {recordTypeData} је објављен и сада је јавно доступан.\n<a href=\"{recordUrl}\">Погледајте запис"
     },
     {
         "id": "email.validation_workflow.body_published_text",
@@ -3877,7 +3877,7 @@
     {
         "id": "email.validation_workflow.body_validated_html",
         "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:330",
-        "translation": "Поштовани {submitterName},\nВаш {recordTypeData} је потврђен.\n\u003ca href=\"{recordUrl}\"\u003eПогледајте запис"
+        "translation": "Поштовани {submitterName},\nВаш {recordTypeData} је потврђен.\n<a href=\"{recordUrl}\">Погледајте запис"
     },
     {
         "id": "email.validation_workflow.body_validated_text",
@@ -3922,7 +3922,7 @@
     {
         "id": "events.cannot_reference_other_country",
         "description": "File: app/backend.server/models/event/hazardous_event_create_update.ts:157",
-        "translation": "Не може се референцирати догађаје из других земаља"
+        "translation": "Не може се реферисати догађаје из других земаља"
     },
     {
         "id": "events.cannot_set_self_as_parent",
@@ -3982,7 +3982,7 @@
     {
         "id": "geodata.marker_s",
         "description": "File: app/components/ContentRepeater/controls/mapper/index.tsx:300",
-        "translation": "Марк(о)ви"
+        "translation": "Маркер(и)"
     },
     {
         "id": "geodata.move_map",
@@ -4012,7 +4012,7 @@
     {
         "id": "geographies.edit_division",
         "description": "File: app/routes/$lang+/settings+/geography+/edit.$id.tsx:238",
-        "translation": "Уреди дивизију"
+        "translation": "Уреди поделу"
     },
     {
         "id": "geographies.edit_division_subtitle",
@@ -4052,7 +4052,7 @@
     {
         "id": "geographies.national_id",
         "description": "Label showing the national ID code assigned to a geographical subdivision (e.g. region, district, or administrative level). Used in geo-level data management and location hierarchies. File: app/routes/$lang+/settings+/geography+/_index.tsx:285",
-        "translation": "Национални идентификациони број"
+        "translation": "Национални идентификациони број (ИД)"
     },
     {
         "id": "geographies.no_admin_divisions_configured",
@@ -4087,7 +4087,7 @@
     {
         "id": "geographies.unknown_division",
         "description": "Unknown geographic division. File: app/routes/$lang+/analytics+/hazards.tsx:400",
-        "translation": "Непозната дивизија"
+        "translation": "Непозната подела"
     },
     {
         "id": "geographies.update_division",
@@ -4097,7 +4097,7 @@
     {
         "id": "geographies.upload_division_zip_file",
         "description": "File: app/routes/$lang+/settings+/geography+/upload.tsx:127",
-        "translation": "Отпремите ZIP фајл дивизије"
+        "translation": "Отпремите ZIP фајл поделе"
     },
     {
         "id": "go_back",
@@ -4127,12 +4127,12 @@
     {
         "id": "hazardous_event.all_record_statuses",
         "description": "File: app/frontend/events/hazardevent-filters.tsx:469",
-        "translation": "Сви статуси рекорда"
+        "translation": "Сви статуси података"
     },
     {
         "id": "hazardous_event.cannot_delete_linked_to_disaster",
         "description": "File: app/backend.server/models/event/hazardous_event_delete.ts:25",
-        "translation": "Не може се обрисати догађај опасности јер је повезан са једним или више догађаја катастрофе. Молимо вас да најпре обришете повезане догађаје катастрофе."
+        "translation": "Не може се обрисати догађај опасности јер је повезан са једним или више катастрофалних догађаја. Молимо Вас да најпре обришете повезане катастрофалне догађаје."
     },
     {
         "id": "hazardous_event.cannot_reference_other_tenant",
@@ -4177,7 +4177,7 @@
     {
         "id": "hazardous_event.magnitude",
         "description": "Label for magnitude field File: app/frontend/events/hazardeventform.tsx:94",
-        "translation": "Величина"
+        "translation": "Јачина (магнитуда)"
     },
     {
         "id": "hazardous_event.national_specification",
@@ -4202,7 +4202,7 @@
     {
         "id": "hazardous_event.record_status",
         "description": "File: app/frontend/events/hazardevent-filters.tsx:457",
-        "translation": "Статус рекорда"
+        "translation": "Статус записа"
     },
     {
         "id": "hazardous_event.record_status.draft",
@@ -4232,7 +4232,7 @@
     {
         "id": "hazardous_event.recording_organization",
         "description": "File: app/frontend/events/hazardevent-filters.tsx:400",
-        "translation": "Организација за снимање"
+        "translation": "Организација која је евидентирала"
     },
     {
         "id": "hazardous_event.search_organization",
@@ -4487,7 +4487,7 @@
     {
         "id": "human_effects.age",
         "description": "Age of the person in years. File: app/backend.server/models/human_effects/defs.ts:106",
-        "translation": "Доб"
+        "translation": "Узраст"
     },
     {
         "id": "human_effects.age_group.adult",
@@ -4532,7 +4532,7 @@
     {
         "id": "human_effects.cell_color_legend",
         "description": "File: app/frontend/editabletable/view/legend.tsx:15",
-        "translation": "Легенда боја ћелија"
+        "translation": "Легенда '- боја ћелија"
     },
     {
         "id": "human_effects.changes_saved",
@@ -4687,7 +4687,7 @@
     {
         "id": "human_effects.disaggregations",
         "description": "File: app/frontend/editabletable/view/table_content.tsx:244",
-        "translation": "Распадања"
+        "translation": "Разврставања"
     },
     {
         "id": "human_effects.displaced",
@@ -4697,7 +4697,7 @@
     {
         "id": "human_effects.error.disaggregation_min_options",
         "description": "File: app/routes/$lang+/settings+/human-effects-dsg+/custom.tsx:101",
-        "translation": "Дисагрегација \"{disaggregation}\" мора имати најмање 2 опције."
+        "translation": "Раздвајања (дисагрегација) \"{disaggregation}\" мора имати најмање 2 опције."
     },
     {
         "id": "human_effects.error.duplicate_dimension",
@@ -4712,17 +4712,17 @@
     {
         "id": "human_effects.error.row_with_all_metrics_zeroes",
         "description": "Warning when all metric values in a row are zero. File: app/frontend/editabletable/validate.ts:381",
-        "translation": "Ред има нуле за све метрике."
+        "translation": "Ред има нуле за сву метрику."
     },
     {
         "id": "human_effects.error.row_with_no_metric_value",
         "description": "Error when a row has no values set for any metric. File: app/frontend/editabletable/validate.ts:370",
-        "translation": "Ред нема вредности за метрике."
+        "translation": "Ред нема вредност за метрику."
     },
     {
         "id": "human_effects.error.subtotal_larger_than_total",
         "description": "The subtotal for a group exceeds the overall total. {group} is the group name(s), {column} is the metric name, {value} is the group total, {totalValue} is the overall total. File: app/frontend/editabletable/validate.ts:273",
-        "translation": "Укупно за групу ({group}), колона \"{column}\" прелази укупни збир {value} \u003e {totalValue}"
+        "translation": "Укупно за групу ({group}), колона \"{column}\" прелази укупни збир {value} > {totalValue}"
     },
     {
         "id": "human_effects.error.subtotal_larger_than_total_row",
@@ -4732,17 +4732,17 @@
     {
         "id": "human_effects.error.subtotal_lower_than_total",
         "description": "Warning when the subtotal for a group is lower than the overall total. User should confirm if this is intentional. File: app/frontend/editabletable/validate.ts:317",
-        "translation": "Поднормица је мања од укупног износа, молим вас проверите да ли је то намерно."
+        "translation": "Међузбир је мањи од укупног износа, молим вас проверите да ли је то намерно."
     },
     {
         "id": "human_effects.error.totals_array_empty",
         "description": "File: app/frontend/editabletable/validate.ts:213",
-        "translation": "Масива укупно је празна"
+        "translation": "Поље \"Укупно\" је празно"
     },
     {
         "id": "human_effects.error.totals_cols_mismatch",
         "description": "Number of columns in totals does not match expected number of metrics. {expected} is the expected count, {actual} is the actual length. File: app/frontend/editabletable/validate.ts:223",
-        "translation": "Број колона у укупним резултатима не одговара очекиваном броју метрика, требало је {expected}, а добијено је {actual}"
+        "translation": "Број колона у укупним резултатима не одговара очекиваном броју метрике, требало је {expected}, а добијено је {actual}"
     },
     {
         "id": "human_effects.global_poverty_line",
@@ -4752,7 +4752,7 @@
     {
         "id": "human_effects.group_doesnt_have_disaggregations_set",
         "description": "File: app/frontend/editabletable/view/table.tsx:213",
-        "translation": "Група нема подешене разлагања"
+        "translation": "Група нема подешена разлагања"
     },
     {
         "id": "human_effects.group_total",
@@ -4807,7 +4807,7 @@
     {
         "id": "human_effects.manually_calculate_total",
         "description": "File: app/frontend/editabletable/view/table_content.tsx:106",
-        "translation": "Ручно израчунајте укупно"
+        "translation": "Ручно израчунајте укупну цифру"
     },
     {
         "id": "human_effects.medium_long_term",
@@ -4822,12 +4822,12 @@
     {
         "id": "human_effects.men",
         "description": "File: app/routes/$lang+/analytics+/disaster-events.tsx:1105",
-        "translation": "Али"
+        "translation": "Мушкарци"
     },
     {
         "id": "human_effects.missing",
         "description": "File: app/frontend/human_effects/defs.ts:48",
-        "translation": "Нестало"
+        "translation": "Нестали"
     },
     {
         "id": "human_effects.missing_group_total",
@@ -4857,7 +4857,7 @@
     {
         "id": "human_effects.permanent",
         "description": "File: app/backend.server/models/human_effects/defs.ts:558",
-        "translation": "Трајни"
+        "translation": "Трајно"
     },
     {
         "id": "human_effects.pre_emptive",
@@ -4877,7 +4877,7 @@
     {
         "id": "human_effects.sex",
         "description": "Sex (Possible values: male, female, other non-binary) File: app/backend.server/models/human_effects/defs.ts:68",
-        "translation": "Секс"
+        "translation": "Пол"
     },
     {
         "id": "human_effects.sex.f",
@@ -5012,7 +5012,7 @@
     {
         "id": "meta.country_accounts_super_admin",
         "description": "File: app/routes/$lang+/admin+/country-accounts+/_layout.tsx:40",
-        "translation": "Земљани рачуни - Супер администратор"
+        "translation": "Национални налози - Супер администратор"
     },
     {
         "id": "meta.create_your_account",
@@ -5097,12 +5097,12 @@
     {
         "id": "meta.super_admin_country_accounts_management",
         "description": "File: app/routes/$lang+/admin+/country-accounts+/_layout.tsx:48",
-        "translation": "Супер администратор управљање националним рачунима"
+        "translation": "Супер администратор управљање националним налозима"
     },
     {
         "id": "meta.support",
         "description": "File: app/routes/$lang+/about+/support.tsx:27",
-        "translation": "Поддршка"
+        "translation": "Подршка"
     },
     {
         "id": "meta.system_settings",
@@ -5117,7 +5117,7 @@
     {
         "id": "meta.title",
         "description": "File: app/utils/htmlmeta.ts:4",
-        "translation": "{page_title} - ДЕЛТА Резилијенс"
+        "translation": "{page_title} - DELTA Resilience"
     },
     {
         "id": "meta.unauthorized_access_error_page",
@@ -5187,12 +5187,12 @@
     {
         "id": "nav.disaster_events",
         "description": "File: app/components/RegularMenuBar.tsx:229",
-        "translation": "Случајеви катастрофа"
+        "translation": "Катастрофални догађаји"
     },
     {
         "id": "nav.disaster_records",
         "description": "File: app/components/RegularMenuBar.tsx:249",
-        "translation": "Евиденција о катастрофама"
+        "translation": "Подаци о катастрофама"
     },
     {
         "id": "nav.faq",
@@ -5267,7 +5267,7 @@
     {
         "id": "nav.support",
         "description": "File: app/components/RegularMenuBar.tsx:335",
-        "translation": "Поддршка"
+        "translation": "Подршка"
     },
     {
         "id": "nav.switch_instance",
@@ -5392,7 +5392,7 @@
     {
         "id": "record.record_status",
         "description": "File: app/components/ListLegend.tsx:12",
-        "translation": "Статус рекорда"
+        "translation": "Статус податка"
     },
     {
         "id": "record.resource_actions",
@@ -5417,12 +5417,12 @@
     {
         "id": "record.status",
         "description": "File: app/frontend/components/DisasterRecordsFilter.tsx:259",
-        "translation": "Статус рекорда"
+        "translation": "Статус податка"
     },
     {
         "id": "record.status_label",
         "description": "Label for record status column in table File: app/frontend/events/hazardeventlist.tsx:291",
-        "translation": "Статус рекорда"
+        "translation": "Статус податка"
     },
     {
         "id": "record.status.draft",
@@ -5477,7 +5477,7 @@
     {
         "id": "sector_effects",
         "description": "File: app/routes/$lang+/disaster-record+/edit.$id.tsx:380",
-        "translation": "Ефекти сектора"
+        "translation": "Ефекти на сектор"
     },
     {
         "id": "sector_effects.damage",
@@ -5527,7 +5527,7 @@
     {
         "id": "sectors.parent_id",
         "description": "File: app/frontend/asset-content-picker-config.tsx:35",
-        "translation": "Идентификација родитеља"
+        "translation": "ИД родитеља"
     },
     {
         "id": "sectors.sector",
@@ -5563,8 +5563,8 @@
         "id": "session.expiry_warning_minutes",
         "description": "File: app/components/InactivityWarning.tsx:102",
         "translation": {
-            "few": "Ради ваше безбедности, ваша сесија ће истећи за {n} минута због неактивности.",
             "one": "Ради ваше безбедности, ваша сесија ће истећи за {n} минута због неактивности.",
+            "few": "Ради ваше безбедности, ваша сесија ће истећи за {n} минута због неактивности.",
             "other": ""
         }
     },
@@ -5676,7 +5676,7 @@
     {
         "id": "settings.system.instance_logo_url",
         "description": "File: app/routes/$lang+/settings+/system.tsx:309",
-        "translation": "URL логотипа инстанце"
+        "translation": "УРЛ логотипа инстанце"
     },
     {
         "id": "settings.system.instance_name",
@@ -5751,7 +5751,7 @@
     {
         "id": "settings.system.website_logo_url",
         "description": "File: app/routes/$lang+/settings+/system.tsx:492",
-        "translation": "URL логотипа веб-сајта"
+        "translation": "УРЛ логотипа веб-сајта"
     },
     {
         "id": "settings.system.website_name",
@@ -5786,7 +5786,7 @@
     {
         "id": "spatial_footprint.latitude",
         "description": "Label for latitude value (short) File: app/components/ContentRepeater/index.tsx:1955",
-        "translation": "Године"
+        "translation": "Ширина"
     },
     {
         "id": "spatial_footprint.loading_map_data",
@@ -5796,7 +5796,7 @@
     {
         "id": "spatial_footprint.longitude",
         "description": "Label for longitude value (short) File: app/components/ContentRepeater/index.tsx:1961",
-        "translation": "Дугачак"
+        "translation": "Дужина"
     },
     {
         "id": "spatial_footprint.map_coordinates",
@@ -5826,7 +5826,7 @@
     {
         "id": "unit.acres",
         "description": "File: app/frontend/unit_picker.tsx:77",
-        "translation": "Акр"
+        "translation": "Ари"
     },
     {
         "id": "unit.area",
@@ -5941,7 +5941,7 @@
     {
         "id": "user_change_password.current_password_required",
         "description": "File: app/backend.server/models/user/password.ts:217",
-        "translation": "Треба тренутачна лозинка"
+        "translation": "Тренутна лозинка је потребна"
     },
     {
         "id": "user_change_password.new_password_required",
@@ -5951,7 +5951,7 @@
     {
         "id": "user_change_password.user_not_found",
         "description": "File: app/backend.server/models/user/password.ts:241",
-        "translation": "Грешка у апликацији. Корисник није пронађен."
+        "translation": "Грешка у апликацији. Корисник није пронађен"
     },
     {
         "id": "user_forgot_password.email_sending_failure",
@@ -5961,7 +5961,7 @@
     {
         "id": "user_forgot_password.email_sent_inline_message",
         "description": "A message when correct email format entered in forgot password page. File: app/routes/$lang+/user+/forgot-password.tsx:143",
-        "translation": "Проверите пријемно сандуче за линк за ресетовање лозинке ако је ова е-порука повезана са налозом."
+        "translation": "Проверите пријемно сандуче за линк за ресетовање лозинке ако је ова е-порука повезана са налогом."
     },
     {
         "id": "user_forgot_password.forgot_password",
@@ -5976,7 +5976,7 @@
     {
         "id": "user_forgot_password.reset_password_email_html",
         "description": "HTML version of the reset password email. File: app/utils/emailUtil.ts:30",
-        "translation": "Поднет је захтев за ресетовање ваше лозинке. Ако нисте ви затражили ово, једноставно игноришите овај имејл.\nКликните на доњи линк да бисте ресетовали лозинку:\n\u003ca href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nРесетуј лозинку\n\n\u003c/p\u003e\nОва веза истиче за 1 сат."
+        "translation": "Поднет је захтев за ресетовање ваше лозинке. Ако нисте ви затражили ово, једноставно игноришите овај имејл.\nКликните на доњи линк да бисте ресетовали лозинку:\n<a href=\"{resetURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nРесетуј лозинку\n\n</p>\nОва веза истиче за 1 сат."
     },
     {
         "id": "user_forgot_password.reset_password_email_text",
@@ -5991,7 +5991,7 @@
     {
         "id": "user_invite.admin_email_html",
         "description": "File: app/backend.server/models/user/invite.ts:198",
-        "translation": "Позвани сте да се придружите DELTA Resilience {siteName} систему као {role} корисник за инстанцу земље {countryName} {countryAccountType}.\n\nКликните на доњи линк да бисте креирали свој налог.\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nПодесите налог\n\n\u003c/sep\u003e\n\u003ca href=\"{inviteURL}\"\u003e {inviteURL} "
+        "translation": "Позвани сте да се придружите DELTA Resilience {siteName} систему као {role} корисник за инстанцу земље {countryName} {countryAccountType}.\n\nКликните на доњи линк да бисте креирали свој налог.\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nПодесите налог\n\n</sep>\n<a href=\"{inviteURL}\"> {inviteURL} "
     },
     {
         "id": "user_invite.admin_email_text",
@@ -6001,7 +6001,7 @@
     {
         "id": "user_invite.existing_email_html",
         "description": "File: app/utils/emailUtil.ts:193",
-        "translation": "Позван сте да се придружите DELTA Resilience {siteName} систему као {role} корисник за инстанцу земље {countryName} {countryAccountType}.\n\nКликните на доњи линк да бисте се пријавили на свој налог.\n\u003ca href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nПријавите се\n\n\n \u003ca href=\"{rootUrl}\"\u003e {rootUrl} "
+        "translation": "Позван сте да се придружите DELTA Resilience {siteName} систему као {role} корисник за инстанцу земље {countryName} {countryAccountType}.\n\nКликните на доњи линк да бисте се пријавили на свој налог.\n<a href=\"{rootUrl}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nПријавите се\n\n\n <a href=\"{rootUrl}\"> {rootUrl} "
     },
     {
         "id": "user_invite.existing_email_text",
@@ -6011,7 +6011,7 @@
     {
         "id": "user_invite.new_email_html",
         "description": "File: app/utils/emailUtil.ts:130",
-        "translation": "Позвани сте да се придружите DELTA Resilience {siteName} систему као {role} корисник за инстанцу земље {countryName} {countryAccountType}.\n\nКликните на доњи линк да бисте креирали свој налог.\n\u003ca href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nПодесите налог\n\n\u003c/sep\u003e\n\u003ca href=\"{inviteURL}\"\u003e {inviteURL} "
+        "translation": "Позвани сте да се придружите DELTA Resilience {siteName} систему као {role} корисник за инстанцу земље {countryName} {countryAccountType}.\n\nКликните на доњи линк да бисте креирали свој налог.\n<a href=\"{inviteURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nПодесите налог\n\n</sep>\n<a href=\"{inviteURL}\"> {inviteURL} "
     },
     {
         "id": "user_invite.new_email_subject",
@@ -6026,7 +6026,7 @@
     {
         "id": "user_invite.welcome_email_html",
         "description": "File: app/utils/emailUtil.ts:66",
-        "translation": "Поштовани {firstName} {lastName},\n\nДобродошли у DELTA Resilience {siteName} систем. Ваш кориснички налог је успешно креиран.\n\nКликните на доњи линк да бисте приступили свом налогу.\n\u003ca href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\"\u003e\nПриступ налогу\n\n"
+        "translation": "Поштовани {firstName} {lastName},\n\nДобродошли у DELTA Resilience {siteName} систем. Ваш кориснички налог је успешно креиран.\n\nКликните на доњи линк да бисте приступили свом налогу.\n<a href=\"{accessAccountURL}\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007BFF; text-decoration: none; border-radius: 5px;\">\nПриступ налогу\n\n"
     },
     {
         "id": "user_invite.welcome_email_subject",
@@ -6321,7 +6321,7 @@
     {
         "id": "user.permission.add_country_account.label",
         "description": "File: app/frontend/user/roles.ts:282",
-        "translation": "Додајте земљу рачун"
+        "translation": "Додајте налог за земљу"
     },
     {
         "id": "user.permission.add_fictitious_country.label",
@@ -6331,7 +6331,7 @@
     {
         "id": "user.permission.clone_country_account.label",
         "description": "File: app/frontend/user/roles.ts:266",
-        "translation": "Клонирај налог за земљу"
+        "translation": "Дуплирај налог за земљу"
     },
     {
         "id": "user.permission.delete_country_account.label",
@@ -6386,7 +6386,7 @@
     {
         "id": "user.permission.manage_country_settings.label",
         "description": "File: app/frontend/user/roles.ts:193",
-        "translation": "Управљање подешавањама земље"
+        "translation": "Управљање подешавањима земље"
     },
     {
         "id": "user.permission.manage_organizations.label",
@@ -6491,12 +6491,12 @@
     {
         "id": "user.setup_sso_email_requirement_please_use_same_email_as_invitation",
         "description": "File: app/routes/$lang+/user+/accept-invite-welcome.tsx:114",
-        "translation": "Напомена: За подешавање користећи SSO, молимо вас да користите исту адресу е-поште на коју сте добили позив."
+        "translation": "Напомена: За подешавање користећи ССО, молимо вас да користите исту адресу е-поште на коју сте добили позив."
     },
     {
         "id": "user.setup_using_sso",
         "description": "File: app/routes/$lang+/user+/accept-invite-welcome.tsx:103",
-        "translation": "Подешавање помоћу SSO"
+        "translation": "Подешавање помоћу ССО"
     },
     {
         "id": "user.totp_2fa_status",
@@ -6651,7 +6651,7 @@
     {
         "id": "users.recover_account",
         "description": "File: app/routes/$lang+/user+/reset-password.tsx:210",
-        "translation": "Опорави рачун"
+        "translation": "Поврати рачун"
     },
     {
         "id": "users.required_information",
@@ -6716,12 +6716,12 @@
     {
         "id": "disaster_event.invalid_hazardous_event_reference",
         "description": "File: app/backend.server/models/event.ts:1456",
-        "translation": "Неважећи референс на опасни догађај за ову инстанцу"
+        "translation": "Неважећа референца ка опасном догађају за ову инстанцу"
     },
     {
         "id": "email.assigned_validators.body_html",
         "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:112",
-        "translation": "Поштовани {validatorName},\nНови {recordType} чека Вашу акцију. Кликните на доњи линк да бисте видели догађај.\nНазив догађаја: {recordEventName} \u003cbr /\u003eДатум догађаја: {recordDate} \u003cbr /\u003eПослао: {recordSubmitterName}\n\u003ca href=\"{recordUrl}\"\u003eПогледајте догађај"
+        "translation": "Поштовани {validatorName},\nНови {recordType} чека Вашу акцију. Кликните на доњи линк да бисте видели догађај.\nНазив догађаја: {recordEventName} <br />Датум догађаја: {recordDate} <br />Послао: {recordSubmitterName}\n<a href=\"{recordUrl}\">Погледајте догађај"
     },
     {
         "id": "email.assigned_validators.body_text",
@@ -6736,7 +6736,7 @@
     {
         "id": "email.assignees_notification.body_returned_html",
         "description": "File: app/backend.server/services/emailValidationWorkflowService.ts:481",
-        "translation": "Поштовани {assigneeName},\n{recordType} је враћен на прераду.\nВратио: {recordSubmitterName}\nКоментари: {rejectionMessage}\n\u003ca href=\"{recordUrl}\"\u003eПогледајте"
+        "translation": "Поштовани {assigneeName},\n{recordType} је враћен на прераду.\nВратио: {recordSubmitterName}\nКоментари: {rejectionMessage}\n<a href=\"{recordUrl}\">Погледајте"
     },
     {
         "id": "email.assignees_notification.body_returned_text",

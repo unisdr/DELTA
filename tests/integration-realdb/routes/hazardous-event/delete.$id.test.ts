@@ -65,14 +65,14 @@ describe("delete.$id.tsx action", () => {
 		).rejects.toMatchObject({ status: 401 });
 	});
 
-	it("should return 500 for missing country accounts id", async () => {
+	it("should return 400 for missing country accounts id", async () => {
 		vi.mocked(getCountryAccountsIdFromSession).mockResolvedValueOnce(
 			null as any,
 		);
 
 		await expect(
 			callAction({ id: testData.hazardousEventId }),
-		).rejects.toMatchObject({ status: 500 });
+		).rejects.toMatchObject({ status: 400 });
 	});
 
 	it("should return error for record from different tenant", async () => {

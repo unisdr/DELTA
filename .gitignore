@@ -27,6 +27,7 @@ dts_shared_binary/
 .env.local
 
 # AI Tool files
+.claude
 .claude/settings.*
 
 # Drizzle files

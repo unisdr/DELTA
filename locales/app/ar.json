@@ -2092,7 +2092,7 @@
     {
         "id": "hazardous_event.status.passed",
         "description": "Label for passed hazardous event status File: frontend/events/hazardevent-filters.tsx:46",
-        "translation": "نجحت"
+        "translation": "قد مضت"
     },
     {
         "id": "hazardous_event.uuid",
@@ -3012,7 +3012,7 @@
     {
         "id": "user_select_instance.instances_found",
         "description": "File: routes/$lang+/user+/select-instance.tsx:222",
-        "translation": "لقد وجدنا {n} مثيل (مثيلات) مرتبطة بمعرف بريدك الإلكتروني. الرجاء تحديد المثيل الذي تريد مراجعته."
+        "translation": "لقد وجدنا مثيل (مثيلات) مرتبطة بمعرف بريدك الإلكتروني. الرجاء تحديد المثيل الذي تريد مراجعته."
     },
     {
         "id": "user_select_instance.no_instance_message",
@@ -5752,7 +5752,7 @@
     {
         "id": "user.role.can_do",
         "description": "File: routes/$lang+/settings+/access-mgmnt+/invite.tsx:371",
-        "translation": "أ {label} قادر على:"
+        "translation": "قادر على:"
     },
     {
         "id": "user.role.data_collector.desc",
@@ -7202,7 +7202,7 @@
     {
         "id": "user.permission.add_fictitious_country.label",
         "description": "File: app/frontend/user/roles.ts:235",
-        "translation": "إضافة دولة وهمية"
+        "translation": "إضافة دولة إفتراضية"
     },
     {
         "id": "user.permission.clone_country_account.label",
@@ -7227,7 +7227,7 @@
     {
         "id": "user.permission.edit_fictitious_country.label",
         "description": "File: app/frontend/user/roles.ts:243",
-        "translation": "تحرير بلد وهمي"
+        "translation": "تحرير بلد إفتراضي"
     },
     {
         "id": "user.permission.view_country_accounts.label",
@@ -7237,7 +7237,7 @@
     {
         "id": "user.permission.view_fictitious_countries.label",
         "description": "File: app/frontend/user/roles.ts:227",
-        "translation": "عرض البلدان الوهمية"
+        "translation": "عرض البلدان الإفتراضية"
     },
     {
         "id": "user.totp_2fa_status",

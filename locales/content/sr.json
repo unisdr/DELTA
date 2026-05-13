@@ -489,7 +489,7 @@
     },
     {
         "id": "asset.name.02c093f7-5d5e-4f6b-ab8b-3cd95f6aa554.3fe1b2",
-        "translation": "Грејдери"
+        "translation": "Грејдери (грађевинске машине за равнање пута)"
     },
     {
         "id": "asset.name.0710307f-03e5-43b5-a317-d6b64a91c30d.14e163",
@@ -545,7 +545,7 @@
     },
     {
         "id": "asset.name.0b5b8885-290f-42b3-a87c-9885f8f212bf.6ccf91",
-        "translation": "Офшор бушилице"
+        "translation": "Морске/обалске платформе за бушење нафте и гаса"
     },
     {
         "id": "asset.name.0c70f0c1-1a04-4198-a027-6617c0de227e.0bfe0c",
@@ -585,7 +585,7 @@
     },
     {
         "id": "asset.name.139adf31-e6ef-4de9-b126-b72ac6f886fe.94e229",
-        "translation": "Постројења генерације"
+        "translation": "Постројења за производњу електричне енергије"
     },
     {
         "id": "asset.name.13a255b2-2b17-4a8d-b051-215877ecfa3c.387fe3",
@@ -621,7 +621,7 @@
     },
     {
         "id": "asset.name.18ba3340-f521-4b7c-b447-f307cc4f07cd.bd50dc",
-        "translation": "Хвала вам"
+        "translation": "Banje"
     },
     {
         "id": "asset.name.1a875652-53ab-4c79-b0f3-db16d599ab10.6a20b1",
@@ -677,7 +677,7 @@
     },
     {
         "id": "asset.name.25184c88-2d13-4783-88f2-5d4cd45a045b.b93f08",
-        "translation": "Соргhum"
+        "translation": "Сирак"
     },
     {
         "id": "asset.name.25802138-528e-4496-90d0-092957368b72.2e2a3c",
@@ -701,7 +701,7 @@
     },
     {
         "id": "asset.name.270be00b-bb13-43ac-8fff-1e72c24ffd1a.5ea377",
-        "translation": "заједничке продавнице"
+        "translation": "продавнице у заједницама"
     },
     {
         "id": "asset.name.276c857d-a47e-4295-8c35-e53b44dadcc0.0fbd54",
@@ -709,7 +709,7 @@
     },
     {
         "id": "asset.name.27830a75-ab3b-4eb5-aab5-4c60f4e0f97c.462bbc",
-        "translation": "Лупини"
+        "translation": "Лупина"
     },
     {
         "id": "asset.name.281fba40-fb97-4df4-a959-5731964f3b27.b8d5ca",
@@ -725,11 +725,11 @@
     },
     {
         "id": "asset.name.294bea44-ee31-4acd-8b4b-f3711b77a198.bf0b1b",
-        "translation": "Карафил"
+        "translation": "Каранфилић"
     },
     {
         "id": "asset.name.2961e26b-36f6-4738-9036-59e24713a740.f58195",
-        "translation": "опорни зидови"
+        "translation": "потпорни зидови"
     },
     {
         "id": "asset.name.2a296db5-faff-4d42-8c8a-e244f0707101.34a4f3",
@@ -737,7 +737,7 @@
     },
     {
         "id": "asset.name.2a3f01c1-5e3d-4d8d-b701-6107eed88337.e97e93",
-        "translation": "Бушилична механизација"
+        "translation": "Механизација за бушење"
     },
     {
         "id": "asset.name.2a5e75a5-2283-4160-aec9-11e3cfdce569.758f48",
@@ -745,11 +745,11 @@
     },
     {
         "id": "asset.name.2a8128c0-8637-4adb-95fe-03785e7dff4f.857a39",
-        "translation": "Шпароге"
+        "translation": "Шпаргле"
     },
     {
         "id": "asset.name.2b0d2414-05de-48d4-beae-7307be24dea8.4160b3",
-        "translation": "Транспортни систем"
+        "translation": "Систем транспортних трака"
     },
     {
         "id": "asset.name.2be3d877-a6b7-425e-bdf3-4aaebbbbb361.bf8d90",
@@ -761,15 +761,15 @@
     },
     {
         "id": "asset.name.2e568e75-9239-4744-be03-369d2f22e095.1fe8f5",
-        "translation": "Француски одводи"
+        "translation": "Дренажни канали"
     },
     {
         "id": "asset.name.2e92e4ed-f9fb-4738-8282-8b0333909e7f.6244de",
-        "translation": "Фото студије"
+        "translation": "Фото студији"
     },
     {
         "id": "asset.name.2f0096a4-9e15-4ff2-bdbc-ef9aaba16db3.4c4157",
-        "translation": "Лук (укључујући шалоте)"
+        "translation": "Лук (укључујући љутику)"
     },
     {
         "id": "asset.name.30867e26-001e-4605-a50b-8578537476f4.5ae3f5",
@@ -777,7 +777,7 @@
     },
     {
         "id": "asset.name.308939ef-17a0-4a9e-80dc-c4e20fa49be0.5059f6",
-        "translation": "Децентрализовани постројења"
+        "translation": "Децентрализована производна постројења"
     },
     {
         "id": "asset.name.30e0356e-9238-4d67-9c2d-58cff39b3218.7d1852",
@@ -793,11 +793,11 @@
     },
     {
         "id": "asset.name.32c682f4-1af5-4841-81e3-12eadbf6aab2.7320c1",
-        "translation": "Бушите бунаре"
+        "translation": "Бушити бунаре"
     },
     {
         "id": "asset.name.32e469e1-35e2-411e-9cfd-d04cae4c0126.0a9b4d",
-        "translation": "Пумпни јакoви"
+        "translation": "Пумпне клацкалице"
     },
     {
         "id": "asset.name.33e739db-4cc1-4e52-86f2-de871be86af2.500c5e",
@@ -805,19 +805,19 @@
     },
     {
         "id": "asset.name.348e8821-ae4a-476e-8abc-4b912cbec15d.55f50a",
-        "translation": "Лабораторије за колор-градинг"
+        "translation": "Лабораторије за колор-корекцију"
     },
     {
         "id": "asset.name.34e545e3-6857-4fb3-81af-8978ec53a427.c29b43",
-        "translation": "Септички резервоари"
+        "translation": "Септичке јаме"
     },
     {
         "id": "asset.name.3515f327-9c2e-45ef-bf26-6a36d69c6b68.6bda3b",
-        "translation": "Кокоси"
+        "translation": "Кокос"
     },
     {
         "id": "asset.name.35a74151-ce5a-4407-bbee-c2922f569bfb.249a81",
-        "translation": "Објекти трибунала"
+        "translation": "Објекти судова"
     },
     {
         "id": "asset.name.360ce210-adf7-4966-acc9-b4b5fb1b1d0f.109829",
@@ -833,7 +833,7 @@
     },
     {
         "id": "asset.name.391a09fb-ec94-42f7-b143-944aafc97ce3.b5cc76",
-        "translation": "Касава"
+        "translation": "Маниока"
     },
     {
         "id": "asset.name.3932ca75-1ee0-4a2c-8153-c0f6807679d0.d6b087",
@@ -865,7 +865,7 @@
     },
     {
         "id": "asset.name.3c8d47a4-25d8-462e-b7ee-b42dd42fc9d1.dd7be3",
-        "translation": "телефонски центри заједнице"
+        "translation": "телефонски центри заједница"
     },
     {
         "id": "asset.name.3cd27f3c-e992-4e42-b4e7-c87adf8a289a.38b0b9",
@@ -873,7 +873,7 @@
     },
     {
         "id": "asset.name.3d8bc735-3790-407b-8091-485368235bce.a1dd0d",
-        "translation": "Мускатни орах, мускат, кардамонови"
+        "translation": "Мускатни орах, мускат, кардамон"
     },
     {
         "id": "asset.name.3dd667b9-2d85-4a41-b544-400a0935d126.14861f",
@@ -897,7 +897,7 @@
     },
     {
         "id": "asset.name.3fd61e18-6f93-45cc-a44f-bb63cb7dc8f5.b05499",
-        "translation": "Бруснице"
+        "translation": "Боровница"
     },
     {
         "id": "asset.name.40d0948c-e15a-49fa-b562-a83994b8e856.e0b1c3",
@@ -913,15 +913,15 @@
     },
     {
         "id": "asset.name.41ff479d-0357-4596-8f6b-3ffb7f54a19c.56c630",
-        "translation": "Вијци за палење"
+        "translation": "Машине за побијање шипова"
     },
     {
         "id": "asset.name.421e99c8-9e0e-4532-ae26-875809135302.04c3f7",
-        "translation": "Рударски окни"
+        "translation": "Рударска окна"
     },
     {
         "id": "asset.name.42eb4a4c-2be7-4630-8dfc-d9003df3e4db.61ca7b",
-        "translation": "биогасни дигестери"
+        "translation": "Биогасна постројења"
     },
     {
         "id": "asset.name.437d0984-58cb-4979-a93b-5b42d570087c.08a73f",
@@ -937,11 +937,11 @@
     },
     {
         "id": "asset.name.455cfd32-1e1f-404b-9e49-14b0afaac038.fe352b",
-        "translation": "У Пигеновој глави"
+        "translation": "Кајанус"
     },
     {
         "id": "asset.name.45b7c5ae-d3d1-42b8-8db7-aa71056459b2.56c079",
-        "translation": "Софтвер за уређивање"
+        "translation": "Софтвер за едитовање"
     },
     {
         "id": "asset.name.46c3136b-49b0-49b0-b856-af9c310192d5.2c33c7",
@@ -973,7 +973,7 @@
     },
     {
         "id": "asset.name.4ad83d00-5f32-47ee-97a3-2a7ee6635452.784ad7",
-        "translation": "Тржишна постројења"
+        "translation": "Тржишни објекти"
     },
     {
         "id": "asset.name.4aee9ace-ce22-48c0-84a3-9798c34a712c.a63d51",
@@ -1001,7 +1001,7 @@
     },
     {
         "id": "asset.name.508ade0a-8088-415c-b019-2983da435218.c0db23",
-        "translation": "Кромпири"
+        "translation": "Кромпир"
     },
     {
         "id": "asset.name.50c37075-30ba-40e2-8762-7754b335ea93.2f7b2c",
@@ -1013,7 +1013,7 @@
     },
     {
         "id": "asset.name.517539d4-e73a-4592-9526-fba1d04f5aab.017365",
-        "translation": "профилисање конструкција"
+        "translation": "дренажни објекти/системи"
     },
     {
         "id": "asset.name.51a9ce6f-a8c5-42fc-82c0-e173c721d612.fbb525",
@@ -1029,7 +1029,7 @@
     },
     {
         "id": "asset.name.52fcbd9f-af3e-4d6d-8571-1dd3c6259f1b.6a677c",
-        "translation": "Летрини"
+        "translation": "Санитарни чворови"
     },
     {
         "id": "asset.name.535b20c1-737b-4bcd-b099-1e6f523b4757.7aa887",
@@ -1041,7 +1041,7 @@
     },
     {
         "id": "asset.name.54e76c51-0276-4a5b-bc59-c91f1570a69b.436969",
-        "translation": "Нигерско семе"
+        "translation": "Нигер семе"
     },
     {
         "id": "asset.name.558c2f56-51ce-4a5e-b08b-8c1e110e9128.276359",
@@ -1065,7 +1065,7 @@
     },
     {
         "id": "asset.name.57b621e8-b148-4ac2-9f61-10f320d95808.f22f76",
-        "translation": "Школски здравствени центар/школска медицинска сестра"
+        "translation": "Школска амбуланта/школска медицинска сестра"
     },
     {
         "id": "asset.name.58016281-c070-4785-bdaf-141f5f565133.686af9",
@@ -1073,7 +1073,7 @@
     },
     {
         "id": "asset.name.58a5e280-0026-41d7-8064-15070e76b0af.ab90ba",
-        "translation": "Лабораторије за квалитет воде"
+        "translation": "Лабораторије за испитивање квалитета воде"
     },
     {
         "id": "asset.name.58b35839-fdd0-4e61-b103-02effd461d8a.05dcae",
@@ -1081,7 +1081,7 @@
     },
     {
         "id": "asset.name.59f5ed40-fb0a-40aa-ab19-ff20cfe312f8.c90f71",
-        "translation": "Крушке и хрена"
+        "translation": "Крушке и дуње"
     },
     {
         "id": "asset.name.5b3ef4e5-097d-49a8-ab52-93e3bdaefb86.314ae7",
@@ -1089,7 +1089,7 @@
     },
     {
         "id": "asset.name.5bdefab6-5987-4bc5-8bba-d25cf13548b4.751924",
-        "translation": "соларна кућна система за електрификацију"
+        "translation": "кућни соларни системи за производњу екетричне енергије"
     },
     {
         "id": "asset.name.5c04f3c7-c5cc-4071-af1a-6ba90ff446aa.105ad1",
@@ -1101,7 +1101,7 @@
     },
     {
         "id": "asset.name.5f17cb11-f5cf-46a3-be54-885a2fcb7341.090709",
-        "translation": "Канталупе и друге диње"
+        "translation": "Канталуп диња и друге врсте диња"
     },
     {
         "id": "asset.name.5f7799c8-d246-4825-9b81-b23cc874cedd.a92afa",
@@ -1117,7 +1117,7 @@
     },
     {
         "id": "asset.name.600c8a50-4aca-4b3e-bf77-f973eab831f5.f24c4e",
-        "translation": "Владајућа кућа"
+        "translation": "Зграда Владе"
     },
     {
         "id": "asset.name.601b203a-e7ea-4ec8-ad40-a4d9dbfa4ba9.e39f6c",
@@ -1125,11 +1125,11 @@
     },
     {
         "id": "asset.name.609feae0-20c1-473c-9548-2df54a505049.d198ef",
-        "translation": "Житарице"
+        "translation": "Просо"
     },
     {
         "id": "asset.name.61099cf2-420e-4681-94ac-08bcf2ba61d6.e4e718",
-        "translation": "питоме"
+        "translation": "мрестилишта"
     },
     {
         "id": "asset.name.61275f5c-aac0-4f7c-8dbf-2bd48a706933.af74c6",
@@ -1137,7 +1137,7 @@
     },
     {
         "id": "asset.name.61a2a82f-f852-4fc8-b45c-cfa745013db6.5bb3e7",
-        "translation": "Шаргарепе"
+        "translation": "Шаргарепа"
     },
     {
         "id": "asset.name.63a2e871-0ca9-4f46-bffc-feb834da0935.c4cfb1",
@@ -1145,7 +1145,7 @@
     },
     {
         "id": "asset.name.63f5ba5d-1d73-4b3c-8c15-c0dec0822f6a.452feb",
-        "translation": "џетије"
+        "translation": "пристаништа"
     },
     {
         "id": "asset.name.64973982-18b7-4d69-b55d-17a0cb04a3cb.a7f3d7",
@@ -1173,7 +1173,7 @@
     },
     {
         "id": "asset.name.6922ca3b-56df-4f58-8ae0-ac00484317e1.ed624e",
-        "translation": "други нискобуџетни оф-грид системи"
+        "translation": "други нискобуџетни ванмрежни системи"
     },
     {
         "id": "asset.name.6b0614d0-367f-4327-8d08-39600639d88b.57421a",
@@ -1181,11 +1181,11 @@
     },
     {
         "id": "asset.name.6b314aa9-a08c-4d5c-89ea-d43210ab2746.e19c6c",
-        "translation": "Лагани путник"
+        "translation": "Лаки путнички"
     },
     {
         "id": "asset.name.6b5a5df9-1402-4ee6-9aec-e47e54221bdb.50273e",
-        "translation": "Лан"
+        "translation": "Ланено семе"
     },
     {
         "id": "asset.name.6bcdbcbc-a021-4960-9259-907b17cd2430.e5ad8f",
@@ -1193,11 +1193,11 @@
     },
     {
         "id": "asset.name.6c30c00c-6761-4aba-8bc0-e5cb49b0f8ed.9042d8",
-        "translation": "Наставни кадар"
+        "translation": "Факултет"
     },
     {
         "id": "asset.name.6c824c11-9bce-4b23-aa16-d88f84ff4e4c.877889",
-        "translation": "Системи за извлачење из земље"
+        "translation": "Системи за извлачење земље"
     },
     {
         "id": "asset.name.6d783f74-a175-44a9-bc69-6d5b503b8f40.3207db",
@@ -1205,7 +1205,7 @@
     },
     {
         "id": "asset.name.6e6032a0-9647-47f3-a10f-6cc8e242b0f0.c0e80d",
-        "translation": "Салата"
+        "translation": "Зелена салата"
     },
     {
         "id": "asset.name.6f0b75cc-94e0-4965-ad51-3525ea0140c4.eb4c00",
@@ -1225,11 +1225,11 @@
     },
     {
         "id": "asset.name.71663046-0877-41bf-9d6a-6bfa8415b80d.520f14",
-        "translation": "Грав"
+        "translation": "Вигна"
     },
     {
         "id": "asset.name.71d181ef-a581-4758-ae89-16e6f398bb03.58aede",
-        "translation": "У сауни"
+        "translation": "Сауне"
     },
     {
         "id": "asset.name.72b5963c-9bb7-4eed-81e5-569326edc9c2.792b5f",
@@ -1237,7 +1237,7 @@
     },
     {
         "id": "asset.name.745a0e41-c96f-4118-8b6f-697e0167f831.78a4c7",
-        "translation": "Површински пумпни системи"
+        "translation": "Површина пумпних система"
     },
     {
         "id": "asset.name.74953725-7742-4532-bd35-b0f5c709a488.9ae0f1",
@@ -1269,7 +1269,7 @@
     },
     {
         "id": "asset.name.779562d9-347c-4be6-9a55-dc8344282877.b84bb8",
-        "translation": "Ископачи"
+        "translation": "Машине за ископавање"
     },
     {
         "id": "asset.name.78274c14-d0ec-4ff1-86c7-8e7819b5ad65.fd7b46",
@@ -1277,7 +1277,7 @@
     },
     {
         "id": "asset.name.787e27e6-ad48-4937-9e1b-0bb6a8b24ab0.3e28e9",
-        "translation": "У глави"
+        "translation": "Грашак"
     },
     {
         "id": "asset.name.78836c2c-9120-4ee3-99a8-32b72a9313a9.29cb8b",
@@ -1289,11 +1289,11 @@
     },
     {
         "id": "asset.name.7ac8bbaf-99c2-4229-a99b-4614891703d7.8337ef",
-        "translation": "Суве нахут"
+        "translation": "Леблебије, сушене"
     },
     {
         "id": "asset.name.7b2733e5-136a-40ec-bbe0-01593965e210.544a9c",
-        "translation": "Џинџер"
+        "translation": "Ђумбир"
     },
     {
         "id": "asset.name.7b2a5afc-9990-4a02-a462-fbfd0414691c.12b296",
@@ -1317,11 +1317,11 @@
     },
     {
         "id": "asset.name.7dfa0326-d22a-4bc0-b086-26aef494f25c.84fc23",
-        "translation": "Кранци"
+        "translation": "Кранови"
     },
     {
         "id": "asset.name.7e9b3b49-5991-4578-abfc-2d1efbb8add3.46a8be",
-        "translation": "Камиони-пумпе за бетон"
+        "translation": "Ауто-пумпе за бетон"
     },
     {
         "id": "asset.name.7ee76a92-3a18-455b-af99-35b29fd7e1b5.66e00c",
@@ -1329,7 +1329,7 @@
     },
     {
         "id": "asset.name.80012e57-edb3-4e74-9200-f6cbb171b725.46f8ab",
-        "translation": "репница"
+        "translation": "Уљана репица"
     },
     {
         "id": "asset.name.811c4717-849f-45f7-b20f-e036e0dc954b.1e96ea",
@@ -1345,7 +1345,7 @@
     },
     {
         "id": "asset.name.823e56bf-41a3-49ba-b628-e91cb59231d5.81180d",
-        "translation": "Шаргарепа, сушена"
+        "translation": "Сушени боб"
     },
     {
         "id": "asset.name.82594492-8857-45b8-9b0b-c0d1cdce3db3.e8e811",
@@ -1365,11 +1365,11 @@
     },
     {
         "id": "asset.name.8314fbdb-05df-4099-a270-0a1ccb7079c5.dfe262",
-        "translation": "Тржишта"
+        "translation": "Тржнице"
     },
     {
         "id": "asset.name.840c3fb0-6822-47e4-8dfc-1f153727120a.a1dd0d",
-        "translation": "Мускатни орах, мускат, кардамонови"
+        "translation": "Мускатни орах, мускат, кардамон"
     },
     {
         "id": "asset.name.84328ccf-92d7-40d0-9013-f49d47e4d1e4.62d1d9",
@@ -1389,7 +1389,7 @@
     },
     {
         "id": "asset.name.857c0722-6ff0-4ab5-a709-a0f16080962a.637a42",
-        "translation": "Хлеб"
+        "translation": "Кукуруз"
     },
     {
         "id": "asset.name.8601a8b0-457d-4d50-b3c8-4017168c26ca.746ffd",
@@ -1413,7 +1413,7 @@
     },
     {
         "id": "asset.name.868cf501-7e0a-41ce-a8bf-559eb537d964.b96473",
-        "translation": "Остало воће крушастих и каштарица, н.е.к."
+        "translation": "Остало јабучасто и коштуњаво воће, н.е.к"
     },
     {
         "id": "asset.name.86ae6ad4-aa75-49b9-9964-fa799237306c.cafd62",
@@ -1437,7 +1437,7 @@
     },
     {
         "id": "asset.name.89090ff2-e57d-4be8-bad2-671de871746b.20d365",
-        "translation": "Бундевера, тиквице и тикви"
+        "translation": "Бундеве, тиквице и тикве"
     },
     {
         "id": "asset.name.8a2b8807-9875-45d5-b6af-a5aa234defc6.76e0b4",
@@ -1453,11 +1453,11 @@
     },
     {
         "id": "asset.name.8ae5e800-8ba2-42d6-b54b-c92a3643c7e5.369601",
-        "translation": "кутијасти пропустници"
+        "translation": "сандучасти пропусти"
     },
     {
         "id": "asset.name.8bcb0daf-cd55-498f-b4ae-2a94ca412812.51fee4",
-        "translation": "Праонице веша"
+        "translation": "Објекти за прање веша"
     },
     {
         "id": "asset.name.8d0ad683-d358-411a-978f-7d5e11c7c74d.ffc6d2",
@@ -1469,7 +1469,7 @@
     },
     {
         "id": "asset.name.8d444136-9124-450b-8782-0a1cd93e73cf.fea1c4",
-        "translation": "Ригидни (2-3 осе) теретни возило"
+        "translation": "Круто теретно возило са 2-3 осовине"
     },
     {
         "id": "asset.name.8dff59a8-555f-4c77-b481-2915e97265e2.f6e3ec",
@@ -1485,11 +1485,11 @@
     },
     {
         "id": "asset.name.90b45f2b-da57-42cb-829b-d1ccff46b1cd.837ab1",
-        "translation": "Специјализоване фазе филмске продукције"
+        "translation": "Специјализоване сцене за филмску продукцију"
     },
     {
         "id": "asset.name.91060c21-e3bb-4b76-b551-0d101e43361c.687e63",
-        "translation": "Кућни чамци"
+        "translation": "Станбени сплавови"
     },
     {
         "id": "asset.name.9123f3d1-9c79-4251-b5e4-c0c83ffaf8e0.e6d5d6",
@@ -1509,7 +1509,7 @@
     },
     {
         "id": "asset.name.914b0a03-16b3-471b-ba34-77023047fd59.b8e841",
-        "translation": "Кућа парламента"
+        "translation": "Седиште парламента"
     },
     {
         "id": "asset.name.915f9e4e-3de2-4a47-aa8e-150328d30792.c0269f",
@@ -1521,7 +1521,7 @@
     },
     {
         "id": "asset.name.92f672d3-831d-4a0f-9181-d7328402b63f.067f66",
-        "translation": "шале"
+        "translation": "шупе"
     },
     {
         "id": "asset.name.9509deb3-8a24-48bc-832c-906261ac180f.90a06c",
@@ -1545,7 +1545,7 @@
     },
     {
         "id": "asset.name.970ebb47-b753-47fc-8dad-d3424d525441.05f00f",
-        "translation": "Универзитет"
+        "translation": "Виша школа"
     },
     {
         "id": "asset.name.97a9bcdf-efea-4e4d-b995-abd697eac3ad.f5610a",
@@ -1565,11 +1565,11 @@
     },
     {
         "id": "asset.name.9b5744a3-1a9b-43c4-9958-299369a98233.27278f",
-        "translation": "Системи за дистрибуирану производњу енергије"
+        "translation": "Децентрализовани системи за производњу електричне енергије"
     },
     {
         "id": "asset.name.9bb96832-87b4-4f6c-8aaa-5de12fae9bd0.1e4a01",
-        "translation": "Соларна фотонапонска"
+        "translation": "Соларни фотонапомски систем"
     },
     {
         "id": "asset.name.9bb969b9-219d-402c-9cbf-2bb0e2865dfb.dffafd",
@@ -1577,11 +1577,11 @@
     },
     {
         "id": "asset.name.9bc700f0-aa67-4bf1-8a03-89b1c3a2a8a0.98e3f5",
-        "translation": "Подруми"
+        "translation": "Простори за складиштење"
     },
     {
         "id": "asset.name.9d16d1da-0d3f-4656-931e-7ed08e174bd9.8c653b",
-        "translation": "Повезана снабдевања енергијом"
+        "translation": "Пратечи извори снабдевања енергијом"
     },
     {
         "id": "asset.name.9d685f6e-4798-4455-bb07-3ed74a91047f.7796bd",
@@ -1597,7 +1597,7 @@
     },
     {
         "id": "asset.name.9e28e703-75cd-4460-80fb-dd462bb3e3d5.a7c7c9",
-        "translation": "Остало воће"
+        "translation": "Остало бобичасто воће"
     },
     {
         "id": "asset.name.9e431b88-ba3c-4216-b6e0-5ed2627f3f32.dffafd",
@@ -1613,7 +1613,7 @@
     },
     {
         "id": "asset.name.9f59839e-e957-493a-beaf-7e8c27536290.aed8d0",
-        "translation": "Ормани за складиштење"
+        "translation": "Намештај за складиштење"
     },
     {
         "id": "asset.name.a03bd5c1-c59e-43fb-ad26-e62221a45505.bcc189",
@@ -1625,11 +1625,11 @@
     },
     {
         "id": "asset.name.a1789d46-711a-4a38-88c7-3462939720d5.4f21b0",
-        "translation": "пешачке капије "
+        "translation": "пешачки мостови "
     },
     {
         "id": "asset.name.a2c122d0-f141-4d54-aa4e-26520011845a.c2d3a4",
-        "translation": "Рцичица"
+        "translation": "Семе рицинуса"
     },
     {
         "id": "asset.name.a420bf2a-a06f-40de-a852-1b95cffadcb7.997068",
@@ -1637,7 +1637,7 @@
     },
     {
         "id": "asset.name.a4423845-5826-470f-87b8-e9434b0c24e5.a300e1",
-        "translation": "Слатко кромпир"
+        "translation": "Слатки кромпир"
     },
     {
         "id": "asset.name.a5f65443-960d-4b55-9fbe-076221b7fd01.c8d3db",
@@ -1645,7 +1645,7 @@
     },
     {
         "id": "asset.name.a732b3df-bca5-42ec-9b87-851dd00ce9e9.66a39c",
-        "translation": "Транспорти шљама"
+        "translation": "Транспорт муља"
     },
     {
         "id": "asset.name.a73f597b-c608-4a62-9a3c-42335581b8be.ab58f8",
@@ -1657,7 +1657,7 @@
     },
     {
         "id": "asset.name.a7eb06b3-e5f1-4f44-afeb-05d0d6cc12df.ec0f30",
-        "translation": "Карфиоли и броколи"
+        "translation": "Карфиол и броколи"
     },
     {
         "id": "asset.name.a8ea231c-404b-4c91-8a2b-bad8185659fb.0f85a5",
@@ -1669,15 +1669,15 @@
     },
     {
         "id": "asset.name.aa50d51b-82c4-4dd8-94c4-0a1714589a29.8c5bc6",
-        "translation": "пумпе и аератори"
+        "translation": "пумпе и системи за проветравање"
     },
     {
         "id": "asset.name.ab629788-0708-4bf0-9e2f-deaed667af60.e2854c",
-        "translation": "Пољаци"
+        "translation": "Стубови"
     },
     {
         "id": "asset.name.ab6ec417-d284-4908-91e7-c80ed8253b34.bc2eea",
-        "translation": "Приколице за кућу"
+        "translation": "Стамбене (камп) приколице"
     },
     {
         "id": "asset.name.abcb8b8c-fbf4-480a-9461-641baf0c0a53.889a15",
@@ -1685,7 +1685,7 @@
     },
     {
         "id": "asset.name.ac4f6545-2cb8-404a-b855-a328228b1f5a.c30ea4",
-        "translation": "Вишње и киселе вишње"
+        "translation": "Трешње и вишње"
     },
     {
         "id": "asset.name.acadf718-6fca-4546-a71c-0938ec57c9a6.d40735",
@@ -1697,7 +1697,7 @@
     },
     {
         "id": "asset.name.aea9d149-1a1e-4a3c-a811-c9a20df89a0a.28f324",
-        "translation": "Амбулантни центри"
+        "translation": "Амбуланте"
     },
     {
         "id": "asset.name.afb6d0e2-cd0b-4990-8590-720eab8b115f.4f74df",
@@ -1705,7 +1705,7 @@
     },
     {
         "id": "asset.name.b136af9c-417e-4741-9a00-58ec57af083e.82fede",
-        "translation": "џут, кенаф и други слични"
+        "translation": "јута, кенаф и друге сличне влакнасте биљке"
     },
     {
         "id": "asset.name.b197e924-f831-443c-a5bc-e6eeaba9eea7.565275",
@@ -1725,11 +1725,11 @@
     },
     {
         "id": "asset.name.b2c9ecb7-1119-4fd0-9cc1-251f8e2a3b5b.b0250d",
-        "translation": "Рекреативна возила (RV) - камперски комбиња "
+        "translation": "Рекреативна возила (RV) - кампери "
     },
     {
         "id": "asset.name.b2ed1990-a17d-4e61-8b5d-856aaaf0bfa2.60995b",
-        "translation": "Терминали за регазификацију"
+        "translation": "Терминали за регасификацију"
     },
     {
         "id": "asset.name.b34ef229-5f0e-4b73-b57d-336f0613fe1b.6bff31",
@@ -1769,15 +1769,15 @@
     },
     {
         "id": "asset.name.b7129883-5d43-4d06-94c1-fcc8895359dd.09e99d",
-        "translation": "Столови"
+        "translation": "Столице"
     },
     {
         "id": "asset.name.b7cdbf7e-de4f-42b9-aee6-4fe078d72f90.54336f",
-        "translation": "Глодалице"
+        "translation": "Глодалице/машине за млевење"
     },
     {
         "id": "asset.name.b801d20c-fc58-4d5f-b9fd-e64b79e3a083.8bbec7",
-        "translation": "баре, кавези и ограђене просторије"
+        "translation": "рибњаци, кавези и ограђени простори"
     },
     {
         "id": "asset.name.b8f786da-038a-4e8b-a681-f70d1eabd7ed.a18ffd",
@@ -1785,11 +1785,11 @@
     },
     {
         "id": "asset.name.b9241ef3-9161-403c-8e22-3bf1c92b0cfb.03ae53",
-        "translation": "Куће за чамце"
+        "translation": "Складишта за чамце"
     },
     {
         "id": "asset.name.b9344dd0-071d-4b92-bb28-233ce6e7623b.fff31a",
-        "translation": "Станице за пумпање"
+        "translation": "Пумпне станице"
     },
     {
         "id": "asset.name.ba1eec30-ff7b-4291-ab08-7fde9f35ff20.8f485a",
@@ -1801,11 +1801,11 @@
     },
     {
         "id": "asset.name.bb36a742-0359-4f86-9a80-c9c57203664c.543289",
-        "translation": "Копнене бушилице"
+        "translation": "Копнене плаформе за бушење"
     },
     {
         "id": "asset.name.bb4136ec-6746-4fab-bf13-33cd53dad4c1.4b7500",
-        "translation": "Рж"
+        "translation": "Раж"
     },
     {
         "id": "asset.name.bb713b78-497e-4e0c-bfed-d49c4b42ec0e.59b790",
@@ -1845,15 +1845,15 @@
     },
     {
         "id": "asset.name.bea6a2c7-9265-4c2c-a3a6-94e8d3c5f86c.2efcea",
-        "translation": "Помпни системи потопљиви"
+        "translation": "Системи са потопним пумпама"
     },
     {
         "id": "asset.name.bf731b86-f3da-4c98-901d-3d700d71b452.2a85f7",
-        "translation": "Глог"
+        "translation": "Огрозд"
     },
     {
         "id": "asset.name.c0641bd2-2bc3-481c-bfd7-42f2f40e0b67.81308d",
-        "translation": "Апотека"
+        "translation": "Диспанзер"
     },
     {
         "id": "asset.name.c0e660eb-17d7-4469-bcc5-50be016a4d9b.2ca80f",
@@ -1865,11 +1865,11 @@
     },
     {
         "id": "asset.name.c24a7f6e-a97c-47f1-8520-0d0a1fd539d3.c04ff2",
-        "translation": "Лук-пореј и други алијасни поврћи"
+        "translation": "Празилук и друго луковичасто поврће"
     },
     {
         "id": "asset.name.c2e55174-e66d-42a6-a57c-130f9a910453.c2e48c",
-        "translation": "Чикори"
+        "translation": "Цикорија"
     },
     {
         "id": "asset.name.c40474c8-1487-4364-9261-018bbf54405a.391474",
@@ -1885,19 +1885,19 @@
     },
     {
         "id": "asset.name.c4f8d57b-4140-4153-837b-5b2e35155f83.80aa9d",
-        "translation": "Складишни капацитети"
+        "translation": "Складишни објекти"
     },
     {
         "id": "asset.name.c5637e46-cade-430c-91e0-364348126f85.0d64b6",
-        "translation": "Каштани"
+        "translation": "Кестење"
     },
     {
         "id": "asset.name.c5e6dddf-298d-48cc-a640-d540317bffdd.a0455f",
-        "translation": "Фуражне производе, н.е.к."
+        "translation": "Остали крмни производи"
     },
     {
         "id": "asset.name.c64f1321-25f7-41b4-a73e-6b7f4a0898a5.8c875e",
-        "translation": "штитни зидови"
+        "translation": "заштитни зидови"
     },
     {
         "id": "asset.name.c6cbd2db-963d-42f4-b42e-128e6146fb1c.2555de",
@@ -1905,7 +1905,7 @@
     },
     {
         "id": "asset.name.c7578fd9-5639-4322-951e-23f73f6bc004.baad79",
-        "translation": "Патлиџани"
+        "translation": "Патлиџан"
     },
     {
         "id": "asset.name.c78bf768-8a82-409c-9ceb-625bac4bc96b.98f3d2",
@@ -1917,7 +1917,7 @@
     },
     {
         "id": "asset.name.c8f4c061-42fb-4471-8511-f8de1b08fb6d.b6c784",
-        "translation": "гробаља"
+        "translation": "гробља"
     },
     {
         "id": "asset.name.c94da795-3f88-4ddf-b092-b7ac0b83d469.29200f",
@@ -1929,7 +1929,7 @@
     },
     {
         "id": "asset.name.cabaf50d-ba89-40f9-8e9e-2e9c161b6244.9557e5",
-        "translation": "Оливе"
+        "translation": "Маслине"
     },
     {
         "id": "asset.name.cabd0c81-7c37-4ec2-b8fb-9b8ccd510779.c6b34f",
@@ -1937,11 +1937,11 @@
     },
     {
         "id": "asset.name.cb452886-7bc7-46c3-81f4-381eb417bc7a.5e1764",
-        "translation": "Багери"
+        "translation": "Ровокпоачи"
     },
     {
         "id": "asset.name.cb85d0e0-6442-44b7-97ec-fdddd92bd866.ede6fc",
-        "translation": "Уређивање хардварде"
+        "translation": "Хапдвер за обраду"
     },
     {
         "id": "asset.name.cd4f1ba5-6a5e-405f-9a5a-2a975ad9169c.c684eb",
@@ -1949,15 +1949,15 @@
     },
     {
         "id": "asset.name.cd7424d9-5317-4c03-99b1-dea9bf8d0037.b90443",
-        "translation": "Сланина"
+        "translation": "Јечам"
     },
     {
         "id": "asset.name.cdd78a1e-2730-406e-a0fe-21b9e422f51c.cfcd1f",
-        "translation": "Уточиште"
+        "translation": "Склониште"
     },
     {
         "id": "asset.name.cdf24023-db56-4007-8682-1d37909ed607.94e903",
-        "translation": "маркетиншке објекте"
+        "translation": "маркетиншки објекти"
     },
     {
         "id": "asset.name.cf0183db-c27c-436c-91d4-a4e6e0fc1007.d353ad",
@@ -1981,11 +1981,11 @@
     },
     {
         "id": "asset.name.d1a42d7f-9818-48f7-b368-ea1edcd87eb7.622bb8",
-        "translation": "цевни пропусници"
+        "translation": "цевни пропусти"
     },
     {
         "id": "asset.name.d20f6a08-7cfe-4b74-ae4f-217c6263f3bb.f7de89",
-        "translation": "Остали везивни "
+        "translation": "Остали спојни елементи "
     },
     {
         "id": "asset.name.d423fd56-50ca-4ae7-8765-ee96f57d3457.e3018c",
@@ -1993,11 +1993,11 @@
     },
     {
         "id": "asset.name.d492d23d-9017-4ce7-916b-4f39c10a9860.09eba5",
-        "translation": "Постпродукцијски капацитети"
+        "translation": "Објекти за пост-продукцију"
     },
     {
         "id": "asset.name.d4be69df-beed-4f86-bf42-b90a3fcfa9f7.37b18e",
-        "translation": "Базени"
+        "translation": "Рибњаци"
     },
     {
         "id": "asset.name.d4c90296-f83b-40d2-805a-a833db5a151b.0eadb0",
@@ -2009,7 +2009,7 @@
     },
     {
         "id": "asset.name.d5a47c7b-4817-4a2b-95e8-44688031438b.725290",
-        "translation": "Ожичење"
+        "translation": "Електричне инсталације"
     },
     {
         "id": "asset.name.d5d6a76f-2f50-4e00-b37c-f001742d74c3.c48562",
@@ -2025,11 +2025,11 @@
     },
     {
         "id": "asset.name.d8656d68-7d7f-4001-9650-bac4ee70b5c1.023c47",
-        "translation": "Локације за складиштење евиденције"
+        "translation": "Локације за складиштење података"
     },
     {
         "id": "asset.name.d8cd2674-d536-445d-9429-62f1d06527ac.dd7cc1",
-        "translation": "Остале шећерне усеве (шећерни јавор, слатки сорго)"
+        "translation": "Остале шећерне клутуре (шећерни јавор, слатки сирак)"
     },
     {
         "id": "asset.name.d94ad3ec-1dbe-4f88-bfbb-ddcd52ac40b6.d2bbdf",
@@ -2037,11 +2037,11 @@
     },
     {
         "id": "asset.name.da1f389e-5a17-4415-833b-31f750b9b29f.9459d0",
-        "translation": "Исправљачи"
+        "translation": "Казнено-поправне установе"
     },
     {
         "id": "asset.name.db3a9957-7be5-4bd1-86d6-96b5321cf4fe.8f6206",
-        "translation": "Камиони-цистерне"
+        "translation": "Камиони-цистерне са усисним капацитетима"
     },
     {
         "id": "asset.name.dbaf671f-ec33-4736-8c5b-7595ba56a22c.38aeb6",
@@ -2065,7 +2065,7 @@
     },
     {
         "id": "asset.name.dd96cc41-8603-4f22-9cf4-3020618b2c56.68fb99",
-        "translation": "кармеа"
+        "translation": "Шафраника"
     },
     {
         "id": "asset.name.ddf3d2f5-5772-4430-9256-0c33fd6b3740.0beeae",
@@ -2077,7 +2077,7 @@
     },
     {
         "id": "asset.name.de48cecf-ee75-4ec2-a9d9-bb215d97db79.283e67",
-        "translation": "Екстракција нафте - офшор"
+        "translation": "Екстракција нафте - на мору"
     },
     {
         "id": "asset.name.de55925a-8022-4793-aece-4fbd8c962dc1.9f9346",
@@ -2109,7 +2109,7 @@
     },
     {
         "id": "asset.name.e1652bec-020b-4802-b3ed-01c474691836.30da48",
-        "translation": "заштита косина"
+        "translation": "заштита нагиба терена"
     },
     {
         "id": "asset.name.e1f4448c-ea73-4a2f-9fcc-dd9c6e6562ec.9d5674",
@@ -2129,7 +2129,7 @@
     },
     {
         "id": "asset.name.e5d27d61-4d4d-49af-9ed9-09552f67c358.59be81",
-        "translation": "Келеребе"
+        "translation": "Купус"
     },
     {
         "id": "asset.name.e5e1f01e-b1f6-4d1a-8428-ba1a234599bb.685afe",
@@ -2137,11 +2137,11 @@
     },
     {
         "id": "asset.name.e6053cdc-e993-434c-9c6b-18fecbe836f3.bf0b1b",
-        "translation": "Карафил"
+        "translation": "Каранфилић"
     },
     {
         "id": "asset.name.e65e7a04-234a-48b4-9d90-d59ffd86c146.0d6c31",
-        "translation": "Водориони"
+        "translation": "Цистерне за воду"
     },
     {
         "id": "asset.name.e790a060-3983-4cf5-9c28-a9ef3bcca6d2.5dee55",
@@ -2153,7 +2153,7 @@
     },
     {
         "id": "asset.name.e95d30a9-fe5f-4285-8d6c-f21ac943dfc0.544a9c",
-        "translation": "Џинџер"
+        "translation": "Ђумбир"
     },
     {
         "id": "asset.name.e972dbd4-8f3d-4737-bc58-3e0e74a4ec53.04a3d8",
@@ -2185,7 +2185,7 @@
     },
     {
         "id": "asset.name.ecbacbca-c803-4233-8551-d14f48504733.302878",
-        "translation": "Студио музика"
+        "translation": "Музички студио"
     },
     {
         "id": "asset.name.ed3b6cc5-a655-4a9e-9849-e5064e5c6c00.fdcd9e",
@@ -2205,23 +2205,23 @@
     },
     {
         "id": "asset.name.edb5c41f-c496-4a85-99ad-87c147537de2.52b746",
-        "translation": "Сочива"
+        "translation": "Сочиво"
     },
     {
         "id": "asset.name.ee3659ac-cd8f-4c52-ae1b-be0161770cd2.d28fac",
-        "translation": "Млевење машина"
+        "translation": "Машине за млевење"
     },
     {
         "id": "asset.name.eee6a0bc-aad2-42c9-a565-3e2d278cb1bc.53740b",
-        "translation": "Постројења за мешање"
+        "translation": "Постројења за припрему бетона"
     },
     {
         "id": "asset.name.f03801ec-f7e2-47d7-9cf0-284fb91e52e6.eaca7b",
-        "translation": "уливање реке"
+        "translation": "Речни водозахвати"
     },
     {
         "id": "asset.name.f1527655-55c3-4291-bb7d-fdaaad7cae78.bfcd13",
-        "translation": "Несигурно становање - породичне куће - прикључене куће"
+        "translation": "Несигурно становање - породичне куће - спојене куће"
     },
     {
         "id": "asset.name.f2512530-e6a8-40fe-99af-b6ca2cdd1eb8.7a3edb",
@@ -2233,7 +2233,7 @@
     },
     {
         "id": "asset.name.f4150a33-52d2-4917-8f1c-c0188d80bf4e.dc9ffe",
-        "translation": "Компактови"
+        "translation": "Компактори"
     },
     {
         "id": "asset.name.f5dc46b2-6e89-471c-b9a2-dded3c0b911c.2e65f2",
@@ -2245,15 +2245,15 @@
     },
     {
         "id": "asset.name.f78d4006-e941-4f89-81aa-55a649be1ab8.4dc356",
-        "translation": "Еплов 2"
+        "translation": "Јабуке 2"
     },
     {
         "id": "asset.name.f7d72226-fc26-4573-be10-98124f28ccee.332e04",
-        "translation": "Велс"
+        "translation": "Бунари"
     },
     {
         "id": "asset.name.f82779c8-2a56-4bd1-bf9c-8328a6cb8350.1b9bc7",
-        "translation": "Риз"
+        "translation": "Пиринач"
     },
     {
         "id": "asset.name.f8ee0bc1-b85c-4ad2-b56b-7fdc56f81bd3.df191a",
@@ -2273,11 +2273,11 @@
     },
     {
         "id": "asset.name.fc0d6fb6-eb73-4c75-aa38-4ac6772eb774.166c4a",
-        "translation": "Слама житарица, љуспице, непрерађене, млевене, пресоване или у облику гранула"
+        "translation": "Слама и љуске житарица, непрерађене, млевене, пресоване или у облику гранула"
     },
     {
         "id": "asset.name.fc343ac8-8666-4538-ac1e-17a6e0f54524.df585d",
-        "translation": "Филмске студије"
+        "translation": "Филмски студији"
     },
     {
         "id": "asset.name.fd418033-4e88-4e80-b0b7-2517064eba5a.f05ec2",
@@ -2285,11 +2285,11 @@
     },
     {
         "id": "asset.name.ff1e4f83-bd24-4bf5-bbf3-4e50eaee75a2.115848",
-        "translation": "Шпинат"
+        "translation": "Спанаћ"
     },
     {
         "id": "asset.name.ff31857e-5e13-49c8-bbae-fce0a9be3020.b4493a",
-        "translation": "Мобилне/фабричке куће"
+        "translation": "Мобилне/монтажне куће"
     },
     {
         "id": "asset.name.ff9c003b-940a-414f-8aae-f3951bf825fb.0fdc7c",
@@ -2345,7 +2345,7 @@
     },
     {
         "id": "asset.notes.09d80ac1-fb83-4724-b44b-146193ba1fdb.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.09f970db-332a-4821-a83c-b4c14aee496b.982cdd",
@@ -2353,7 +2353,7 @@
     },
     {
         "id": "asset.notes.0a45eb42-0617-4755-9dbf-010d07c3dca0.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишње усеви - пољопривреда"
     },
     {
         "id": "asset.notes.0a8f5e48-a70e-4ff7-ba4c-f29f8b5bd8a4.311034",
@@ -2373,7 +2373,7 @@
     },
     {
         "id": "asset.notes.0c70f0c1-1a04-4198-a027-6617c0de227e.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.0c794785-f590-47e5-a7fe-ee61a81bed2f.5634c1",
@@ -2413,7 +2413,7 @@
     },
     {
         "id": "asset.notes.13a255b2-2b17-4a8d-b051-215877ecfa3c.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.14a7a88b-f82f-4e82-86d3-39dee58caf04.558984",
@@ -2421,7 +2421,7 @@
     },
     {
         "id": "asset.notes.14b32c3f-07c1-49fa-81f2-89407b1921e2.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.15de048d-11c7-4302-8d8c-64e0fe042433.51d7a2",
@@ -2453,7 +2453,7 @@
     },
     {
         "id": "asset.notes.1b46c86d-ce11-4b54-9a45-c0951b15cac6.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.1bea769a-86b4-4326-b170-6d9885f8cad6.311034",
@@ -2469,7 +2469,7 @@
     },
     {
         "id": "asset.notes.1f0f97c2-adfc-4ea9-8d02-d4fc32c6f03f.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.1f3215e6-a108-49d0-b30e-ef9af195c003.86f8a6",
@@ -2489,7 +2489,7 @@
     },
     {
         "id": "asset.notes.23a5fa57-b2b1-46eb-b30e-e57b95f03c1a.93db77",
-        "translation": "Трговина и трговање"
+        "translation": "Трговина и продаја"
     },
     {
         "id": "asset.notes.23bc380d-6b58-4f9d-bc5d-1ced0834b8d1.512ab3",
@@ -2501,7 +2501,7 @@
     },
     {
         "id": "asset.notes.25184c88-2d13-4783-88f2-5d4cd45a045b.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.25802138-528e-4496-90d0-092957368b72.982cdd",
@@ -2533,11 +2533,11 @@
     },
     {
         "id": "asset.notes.27830a75-ab3b-4eb5-aab5-4c60f4e0f97c.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.281fba40-fb97-4df4-a959-5731964f3b27.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.284e318d-dc1a-4950-87a2-44de2761a64d.8d1e9e",
@@ -2549,7 +2549,7 @@
     },
     {
         "id": "asset.notes.294bea44-ee31-4acd-8b4b-f3711b77a198.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.2961e26b-36f6-4738-9036-59e24713a740.5634c1",
@@ -2569,7 +2569,7 @@
     },
     {
         "id": "asset.notes.2a8128c0-8637-4adb-95fe-03785e7dff4f.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.2b0d2414-05de-48d4-beae-7307be24dea8.b44484",
@@ -2577,7 +2577,7 @@
     },
     {
         "id": "asset.notes.2be3d877-a6b7-425e-bdf3-4aaebbbbb361.5ddaf7",
-        "translation": "Санитација"
+        "translation": "Санитарне услуге"
     },
     {
         "id": "asset.notes.2dd927e8-3d6e-4122-91bc-0462c4e81508.145e31",
@@ -2585,7 +2585,7 @@
     },
     {
         "id": "asset.notes.2e568e75-9239-4744-be03-369d2f22e095.5ddaf7",
-        "translation": "Санитација"
+        "translation": "Санитарне услуге"
     },
     {
         "id": "asset.notes.2e92e4ed-f9fb-4738-8282-8b0333909e7f.8d1e9e",
@@ -2593,15 +2593,15 @@
     },
     {
         "id": "asset.notes.2f0096a4-9e15-4ff2-bdbc-ef9aaba16db3.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.30867e26-001e-4605-a50b-8578537476f4.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишње усеви - пољопривреда"
     },
     {
         "id": "asset.notes.308939ef-17a0-4a9e-80dc-c4e20fa49be0.5ddaf7",
-        "translation": "Санитација"
+        "translation": "Санитарне услуге"
     },
     {
         "id": "asset.notes.30e0356e-9238-4d67-9c2d-58cff39b3218.b44484",
@@ -2613,7 +2613,7 @@
     },
     {
         "id": "asset.notes.313cd4af-4f1a-4065-8fe3-d03306d2853f.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.32c682f4-1af5-4841-81e3-12eadbf6aab2.311034",
@@ -2625,7 +2625,7 @@
     },
     {
         "id": "asset.notes.33e739db-4cc1-4e52-86f2-de871be86af2.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.348e8821-ae4a-476e-8abc-4b912cbec15d.8d1e9e",
@@ -2633,11 +2633,11 @@
     },
     {
         "id": "asset.notes.34e545e3-6857-4fb3-81af-8978ec53a427.5ddaf7",
-        "translation": "Санитација"
+        "translation": "Санитарне услуге"
     },
     {
         "id": "asset.notes.3515f327-9c2e-45ef-bf26-6a36d69c6b68.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.35a74151-ce5a-4407-bbee-c2922f569bfb.86f8a6",
@@ -2645,7 +2645,7 @@
     },
     {
         "id": "asset.notes.360ce210-adf7-4966-acc9-b4b5fb1b1d0f.5ddaf7",
-        "translation": "Санитација"
+        "translation": "Санитарне услуге"
     },
     {
         "id": "asset.notes.36eb213e-709c-4ad0-ab6e-e3e9f7eff9a9.b44484",
@@ -2653,7 +2653,7 @@
     },
     {
         "id": "asset.notes.37baa2fa-0fc2-4d71-bc93-28175ba0babf.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени- годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.391a09fb-ec94-42f7-b143-944aafc97ce3.145e31",
@@ -2697,7 +2697,7 @@
     },
     {
         "id": "asset.notes.3d8bc735-3790-407b-8091-485368235bce.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.3dd667b9-2d85-4a41-b544-400a0935d126.558984",
@@ -2721,7 +2721,7 @@
     },
     {
         "id": "asset.notes.3fd61e18-6f93-45cc-a44f-bb63cb7dc8f5.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.40d0948c-e15a-49fa-b562-a83994b8e856.512ab3",
@@ -2753,7 +2753,7 @@
     },
     {
         "id": "asset.notes.43e4bc48-7700-4d51-8e11-0fb3ace947af.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.448fd98f-a6ff-4bfc-92cb-3316ada631fc.b44484",
@@ -2761,7 +2761,7 @@
     },
     {
         "id": "asset.notes.455cfd32-1e1f-404b-9e49-14b0afaac038.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.45b7c5ae-d3d1-42b8-8db7-aa71056459b2.8d1e9e",
@@ -2769,7 +2769,7 @@
     },
     {
         "id": "asset.notes.46c3136b-49b0-49b0-b856-af9c310192d5.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.47553293-ab99-4bab-b970-fbe51e6aed8f.512ab3",
@@ -2777,7 +2777,7 @@
     },
     {
         "id": "asset.notes.4801e89e-374a-4772-a40e-f75543c3f668.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.4820ac23-e157-43e2-acfc-020b15667243.558984",
@@ -2785,7 +2785,7 @@
     },
     {
         "id": "asset.notes.49a3cc04-d4b7-46a5-8cf2-dea6d4d0abfb.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.4a70c242-0ce7-45a9-97d7-6cf75208f8e9.311034",
@@ -2805,11 +2805,11 @@
     },
     {
         "id": "asset.notes.4d86fc05-949c-4086-b218-2f8d3d252a00.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.4db2e26b-e21d-46eb-9f49-107a4af2c408.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.4dcbdd1c-0bec-4c37-a20c-997853ecf18b.5634c1",
@@ -2825,7 +2825,7 @@
     },
     {
         "id": "asset.notes.508ade0a-8088-415c-b019-2983da435218.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.50c37075-30ba-40e2-8762-7754b335ea93.51d7a2",
@@ -2833,7 +2833,7 @@
     },
     {
         "id": "asset.notes.50cb4070-bbff-47d0-8f49-f1624546d9d7.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.517539d4-e73a-4592-9526-fba1d04f5aab.5634c1",
@@ -2841,7 +2841,7 @@
     },
     {
         "id": "asset.notes.51a9ce6f-a8c5-42fc-82c0-e173c721d612.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.51c07ea1-d324-4ef6-a005-a9d1430c411c.7ca7de",
@@ -2849,11 +2849,11 @@
     },
     {
         "id": "asset.notes.527dbc0d-c2dd-4d5e-bd43-c773335e769e.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.52fcbd9f-af3e-4d6d-8571-1dd3c6259f1b.5ddaf7",
-        "translation": "Санитација"
+        "translation": "Санитарне услуге"
     },
     {
         "id": "asset.notes.535b20c1-737b-4bcd-b099-1e6f523b4757.558984",
@@ -2865,7 +2865,7 @@
     },
     {
         "id": "asset.notes.54e76c51-0276-4a5b-bc59-c91f1570a69b.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.558c2f56-51ce-4a5e-b08b-8c1e110e9128.558984",
@@ -2873,7 +2873,7 @@
     },
     {
         "id": "asset.notes.55e81bec-2bad-4fe7-bda8-8b0b2ef193e6.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.56108ffa-3c66-4d1d-9cbf-80d8c65306b2.7ca7de",
@@ -2901,11 +2901,11 @@
     },
     {
         "id": "asset.notes.58b35839-fdd0-4e61-b103-02effd461d8a.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.59f5ed40-fb0a-40aa-ab19-ff20cfe312f8.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни- вишегодишње усеви - пољопривреда"
     },
     {
         "id": "asset.notes.5b3ef4e5-097d-49a8-ab52-93e3bdaefb86.51d7a2",
@@ -2961,7 +2961,7 @@
     },
     {
         "id": "asset.notes.61a2a82f-f852-4fc8-b45c-cfa745013db6.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.63a2e871-0ca9-4f46-bffc-feb834da0935.982cdd",
@@ -2981,7 +2981,7 @@
     },
     {
         "id": "asset.notes.674d2a6d-ef36-40c2-84b4-545192682372.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишње усеви - пољопривреда"
     },
     {
         "id": "asset.notes.67783d9d-b251-4258-96fd-4baeb0aad172.8d1e9e",
@@ -3009,7 +3009,7 @@
     },
     {
         "id": "asset.notes.6b5a5df9-1402-4ee6-9aec-e47e54221bdb.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.6bcdbcbc-a021-4960-9259-907b17cd2430.8d1e9e",
@@ -3029,7 +3029,7 @@
     },
     {
         "id": "asset.notes.6e6032a0-9647-47f3-a10f-6cc8e242b0f0.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.6f0b75cc-94e0-4965-ad51-3525ea0140c4.8d1e9e",
@@ -3049,7 +3049,7 @@
     },
     {
         "id": "asset.notes.71663046-0877-41bf-9d6a-6bfa8415b80d.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.71d181ef-a581-4758-ae89-16e6f398bb03.982cdd",
@@ -3065,11 +3065,11 @@
     },
     {
         "id": "asset.notes.74953725-7742-4532-bd35-b0f5c709a488.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.74dadf1e-bc16-4994-80ba-ecdd244c84b4.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.750d1a6b-7bda-4397-b97d-20ee58956191.512ab3",
@@ -3077,7 +3077,7 @@
     },
     {
         "id": "asset.notes.75335dfb-5734-4be5-9bfe-7b2f1cfc50ce.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.764c06f4-9204-4243-bef3-83ef916754cf.e5ffd6",
@@ -3101,7 +3101,7 @@
     },
     {
         "id": "asset.notes.787e27e6-ad48-4937-9e1b-0bb6a8b24ab0.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.78836c2c-9120-4ee3-99a8-32b72a9313a9.512ab3",
@@ -3113,15 +3113,15 @@
     },
     {
         "id": "asset.notes.7ac8bbaf-99c2-4229-a99b-4614891703d7.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.7b2733e5-136a-40ec-bbe0-01593965e210.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.7b2a5afc-9990-4a02-a462-fbfd0414691c.5ddaf7",
-        "translation": "Санитација"
+        "translation": "Санитарне услуге"
     },
     {
         "id": "asset.notes.7cf4f34a-7234-4031-8942-a6a967567304.b44484",
@@ -3129,11 +3129,11 @@
     },
     {
         "id": "asset.notes.7d0c9b63-2f15-4d18-bec3-884cd34ea405.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишње усеви - пољопривреда"
     },
     {
         "id": "asset.notes.7dee4061-1ea9-4321-8369-c4cf3e9b8de4.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.7df15d3d-ddc7-4ae2-892e-94651ecf3dd4.b44484",
@@ -3153,7 +3153,7 @@
     },
     {
         "id": "asset.notes.80012e57-edb3-4e74-9200-f6cbb171b725.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.811c4717-849f-45f7-b20f-e036e0dc954b.b44484",
@@ -3169,7 +3169,7 @@
     },
     {
         "id": "asset.notes.823e56bf-41a3-49ba-b628-e91cb59231d5.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.82594492-8857-45b8-9b0b-c0d1cdce3db3.5634c1",
@@ -3189,11 +3189,11 @@
     },
     {
         "id": "asset.notes.8314fbdb-05df-4099-a270-0a1ccb7079c5.93db77",
-        "translation": "Трговина и трговање"
+        "translation": "Трговина и продаја"
     },
     {
         "id": "asset.notes.840c3fb0-6822-47e4-8dfc-1f153727120a.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.84328ccf-92d7-40d0-9013-f49d47e4d1e4.e5ffd6",
@@ -3209,7 +3209,7 @@
     },
     {
         "id": "asset.notes.85054c5a-e954-442c-998e-44ff510c26cf.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.857c0722-6ff0-4ab5-a709-a0f16080962a.145e31",
@@ -3217,7 +3217,7 @@
     },
     {
         "id": "asset.notes.8601a8b0-457d-4d50-b3c8-4017168c26ca.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.861e5d90-fedf-4bcf-b632-d865f0b12d3a.76f5ad",
@@ -3237,7 +3237,7 @@
     },
     {
         "id": "asset.notes.868cf501-7e0a-41ce-a8bf-559eb537d964.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.86ae6ad4-aa75-49b9-9964-fa799237306c.512ab3",
@@ -3257,11 +3257,11 @@
     },
     {
         "id": "asset.notes.88a908c4-117b-4cc5-8b62-f71e61d0916e.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.89090ff2-e57d-4be8-bad2-671de871746b.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.8a2b8807-9875-45d5-b6af-a5aa234defc6.311034",
@@ -3301,7 +3301,7 @@
     },
     {
         "id": "asset.notes.8e854da4-418e-4ad9-98fc-833350c18efd.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.900f0b53-0cc1-4eb8-b6aa-ebf8a46a5e8d.8d1e9e",
@@ -3349,7 +3349,7 @@
     },
     {
         "id": "asset.notes.9509deb3-8a24-48bc-832c-906261ac180f.5ddaf7",
-        "translation": "Санитација"
+        "translation": "Санитарне услуге"
     },
     {
         "id": "asset.notes.95c9b83a-c28b-49cf-b5e1-7fcd3e3e77d5.51d7a2",
@@ -3397,7 +3397,7 @@
     },
     {
         "id": "asset.notes.9bb969b9-219d-402c-9cbf-2bb0e2865dfb.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.9bc700f0-aa67-4bf1-8a03-89b1c3a2a8a0.982cdd",
@@ -3421,19 +3421,19 @@
     },
     {
         "id": "asset.notes.9e28e703-75cd-4460-80fb-dd462bb3e3d5.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.9e431b88-ba3c-4216-b6e0-5ed2627f3f32.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишње усеви - пољопривреда"
     },
     {
         "id": "asset.notes.9e6e1845-e778-4f8f-9834-6064c02684a9.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.9ee3e6da-783c-45a8-9635-785c4c299e7e.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.9f59839e-e957-493a-beaf-7e8c27536290.512ab3",
@@ -3453,15 +3453,15 @@
     },
     {
         "id": "asset.notes.a2c122d0-f141-4d54-aa4e-26520011845a.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.a420bf2a-a06f-40de-a852-1b95cffadcb7.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.a4423845-5826-470f-87b8-e9434b0c24e5.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.a5f65443-960d-4b55-9fbe-076221b7fd01.86f8a6",
@@ -3469,7 +3469,7 @@
     },
     {
         "id": "asset.notes.a732b3df-bca5-42ec-9b87-851dd00ce9e9.5ddaf7",
-        "translation": "Санитација"
+        "translation": "Санитарне услуге"
     },
     {
         "id": "asset.notes.a73f597b-c608-4a62-9a3c-42335581b8be.93db77",
@@ -3481,15 +3481,15 @@
     },
     {
         "id": "asset.notes.a7eb06b3-e5f1-4f44-afeb-05d0d6cc12df.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.a8ea231c-404b-4c91-8a2b-bad8185659fb.93db77",
-        "translation": "Трговина и трговање"
+        "translation": "Трговина и продаја"
     },
     {
         "id": "asset.notes.a9fc7194-4263-4fb6-a22a-90eb0ba13762.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.aa50d51b-82c4-4dd8-94c4-0a1714589a29.5f48f4",
@@ -3509,7 +3509,7 @@
     },
     {
         "id": "asset.notes.ac4f6545-2cb8-404a-b855-a328228b1f5a.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеве - пољопривреда"
     },
     {
         "id": "asset.notes.acadf718-6fca-4546-a71c-0938ec57c9a6.311034",
@@ -3529,7 +3529,7 @@
     },
     {
         "id": "asset.notes.b136af9c-417e-4741-9a00-58ec57af083e.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.b197e924-f831-443c-a5bc-e6eeaba9eea7.512ab3",
@@ -3537,11 +3537,11 @@
     },
     {
         "id": "asset.notes.b1b509c1-a654-47d1-a4eb-c134734fc035.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.b242e5cd-4fbb-49a5-954f-d7be683a9d23.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.b2666498-cf34-4411-98ac-fe1f729f7c9b.982cdd",
@@ -3569,7 +3569,7 @@
     },
     {
         "id": "asset.notes.b4746a82-5565-453e-b719-075f308bdc92.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.b49275ca-2c28-4418-8899-33a6888b4d0c.e5ffd6",
@@ -3577,11 +3577,11 @@
     },
     {
         "id": "asset.notes.b615f9f5-cbea-4efa-9bce-62aaef22a353.93db77",
-        "translation": "Трговина и трговање"
+        "translation": "Трговина и продаја"
     },
     {
         "id": "asset.notes.b67f0526-d616-4992-bc9c-3d4774b4d7ce.93db77",
-        "translation": "Трговина и трговање"
+        "translation": "Трговина и продаја"
     },
     {
         "id": "asset.notes.b703347d-175b-4264-9b13-73cd935750d6.512ab3",
@@ -3629,7 +3629,7 @@
     },
     {
         "id": "asset.notes.bb4136ec-6746-4fab-bf13-33cd53dad4c1.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.bb713b78-497e-4e0c-bfed-d49c4b42ec0e.512ab3",
@@ -3657,15 +3657,15 @@
     },
     {
         "id": "asset.notes.be709642-776c-4170-97d3-b780bf73ba5d.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.be846dc3-3cc8-4b54-93e0-96f0f9698428.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.be9b7b2d-d0fc-45e0-8ece-198a853017dd.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.bea6a2c7-9265-4c2c-a3a6-94e8d3c5f86c.7ca7de",
@@ -3673,7 +3673,7 @@
     },
     {
         "id": "asset.notes.bf731b86-f3da-4c98-901d-3d700d71b452.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.c0641bd2-2bc3-481c-bfd7-42f2f40e0b67.558984",
@@ -3689,11 +3689,11 @@
     },
     {
         "id": "asset.notes.c24a7f6e-a97c-47f1-8520-0d0a1fd539d3.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.c2e55174-e66d-42a6-a57c-130f9a910453.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.c40474c8-1487-4364-9261-018bbf54405a.145e31",
@@ -3713,11 +3713,11 @@
     },
     {
         "id": "asset.notes.c5637e46-cade-430c-91e0-364348126f85.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.c5e6dddf-298d-48cc-a640-d540317bffdd.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.c64f1321-25f7-41b4-a73e-6b7f4a0898a5.5634c1",
@@ -3729,7 +3729,7 @@
     },
     {
         "id": "asset.notes.c7578fd9-5639-4322-951e-23f73f6bc004.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.c78bf768-8a82-409c-9ceb-625bac4bc96b.558984",
@@ -3745,15 +3745,15 @@
     },
     {
         "id": "asset.notes.c94da795-3f88-4ddf-b092-b7ac0b83d469.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.c9e5088b-9af5-4e67-80e2-58bc09dc1269.93db77",
-        "translation": "Трговина и трговање"
+        "translation": "Трговина и продаја"
     },
     {
         "id": "asset.notes.cabaf50d-ba89-40f9-8e9e-2e9c161b6244.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеве - пољопривреда"
     },
     {
         "id": "asset.notes.cabd0c81-7c37-4ec2-b8fb-9b8ccd510779.8d1e9e",
@@ -3769,11 +3769,11 @@
     },
     {
         "id": "asset.notes.cd4f1ba5-6a5e-405f-9a5a-2a975ad9169c.5ddaf7",
-        "translation": "Санитација"
+        "translation": "Санитарне услуге"
     },
     {
         "id": "asset.notes.cd7424d9-5317-4c03-99b1-dea9bf8d0037.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.cdd78a1e-2730-406e-a0fe-21b9e422f51c.76f5ad",
@@ -3789,7 +3789,7 @@
     },
     {
         "id": "asset.notes.cfbfd2fc-515a-4236-8eb8-0010fb2e9584.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.cfeb1f1a-7f09-4086-a15f-9a5d5b56748d.512ab3",
@@ -3829,7 +3829,7 @@
     },
     {
         "id": "asset.notes.d528ed2c-90c7-49ba-a05e-1533c062d077.5ddaf7",
-        "translation": "Санитација"
+        "translation": "Санитарне услуге"
     },
     {
         "id": "asset.notes.d5a47c7b-4817-4a2b-95e8-44688031438b.311034",
@@ -3853,11 +3853,11 @@
     },
     {
         "id": "asset.notes.d8cd2674-d536-445d-9429-62f1d06527ac.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.d94ad3ec-1dbe-4f88-bfbb-ddcd52ac40b6.5ddaf7",
-        "translation": "Санитација"
+        "translation": "Санитарне услуге"
     },
     {
         "id": "asset.notes.da1f389e-5a17-4415-833b-31f750b9b29f.86f8a6",
@@ -3865,7 +3865,7 @@
     },
     {
         "id": "asset.notes.db3a9957-7be5-4bd1-86d6-96b5321cf4fe.5ddaf7",
-        "translation": "Санитација"
+        "translation": "Санитарне услуге"
     },
     {
         "id": "asset.notes.dbaf671f-ec33-4736-8c5b-7595ba56a22c.558984",
@@ -3885,7 +3885,7 @@
     },
     {
         "id": "asset.notes.dd6cd1af-2626-4529-83c9-5d81834ea2c2.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.dd96cc41-8603-4f22-9cf4-3020618b2c56.145e31",
@@ -3897,7 +3897,7 @@
     },
     {
         "id": "asset.notes.ddfe13e9-9d67-49fa-b706-0f8a49c2d45e.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.de48cecf-ee75-4ec2-a9d9-bb215d97db79.311034",
@@ -3953,15 +3953,15 @@
     },
     {
         "id": "asset.notes.e5d27d61-4d4d-49af-9ed9-09552f67c358.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.e5e1f01e-b1f6-4d1a-8428-ba1a234599bb.5ddaf7",
-        "translation": "Санитација"
+        "translation": "Санитарне услуге"
     },
     {
         "id": "asset.notes.e6053cdc-e993-434c-9c6b-18fecbe836f3.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.e65e7a04-234a-48b4-9d90-d59ffd86c146.86f8a6",
@@ -3977,7 +3977,7 @@
     },
     {
         "id": "asset.notes.e95d30a9-fe5f-4285-8d6c-f21ac943dfc0.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.e972dbd4-8f3d-4737-bc58-3e0e74a4ec53.5ddaf7",
@@ -4001,11 +4001,11 @@
     },
     {
         "id": "asset.notes.eb99f131-b2dd-4c99-a0b3-554d98034eb2.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.ec708bfb-3bcc-4ca9-9b98-1de17328614b.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.ecbacbca-c803-4233-8551-d14f48504733.8d1e9e",
@@ -4029,7 +4029,7 @@
     },
     {
         "id": "asset.notes.edb5c41f-c496-4a85-99ad-87c147537de2.145e31",
-        "translation": "Привремено - годишњи усеви - пољопривреда"
+        "translation": "Привремени - годишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.ee3659ac-cd8f-4c52-ae1b-be0161770cd2.b44484",
@@ -4053,7 +4053,7 @@
     },
     {
         "id": "asset.notes.f293e228-5f25-49b7-afa0-9834c4638b07.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.f4150a33-52d2-4917-8f1c-c0188d80bf4e.b44484",
@@ -4069,7 +4069,7 @@
     },
     {
         "id": "asset.notes.f78d4006-e941-4f89-81aa-55a649be1ab8.c50a79",
-        "translation": "Перманентне - вишегодишње усеве - пољопривреда"
+        "translation": "Перманентни - вишегодишњи усеви - пољопривреда"
     },
     {
         "id": "asset.notes.f7d72226-fc26-4573-be10-98124f28ccee.7ca7de",
@@ -4173,7 +4173,7 @@
     },
     {
         "id": "categories.name.4b7a1cde-6526-4263-8a94-404079bcff63.1c9fc7",
-        "translation": "Социјалне и унутрашње вредности"
+        "translation": "Друштвене и унутрашње вредности"
     },
     {
         "id": "categories.name.513701c4-faf0-40f8-9a39-9155cf2291c4.51d7a2",
@@ -4241,7 +4241,7 @@
     },
     {
         "id": "categories.name.9c252ad4-acdb-452f-b3a2-ad195f0e2c18.6ea2c2",
-        "translation": "Светиште"
+        "translation": "Света места"
     },
     {
         "id": "categories.name.a1dc3899-d829-4026-a35a-381d0399bf9d.8e3b1d",
@@ -4257,7 +4257,7 @@
     },
     {
         "id": "categories.name.ae1bd1c3-d247-4bee-9bc5-91ed77640323.68c1fb",
-        "translation": "Друштвена тканина"
+        "translation": "Друштвено ткиво"
     },
     {
         "id": "categories.name.b36ef1fb-a0c6-40b4-a097-25eb46ca0390.5fb2c8",
@@ -4289,7 +4289,7 @@
     },
     {
         "id": "categories.name.d7a7e57c-4e94-42b4-87ef-d946f100af9c.975d1e",
-        "translation": "Значијаjna места"
+        "translation": "Значијаjна места"
     },
     {
         "id": "categories.name.d83571b2-16b8-4dba-89ae-a0a73bd6ca02.4b32e6",
@@ -4373,7 +4373,7 @@
     },
     {
         "id": "hip_cluster.name.1070.6a65db",
-        "translation": "Остали геохазари"
+        "translation": "Остали геохазарди"
     },
     {
         "id": "hip_cluster.name.1071.a2a046",
@@ -4429,11 +4429,11 @@
     },
     {
         "id": "hip_cluster.name.1086.a0a284",
-        "translation": "Грађевински/структурни пропуст"
+        "translation": "Грађевинско/структурно оштећење"
     },
     {
         "id": "hip_cluster.name.1088.d4e33e",
-        "translation": "Кибер опасности"
+        "translation": "Сајбер опасности"
     },
     {
         "id": "hip_cluster.name.1089.9f4c68",
@@ -4485,7 +4485,7 @@
     },
     {
         "id": "hip_hazard.name.78390.36a92b",
-        "translation": "Отровање уједом змије"
+        "translation": "Тровање уједом змије"
     },
     {
         "id": "hip_hazard.name.78391.fadafd",
@@ -4521,11 +4521,11 @@
     },
     {
         "id": "hip_hazard.name.78400.a1eba5",
-        "translation": "Зрачне болести"
+        "translation": "Болести које преносе ваздухом"
     },
     {
         "id": "hip_hazard.name.78401.76395d",
-        "translation": "Крвни вируси"
+        "translation": "Вируси који се преносе крвљу"
     },
     {
         "id": "hip_hazard.name.78402.9b0d9a",
@@ -4533,7 +4533,7 @@
     },
     {
         "id": "hip_hazard.name.78403.db3a24",
-        "translation": "Прехрамбене болести"
+        "translation": "Болести које се преносе храном"
     },
     {
         "id": "hip_hazard.name.78404.981096",
@@ -4589,7 +4589,7 @@
     },
     {
         "id": "hip_hazard.name.78418.ef2461",
-        "translation": "Холера"
+        "translation": "Колера"
     },
     {
         "id": "hip_hazard.name.78419.d6056e",
@@ -4601,7 +4601,7 @@
     },
     {
         "id": "hip_hazard.name.78421.6d7564",
-        "translation": "Тифоидна грозница"
+        "translation": "Тифусна грозница"
     },
     {
         "id": "hip_hazard.name.78422.9dfaf1",
@@ -4649,11 +4649,11 @@
     },
     {
         "id": "hip_hazard.name.78433.c2359e",
-        "translation": "Чикунгуња"
+        "translation": "Чикунгуња грозница"
     },
     {
         "id": "hip_hazard.name.78434.91e266",
-        "translation": "Вирус зика"
+        "translation": "Зика вирус"
     },
     {
         "id": "hip_hazard.name.78435.ce2dbb",
@@ -4661,7 +4661,7 @@
     },
     {
         "id": "hip_hazard.name.78436.9fcd14",
-        "translation": "Овчије богиње"
+        "translation": "Мале богиње (морбили)"
     },
     {
         "id": "hip_hazard.name.78437.d2b561",
@@ -4677,7 +4677,7 @@
     },
     {
         "id": "hip_hazard.name.78440.794e09",
-        "translation": "Вац"
+        "translation": "Велике богиње"
     },
     {
         "id": "hip_hazard.name.78441.19a7ea",
@@ -4689,7 +4689,7 @@
     },
     {
         "id": "hip_hazard.name.78443.5e4987",
-        "translation": "Денг"
+        "translation": "Денга грозница"
     },
     {
         "id": "hip_hazard.name.78444.fca403",
@@ -4697,7 +4697,7 @@
     },
     {
         "id": "hip_hazard.name.78445.e17a94",
-        "translation": "Кримско-конгоско крвареће грознице"
+        "translation": "Кримско-конгоанска хеморагијска грозница"
     },
     {
         "id": "hip_hazard.name.78446.b8fde5",
@@ -4705,7 +4705,7 @@
     },
     {
         "id": "hip_hazard.name.78447.c9de66",
-        "translation": "Нека грозница"
+        "translation": "Ласа грозница"
     },
     {
         "id": "hip_hazard.name.78448.4ad1f6",
@@ -4717,7 +4717,7 @@
     },
     {
         "id": "hip_hazard.name.78450.493ad2",
-        "translation": " мајмунска оспица"
+        "translation": "мајмунске богиње"
     },
     {
         "id": "hip_hazard.name.78451.e1eedb",
@@ -4745,15 +4745,15 @@
     },
     {
         "id": "hip_hazard.name.78458.e10525",
-        "translation": "Беззлаткаста болест"
+        "translation": "Слинавка и шаш"
     },
     {
         "id": "hip_hazard.name.78459.89ba60",
-        "translation": "Болест грубаста коже"
+        "translation": "Нодуларни дерматитис говеда"
     },
     {
         "id": "hip_hazard.name.78460.4b4962",
-        "translation": "Нови светски скривворм (NWS)"
+        "translation": "Ларва муве месождерке новог света (NWS)"
     },
     {
         "id": "hip_hazard.name.78461.5bf7e8",
@@ -4761,7 +4761,7 @@
     },
     {
         "id": "hip_hazard.name.78462.09ee5b",
-        "translation": "Птица малих преживара"
+        "translation": "Куга малих преживара"
     },
     {
         "id": "hip_hazard.name.78463.f2b58f",
@@ -4769,11 +4769,11 @@
     },
     {
         "id": "hip_hazard.name.78464.ce557e",
-        "translation": "Рифт долинска грозница"
+        "translation": "Грозница Рифт долине"
     },
     {
         "id": "hip_hazard.name.78466.b53bb4",
-        "translation": "Западна нилска грозница"
+        "translation": "Грозница Западног Нила"
     },
     {
         "id": "hip_hazard.name.78467.d817f1",
@@ -4789,15 +4789,15 @@
     },
     {
         "id": "hip_hazard.name.78470.711426",
-        "translation": "краварска куга"
+        "translation": "Говеђа куга"
     },
     {
         "id": "hip_hazard.name.78471.e289a3",
-        "translation": "Болест шкампија (бактеријска) - Акутна некроза јетре и панкреаса"
+        "translation": "Болест шкампа (бактеријска) - Акутна некроза јетре и панкреаса"
     },
     {
         "id": "hip_hazard.name.78472.b62b66",
-        "translation": "Осечна болест аквакултуре"
+        "translation": "Болести острига у аквакултури"
     },
     {
         "id": "hip_hazard.name.78473.68c201",
@@ -4881,7 +4881,7 @@
     },
     {
         "id": "hip_hazard.name.78499.41f04e",
-        "translation": "Загађење ваздуха (тачкани извор)"
+        "translation": "Загађење ваздуха (тачкасти извор)"
     },
     {
         "id": "hip_hazard.name.78500.6ebd02",
@@ -4897,11 +4897,11 @@
     },
     {
         "id": "hip_hazard.name.78503.cec364",
-        "translation": "Оттока / Загађење непознатог порекла"
+        "translation": "Површинско отицање/дифузно загађење"
     },
     {
         "id": "hip_hazard.name.78504.bc9260",
-        "translation": "Сланост и содност"
+        "translation": "Сланост и содицитет"
     },
     {
         "id": "hip_hazard.name.78505.1261e4",
@@ -4917,7 +4917,7 @@
     },
     {
         "id": "hip_hazard.name.78508.1eb0b6",
-        "translation": "Дезертификација"
+        "translation": "Дезертификација - опустињавање"
     },
     {
         "id": "hip_hazard.name.78509.bc4ace",
@@ -4929,11 +4929,11 @@
     },
     {
         "id": "hip_hazard.name.78511.454df0",
-        "translation": "Обележавање корала"
+        "translation": "Избељивање корала"
     },
     {
         "id": "hip_hazard.name.78512.c4458e",
-        "translation": "Компресивна тла"
+        "translation": "Компресибилна тла"
     },
     {
         "id": "hip_hazard.name.78513.fb5e0d",
@@ -4945,7 +4945,7 @@
     },
     {
         "id": "hip_hazard.name.78515.107fbd",
-        "translation": "Губитак вечног замрзавања"
+        "translation": "Губитак пермафроста"
     },
     {
         "id": "hip_hazard.name.78516.aa44c2",
@@ -4961,7 +4961,7 @@
     },
     {
         "id": "hip_hazard.name.78519.6304fd",
-        "translation": "Очишћавање шума"
+        "translation": "Крчење шума"
     },
     {
         "id": "hip_hazard.name.78520.fb9c1b",
@@ -4969,7 +4969,7 @@
     },
     {
         "id": "hip_hazard.name.78521.a2173a",
-        "translation": "Шумарски пожари"
+        "translation": "Шумски пожари"
     },
     {
         "id": "hip_hazard.name.78522.e14929",
@@ -4977,7 +4977,7 @@
     },
     {
         "id": "hip_hazard.name.78523.4b96c9",
-        "translation": "Геомагнетна поремећај"
+        "translation": "Геомагнетни поремећај"
     },
     {
         "id": "hip_hazard.name.78524.f4f747",
@@ -5017,15 +5017,15 @@
     },
     {
         "id": "hip_hazard.name.78540.2425fa",
-        "translation": "Падање пепела/тефре (укључујући вулканске балистичке пројектиле)"
+        "translation": "Падање пепела/тефре (укључујући вулканске балистичке избачаје)"
     },
     {
         "id": "hip_hazard.name.78542.2490b3",
-        "translation": "Пиропластични густински ток"
+        "translation": "Пирокластични густи ток/струја"
     },
     {
         "id": "hip_hazard.name.78543.bb7e23",
-        "translation": "Лахарси"
+        "translation": "Лахари - вулкански блатни токови"
     },
     {
         "id": "hip_hazard.name.78546.293e4d",
@@ -5033,7 +5033,7 @@
     },
     {
         "id": "hip_hazard.name.78552.3ebf67",
-        "translation": "Ликвефакција"
+        "translation": "Ликвефакција тла - претварање у тла у течну масу"
     },
     {
         "id": "hip_hazard.name.78553.f20b1c",
@@ -5041,15 +5041,15 @@
     },
     {
         "id": "hip_hazard.name.78554.16aca9",
-        "translation": "Проседање и уздизање"
+        "translation": "Слегање и издизање тла"
     },
     {
         "id": "hip_hazard.name.78555.6c7ecc",
-        "translation": "Скупљање-Набубрење и слегање"
+        "translation": "Слегање тла услед скупљања и експанзије"
     },
     {
         "id": "hip_hazard.name.78556.af62ea",
-        "translation": "Пропаст"
+        "translation": "Вртача - улегнуће тла"
     },
     {
         "id": "hip_hazard.name.78557.8a849a",
@@ -5065,23 +5065,23 @@
     },
     {
         "id": "hip_hazard.name.78561.05b461",
-        "translation": "Покрет масе услед гравитације унутар подморнице (\"Скок\")"
+        "translation": "Подморско гравитационо кретање маса (\"Клизиште\")"
     },
     {
         "id": "hip_hazard.name.78562.fa3b85",
-        "translation": "Скокови, урушавања камења, рушевина и земље"
+        "translation": "Одрони стена, наноса и земљаних маса"
     },
     {
         "id": "hip_hazard.name.78563.c74c73",
-        "translation": "Ширење стена, рушевина и земље (укључујући пејзажно пузање)"
+        "translation": "Ширење стена, наноса и земљаних маса (укључујући пузање земље)"
     },
     {
         "id": "hip_hazard.name.78566.817078",
-        "translation": "Олујни пад"
+        "translation": "Силазна ваздушна струја са олујним ветровима"
     },
     {
         "id": "hip_hazard.name.78567.fdf4e0",
-        "translation": "Молња (електрична олуја)"
+        "translation": "Електрична олуја са муњама"
     },
     {
         "id": "hip_hazard.name.78568.31a9be",
@@ -5109,7 +5109,7 @@
     },
     {
         "id": "hip_hazard.name.78574.1b39e9",
-        "translation": "Поплава од ледене зачепљења са остацима"
+        "translation": "Поплаве изазване леденим баријерама и наносом"
     },
     {
         "id": "hip_hazard.name.78575.cf6839",
@@ -5129,23 +5129,23 @@
     },
     {
         "id": "hip_hazard.name.78579.0c08a6",
-        "translation": "Црни угљеник"
+        "translation": "Црни угљеник (чађ)"
     },
     {
         "id": "hip_hazard.name.78580.cbe414",
-        "translation": "Прашињска олуја или пешчана олуја"
+        "translation": "Прашинска или пешчана олуја"
     },
     {
         "id": "hip_hazard.name.78581.14394e",
-        "translation": "Зуб"
-    },
-    {
-        "id": "hip_hazard.name.78582.577ad4",
         "translation": "Магла"
     },
     {
+        "id": "hip_hazard.name.78582.577ad4",
+        "translation": "Измаглица"
+    },
+    {
         "id": "hip_hazard.name.78584.a39527",
-        "translation": "Пешчани магла"
+        "translation": "Пешчана измаглица"
     },
     {
         "id": "hip_hazard.name.78585.29b52b",
@@ -5153,11 +5153,11 @@
     },
     {
         "id": "hip_hazard.name.78586.c3edec",
-        "translation": "Океанска киселење"
+        "translation": "Закисељавање океана"
     },
     {
         "id": "hip_hazard.name.78587.76746d",
-        "translation": "Бунтовнички талас"
+        "translation": "Лутајући (изненадни) талас"
     },
     {
         "id": "hip_hazard.name.78588.fbc942",
@@ -5169,11 +5169,11 @@
     },
     {
         "id": "hip_hazard.name.78590.2db1f0",
-        "translation": "Ледени ток"
+        "translation": "Кретање ледених маса"
     },
     {
         "id": "hip_hazard.name.78591.928f39",
-        "translation": "слано-слатка вода"
+        "translation": "СЕШ - осцилација нивоа воде у затвореним или полузатвореним воденим базенима"
     },
     {
         "id": "hip_hazard.name.78592.3cbc4f",
@@ -5193,7 +5193,7 @@
     },
     {
         "id": "hip_hazard.name.78596.7f6b7c",
-        "translation": "Извантропски циклон"
+        "translation": "Вантропски циклон"
     },
     {
         "id": "hip_hazard.name.78597.3f0ddd",
@@ -5205,7 +5205,7 @@
     },
     {
         "id": "hip_hazard.name.78599.4e00ad",
-        "translation": "Близард"
+        "translation": "Снежна мећава"
     },
     {
         "id": "hip_hazard.name.78600.5d1c2f",
@@ -5229,15 +5229,15 @@
     },
     {
         "id": "hip_hazard.name.78606.d9f6bb",
-        "translation": "Врати се"
+        "translation": "Dzud - екстремна зима са масовним угинућем стоке"
     },
     {
         "id": "hip_hazard.name.78607.509b10",
-        "translation": "Застој"
+        "translation": "Замрзавање"
     },
     {
         "id": "hip_hazard.name.78608.1452af",
-        "translation": "Погача"
+        "translation": "Мраз (Иње)"
     },
     {
         "id": "hip_hazard.name.78609.aab2cb",
@@ -5245,11 +5245,11 @@
     },
     {
         "id": "hip_hazard.name.78610.4a988f",
-        "translation": "Глазура"
+        "translation": "Поледица"
     },
     {
         "id": "hip_hazard.name.78611.254f07",
-        "translation": "Земљани мраз"
+        "translation": "Приземни мраз"
     },
     {
         "id": "hip_hazard.name.78612.9ea6b1",
@@ -5257,11 +5257,11 @@
     },
     {
         "id": "hip_hazard.name.78613.33cdcc",
-        "translation": "Глазура (укључујући лед)"
+        "translation": "Замрзавање (укључујући лед)"
     },
     {
         "id": "hip_hazard.name.78614.5f1a9c",
-        "translation": "Одмрзавање"
+        "translation": "Отапање снега и леда"
     },
     {
         "id": "hip_hazard.name.78615.93ccf4",
@@ -5269,15 +5269,15 @@
     },
     {
         "id": "hip_hazard.name.78618.046c11",
-        "translation": "Закон"
+        "translation": "Дерехо - олујни систем са разорним праволинијским ветровима"
     },
     {
         "id": "hip_hazard.name.78619.6cd374",
-        "translation": "Гел (Снажан гел)"
+        "translation": "Јак ветар"
     },
     {
         "id": "hip_hazard.name.78620.9b31aa",
-        "translation": "Олуја"
+        "translation": "Олујни удар ветра"
     },
     {
         "id": "hip_hazard.name.78622.d11603",
@@ -5293,7 +5293,7 @@
     },
     {
         "id": "hip_hazard.name.78626.d22c27",
-        "translation": "Међународни оружани сукоб (МОС)"
+        "translation": "Међународни оружани сукоб (IAC)"
     },
     {
         "id": "hip_hazard.name.78627.c4b2f1",
@@ -5317,7 +5317,7 @@
     },
     {
         "id": "hip_hazard.name.78632.7857df",
-        "translation": "Натрчавање или Смрскавање (Човек)"
+        "translation": "Стампедо или гажење људи"
     },
     {
         "id": "hip_hazard.name.78633.bc7e9d",
@@ -5341,19 +5341,19 @@
     },
     {
         "id": "hip_hazard.name.78639.aa2636",
-        "translation": "Срушење зграде"
+        "translation": "Рушење зграде"
     },
     {
         "id": "hip_hazard.name.78640.cb8caa",
-        "translation": "Зграда, висококатница, облога"
+        "translation": "Зграда и вишестпратница са фасадном облогом"
     },
     {
         "id": "hip_hazard.name.78641.a68a34",
-        "translation": "Структурни квар"
+        "translation": "Структурно оштећење"
     },
     {
         "id": "hip_hazard.name.78642.af68c5",
-        "translation": "Отказивање моста"
+        "translation": "Оштећење моста"
     },
     {
         "id": "hip_hazard.name.78643.881313",
@@ -5361,7 +5361,7 @@
     },
     {
         "id": "hip_hazard.name.78644.10b94a",
-        "translation": "Неуспех у ланцу снабдевања"
+        "translation": "Прекид у ланцу снабдевања"
     },
     {
         "id": "hip_hazard.name.78645.6d06da",
@@ -5369,7 +5369,7 @@
     },
     {
         "id": "hip_hazard.name.78646.821973",
-        "translation": "Неуспех нуклеарне електране"
+        "translation": "Квар нуклеарне електране"
     },
     {
         "id": "hip_hazard.name.78647.d4770d",
@@ -5381,7 +5381,7 @@
     },
     {
         "id": "hip_hazard.name.78649.84c409",
-        "translation": "Прекid у водоснабдевању"
+        "translation": "Прекид у водоснабдевању"
     },
     {
         "id": "hip_hazard.name.78650.95e7ea",
@@ -5393,15 +5393,15 @@
     },
     {
         "id": "hip_hazard.name.78654.6c1a2f",
-        "translation": "Пропуст података и пропуст ПИИ"
+        "translation": "Повреда безбедности података и компромитовање личних података"
     },
     {
         "id": "hip_hazard.name.78659.d29fe0",
-        "translation": "Кибербулинговање"
+        "translation": "Сајбер насиље/насиље на интернету"
     },
     {
         "id": "hip_hazard.name.78660.a46953",
-        "translation": "Натецх"
+        "translation": "Natech - Технолошке несреће изазване природним хазардима"
     },
     {
         "id": "hip_hazard.name.78661.b7bc98",
@@ -5413,7 +5413,7 @@
     },
     {
         "id": "hip_hazard.name.78663.559529",
-        "translation": "Процуривања и просипања"
+        "translation": "Цурења и изливања"
     },
     {
         "id": "hip_hazard.name.78664.a965b5",
@@ -5421,7 +5421,7 @@
     },
     {
         "id": "hip_hazard.name.78665.c141fa",
-        "translation": "Четири"
+        "translation": "Ватра/пожар"
     },
     {
         "id": "hip_hazard.name.78666.caa741",
@@ -5433,7 +5433,7 @@
     },
     {
         "id": "hip_hazard.name.78668.af2869",
-        "translation": "Отпад у катастрофама и сукобима"
+        "translation": "Отпад изазван катастрофама и сукобима"
     },
     {
         "id": "hip_hazard.name.78669.5374f9",
@@ -5449,7 +5449,7 @@
     },
     {
         "id": "hip_hazard.name.78672.964d79",
-        "translation": "Пластика отпад"
+        "translation": "Пластични отпад"
     },
     {
         "id": "hip_hazard.name.78673.20420a",
@@ -5461,11 +5461,11 @@
     },
     {
         "id": "hip_hazard.name.78675.0d188a",
-        "translation": "Депоновање"
+        "translation": "Депоновање отпада"
     },
     {
         "id": "hip_hazard.name.78676.1f159c",
-        "translation": "Отпадни материјал"
+        "translation": "Јаловина из рудника"
     },
     {
         "id": "hip_hazard.name.78677.9a4a6f",
@@ -5509,7 +5509,7 @@
     },
     {
         "id": "hip_hazard.name.94093.71dbac",
-        "translation": "Гравитационо масено померање (\"Скокотрвље\")"
+        "translation": "Гравитационо померање масе (\"Клизиште\")"
     },
     {
         "id": "hip_hazard.name.94337.425b67",
@@ -5521,7 +5521,7 @@
     },
     {
         "id": "hip_hazard.name.94366.29a145",
-        "translation": "Гушећи гасови"
+        "translation": "Гасови који изазивају гушење"
     },
     {
         "id": "hip_hazard.name.94367.536541",
@@ -5541,15 +5541,15 @@
     },
     {
         "id": "hip_hazard.name.94403.25382f",
-        "translation": "Олупине и токови земље (блата) и камене лавине"
+        "translation": "Токови земљаних наноса, блатних маса и одрона стена"
     },
     {
         "id": "hip_hazard.name.94404.2d95d3",
-        "translation": "Скок камена, рушевина и земље (блата)"
+        "translation": "Клизање стеновитих, растреситих, земљаних и блатних маса"
     },
     {
         "id": "hip_hazard.name.94405.f36e5a",
-        "translation": "Срушавају се стене, рушевине и земља"
+        "translation": "Обрушавање стена, наноса и земље"
     },
     {
         "id": "hip_hazard.name.94464.a6d20a",
@@ -5565,11 +5565,11 @@
     },
     {
         "id": "hip_hazard.name.94574.136540",
-        "translation": "Свемирско смеће"
+        "translation": "Свемирски отпад"
     },
     {
         "id": "hip_hazard.name.94603.57ad5d",
-        "translation": "Напредна упорна претња"
+        "translation": "Напредна трајна претња"
     },
     {
         "id": "hip_hazard.name.94604.ce5389",
@@ -5577,15 +5577,15 @@
     },
     {
         "id": "hip_hazard.name.94606.1db46c",
-        "translation": "Напад на ланцу снабдевања"
+        "translation": "Напад на ланац снабдевања"
     },
     {
         "id": "hip_hazard.name.94607.488b92",
-        "translation": "Социјално инжењеринг - Фишинг"
+        "translation": "Социјални инжењеринг - Фишинг"
     },
     {
         "id": "hip_hazard.name.94770.63665c",
-        "translation": "Неуспех тунела"
+        "translation": "Оштећење тунела"
     },
     {
         "id": "hip_hazard.name.95166.b5ab4b",
@@ -5649,7 +5649,7 @@
     },
     {
         "id": "sector.name.073072a3-7142-4fbb-a4c2-07c8934a356e.85e1bd",
-        "translation": "5-8 терцијар"
+        "translation": "5-8 терцијарно"
     },
     {
         "id": "sector.name.0a921aa4-1d16-43ad-8dd1-29c92294bd5e.bba770",
@@ -5669,7 +5669,7 @@
     },
     {
         "id": "sector.name.0c2cc3f5-2780-4d16-8663-76c7315f1f94.e9a65c",
-        "translation": "Остали - Неформално образовање"
+        "translation": "Остало - Неформално образовање"
     },
     {
         "id": "sector.name.0dca6942-2007-489f-9c7a-5f0a182837ab.05a53e",
@@ -5677,7 +5677,7 @@
     },
     {
         "id": "sector.name.0e088892-de2d-46be-a77e-a06a4be7dd21.67061a",
-        "translation": "системи пумпања"
+        "translation": "пумпни системи"
     },
     {
         "id": "sector.name.0eaf22dd-5f77-4b86-a0b6-faa5106d4821.40da9e",
@@ -5689,11 +5689,11 @@
     },
     {
         "id": "sector.name.0fc457a4-2c64-4784-a656-c011589b685c.42d3b8",
-        "translation": "Државне компаније"
+        "translation": "Холдинг команије"
     },
     {
         "id": "sector.name.101135ba-66c7-4cf2-8db4-67322f136dc2.0ab827",
-        "translation": "Сакупљање шумских производа"
+        "translation": "Сакупљање шумских плодова"
     },
     {
         "id": "sector.name.105b91f0-040b-4c5b-9be7-530434c27b87.7120e9",
@@ -5737,7 +5737,7 @@
     },
     {
         "id": "sector.name.17e8b94c-2362-4dd9-89e0-4240df53110a.1d227e",
-        "translation": "Санитација великих размера"
+        "translation": "Санитарни системи великог обима"
     },
     {
         "id": "sector.name.18a71ba6-7ce6-46ec-a109-b22e55c96742.270a76",
@@ -5761,11 +5761,11 @@
     },
     {
         "id": "sector.name.1ad22b33-a0aa-408f-96f0-5fcc5bb6794b.f99104",
-        "translation": "Смештај у студентским домовима, школским интернатима, радničким хостелима, пансионима и кућама за смештај и храну"
+        "translation": "Смештај у студентским домовима, школским интернатима, радничком смештају, пансионима и кућама за смештај и исхрану"
     },
     {
         "id": "sector.name.1b2a88d0-13b6-4c24-82b7-c7b9faf899ea.697a6e",
-        "translation": "Понавно осигурање"
+        "translation": "Реосигурање"
     },
     {
         "id": "sector.name.1bbfe971-fddf-45d7-bdde-99122d4aaede.786f31",
@@ -5785,7 +5785,7 @@
     },
     {
         "id": "sector.name.1dd27d0e-f5f0-489e-8016-6c0458defd94.669463",
-        "translation": "Велика продаја пољопривредних сировина и живих животиња"
+        "translation": "Велепродаја пољопривредних сировина и живих животиња"
     },
     {
         "id": "sector.name.1e3bc7ec-a023-4a1f-aadd-d77b3cc12ab4.6f4301",
@@ -5801,7 +5801,7 @@
     },
     {
         "id": "sector.name.2064aa0c-d4a6-4564-88f3-9c9447189a1d.4b12af",
-        "translation": "Традиционални домови"
+        "translation": "Конвенционални стамбени објекти"
     },
     {
         "id": "sector.name.2087f7b3-d75b-49a6-86e5-0038611877fa.43a0d4",
@@ -5853,7 +5853,7 @@
     },
     {
         "id": "sector.name.26288798-deb9-46f9-95b7-fa9d925437ab.99e206",
-        "translation": "Расподела уља кроз цевовод"
+        "translation": "Дистрибуција нафте путем цевовода"
     },
     {
         "id": "sector.name.2635d93d-724b-48ae-b1f4-ff794334dfce.7ab78b",
@@ -5897,7 +5897,7 @@
     },
     {
         "id": "sector.name.2d127594-6cd6-4c36-a867-96fae56d42c8.52f2d0",
-        "translation": "Полно-родовано насиље"
+        "translation": "Полно-засновано насиље"
     },
     {
         "id": "sector.name.2d4522a8-7796-4879-b4f6-d9add84b5c2b.def95f",
@@ -5921,7 +5921,7 @@
     },
     {
         "id": "sector.name.30e02d66-4e97-41b6-97b8-609cbcf6f00a.01033d",
-        "translation": "Из обновљеног"
+        "translation": "Из рециклираног"
     },
     {
         "id": "sector.name.3232642f-08a2-460d-bd66-3dfe6219a206.7634d8",
@@ -5989,11 +5989,11 @@
     },
     {
         "id": "sector.name.406c3161-b30c-46c2-8270-a12149d30276.c605e4",
-        "translation": "Од кишнице прикупљено"
+        "translation": "Од прикупљене кишнице"
     },
     {
         "id": "sector.name.40fc83f2-18e1-493a-af2b-2499744e3416.d34db9",
-        "translation": "Распространа угља"
+        "translation": "Дистрибуција угља"
     },
     {
         "id": "sector.name.41744964-bb4e-4da4-8547-340d3f6df50f.ad400b",
@@ -6017,15 +6017,15 @@
     },
     {
         "id": "sector.name.46abe55e-793f-445a-9556-cddc90e58695.682a92",
-        "translation": "2- Доњи средњи ранг - средња школа"
+        "translation": "2- Нижи средњошколски ниво - средња школа"
     },
     {
         "id": "sector.name.488615b4-ea96-4e44-a34a-c0efa755429f.1054fe",
-        "translation": "Системи здравствених информација"
+        "translation": "Здравствени информациони системи"
     },
     {
         "id": "sector.name.48b5facd-f99e-4051-bca9-8c02f683ae78.e44ca8",
-        "translation": "Копнена транспорт"
+        "translation": "Копнени транспорт"
     },
     {
         "id": "sector.name.4a39d053-a4cf-41f8-93c0-7c30e60f3b42.558984",
@@ -6057,7 +6057,7 @@
     },
     {
         "id": "sector.name.4d155378-0fdb-4001-b17d-704634803c86.1c0e24",
-        "translation": "Велика продаја кућне робе"
+        "translation": "Велепродаја кућне робе"
     },
     {
         "id": "sector.name.4ddf8c01-c4bd-401b-8a03-fee727fc3435.991459",
@@ -6077,7 +6077,7 @@
     },
     {
         "id": "sector.name.4fb9060c-965f-4cdc-a304-8ef574794eb8.590247",
-        "translation": "Заједничке енергетске линије живота ван мреже"
+        "translation": "Критични енергетски системи од важности за заједницу"
     },
     {
         "id": "sector.name.503ad119-18f0-4d2d-b69a-80a5639e0cb8.c910d4",
@@ -6105,7 +6105,7 @@
     },
     {
         "id": "sector.name.56506c13-ad53-4115-ab47-03a942e7ac29.6d0193",
-        "translation": "Услуге за зграде и активности уређења пејзажа"
+        "translation": "Услуге одржавања зграда и активности уређења пејзажа"
     },
     {
         "id": "sector.name.579f3c48-b5f2-4e4a-9469-1e7112aab10a.ae3744",
@@ -6153,7 +6153,7 @@
     },
     {
         "id": "sector.name.5f00c4d2-12e0-4a89-9f35-5bbda1c3d904.93db77",
-        "translation": "Трговина и трговање"
+        "translation": "Трговина и продаја"
     },
     {
         "id": "sector.name.5fb2ef9c-bd59-449f-acfe-bcc67beed140.8019f1",
@@ -6217,7 +6217,7 @@
     },
     {
         "id": "sector.name.6a6afe39-5f69-4388-a629-b6cb58d5d243.e10761",
-        "translation": "Горњи дом/Сенат"
+        "translation": "Горњи дом/Сенат/Влада"
     },
     {
         "id": "sector.name.6ac0b833-6218-49d0-9882-827c1b748d7a.76f5ad",
@@ -6237,7 +6237,7 @@
     },
     {
         "id": "sector.name.6dbb6d4d-b756-424b-91bc-c1dc723fd32b.a9ca02",
-        "translation": "3 Горња средња школа / Средња школа"
+        "translation": "3 Виша средња школа / Средња школа"
     },
     {
         "id": "sector.name.6f03a917-ec56-4a4b-bf48-16485f6a8ad4.2b8675",
@@ -6245,7 +6245,7 @@
     },
     {
         "id": "sector.name.729638b3-0f11-45b1-9a0d-4b807952f98b.6c5b14",
-        "translation": "Велика продаја хране, пића и дувана"
+        "translation": "Велепродаја хране, пића и дувана"
     },
     {
         "id": "sector.name.729c96be-d16b-4410-8dd5-bf775b15f5bc.79c8c8",
@@ -6281,15 +6281,15 @@
     },
     {
         "id": "sector.name.7891381c-b7a9-4fe8-bbfa-bb8fcc3d9c26.2a1a5b",
-        "translation": "Рударство угља и лигнита "
+        "translation": "Рударење угља и лигнита "
     },
     {
         "id": "sector.name.78ac5869-ccbf-44ee-a5f3-0abba19f887a.094ae5",
-        "translation": "Расподела топле воде"
+        "translation": "Дистрибуција топле воде"
     },
     {
         "id": "sector.name.7903db62-6d91-47cf-94b1-d1ec129c4f80.d81844",
-        "translation": "Велика промет"
+        "translation": "Трговина на велико"
     },
     {
         "id": "sector.name.790a64e1-fa61-41ca-88cd-3ee75463872c.a02433",
@@ -6305,7 +6305,7 @@
     },
     {
         "id": "sector.name.7aad3cff-acee-4aaa-a2df-8e7ae9a135ce.bb3998",
-        "translation": "Градско чврсто отпадање"
+        "translation": "Чврсти отпад у урбаним срединама"
     },
     {
         "id": "sector.name.7ad764b7-58de-4417-8f67-f7709091c30d.335f45",
@@ -6381,11 +6381,11 @@
     },
     {
         "id": "sector.name.874c324c-3296-44fc-a2d4-d1de18a06ae9.36be55",
-        "translation": "Човекова покретљивост"
+        "translation": "Покретљивост људи"
     },
     {
         "id": "sector.name.8756d857-ec69-4d54-9d7d-ead4587d91aa.3ad1a2",
-        "translation": "Велика прометна трговина за општу робу"
+        "translation": "Неспецијализована трговина на велико"
     },
     {
         "id": "sector.name.87b4a6b8-ffbb-448d-b1db-aedd6eff87c1.543bc1",
@@ -6405,7 +6405,7 @@
     },
     {
         "id": "sector.name.8a9ea73f-849a-4fff-ac04-6212af1b57c6.4c670a",
-        "translation": "Остале водене превозе"
+        "translation": "Остали водни транспорт"
     },
     {
         "id": "sector.name.8adc7986-3254-4483-b2ad-657acf2fd567.99726b",
@@ -6445,7 +6445,7 @@
     },
     {
         "id": "sector.name.920e07c3-d109-4ea8-b3df-4e9d76fe794e.d0d960",
-        "translation": "Кетеринг за догађаје и друге активности у области услуживања хране, "
+        "translation": "Кетеринг за догађаје и друге активности у области послуживања хране, "
     },
     {
         "id": "sector.name.92b69a99-1512-4142-9257-3da487c12596.3f5a37",
@@ -6461,7 +6461,7 @@
     },
     {
         "id": "sector.name.96d956cf-a193-4409-8729-ae57f1148abd.1200f5",
-        "translation": "Остало специјализовано велепродаја"
+        "translation": "Остала специјализована велепродаја"
     },
     {
         "id": "sector.name.96df845f-1f10-4781-b346-29842df3f97d.330080",
@@ -6525,11 +6525,11 @@
     },
     {
         "id": "sector.name.a5b4edee-54d8-426a-aee3-3ca0fd5e3161.c48112",
-        "translation": "Малообимска санитација"
+        "translation": "Мали санитарни системи"
     },
     {
         "id": "sector.name.a606c3aa-d629-46e8-9c90-660b98a333e3.6754cd",
-        "translation": "Логори и радници"
+        "translation": "Кампови и раднички смештај"
     },
     {
         "id": "sector.name.a6ebba03-506c-49c2-92ca-eb219f680cc2.421304",
@@ -6561,11 +6561,11 @@
     },
     {
         "id": "sector.name.ac4ecb39-34c1-4fb3-8240-2ae6b213ecf1.5d2f2c",
-        "translation": "Пружање услуге исхране купцима у ресторанима, кафтеријама, ресторанима брзе хране, услугама доставе пице, објектима за понети, продајцима из камиона за сладолед, покретним колицима за храну, припреми хране на пијачним штандовима,"
+        "translation": "Пружање услуге исхране купцима у ресторанима, кафтеријама, ресторанима брзе хране, услугама доставе пице, објектима за понети, продаја из камиона за сладолед, покретних колица за храну, припреме хране на пијачним штандовима"
     },
     {
         "id": "sector.name.aca8ff5a-2da5-43f3-9111-ce1a98ae1263.88bf9a",
-        "translation": "Градско наслеђе"
+        "translation": "Урбано наслеђе"
     },
     {
         "id": "sector.name.ad895a04-068e-4cac-9fd1-aba6d3a154e2.ec1f39",
@@ -6577,7 +6577,7 @@
     },
     {
         "id": "sector.name.adcd0b72-1c9f-40ec-9267-d91a2ff2b08a.5ddaf7",
-        "translation": "Санитација"
+        "translation": "Санитарне услуге"
     },
     {
         "id": "sector.name.aeb21813-7ffd-4a89-b046-2570b3ddb8ab.6f34ac",
@@ -6613,7 +6613,7 @@
     },
     {
         "id": "sector.name.b3d6e1a8-6e92-4650-8a9c-2cf1bbf321dc.108a8d",
-        "translation": "Животне линије заједнице комуникација"
+        "translation": "Комуникационе критичне линије заједница"
     },
     {
         "id": "sector.name.b419469f-9ec3-44d8-b448-6aac504e5ff3.c39dca",
@@ -6621,7 +6621,7 @@
     },
     {
         "id": "sector.name.b4abfa88-397e-4bf4-8b67-35dcfeb1cf83.56205e",
-        "translation": "Врста"
+        "translation": "Врсте"
     },
     {
         "id": "sector.name.b634a681-cc71-4c9e-9596-a8f3035a3520.009c00",
@@ -6629,11 +6629,11 @@
     },
     {
         "id": "sector.name.b6ecdda3-ed32-4364-8014-333cc65cfcd7.7cee98",
-        "translation": "Кибер или онлајн злостављање"
+        "translation": "Сајбер или онлајн злостављање"
     },
     {
         "id": "sector.name.ba2a1997-ecaa-4e83-a43b-7de3a5ed286a.b0dbcc",
-        "translation": "Telemedicine"
+        "translation": "Телемедицина"
     },
     {
         "id": "sector.name.ba8e2cf9-0d9a-49c1-814e-0a4d45d0726b.604dce",
@@ -6641,7 +6641,7 @@
     },
     {
         "id": "sector.name.bc363efd-051b-402c-ae67-bdf14a122364.839eeb",
-        "translation": "4- постсредње"
+        "translation": "4- постссекундарно"
     },
     {
         "id": "sector.name.bd2705b8-556e-4aa2-98d0-6bd197c5b75d.0d8588",
@@ -6649,7 +6649,7 @@
     },
     {
         "id": "sector.name.bd5defd8-4cd4-4870-a45c-73590a78f50e.1cdb2b",
-        "translation": "Служба за егзистенцију"
+        "translation": "Приходи од услужних делатности"
     },
     {
         "id": "sector.name.bd89c05b-85c0-406b-a5fd-c541e1f9f248.494549",
@@ -6665,7 +6665,7 @@
     },
     {
         "id": "sector.name.bf88f421-ead9-438a-9876-6b832acc805f.de18ac",
-        "translation": "Дистрибуција Steam-а"
+        "translation": "Дистрибуција водене паре"
     },
     {
         "id": "sector.name.c015376c-92db-427a-abca-a91a07b5eff5.b71a08",
@@ -6673,7 +6673,7 @@
     },
     {
         "id": "sector.name.c09d7a13-e3bc-4f93-a2df-e3078cdd798b.d14fc4",
-        "translation": "трећог нивоа"
+        "translation": "трећег нивоа"
     },
     {
         "id": "sector.name.c19f025d-dcd4-4f14-bbd3-755cf2809eba.8302da",
@@ -6705,11 +6705,11 @@
     },
     {
         "id": "sector.name.c61cfa1e-0ebe-4362-8e1a-07b1f72f0716.fa6442",
-        "translation": "средњи "
+        "translation": "секундарни "
     },
     {
         "id": "sector.name.c70618ee-f1be-438f-8c40-14fc5dfb05fb.0abd7c",
-        "translation": "Усјеви"
+        "translation": "Усеви"
     },
     {
         "id": "sector.name.c82d7874-ab80-497f-8bdb-52e0e885c11b.5ac694",
@@ -6725,7 +6725,7 @@
     },
     {
         "id": "sector.name.ca3709b9-e04c-4b56-9454-dd17994cf137.6397b0",
-        "translation": "Остало рударство и експлоатација камена  "
+        "translation": "Остале гране рударства и експлоатација камена  "
     },
     {
         "id": "sector.name.ca435a93-65bd-4d9e-b231-05d2f0107a75.f22d92",
@@ -6745,11 +6745,11 @@
     },
     {
         "id": "sector.name.cb93fa53-3dbb-4125-8a3c-26e77dbad725.d7ed97",
-        "translation": "Телекомуникације,"
+        "translation": "Телекомуникације"
     },
     {
         "id": "sector.name.cbcf0a61-96c4-450f-aa9c-76bbc39914f8.a5a994",
-        "translation": "Други прикупљајући простори за живот"
+        "translation": "Други простори за колективно становање"
     },
     {
         "id": "sector.name.cbdd6c28-a679-4520-838d-e5c791d97358.713d5a",
@@ -6777,7 +6777,7 @@
     },
     {
         "id": "sector.name.ce23b2a5-506a-4b99-88d9-6ef1ff3e4a45.a5e8bd",
-        "translation": "Лов и замке"
+        "translation": "Лов и хватање дивљачи"
     },
     {
         "id": "sector.name.cee4cc64-4490-4e18-a1ea-08f6acbd8193.73925f",
@@ -6789,7 +6789,7 @@
     },
     {
         "id": "sector.name.cfb5e514-017e-406e-8bb2-998f72417da1.aad2ae",
-        "translation": "Теретски ваздушни транспорт"
+        "translation": "Теретни ваздушни транспорт"
     },
     {
         "id": "sector.name.cfcb78d0-c53d-4a0a-bf6d-7158df6b1fb4.f4579b",
@@ -6805,7 +6805,7 @@
     },
     {
         "id": "sector.name.d169543f-0d85-4ad9-b3cd-e37d47a2b98c.715c54",
-        "translation": "Локална управа"
+        "translation": "Локална самоуправа"
     },
     {
         "id": "sector.name.d1af9066-f0c1-43e0-bca6-0ecfd0835a92.a6a631",
@@ -6849,7 +6849,7 @@
     },
     {
         "id": "sector.name.d98d2f67-0573-44ad-9624-963d84460e1d.b0cd4e",
-        "translation": "Власништво над продуктивним средствима"
+        "translation": "Власништво над производним средствима"
     },
     {
         "id": "sector.name.da0331e9-1d96-44ac-a498-206418bf6a50.4d8c7c",
@@ -6865,7 +6865,7 @@
     },
     {
         "id": "sector.name.db0c8841-bf65-4f77-bfd2-ff66927d05f6.6ccd52",
-        "translation": "Трастови, фондови и слични финансијски ентитети"
+        "translation": "Поверилачке структуре, фондови и слични финансијски ентитети"
     },
     {
         "id": "sector.name.db591f94-9a08-4dd8-95dd-39118e847ff4.7693cc",
@@ -6881,7 +6881,7 @@
     },
     {
         "id": "sector.name.dc66cc14-d6da-4817-9674-0c10248e5ae4.f25c47",
-        "translation": "Пословања у области некретнина на основу хонорара или уговора"
+        "translation": "Пословање у области некретнина на основу хонорара или уговора"
     },
     {
         "id": "sector.name.dd135916-91d6-4e15-96c3-262d8a9825da.2cf099",
@@ -6889,11 +6889,11 @@
     },
     {
         "id": "sector.name.dd16548d-4087-4bef-8861-7069624859e3.117d7f",
-        "translation": "Привремене - једногодишње усеве"
+        "translation": "Привремени - једногодишњи усеви"
     },
     {
         "id": "sector.name.dd2600ca-5cf1-41a7-a9e7-3a1671e7b8e9.d2c9a3",
-        "translation": "краткотрајан смештај у хотелима, одмаралиштима, апартманским хотелима, мотелима, мотор-хотелима, кућама за госте, пансионима, јединицама типа \"кревет и доручак\", становима за посетиоце и бунгаловима, власничким јединицама (таймшер), кућама за одмор, шалетима, кућним колибама и кабинима, омладинским хостелима и планинским склоништима"
+        "translation": "Краткотрајан смештај у хотелима, одмаралиштима, апартманима, мотелима, мотор-хотелима, кућама за госте, пансионима, јединицама типа \"кревет и доручак\", становима за посетиоце и бунгаловима, власничким јединицама (тајмшер), кућама за одмор, брвнарама, кућним колибама и кабинима, омладинским хостелима и планинским склоништима"
     },
     {
         "id": "sector.name.dd3eaa67-41ff-49ef-a0b1-d3e2d3d98dd4.52afcc",
@@ -6913,7 +6913,7 @@
     },
     {
         "id": "sector.name.dfac8640-ba70-4c9a-bf63-061866f11778.9301c2",
-        "translation": "Животне линије за воду и санитарне услуге у заједници"
+        "translation": "Кључни системи водоснабдевања и санитарних услуга у заједници"
     },
     {
         "id": "sector.name.dfc09fc9-088b-4643-9649-0ffc4bb4db0a.528424",
@@ -6937,7 +6937,7 @@
     },
     {
         "id": "sector.name.e13d689c-a7b0-4719-b210-705bbfe18bb4.f02610",
-        "translation": "6,7,8-Бакалавр, мастер, доктор (академски или професионални)"
+        "translation": "6,7,8- Основне студије, мастер, доктор (академски или професионални)"
     },
     {
         "id": "sector.name.e1ef450c-5e31-4adc-9ce9-2ce1187a0e17.9cc487",
@@ -6957,7 +6957,7 @@
     },
     {
         "id": "sector.name.e366836c-a373-4286-a312-71654fc4dbdf.a7bf12",
-        "translation": "Сатeлитне телекомуникационе активности, "
+        "translation": "Сатeлитске телекомуникационе активности "
     },
     {
         "id": "sector.name.e41994f6-4b02-4b6f-acb1-9d451c5ecb46.bb19b4",
@@ -6977,7 +6977,7 @@
     },
     {
         "id": "sector.name.e5f7dd46-ab53-4585-8fbe-08bc10ab1607.2790e2",
-        "translation": "Занаетчијски извори прихода"
+        "translation": "Занатски извори прихода"
     },
     {
         "id": "sector.name.e7249d26-c14a-4c8a-8b78-9fcb5aefc946.cdad5a",
@@ -7017,7 +7017,7 @@
     },
     {
         "id": "sector.name.f0dc660e-3b3a-4de2-83ac-3cb481ab9b33.1b3c6a",
-        "translation": "Трошни горива"
+        "translation": "Потрошна горива"
     },
     {
         "id": "sector.name.f149b01e-930c-4209-a277-957013405d5d.ebe07d",

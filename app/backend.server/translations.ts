@@ -137,7 +137,7 @@ function fallback(p: TParams): Translation {
 	throw new Error("Missing both translation msg and msgs for code: " + p.code);
 }
 
-const availableLanguagesWhiteList = ["en", "ru", "ar"];
+const availableLanguagesWhiteList = ["en", "ru", "ar", "sr"];
 
 export function getAvailableLanguages(): string[] {
 	const langSet = new Set<string>();

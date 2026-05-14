@@ -34,6 +34,7 @@ import { LoaderFunctionArgs } from "react-router";
 import { BackendContext } from "~/backend.server/context";
 import { processApprovalStatusActionService } from "~/services/approvalStatusWorkflowService";
 import { getReturnAssigneeUsers } from "~/db/queries/userCountryAccountsRepository";
+import { queryHipEntity } from "~/backend.server/models/hip";
 
 export const loader = async (args: LoaderFunctionArgs) => {
 	const { request, params } = args;
@@ -83,35 +84,35 @@ export const loader = async (args: LoaderFunctionArgs) => {
 			disaster_id: disasterRecordsTable.id,
 			disaster_spatial_footprint: disasterRecordsTable.spatialFootprint,
 			disruptions: sql`
-        COALESCE(
-          jsonb_agg(
-            jsonb_build_object(
-              'id', ${disruptionTable.id},
-              'spatial_footprint', ${disruptionTable.spatialFootprint}
-            )
-          ) FILTER (WHERE ${disruptionTable.id} IS NOT NULL), '[]'::jsonb
-        )
-      `.as("disruptions"),
+				COALESCE(
+					jsonb_agg(
+						jsonb_build_object(
+						'id', ${disruptionTable.id},
+						'spatial_footprint', ${disruptionTable.spatialFootprint}
+						)
+					) FILTER (WHERE ${disruptionTable.id} IS NOT NULL), '[]'::jsonb
+				)
+			`.as("disruptions"),
 			losses: sql`
-        COALESCE(
-          jsonb_agg(
-            jsonb_build_object(
-              'id', ${lossesTable.id},
-              'spatial_footprint', ${lossesTable.spatialFootprint}
-            )
-          ) FILTER (WHERE ${lossesTable.id} IS NOT NULL), '[]'::jsonb
-        )
-      `.as("losses"),
+				COALESCE(
+					jsonb_agg(
+						jsonb_build_object(
+						'id', ${lossesTable.id},
+						'spatial_footprint', ${lossesTable.spatialFootprint}
+						)
+					) FILTER (WHERE ${lossesTable.id} IS NOT NULL), '[]'::jsonb
+				)
+			`.as("losses"),
 			damages: sql`
-        COALESCE(
-          jsonb_agg(
-            jsonb_build_object(
-              'id', ${damagesTable.id},
-              'spatial_footprint', ${damagesTable.spatialFootprint}
-            )
-          ) FILTER (WHERE ${damagesTable.id} IS NOT NULL), '[]'::jsonb
-        )
-      `.as("damages"),
+				COALESCE(
+					jsonb_agg(
+						jsonb_build_object(
+						'id', ${damagesTable.id},
+						'spatial_footprint', ${damagesTable.spatialFootprint}
+						)
+					) FILTER (WHERE ${damagesTable.id} IS NOT NULL), '[]'::jsonb
+				)
+			`.as("damages"),
 		})
 		.from(disasterRecordsTable)
 		.leftJoin(
@@ -125,8 +126,8 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	const returnAssignees = userSession
 		? (await getReturnAssigneeUsers(countryAccountsId, userId)).map((user) => ({
-				label: `${user.firstName} ${user.lastName}`.trim(),
-				value: user.id,
+				id: user.id,
+				name: `${user.firstName} ${user.lastName}`.trim(),
 			}))
 		: [];
 
@@ -136,12 +137,35 @@ export const loader = async (args: LoaderFunctionArgs) => {
 		dr,
 		id,
 	);
+	const hipEntity = await queryHipEntity(
+		ctx,
+		result.item.hipHazardId,
+		result.item.hipClusterId,
+		result.item.hipTypeId,
+	);
+
+	const hipHazard =
+		result.item.hipHazardId && hipEntity ? hipEntity : undefined;
+	const hipCluster =
+		!result.item.hipHazardId && result.item.hipClusterId && hipEntity
+			? hipEntity
+			: undefined;
+	const hipType =
+		!result.item.hipHazardId &&
+		!result.item.hipClusterId &&
+		result.item.hipTypeId &&
+		hipEntity
+			? hipEntity
+			: undefined;
 
 	const extendedItem = {
 		...result.item,
 		cpDisplayName,
 		disasterRecord,
 		returnAssignees,
+		hipHazard: hipHazard || undefined,
+		hipCluster: hipCluster || undefined,
+		hipType: hipType || undefined,
 	};
 
 	return {

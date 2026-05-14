@@ -42,6 +42,7 @@ import {
 	UserValidator,
 } from "~/frontend/components/approval-workflow/SaveSubmitDialog";
 import { ViewComponentMainDataCollection } from "../components/data-collection/View";
+import { HipHazardInfo } from "../hip/hip";
 
 export const route = "/disaster-record";
 
@@ -258,11 +259,24 @@ export function fieldsDefView(
 interface DisasterRecordsFormProps extends UserFormProps<DisasterRecordsFields> {
 	hip: Hip;
 	parent?: DisasterRecordsViewModel;
-	treeData: any[];
+	treeData: Array<Record<string, unknown>>;
 	cpDisplayName?: string;
 	ctryIso3?: string;
-	divisionGeoJSON?: any[];
-	usersWithValidatorRole?: any[];
+	divisionGeoJSON?: Array<Record<string, unknown>>;
+	usersWithValidatorRole?: UserWithValidatorRole[];
+}
+
+interface UserWithValidatorRole {
+	firstName: string;
+	lastName: string;
+	id: string;
+	email: string;
+}
+
+interface ValidatorUser {
+	name: string;
+	id: string;
+	email: string;
 }
 
 export function disasterRecordsLabel(args: {
@@ -294,8 +308,8 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 	const [selectedAction, setSelectedAction] = useState<string>("submit-draft");
 	selectedAction; // To avoid unused variable warning
 
-	const usersWithValidatorRole: any[] =
-		props.usersWithValidatorRole?.map((user: any) => ({
+	const usersWithValidatorRole: ValidatorUser[] =
+		props.usersWithValidatorRole?.map((user: UserWithValidatorRole) => ({
 			name: user.firstName + " " + user.lastName,
 			id: user.id,
 			email: user.email,
@@ -321,11 +335,12 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 		let frmElement = null;
 		if (props.id) {
 			frmElement = document.getElementById(props.id) as HTMLFormElement | null;
+		} else {
+			frmElement = document.getElementById(
+				"form-new",
+			) as HTMLFormElement | null;
 		}
-		else {
-			frmElement = document.getElementById("form-new") as HTMLFormElement | null;
-		}
-		
+
 		if (frmElement) {
 			if (!frmElement.checkValidity()) {
 				// Show native validation tooltips; keep the modal open so they stay visible
@@ -397,14 +412,14 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 		hazardousEventLinkInitial = "disaster_event";
 	}
 
-	const [hazardousEventLinkType, setHazardousEventLinkType] = useState(
+	const [hazardousEventLinkType, setHazardousEventLinkType] = useState<"none" | "disaster_event">(
 		hazardousEventLinkInitial,
 	);
 
 	// Modal submit validation function
 	function validateBeforeSubmit(
 		selectedAction: string,
-		selectedUserValidator: UserValidator | null,
+		selectedUserValidator: UserValidator | UserValidator[] | null,
 	): boolean {
 		// Set the hidden fields before submitting the main form
 		const tempActionField = document.getElementById(
@@ -438,9 +453,10 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 		let frmElement = null;
 		if (props.id) {
 			frmElement = document.getElementById(props.id) as HTMLFormElement | null;
-		}
-		else {
-			frmElement = document.getElementById("form-new") as HTMLFormElement | null;
+		} else {
+			frmElement = document.getElementById(
+				"form-new",
+			) as HTMLFormElement | null;
 		}
 
 		if (frmElement) {
@@ -662,15 +678,32 @@ export function DisasterRecordsForm(props: DisasterRecordsFormProps) {
 	);
 }
 
+interface HipInfo {
+	name: string;
+}
+
+interface ReturnAssignee {
+	id: string;
+	name: string;
+}
+
+type DisasterRecordsViewItem = DisasterRecordsViewModel & {
+	returnAssignees?: ReturnAssignee[];
+	cpDisplayName?: string;
+	hipHazard?: HipInfo | null;
+	hipCluster?: HipInfo | null;
+	hipType?: HipInfo | null;
+};
+
 interface DisasterRecordsViewProps {
 	ctx: ViewContext;
-	item: DisasterRecordsViewModel;
+	item: DisasterRecordsViewItem;
 	isPublic: boolean;
 }
 
 export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 	const { ctx, item } = props;
-	const dataSource = (item as any)?.disasterRecord || [];
+	const dataSource: Array<Record<string, unknown>> = (item as any)?.disasterRecord || [];
 
 	return (
 		<ViewComponentMainDataCollection
@@ -690,22 +723,17 @@ export function DisasterRecordsView(props: DisasterRecordsViewProps) {
 				fields={item}
 				user={ctx.user || undefined}
 				override={{
-					hipHazard: (
-						<div key="hazard">
-							{ctx.t({
-								code: "hip.hazard",
-								msg: "Hazard",
-							})}
-							:{" "}
-							{item?.hipHazardId
-								? item.hipHazardId
-								: ctx.t({
-										code: "common.not_available",
-										desc: "Not available",
-										msg: "N/A",
-									})}
-						</div>
-					),
+					hipHazard: item ? (
+						<HipHazardInfo
+							ctx={ctx}
+							key="hazard"
+							model={{
+								hipType: item.hipType,
+								hipCluster: item.hipCluster,
+								hipHazard: item.hipHazard,
+							}}
+						/>
+					) : null,
 					createdAt: (
 						<p key="createdAt">
 							{ctx.t({

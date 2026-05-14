@@ -5,9 +5,6 @@ import {
 	UpdateResult,
 } from "~/backend.server/handlers/form/form";
 import { Errors, hasErrors } from "~/frontend/form";
-import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
-import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
-import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
 import {
 	InsertDisasterEvent,
 	disasterEventTable,
@@ -38,6 +35,7 @@ import {
 	getHazardById,
 	getClusterById,
 	getTypeById,
+	queryHipEntity,
 } from "~/backend.server/models/hip";
 
 interface TemporalValidationResult {
@@ -1784,56 +1782,36 @@ export async function disasterEventById(ctx: BackendContext, id: any) {
 	}
 
 	// Then load related data in separate queries to avoid argument limit
-	const [hazardousEvent, hipHazard, hipCluster, hipType, event] =
-		await Promise.all([
-			disasterEvent.hazardousEventId
-				? dr.query.hazardousEventTable.findFirst({
-						where: eq(hazardousEventTable.id, disasterEvent.hazardousEventId),
-					})
-				: Promise.resolve(null),
-			disasterEvent.hipHazardId
-				? dr.query.hipHazardTable.findFirst({
-						columns: {
-							id: true,
-						},
-						extras: {
-							name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as(
-								"name",
-							),
-						},
-						where: eq(hipHazardTable.id, disasterEvent.hipHazardId),
-					})
-				: Promise.resolve(null),
-			disasterEvent.hipClusterId
-				? dr.query.hipClusterTable.findFirst({
-						columns: {
-							id: true,
-						},
-						extras: {
-							name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as(
-								"name",
-							),
-						},
-						where: eq(hipClusterTable.id, disasterEvent.hipClusterId),
-					})
-				: Promise.resolve(null),
-			disasterEvent.hipTypeId
-				? dr.query.hipTypeTable.findFirst({
-						columns: {
-							id: true,
-						},
-						extras: {
-							name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as(
-								"name",
-							),
-						},
-						where: eq(hipTypeTable.id, disasterEvent.hipTypeId),
-					})
-				: Promise.resolve(null),
-			dr.query.eventTable.findFirst({
-				where: eq(eventTable.id, id),
-			}),
-		]);
+	const [hazardousEvent, hipEntity, event] = await Promise.all([
+		disasterEvent.hazardousEventId
+			? dr.query.hazardousEventTable.findFirst({
+					where: eq(hazardousEventTable.id, disasterEvent.hazardousEventId),
+				})
+			: Promise.resolve(null),
+		queryHipEntity(
+			ctx,
+			disasterEvent.hipHazardId,
+			disasterEvent.hipClusterId,
+			disasterEvent.hipTypeId,
+		),
+		dr.query.eventTable.findFirst({
+			where: eq(eventTable.id, id),
+		}),
+	]);
+
+	const hipHazard =
+		disasterEvent.hipHazardId && hipEntity ? hipEntity : undefined;
+	const hipCluster =
+		!disasterEvent.hipHazardId && disasterEvent.hipClusterId && hipEntity
+			? hipEntity
+			: undefined;
+	const hipType =
+		!disasterEvent.hipHazardId &&
+		!disasterEvent.hipClusterId &&
+		disasterEvent.hipTypeId &&
+		hipEntity
+			? hipEntity
+			: undefined;
 
 	return {
 		...disasterEvent,

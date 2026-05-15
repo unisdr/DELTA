@@ -68,8 +68,19 @@ established; all other routes migrate in their own domain rewrites
 - `app/routes/$lang+/_public.tsx` (new)
 - 3–5 representative existing routes nested under the correct layout
 
-**Test tier:** Integration — `_authenticated.tsx` loader returns redirect for an
-unauthenticated request; `_public.tsx` loader passes through for anonymous access.
+**Test tier:** Integration + E2E — integration tests (Vitest + vi.mock) verify each layout
+loader in isolation. **E2E tests (Playwright) are also required** to verify the full request
+lifecycle: unauthenticated navigation redirects to login; authenticated navigation with
+`EditData` permission renders the page; authenticated navigation without the permission
+shows 403. Route migrations change HTTP request orchestration — that is only verifiable
+end-to-end.
+
+> **Lesson learned (P1-8 implementation):** Integration tests with vi.mock passed while two
+> runtime bugs existed — parallel React Router v7 loader execution causing wrong auth behaviour,
+> and a missing `userSession` injection that `authLoaderWithPerm` had provided implicitly.
+> Both were caught only by manual `yarn dev` testing. E2E tests would have caught both
+> automatically. Route migration specs MUST include Playwright tests; vi.mock tests alone
+> are insufficient for request-lifecycle changes.
 
 **Why now:** The Notices route adapter (Phase 5) must nest cleanly under
 `_authenticated.tsx`. Both layouts must exist before any new route uses them.

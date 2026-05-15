@@ -1,4 +1,5 @@
-import { useLoaderData } from "react-router";
+import { redirect, useLoaderData } from "react-router";
+import type { LoaderFunctionArgs } from "react-router";
 import { and, eq, isNotNull, isNull, sql } from "drizzle-orm";
 import { BackendContext } from "~/backend.server/context";
 
@@ -26,7 +27,8 @@ import {
 	authActionGetAuth,
 	authActionWithPerm,
 	authLoaderGetUserForFrontend,
-	authLoaderWithPerm,
+	hasPermission,
+	requireUser,
 } from "~/utils/auth";
 import {
 	getCountryAccountsIdFromSession,
@@ -35,22 +37,31 @@ import {
 	type UserSession,
 } from "~/utils/session";
 
-export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
-	const { request } = loaderArgs;
+export async function loader(loaderArgs: LoaderFunctionArgs) {
+	const { request, params } = loaderArgs;
+	const lang = params.lang ?? "en";
+
+	// React Router v7 runs all matched route loaders in parallel (Promise.all), so the
+	// _authenticated parent layout's requireUser executes concurrently with this loader —
+	// not before it. requireUser here ensures unauthenticated requests get a login redirect
+	// rather than reaching the permission check and returning 403.
+	// userSession is passed to authLoaderGetUserForFrontend because that helper reads
+	// args.userSession (injected by the old authLoaderWithPerm wrapper).
+	const userSession = await requireUser({ request, params });
+	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	if (!countryAccountsId) throw redirect(`/${lang}/user/select-instance`);
+	const permitted = await hasPermission(request, "EditData");
+	if (!permitted) throw new Response("Forbidden", { status: 403 });
+
 	const ctx = new BackendContext(loaderArgs);
-	const user = await authLoaderGetUserForFrontend(loaderArgs);
+	const argsWithSession = { ...loaderArgs, userSession };
+	const user = await authLoaderGetUserForFrontend(argsWithSession);
 	const userId = await getUserIdFromSession(request);
 
-	// Get tenant context - we need to use the full user session from loaderArgs
-	const userSession = (loaderArgs as any).userSession as UserSession;
-	if (!userSession) {
-		throw new Response("Unauthorized", { status: 401 });
-	}
 	const hip = await dataForHazardPicker(ctx);
 	const u = new URL(request.url);
 
 	const parentId = u.searchParams.get("parent") || "";
-	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 	// Get users with validator role
 	const usersWithValidatorRole =
@@ -144,12 +155,12 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		countryAccountsId,
 		usersWithValidatorRole: filteredUsersWithValidatorRole,
 	};
-});
+}
 
 export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const { request } = actionArgs;
 	const ctx = new BackendContext(actionArgs);
-	const userSession = authActionGetAuth(actionArgs);
+	const userSession = authActionGetAuth(actionArgs) as UserSession;
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
 	return formSave({

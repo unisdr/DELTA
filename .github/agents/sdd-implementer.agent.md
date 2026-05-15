@@ -60,6 +60,24 @@ confirmed to fail for the right reason.
 - Do not optimise prematurely — correctness first
 - After each implementation step: `yarn vitest run tests/path/to/file.test.ts`
 
+## Test tier check (after Green, before Refactor loop)
+
+Before entering the Refactor loop, assess whether the change requires Playwright E2E tests
+in addition to Vitest tests. Use this decision table:
+
+| The change touches…                                             | Playwright required? |
+|-----------------------------------------------------------------|----------------------|
+| Pure functions, utilities, domain logic                         | No                   |
+| Database queries, model or handler functions                    | No                   |
+| Route loaders / actions tested in isolation                     | No                   |
+| Routing, auth, session, middleware, or multi-loader interaction | **Yes**              |
+| Any behaviour only verifiable via a real HTTP request/response  | **Yes**              |
+
+If Playwright is required: invoke the `test-writer` agent to write E2E specs under
+`tests/e2e/` before entering the Refactor loop. Vitest + vi.mock tests cannot detect
+parallel loader execution issues, injected-args patterns, redirect chain behaviour, or
+any failure that only manifests when the full server handles a real request.
+
 ## Refactor loop
 
 After reaching Green, run the following quality gates in order. If any gate fails, refactor
@@ -92,10 +110,14 @@ summary here — the skill is the authoritative source.
 
 **Project conventions:** See `.github/copilot-instructions.md`. Critical: `countryAccountsId`
 on every tenant query, `authLoaderWithPerm` on every loader, `yarn dbsync` for migrations,
-new tests under `tests/` using Vitest.
+new tests under `tests/` — Vitest for unit/integration, Playwright for routing/auth/
+request-lifecycle changes (see test tier check above).
 
 ## Done criteria
 
 All seven gates pass, `yarn test:run2` (full PGlite suite) shows no regressions, and
 `opsx:archive` has been run to move the change artifacts to `openspec/changes/archive/`.
 Archive on the same branch as a final commit before raising the PR — no separate branch needed.
+
+If the test tier check required Playwright: `yarn playwright test tests/e2e/<affected-spec>`
+passes with no regressions before archiving.

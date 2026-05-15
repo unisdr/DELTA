@@ -10,7 +10,7 @@ import {
 	cleanupOtherTenant,
 } from "../../test-helpers";
 import { createTestHazardousEventWithOptions } from "./test-helpers";
-import { loader as indexLoader } from "~/routes/$lang+/hazardous-event+/_index";
+import { loader as indexLoader } from "~/routes/$lang+/_public+/hazardous-event+/_index";
 
 const testIds = createTestIds();
 testIds.userEmail = testIds.userEmail.replace("@", "-he-index@");

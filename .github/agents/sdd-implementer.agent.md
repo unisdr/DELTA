@@ -32,6 +32,14 @@ doing so. Create as many test files under `tests/` as the change needs.
 - Before deviating: state (1) what `design.md` specifies, (2) what you propose instead,
   (3) why. Do not proceed until the user approves the deviation in writing.
 
+**Artifact drift — update all affected artifacts immediately when a deviation is confirmed:**
+`proposal.md` and `specs/` are living documents. When a decision in `design.md` overrides
+something stated in either (different files, different helper, scope changed, route excluded,
+scenario no longer accurate), update those artifacts at that point — not deferred to archive
+time. The test: if a reviewer read only `proposal.md` or a spec scenario, would it contradict
+`design.md`? If yes, fix it now. Both artifacts must stay internally consistent throughout the
+change — not just at archival.
+
 **When in doubt — stop and ask.** Pausing costs seconds; an unrecoverable action costs far more.
 
 ---

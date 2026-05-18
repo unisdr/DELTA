@@ -100,7 +100,15 @@ The `sdd-implementer` agent runs the full TDD loop:
    | 6 | Documentation review — comments explain WHY, not WHAT |
    | 7 | Project conventions — `.github/copilot-instructions.md` |
 
-4. **Archive** — runs `opsx:archive` as the final step on the branch (see below).
+4. **Keep all artifacts in sync** — `proposal.md` and `specs/` are living documents. When a
+   design decision changes the scope, files, approach, or scenarios stated in either (different
+   routes, different helpers, trimmed scope, parallel-loading constraint discovered), update
+   those artifacts at that point — not just at archive time. For each divergence, ask: was the
+   adaptation correct? If yes, update the artifact to match. If no, fix the code. Artifacts that
+   contradict `design.md` create ambiguity in the archived record and will surface as review
+   findings.
+
+5. **Archive** — runs `opsx:archive` as the final step on the branch (see below).
 
 ## Step 4 — Archive and raise PR
 

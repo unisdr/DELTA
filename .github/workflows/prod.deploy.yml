@@ -1,0 +1,162 @@
+name: Deploy Container to Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment"
+        type: choice
+        options:
+          - prod
+        required: true
+        default: "prod"
+
+concurrency:
+  group: prod-deploy-${{ github.ref }}-${{ github.event.inputs.environment || 'prod' }}
+  cancel-in-progress: true
+
+jobs:
+  quality-gates:
+    if: ${{ github.ref == 'refs/heads/main' && github.event.inputs.environment == 'prod' }}
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgis/postgis:17-3.5
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: delta_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres -d delta_ci"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/delta_ci?schema=public
+      SESSION_SECRET: test-session-secret-for-ci
+      EMAIL_TRANSPORT: file
+      AUTHENTICATION_SUPPORTED: form
+      PUBLIC_URL: http://localhost:4000
+      EMAIL_FROM: noreply@example.com
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+
+      - name: Install dependencies
+        run: HUSKY=0 yarn install --frozen-lockfile --production
+
+      - name: Install Playwright browser and system deps
+        run: npx playwright install --with-deps chromium
+
+      - name: Create .env.test for real-DB integration tests
+        run: |
+          cat > .env.test << 'EOF'
+          DATABASE_URL="${DATABASE_URL}"
+          EOF
+
+      - name: Apply database migrations
+        run: yarn dbsync
+
+      - name: TypeScript type-check
+        run: yarn tsc
+
+      - name: Run unit + PGlite integration tests
+        run: yarn test:run2
+
+      - name: Run real-DB integration tests
+        run: yarn test:run3
+
+      - name: Run Playwright end-to-end tests
+        run: yarn test:e2e
+
+      - name: Upload Playwright report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+          if-no-files-found: ignore
+
+  deploy:
+    needs: quality-gates
+    if: ${{ github.ref == 'refs/heads/main' && github.event.inputs.environment == 'prod' }}
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      packages: write
+    env:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: delta-country
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        if: ${{ !env.ACT }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image (GitHub)
+        if: ${{ !env.ACT }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile.prod
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.environment }}-latest
+            ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.environment }}-${{ github.sha }}
+          labels: |
+            org.opencontainers.image.title=delta-country
+            org.opencontainers.image.description=DELTA country instance container image for production deployments.
+            org.opencontainers.image.source=https://github.com/unisdr/delta
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build image locally (act)
+        if: ${{ env.ACT }}
+        run: >-
+          docker build
+          -f ./Dockerfile.prod
+          -t ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.environment }}-latest
+          -t ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.environment }}-${{ github.sha }}
+          .
+
+      - name: Trigger Automatic PROD Deploy Hook
+        if: ${{ !env.ACT }}
+        env:
+          DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
+          DEPLOY_WEBHOOK_TOKEN: ${{ secrets.DEPLOY_WEBHOOK_TOKEN }}
+        run: |
+          if [ -z "$DEPLOY_WEBHOOK_URL" ]; then
+            exit 0
+          fi
+
+          curl --fail --show-error \
+            -X POST "$DEPLOY_WEBHOOK_URL" \
+            -H "Authorization: Bearer $DEPLOY_WEBHOOK_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "event": "deploy",
+              "repo": "${{ github.repository }}",
+              "branch": "${{ github.ref_name }}",
+              "sha": "${{ github.sha }}",
+              "actor": "${{ github.actor }}"
+            }'

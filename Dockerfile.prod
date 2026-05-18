@@ -1,0 +1,50 @@
+# Use a smaller official Node.js base image
+FROM node:22-bookworm-slim AS builder
+
+# Set the working directory to /delta
+WORKDIR /delta
+
+# Copy dependency manifests
+COPY package.json yarn.lock ./
+
+# Install ALL dependencies (needed for build step)
+RUN HUSKY=0 yarn install --frozen-lockfile \
+	&& yarn cache clean
+
+# Copy the rest of the application code to the working directory
+COPY . .
+
+# Build the application (React Router build + binary)
+RUN yarn build:binary:linux
+
+# ============================================================================
+# Production stage: lean runtime image with only production dependencies
+# ============================================================================
+FROM node:22-bookworm-slim AS production
+
+WORKDIR /delta
+
+# Install PostgreSQL client (psql)
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends postgresql-client \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Copy dependency manifests
+COPY package.json yarn.lock ./
+
+# Install runtime dependencies only
+RUN HUSKY=0 yarn install --frozen-lockfile --production \
+	&& yarn cache clean
+
+# Copy all contents from dts_shared_binary into /delta (including dotfiles)
+COPY --from=builder /delta/dts_shared_binary/. ./
+
+# Expose the port that the application will use
+EXPOSE 3000
+
+# Set the environment variables (production image)
+ENV NODE_ENV=production
+ENV PORT=3000
+
+# Run migrations and start the app
+CMD ["sh", "-c", "yarn start"]

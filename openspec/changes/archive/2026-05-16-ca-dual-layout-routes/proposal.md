@@ -9,20 +9,21 @@ explicit, and establishes the Strangler Fig foundation for all future route migr
 ## What Changes
 
 - **New file** `app/routes/$lang+/_authenticated.tsx` — layout route whose loader calls
-  `authLoaderWithPerm` for the minimum "logged-in" check, redirects unauthenticated users to
+  `requireUser` directly for the minimum "logged-in" check, redirects unauthenticated users to
   `/user/login`, and makes `userSession` available to child routes via loader data.
 - **New file** `app/routes/$lang+/_public.tsx` — layout route whose loader calls `optionalUser`,
   passes through for anonymous visitors, and makes the optional session available to child routes.
-- **Migrated route** `app/routes/$lang+/settings+/system.tsx` — moved under the
-  `_authenticated` layout (renamed segment prefix) as a representative authenticated detail route.
-- **Migrated route** `app/routes/$lang+/hazardous-event+/_index.tsx` — moved under the
-  `_public` layout as a representative public-or-auth list route.
-- **Migrated route** `app/routes/$lang+/disaster-event+/_index.tsx` — moved under the
-  `_public` layout as a second representative public-or-auth list route.
-- **Migrated route** `app/routes/$lang+/about+/about-the-system.tsx` — moved under the
+- **Migrated route** `app/routes/$lang+/_authenticated+/hazardous-event+/new.tsx` — moved from
+  `hazardous-event+/new.tsx` under the `_authenticated` layout as the representative
+  authenticated route; `authLoaderWithPerm` wrapper replaced with explicit `requireUser` +
+  permission check + `argsWithSession` pattern.
+- **Migrated route** `app/routes/$lang+/_public+/hazardous-event+/_index.tsx` — moved from
+  `hazardous-event+/_index.tsx` under the `_public` layout as a representative public-or-auth
+  list route.
+- **Migrated route** `app/routes/$lang+/_public+/about+/about-the-system.tsx` — moved under the
   `_public` layout as a representative fully-anonymous route.
-- **Migrated route** `app/routes/$lang+/faq+/_index.tsx` — moved under the `_public` layout
-  as a representative no-loader anonymous route.
+- **Migrated route** `app/routes/$lang+/_public+/faq+/_index.tsx` — moved under the `_public`
+  layout as a representative no-loader anonymous route.
 - **New test file** `tests/integration/routes/layout-auth.test.ts` — integration tests
   confirming the `_authenticated` loader redirects unauthenticated requests and the `_public`
   loader passes through.

@@ -47,10 +47,12 @@ additional wrapper elements, headings, or navigation chrome.
 
 ### Requirement: Migrated public routes receive optional session from parent layout
 
-Routes migrated under `_public.tsx` (hazardous-event list, disaster-event list,
-about-the-system, faq) MUST be able to access `userSession` (possibly `null`) from the parent
-layout via `useRouteLoaderData`. These routes SHALL NOT duplicate the `optionalUser` session
-read unless their internal logic requires it for a reason the parent cannot satisfy.
+Routes migrated under `_public.tsx` (hazardous-event list, about-the-system, faq — the three
+pilot routes delivered in this change) MUST be able to access `userSession` (possibly `null`)
+from the parent layout via `useRouteLoaderData`. These routes SHALL NOT duplicate the
+`optionalUser` session read unless their internal logic requires it for a reason the parent
+cannot satisfy. Note: `disaster-event list` was an earlier candidate but was deferred and is
+NOT part of this pilot.
 
 #### Scenario: Migrated hazardous-event list route receives optional session
 

@@ -57,8 +57,13 @@ That migration is deferred to the Settings domain rewrite. See design.md Decisio
       `app/routes/$lang+/_authenticated+/hazardous-event+/` directory. Move the confirmed route
       file into `_authenticated+/hazardous-event+/`. The URL MUST remain unchanged (e.g.,
       `/:lang/hazardous-event/new`). Remove the `authLoaderWithPerm` wrapper from the loader;
-      replace it with a plain `async (args: LoaderFunctionArgs)` function. The `_authenticated`
-      parent layout now guarantees the user is logged in. Confirm `yarn tsc` clean.
+      replace it with a plain `async (args: LoaderFunctionArgs)` function.
+      **Important — parallel loading:** React Router v7 runs all matched route loaders
+      concurrently. The `_authenticated` parent layout's `requireUser` does NOT complete before
+      the child loader starts. If the migrated loader performs a permission check, add
+      `const userSession = await requireUser({ request, params })` at the top of the loader
+      before the permission check — otherwise unauthenticated requests reach the check and
+      receive a 403 instead of a login redirect. Confirm `yarn tsc` clean.
 
 - [x] 4.3 Run `yarn dev` [MANUAL VERIFICATION REQUIRED] — verify the route URL still resolves and an unauthenticated request
       is redirected to login. Run: `yarn vitest run tests/integration/routes/layout-auth.test.ts`

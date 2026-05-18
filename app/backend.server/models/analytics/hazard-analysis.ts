@@ -174,6 +174,22 @@ interface AffectedPeopleResult {
 	totalAffectedIndirect: number;
 }
 
+/**
+ * Aggregates human impact data (deaths, injured, missing, displaced, affected)
+ * from disaster records filtered by hazard type, geography, and date range.
+ *
+ * Builds two different SQL queries depending on whether geographic filtering is needed:
+ * - **With geography**: uses a recursive CTE (`division_hierarchy`) to traverse the
+ *   division tree, `LEFT JOIN LATERAL` to unnest JSON spatial footprint arrays, and
+ *   JSON path queries to match division IDs in two different JSON structures.
+ * - **Without geography**: simpler direct join on disaster_records.
+ *
+ * Both paths join `human_dsg` with `IS NULL` filters on all dimension columns
+ * (sex, age, disability, poverty lines) to select only aggregate (non-disaggregated) rows,
+ * then LEFT JOIN the five effect tables (deaths, injured, missing, displaced, affected).
+ *
+ * Date filtering handles three variable-precision text formats: YYYY, YYYY-MM, YYYY-MM-DD.
+ */
 export async function getAffectedPeopleByHazardFilters(
 	filters: HazardFilters,
 ): Promise<AffectedPeopleResult> {
@@ -346,6 +362,20 @@ interface GenderTotals {
 	totalWomen: number;
 	totalNonBinary: number;
 }
+/**
+ * Aggregates total affected people broken down by gender (men, women, non-binary).
+ *
+ * Same structural complexity as `getAffectedPeopleByHazardFilters` but additionally
+ * uses `CASE WHEN hd.sex = 'm'/'f'/'o'` conditional aggregation to pivot rows into
+ * columns. Each gender total sums six metrics: deaths, missing, affected (direct +
+ * indirect), injured, and displaced.
+ *
+ * Key difference from `getAffectedPeopleByHazardFilters`: the `human_dsg` join
+ * deliberately excludes `sex` from the `IS NULL` filter list (only filters age,
+ * disability, poverty lines) since sex is the grouping dimension here.
+ *
+ * Gender codes: 'm' = men, 'f' = women, 'o' = non-binary.
+ */
 export async function getGenderTotalsByHazardFilters(
 	filters: HazardFilters,
 ): Promise<GenderTotals> {
@@ -361,7 +391,9 @@ export async function getGenderTotalsByHazardFilters(
 
 	// Build WHERE conditions for disaster_records
 	const whereConditions: SQL[] = [];
-	whereConditions.push(sql`"approvalStatus" IN (${"published"}, ${"validated"})`);
+	whereConditions.push(
+		sql`"approvalStatus" IN (${"published"}, ${"validated"})`,
+	);
 	whereConditions.push(sql`"country_accounts_id" = ${countryAccountsId}`);
 	if (hazardTypeId) whereConditions.push(sql`"hip_type_id" = ${hazardTypeId}`);
 	if (hazardClusterId)
@@ -570,7 +602,9 @@ export async function getAgeTotalsByHazardFilters(
 
 	// Build WHERE conditions for disaster_records
 	const whereConditions: SQL[] = [];
-	whereConditions.push(sql`dr."approvalStatus" IN (${"published"}, ${"validated"})`);
+	whereConditions.push(
+		sql`dr."approvalStatus" IN (${"published"}, ${"validated"})`,
+	);
 	whereConditions.push(sql`dr."country_accounts_id" = ${countryAccountsId}`);
 	if (hazardTypeId)
 		whereConditions.push(sql`dr."hip_type_id" = ${hazardTypeId}`);
@@ -1242,6 +1276,20 @@ export async function getNationalPovertyTotalByHazardFilters(
 	return Number(result.rows[0]?.total_poverty ?? 0);
 }
 
+/**
+ * Calculates total damage cost for filtered disaster records.
+ *
+ * Uses a two-tier fallback strategy per sector:
+ * 1. **SDR override**: `sector_disaster_records_relation.damage_cost` — if set, use it directly
+ * 2. **Detailed calculation**: sum `damages.total_repair_replacement` for that record+sector
+ *
+ * The SDR table acts as an "override" layer — when `damage_cost` is populated, it takes
+ * precedence over the detailed damages breakdown. This allows users to enter a single
+ * total cost instead of itemizing every damaged asset.
+ *
+ * Note: the fallback issues one query per record+sector pair (N+1 pattern), which can
+ * be slow for large datasets. `getTotalDamagesByYear` uses a batched fallback instead.
+ */
 export async function getTotalDamagesByHazardFilters(
 	filters: HazardFilters,
 ): Promise<number> {
@@ -1369,6 +1417,18 @@ export async function getFilteredDisasterRecords(filters: HazardFilters) {
 	return result.rows;
 }
 
+/**
+ * Calculates total losses for filtered disaster records.
+ *
+ * Same two-tier fallback as `getTotalDamagesByHazardFilters`:
+ * 1. **SDR override**: `sector_disaster_records_relation.losses_cost`
+ * 2. **Detailed calculation**: sum `losses.public_cost_total + losses.private_cost_total`
+ *
+ * The loss formula combines public and private costs, representing the business rule
+ * that total losses = public infrastructure losses + private property losses.
+ *
+ * Same N+1 query caveat as the damages variant applies here.
+ */
 export async function getTotalLossesByHazardFilters(
 	filters: HazardFilters,
 ): Promise<number> {

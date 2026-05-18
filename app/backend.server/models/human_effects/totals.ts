@@ -340,6 +340,27 @@ export type CalcTotalForGroupRes =
 	| { ok: true; totals: Record<string, number> }
 	| { ok: false; error?: Error };
 
+/**
+ * Calculates aggregated totals for human effect records, grouped by specified dimensions.
+ *
+ * Human effects are stored in two joined tables:
+ * - `human_dsg`: holds demographic/social/gender dimensions (sex, age, disability, etc.)
+ * - The effect table (e.g. `deaths`, `injured`): holds metric values (count, etc.)
+ *
+ * The `group` parameter controls which dimensions are "active" (non-null) for this
+ * aggregation. For example, `group: ["sex"]` means: sum all metric values where sex IS
+ * NOT NULL and all other dimensions (age, disability, etc.) ARE NULL. This selects the
+ * "sex-disaggregated" rows and aggregates over everything else.
+ *
+ * The function handles two kinds of dimensions:
+ * - **Standard dimensions**: stored as actual columns on `human_dsg` or the effect table.
+ *   Filtering is done via SQL `IS NULL`/`IS NOT NULL` conditions.
+ * - **Custom dimensions**: stored in a JSONB `custom` column on `human_dsg`. Filtering
+ *   is done in TypeScript after the query, checking whether custom keys are present and
+ *   whether their values match the grouping.
+ *
+ * Returns an error if any metric total is zero (indicating no matching rows were found).
+ */
 export async function calcTotalForGroup(
 	tx: Tx,
 	tblId: HumanEffectsTable,
@@ -347,6 +368,7 @@ export async function calcTotalForGroup(
 	defs: Def[],
 	group: string[] | null, // columns that are set for this group (["sex"], ["sex", "age"], etc)
 ): Promise<CalcTotalForGroupRes> {
+	// null group means no aggregation requested
 	if (group === null) {
 		return { ok: true, totals: {} };
 	}
@@ -361,6 +383,7 @@ export async function calcTotalForGroup(
 		return { ok: false, error: new Error("No metric fields found") };
 	}
 
+	// Validate that all group columns are known non-date dimensions
 	for (let g of group) {
 		let dim = dimDefs.find((d) => d.dbName === g);
 		if (!dim) {
@@ -376,14 +399,20 @@ export async function calcTotalForGroup(
 		}
 	}
 
+	// Build WHERE clause: match the record, then for each standard dimension,
+	// require IS NOT NULL if it's in the group (we're disaggregating by it),
+	// or IS NULL if it's not in the group (we're aggregating over it).
+	// Custom dimensions are filtered in TypeScript below since they live in JSONB.
 	let where = [eq(hd.recordId, recordId)];
 
 	for (let dim of dimDefs) {
 		if (!dim.custom) {
 			let col: any = null;
 			if (dim.shared) {
+				// Shared dimensions (sex, age, etc.) live on the human_dsg table
 				col = (hd as any)[dim.jsName];
 			} else {
+				// Non-shared dimensions live on the effect table (e.g. deaths)
 				col = (t as any)[dim.jsName];
 			}
 			if (group.includes(dim.dbName)) {
@@ -394,6 +423,7 @@ export async function calcTotalForGroup(
 		}
 	}
 
+	// Join effect table with human_dsg to get both metrics and dimensions
 	let rows = await tx
 		.select()
 		.from(t)
@@ -413,6 +443,8 @@ export async function calcTotalForGroup(
 			throw "Missing human_dsg";
 		}
 
+		// Validate custom dimensions: every non-null custom key must correspond to a
+		// known custom dimension definition. If any unknown key is found, skip this row.
 		let customValid = true;
 		if (hd.custom && Object.keys(hd.custom).length > 0) {
 			for (let key of Object.keys(hd.custom)) {
@@ -431,6 +463,9 @@ export async function calcTotalForGroup(
 			continue;
 		}
 
+		// Check that custom dimension values match the grouping:
+		// - Dimensions in the group must have a non-null value (they're active)
+		// - Dimensions NOT in the group must have a null value (they're aggregated over)
 		let match = true;
 		for (let dim of dimDefs) {
 			if (!dim.custom) {
@@ -445,6 +480,7 @@ export async function calcTotalForGroup(
 		}
 		if (!match) continue;
 
+		// Accumulate metric values, skipping invalid (NaN, negative) entries
 		for (let m of metricDefs) {
 			let value = data[m.dbName];
 			if (typeof value == "number" && !isNaN(value) && value >= 0) {
@@ -453,6 +489,7 @@ export async function calcTotalForGroup(
 		}
 	}
 
+	// A zero total means no matching rows were found — treat as an error
 	for (let key in totals) {
 		if (totals[key] === 0) {
 			return { ok: false, error: new Error(`Total for ${key} is zero`) };
@@ -461,5 +498,3 @@ export async function calcTotalForGroup(
 
 	return { ok: true, totals };
 }
-
-

@@ -104,10 +104,11 @@ export async function nonecoLossesUpdateByIdAndCountryAccountsId(
 	}
 	let recordId = await getRecordId(tx, id);
 
-	const disasterRecords = DisasterRecordsRepository.getByIdAndCountryAccountsId(
-		recordId,
-		countryAccountsId,
-	);
+	const disasterRecords =
+		await DisasterRecordsRepository.getByIdAndCountryAccountsId(
+			recordId,
+			countryAccountsId,
+		);
 	if (!disasterRecords) {
 		return {
 			ok: false,
@@ -147,7 +148,10 @@ export type NonecoLossesViewModel = Exclude<
 	undefined
 >;
 
-export async function nonecoLossesById(idStr: string, countryAccountsId: string) {
+export async function nonecoLossesById(
+	idStr: string,
+	countryAccountsId: string,
+) {
 	let id = idStr;
 	const res = await dr
 		.select({
@@ -160,7 +164,10 @@ export async function nonecoLossesById(idStr: string, countryAccountsId: string)
 			disasterRecordsTable,
 			eq(nonecoLossesTable.disasterRecordId, disasterRecordsTable.id),
 		)
-		.innerJoin(categoriesTable, eq(nonecoLossesTable.categoryId, categoriesTable.id))
+		.innerJoin(
+			categoriesTable,
+			eq(nonecoLossesTable.categoryId, categoriesTable.id),
+		)
 		.where(
 			and(
 				eq(nonecoLossesTable.id, id),

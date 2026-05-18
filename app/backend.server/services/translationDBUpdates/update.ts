@@ -153,21 +153,9 @@ export async function importTranslationsIfNeeded() {
 			table: sectorTable,
 			column: "name",
 		},
-		"sector.description": {
-			table: sectorTable,
-			column: "description",
-		},
 		"asset.name": {
 			table: assetTable,
 			column: "builtInName",
-		},
-		"asset.category": {
-			table: assetTable,
-			column: "builtInCategory",
-		},
-		"asset.notes": {
-			table: assetTable,
-			column: "builtInNotes",
 		},
 		"categories.name": {
 			table: categoriesTable,

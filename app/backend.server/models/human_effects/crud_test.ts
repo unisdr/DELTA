@@ -2,7 +2,7 @@
 import { beforeEach, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { dr } from "~/db.server";
-import { create, update, deleteRows, get, validate } from "./index";
+import { create, update, deleteRows, clearData, get, validate } from "./index";
 import { Def } from "~/frontend/editabletable/base";
 import { createTestBackendContext } from "../../context";
 import {
@@ -562,5 +562,97 @@ describe("human_effects - number data", async () => {
 			assert(res.ok);
 			assert.deepEqual(res.data, []);
 		}
+	});
+
+	it("get on non-existent record returns empty data", async () => {
+		let defs = defs1;
+		let res = await get(
+			dr,
+			"Injured",
+			"00000000-0000-0000-0000-000000000000",
+			countryAccountsId,
+			defs,
+		);
+		assert(res.ok);
+		assert.deepEqual(res.data, []);
+	});
+
+	it("deleteRows with non-existent id returns error", async () => {
+		let res = await deleteRows(dr, "Injured", [
+			"00000000-0000-0000-0000-000000000000",
+		]);
+		assert(!res.ok);
+		assert.equal(res.error!.code, "other");
+		assert.ok(res.error!.message.includes("Record not found"));
+	});
+
+	it("clearData removes all rows and totals", async () => {
+		let defs = defs1;
+		{
+			let res = await create(
+				dr,
+				"Injured",
+				rid1,
+				defs,
+				[
+					["m", 1],
+					["f", 2],
+				],
+				false,
+			);
+			assert(res.ok);
+		}
+		{
+			let res = await clearData(dr, "Injured", rid1);
+			assert(res.ok);
+		}
+		{
+			let res = await get(dr, "Injured", rid1, countryAccountsId, defs);
+			assert(res.ok);
+			assert.deepEqual(res.data, []);
+		}
+	});
+
+	it("clearData on empty data succeeds", async () => {
+		let res = await clearData(dr, "Injured", rid1);
+		assert(res.ok);
+		assert.deepEqual(res.ids, []);
+	});
+
+	it("create with empty data array succeeds", async () => {
+		let defs = defs1;
+		let res = await create(dr, "Injured", rid1, defs, [], false);
+		assert(res.ok);
+		assert.deepEqual(res.ids, []);
+	});
+
+	it("update with mismatched ids and data lengths returns error", async () => {
+		let defs = defs1;
+		let res = await update(
+			dr,
+			"Injured",
+			defs,
+			["id1", "id2"],
+			[["m", 1]],
+			false,
+		);
+		assert(!res.ok);
+		assert.equal(res.error!.code, "other");
+		assert.ok(res.error!.message.includes("Mismatch"));
+	});
+
+	it("update with non-existent id returns error", async () => {
+		let defs = defs1;
+		let res = await update(
+			dr,
+			"Injured",
+			defs,
+			["00000000-0000-0000-0000-000000000000"],
+			[["m", 1]],
+			false,
+		);
+		assert(!res.ok);
+		assert.equal(res.error!.code, "other");
+		assert.ok(res.error!.message.includes("not found"));
 	});
 });

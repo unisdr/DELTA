@@ -10,7 +10,6 @@ import { BackendContext } from "~/backend.server/context";
 import { hazardousEventById } from "~/backend.server/models/event";
 import { approvalStatusIds } from "~/frontend/approval";
 
-
 interface EmailAssignedValidatorsParams {
 	submittedByUserId: string;
 	validatorUserIds: string[];
@@ -62,7 +61,9 @@ export async function emailAssignedValidators(
 
 	if (entityType === "hazardous_event") {
 		recordUrl += `/${ctx.lang}/hazardous-event/${entityId}`;
-		recordType = ctx.t({ code: "hazardous_event", msg: "Hazardous event" }).toLowerCase();
+		recordType = ctx
+			.t({ code: "hazardous_event", msg: "Hazardous event" })
+			.toLowerCase();
 		// Get event name from HIPs associated with the hazardous event
 		if (eventFields.hipHazardId) {
 			const hazard = await getHazardById(ctx, eventFields.hipHazardId);
@@ -84,10 +85,14 @@ export async function emailAssignedValidators(
 		}
 	} else if (entityType === "disaster_event") {
 		recordUrl += `/${ctx.lang}/disaster-event/${entityId}`;
-		recordType = ctx.t({ code: "disaster_event", msg: "Disaster event" }).toLowerCase();
+		recordType = ctx
+			.t({ code: "disaster_event", msg: "Disaster event" })
+			.toLowerCase();
 	} else if (entityType === "disaster_records") {
 		recordUrl += `/${ctx.lang}/disaster-record/${entityId}`;
-		recordType = ctx.t({ code: "disaster_event.disaster_record", msg: "Disaster record" }).toLowerCase();
+		recordType = ctx
+			.t({ code: "disaster_event.disaster_record", msg: "Disaster record" })
+			.toLowerCase();
 	}
 	recordStartDate = eventFields.startDate || "";
 	recordEndDate = eventFields.endDate || "";
@@ -194,6 +199,22 @@ interface StatusChangeParams {
  * - Sends a published notification to the submitter when status === 'published'
  * - Sends a rejection notification to the submitter when status === 'needs-revision'
  */
+/**
+ * Sends email notifications when a record's approval status changes.
+ *
+ * Supports three entity types (hazardous_event, disaster_event, disaster_records)
+ * and three notification types:
+ * - **published**: notifies submitter their record is now public
+ * - **needs-revision**: notifies submitter with rejection comments
+ * - **validated**: notifies submitter their record has been validated
+ *
+ * Uses dynamic imports (`await import(...)`) for disaster events and records to
+ * avoid circular dependencies. Each entity type has a different URL construction
+ * pattern and record loader.
+ *
+ * Each notification (email send) is wrapped in its own try-catch so that a failure
+ * for one notification type does not prevent others from being sent.
+ */
 export async function emailValidationWorkflowStatusChangeNotificationService({
 	ctx,
 	countryAccountsId,
@@ -210,18 +231,18 @@ export async function emailValidationWorkflowStatusChangeNotificationService({
 		} catch (error) {
 			console.error(`Failed to load hazardous event ${recordId}:`, error);
 		}
-	}
-	else if (recordType === "disaster_event") {
+	} else if (recordType === "disaster_event") {
 		try {
-			const { disasterEventById } = await import("~/backend.server/models/event");
+			const { disasterEventById } =
+				await import("~/backend.server/models/event");
 			record = await disasterEventById(ctx, recordId);
 		} catch (error) {
 			console.error(`Failed to load disaster event ${recordId}:`, error);
 		}
-	}
-	else if (recordType === "disaster_records") {
+	} else if (recordType === "disaster_records") {
 		try {
-			const { disasterRecordsById } = await import("~/backend.server/models/disaster_record");
+			const { disasterRecordsById } =
+				await import("~/backend.server/models/disaster_record");
 			record = await disasterRecordsById(recordId, countryAccountsId);
 		} catch (error) {
 			console.error(`Failed to load disaster record ${recordId}:`, error);
@@ -435,36 +456,38 @@ export async function emailValidationWorkflowStatusChangeNotificationService({
 	}
 }
 
-
-export async function emailAssigneesNotificationService(
-	{
-		ctx,
-		returnedByUserId,
-		assigneesUserIdsArray,
-		entityId,
-		entityType,
-		rejectionMessage,
-		
-	}: EmailAssigneesParams,
-) {
+export async function emailAssigneesNotificationService({
+	ctx,
+	returnedByUserId,
+	assigneesUserIdsArray,
+	entityId,
+	entityType,
+	rejectionMessage,
+}: EmailAssigneesParams) {
 	const subject: string = ctx.t({
 		code: "email.assignees_notification.subject_returned",
 		msg: "Returned record - action needed",
 	});
-	let recordUrl: string = '';
+	let recordUrl: string = "";
 	let recordType: string = "";
 	let recordAssigneeName: string = "";
 	let recordSubmitterName: string = "";
 
 	if (entityType === "hazardous_event") {
 		recordUrl += ctx.fullUrl(`/hazardous-event/${entityId}`);
-		recordType = ctx.t({ code: "hazardous_event", msg: "Hazardous event" }).toLowerCase();
+		recordType = ctx
+			.t({ code: "hazardous_event", msg: "Hazardous event" })
+			.toLowerCase();
 	} else if (entityType === "disaster_event") {
 		recordUrl += ctx.fullUrl(`/disaster-event/${entityId}`);
-		recordType = ctx.t({ code: "disaster_event", msg: "Disaster event" }).toLowerCase();
+		recordType = ctx
+			.t({ code: "disaster_event", msg: "Disaster event" })
+			.toLowerCase();
 	} else if (entityType === "disaster_records") {
 		recordUrl += ctx.fullUrl(`/disaster-record/${entityId}`);
-		recordType = ctx.t({ code: "disaster_event.disaster_record", msg: "Disaster record" }).toLowerCase();
+		recordType = ctx
+			.t({ code: "disaster_event.disaster_record", msg: "Disaster record" })
+			.toLowerCase();
 	}
 	try {
 		const submitter = await UserRepository.getById(returnedByUserId);
@@ -533,8 +556,8 @@ export async function emailAssigneesNotificationService(
 					recordAssigneeName += ` ${assigneeUser.lastName}`;
 				}
 
-				let emailText = '';
-				let emailHtml = '';
+				let emailText = "";
+				let emailHtml = "";
 				emailText = text.replace("[assignee.name]", recordAssigneeName);
 				emailHtml = html.replace("[assignee.name]", recordAssigneeName);
 

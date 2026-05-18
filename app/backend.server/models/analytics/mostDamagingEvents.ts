@@ -207,6 +207,26 @@ async function buildFilterConditions(
 	return { conditions, sectorIds };
 }
 
+/**
+ * Returns paginated, sorted disaster events ranked by damage or loss amounts.
+ *
+ * Builds a complex query joining 6+ tables (disaster_records -> disaster_events ->
+ * hazardous_events -> HIP tables) with conditional subqueries for damage and loss
+ * calculation using the same override-vs-calculated pattern as `aggregateDamagesData`.
+ *
+ * Damage calculation: SDR `damage_cost` if set, otherwise falls back to per-sector
+ * correlated subquery on `damages` table using `totalRepairReplacementOverride` flag.
+ *
+ * Loss calculation: SDR `losses_cost` if set, otherwise falls back to per-sector
+ * correlated subquery on `losses` table with independent public/private override flags.
+ *
+ * Supports sorting by four columns (damages, losses, eventName, createdAt) with
+ * asc/desc direction. Falls back to a simplified query (without damage/loss columns)
+ * if the complex query fails.
+ *
+ * The `sql`1=1`` no-op condition is used when no sector filter is specified, as a
+ * workaround for the conditional `inArray` in the JOIN clause.
+ */
 export async function getMostDamagingEvents(
 	countryAccountsId: string,
 	params: MostDamagingEventsParams,

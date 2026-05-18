@@ -66,7 +66,7 @@ async function hazardousEventTestData() {
 
 describe("hazardous_event", async () => {
 	// Check that the constraint errors from create are properly handled
-	it("create contraint error", async () => {
+	it("create constraint error", async () => {
 		let ctx = createTestBackendContext();
 		let data = testHazardFields(1);
 		data.hipHazardId = "xxx";
@@ -75,8 +75,8 @@ describe("hazardous_event", async () => {
 		let errs = res.errors.fields?.hipHazardId;
 		assert.equal(errs?.length, 1);
 		let err = errs[0] as FormError;
-		assert(err.code, "constraint");
-		assert(err.data, "reference");
+		assert.equal(err.code, "constraint");
+		assert.equal(err.data, "reference");
 	});
 
 	// Check that basic update works.
@@ -97,7 +97,7 @@ describe("hazardous_event", async () => {
 			// let got = await hazardousEventById(id,countryAccountsId1 )
 			let got = await hazardousEventById(ctx, id);
 			assert(got);
-			assert(got.endDate! == data.endDate);
+			assert.equal(got.endDate, data.endDate);
 		}
 	});
 
@@ -118,8 +118,8 @@ describe("hazardous_event", async () => {
 			let errs = res.errors.fields?.hipHazardId;
 			assert.equal(errs?.length, 1);
 			let err = errs[0] as FormError;
-			assert(err.code, "constraint");
-			assert(err.data, "reference");
+			assert.equal(err.code, "constraint");
+			assert.equal(err.data, "reference");
 		}
 	});
 

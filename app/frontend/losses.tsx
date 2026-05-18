@@ -7,6 +7,7 @@ import {
 	FormView,
 	Input,
 	errorsToStrings,
+	type Errors,
 } from "~/frontend/form";
 
 import { useEffect, useRef, useState } from "react";
@@ -25,6 +26,14 @@ import { AttachmentsFormView } from "~/frontend/attachmentsFormView";
 import { AttachmentsView } from "~/frontend/attachmentsView";
 import { TEMP_UPLOAD_PATH } from "~/utils/paths";
 import { ViewContext } from "./context";
+
+function getFieldErrors<T>(
+	errors: Errors<T> | undefined,
+	field: keyof T,
+): string[] | undefined {
+	if (!errors || !errors.fields) return undefined;
+	return errorsToStrings(errors.fields[field]);
+}
 
 export function route2(recordId: string): string {
 	return `/disaster-record/edit-sub/${recordId}/losses`;
@@ -97,11 +106,6 @@ export function LossesForm(props: LossesFormProps) {
 		let key = `type${suffix.charAt(0).toUpperCase() + suffix.slice(1)}`;
 		let value = type[suffix];
 		let def = typeDef(key);
-		let f = props.errors?.fields as any;
-		let e: any = [];
-		if (f) {
-			e = errorsToStrings(f[key]);
-		}
 		return (
 			<Input
 				ctx={ctx}
@@ -115,7 +119,7 @@ export function LossesForm(props: LossesFormProps) {
 					},
 					...def.enumData!,
 				]}
-				errors={e}
+				errors={getFieldErrors(props.errors, key as keyof LossesFields)}
 				onChange={(e: any) => {
 					setType({ ...type, [suffix]: e.target.value });
 					return;
@@ -133,11 +137,6 @@ export function LossesForm(props: LossesFormProps) {
 			suffix === "notAgriculture"
 				? typeEnumNotAgriculture
 				: typeEnumAgriculture;
-		let f = props.errors?.fields as any;
-		let e: any = [];
-		if (f) {
-			e = errorsToStrings(f[key]);
-		}
 
 		return (
 			<Input
@@ -159,7 +158,7 @@ export function LossesForm(props: LossesFormProps) {
 					...enumData(ctx).filter((v) => v.type == filterValue),
 				]}
 				disabled={filterValue === ""}
-				errors={e}
+				errors={getFieldErrors(props.errors, key as keyof LossesFields)}
 			/>
 		);
 	};

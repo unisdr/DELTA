@@ -212,6 +212,25 @@ export function debugMatchedGeoFormat(
 	return uniqueMatches;
 }
 
+/**
+ * Builds SQL conditions to filter disaster records by geographic division.
+ *
+ * Constructs a single SQL condition that matches records using 12+ spatial strategies:
+ * - JSONB division ID paths (properties.division_ids, dts_info.division_ids, dts_info.division_id)
+ * - Geographic level name matching
+ * - Coordinate containment for markers, circles, rectangles, polygons, lines
+ * - GeoJSON feature geometry (Point, LineString)
+ * - Text-based fallback on locationDesc
+ *
+ * In development mode, if a "preferred" format match is detected (division IDs or
+ * geographic level), the function short-circuits and returns without adding spatial
+ * filters — this is a performance optimization but may return false positives if
+ * the preferred format match is incorrect.
+ *
+ * Note: circle radius conversion uses `/ 111320.0` (meters-to-degrees), which is
+ * only accurate at the equator. At higher latitudes, the actual radius in degrees
+ * will be larger.
+ */
 export async function applyGeographicFilters(
 	divisionInfo: GeographicFilter,
 	disasterRecordsTable: any,

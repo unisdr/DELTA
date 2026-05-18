@@ -80,13 +80,13 @@ describe("edit.$id.tsx loader", () => {
 		);
 	});
 
-	it("should return 401 for record from different tenant", async () => {
+	it("should return 403 for record from different tenant", async () => {
 		const otherTenantId = await createOtherTenant();
 		const otherData = await createTestHazardousEventWithOptions(otherTenantId);
 
 		await expect(
 			callLoader({ id: otherData.hazardousEventId }),
-		).rejects.toMatchObject({ status: 401 });
+		).rejects.toMatchObject({ status: 403 });
 
 		await cleanupOtherTenant();
 	});

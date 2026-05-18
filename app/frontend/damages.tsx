@@ -31,6 +31,14 @@ import type { JSX } from "react";
 
 export const route = "/disaster-record/edit-sub/_/damages";
 
+const disruptionFields = [
+	"DisruptionDescription",
+	"DisruptionDurationDays",
+	"DisruptionDurationHours",
+	"DisruptionUsersAffected",
+	"DisruptionPeopleAffected",
+] as const;
+
 export function route2(recordId: string): string {
 	return `/disaster-record/edit-sub/${recordId}/damages`;
 }
@@ -188,29 +196,31 @@ export function DamagesForm(props: DamagesFormProps) {
 		let attach = (pdType: "pd" | "td") => {
 			let el = formRef.current!.querySelector("." + pdType + "Disruption");
 			if (!el) return;
-			el.querySelector(".add")!.addEventListener("click", (e: Event) => {
+			let addHandler = (e: Event) => {
 				e.preventDefault();
 				showHide(pdType, true);
-			});
-			el.querySelector(".hide")!.addEventListener("click", (e: Event) => {
+			};
+			let hideHandler = (e: Event) => {
 				e.preventDefault();
 				showHide(pdType, false);
-			});
+			};
+			el.querySelector(".add")!.addEventListener("click", addHandler);
+			el.querySelector(".hide")!.addEventListener("click", hideHandler);
+			return { el, addHandler, hideHandler };
 		};
+		let cleanups: {
+			el: Element;
+			addHandler: (e: Event) => void;
+			hideHandler: (e: Event) => void;
+		}[] = [];
 		if (formRef.current) {
 			let isEmpty = function (v: any) {
 				return typeof v !== "string" || v === "";
 			};
-			let disruptionFields = [
-				"DisruptionDescription",
-				"DisruptionDurationDays",
-				"DisruptionDurationHours",
-				"DisruptionUsersAffected",
-				"DisruptionPeopleAffected",
-			];
 			let prefixes: ("pd" | "td")[] = ["pd", "td"];
 			prefixes.forEach((prefix) => {
-				attach(prefix);
+				let result = attach(prefix);
+				if (result) cleanups.push(result);
 				let show = disruptionFields.some(
 					(field) => !isEmpty((props.fields as any)[prefix + field]),
 				);
@@ -218,8 +228,11 @@ export function DamagesForm(props: DamagesFormProps) {
 			});
 		}
 		return () => {
-			if (formRef.current) {
-				// TODO: remove event listener
+			for (let c of cleanups) {
+				c.el.querySelector(".add")?.removeEventListener("click", c.addHandler);
+				c.el
+					.querySelector(".hide")
+					?.removeEventListener("click", c.hideHandler);
 			}
 		};
 	}, [props.fields]);
@@ -528,15 +541,8 @@ export function DamagesView(props: DamagesViewProps) {
 	};
 
 	let hideDisruptionIfNoData = (pre: "pd" | "td") => {
-		let fields = [
-			"DisruptionDurationDays",
-			"DisruptionDurationHours",
-			"DisruptionUsersAffected",
-			"DisruptionPeopleAffected",
-			"DisruptionDescription",
-		];
 		let exists = false;
-		for (let f of fields) {
+		for (let f of disruptionFields) {
 			let fName = (pre + f) as keyof DamagesViewModel;
 			if (props.item[fName] !== null) {
 				exists = true;
@@ -546,7 +552,7 @@ export function DamagesView(props: DamagesViewProps) {
 			let fName = (pre +
 				"RecoveryCostTotalOverride") as keyof typeof elementsAfter;
 			delete elementsAfter[fName];
-			for (let f of fields) {
+			for (let f of disruptionFields) {
 				let fName = pre + f;
 				override[fName] = null;
 			}

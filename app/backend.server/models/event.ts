@@ -5,9 +5,6 @@ import {
 	UpdateResult,
 } from "~/backend.server/handlers/form/form";
 import { Errors, hasErrors } from "~/frontend/form";
-import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
-import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
-import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
 import {
 	InsertDisasterEvent,
 	disasterEventTable,
@@ -38,6 +35,7 @@ import {
 	getHazardById,
 	getClusterById,
 	getTypeById,
+	queryHipEntity,
 } from "~/backend.server/models/hip";
 
 interface TemporalValidationResult {
@@ -294,6 +292,26 @@ export const RelationCycleError = {
 		"Event relation cycle not allowed. This event or one of it's children, is set as the parent.",
 };
 
+/**
+ * Updates a hazardous event with full validation pipeline.
+ *
+ * Steps:
+ * 1. Validate form fields
+ * 2. Check country account exists
+ * 3. Fetch old record (for comparison and audit)
+ * 4. If parent changed:
+ *    a. Self-reference check (parent !== id)
+ *    b. Tenant ownership check (parent belongs to same country)
+ *    c. Cycle detection via recursive CTE (`checkForCycle`)
+ *    d. Temporal causality validation (parent must start before child)
+ * 5. Delete old parent relationship, insert new one
+ * 6. Update the event record
+ * 7. Log audit trail
+ * 8. Process attachments
+ *
+ * Uses `tx.transaction(async (tx) => {...})` to create a sub-transaction within
+ * the passed transaction, allowing the parent caller to roll back on error.
+ */
 export async function hazardousEventUpdate(
 	ctx: BackendContext,
 	tx: Tx,
@@ -807,6 +825,21 @@ interface CycleCheckResult {
 	has_existing_chain?: boolean;
 }
 
+/**
+ * Detects whether setting a parent-child relationship would create a cycle.
+ *
+ * Uses a recursive CTE that traverses the `event_relationship` table starting from
+ * the potential parent, building up a path array. Two termination conditions:
+ * 1. The child ID is found in the path (cycle detected)
+ * 2. The path exceeds 10 elements (safety limit to prevent infinite recursion)
+ *
+ * The `NOT er.parent_id = ANY(cc.path)` condition prevents revisiting nodes already
+ * in the path — this is a non-standard cycle prevention pattern that works because
+ * the path array tracks all visited parent IDs.
+ *
+ * Also fetches event descriptions to produce user-friendly error messages showing
+ * which events are involved in the cycle.
+ */
 async function checkForCycle(
 	tx: Tx,
 	childId: string,
@@ -1439,10 +1472,7 @@ export async function disasterEventUpdate(
 			.where(
 				and(
 					eq(hazardousEventTable.id, fields.hazardousEventId),
-					eq(
-						hazardousEventTable.countryAccountsId,
-						fields.countryAccountsId,
-					),
+					eq(hazardousEventTable.countryAccountsId, fields.countryAccountsId),
 				),
 			)
 			.limit(1);
@@ -1752,56 +1782,36 @@ export async function disasterEventById(ctx: BackendContext, id: any) {
 	}
 
 	// Then load related data in separate queries to avoid argument limit
-	const [hazardousEvent, hipHazard, hipCluster, hipType, event] =
-		await Promise.all([
-			disasterEvent.hazardousEventId
-				? dr.query.hazardousEventTable.findFirst({
-						where: eq(hazardousEventTable.id, disasterEvent.hazardousEventId),
-					})
-				: Promise.resolve(null),
-			disasterEvent.hipHazardId
-				? dr.query.hipHazardTable.findFirst({
-						columns: {
-							id: true,
-						},
-						extras: {
-							name: sql<string>`dts_jsonb_localized(${hipHazardTable.name}, ${ctx.lang})`.as(
-								"name",
-							),
-						},
-						where: eq(hipHazardTable.id, disasterEvent.hipHazardId),
-					})
-				: Promise.resolve(null),
-			disasterEvent.hipClusterId
-				? dr.query.hipClusterTable.findFirst({
-						columns: {
-							id: true,
-						},
-						extras: {
-							name: sql<string>`dts_jsonb_localized(${hipClusterTable.name}, ${ctx.lang})`.as(
-								"name",
-							),
-						},
-						where: eq(hipClusterTable.id, disasterEvent.hipClusterId),
-					})
-				: Promise.resolve(null),
-			disasterEvent.hipTypeId
-				? dr.query.hipTypeTable.findFirst({
-						columns: {
-							id: true,
-						},
-						extras: {
-							name: sql<string>`dts_jsonb_localized(${hipTypeTable.name}, ${ctx.lang})`.as(
-								"name",
-							),
-						},
-						where: eq(hipTypeTable.id, disasterEvent.hipTypeId),
-					})
-				: Promise.resolve(null),
-			dr.query.eventTable.findFirst({
-				where: eq(eventTable.id, id),
-			}),
-		]);
+	const [hazardousEvent, hipEntity, event] = await Promise.all([
+		disasterEvent.hazardousEventId
+			? dr.query.hazardousEventTable.findFirst({
+					where: eq(hazardousEventTable.id, disasterEvent.hazardousEventId),
+				})
+			: Promise.resolve(null),
+		queryHipEntity(
+			ctx,
+			disasterEvent.hipHazardId,
+			disasterEvent.hipClusterId,
+			disasterEvent.hipTypeId,
+		),
+		dr.query.eventTable.findFirst({
+			where: eq(eventTable.id, id),
+		}),
+	]);
+
+	const hipHazard =
+		disasterEvent.hipHazardId && hipEntity ? hipEntity : undefined;
+	const hipCluster =
+		!disasterEvent.hipHazardId && disasterEvent.hipClusterId && hipEntity
+			? hipEntity
+			: undefined;
+	const hipType =
+		!disasterEvent.hipHazardId &&
+		!disasterEvent.hipClusterId &&
+		disasterEvent.hipTypeId &&
+		hipEntity
+			? hipEntity
+			: undefined;
 
 	return {
 		...disasterEvent,

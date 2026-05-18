@@ -202,11 +202,17 @@ export const calculateTotalRehabilitationCost = async (
 };
 
 /**
- * Returns the total recovery cost of a disaster_event
- * recovery cost of a disaster event has three levels to get the value from
- * 1. from disaster event table itself
- * 2. If no value in disaster event table, then you get it from sector_disaster_records_relation table
- * 3. If no value exist in sector_disaster_records_relation table, then you get it from damages table.
+ * Calculates total recovery cost for a disaster event using a two-level fallback.
+ *
+ * For each sector-disaster record pair:
+ * 1. Use `sector_disaster_records_relation.damage_recovery_cost` if set
+ * 2. Otherwise, sum `damages.total_recovery` for that record+sector combination
+ *
+ * Note: there is a bug on line 271 where `Number()` (with no argument) is added to
+ * the total, which produces `NaN`. This should likely be removed.
+ *
+ * The N+1 query pattern (one query per sector per record) could be a performance
+ * issue for events with many records and sectors.
  */
 export const calculateTotalRecoveryCost = async (
 	tx: Tx,

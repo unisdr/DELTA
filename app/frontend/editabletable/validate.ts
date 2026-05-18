@@ -265,49 +265,36 @@ export function validate(
 
 			let gkNames = groupKeyToColNames(defs, gk);
 			for (const [metric, value] of metrics) {
-				let totalValue = totals.get(metric) || 0;
+				let totalValue = totals.get(metric) ?? 0;
 				if (value > totalValue) {
-					let e = new GroupError(
-						gk,
-						"subtotal_larger_than_total",
-						ctx.t(
-							{
-								code: "human_effects.error.subtotal_larger_than_total",
-								desc: "The subtotal for a group exceeds the overall total. {group} is the group name(s), {column} is the metric name, {value} is the group total, {totalValue} is the overall total.",
-								msg: 'Total for group ({group}), column "{column}" exceeds overall total {value} > {totalValue}',
-							},
-							{
-								group: gkNames.join(","),
-								column: metric,
-								value,
-								totalValue,
-							},
-						),
+					let isUnset = totalValue === 0;
+					let msg = isUnset
+						? ctx.t(
+								{
+									code: "human_effects.error.subtotal_larger_than_total_unset",
+									desc: "No total has been set for this metric. {group} is the group name(s), {column} is the metric name.",
+									msg: 'No total set for group ({group}), column "{column}"',
+								},
+								{ group: gkNames.join(","), column: metric },
+							)
+						: ctx.t(
+								{
+									code: "human_effects.error.subtotal_larger_than_total",
+									desc: "The subtotal for a group exceeds the overall total. {group} is the group name(s), {column} is the metric name, {value} is the group total, {totalValue} is the overall total.",
+									msg: 'Total for group ({group}), column "{column}" exceeds overall total {value} > {totalValue}',
+								},
+								{ group: gkNames.join(","), column: metric, value, totalValue },
+							);
+					groupErrors.push(
+						new GroupError(gk, "subtotal_larger_than_total", msg),
 					);
-					groupErrors.push(e);
 
-					// Add row error for every row in this group
 					for (const row of data) {
 						let rowGroupKey = rowToGroupKey(defs, row.data);
 						if (rowGroupKey === gk) {
-							let rowErr = new RowError(
-								row.id,
-								"subtotal_larger_than_total",
-								ctx.t(
-									{
-										code: "human_effects.error.subtotal_larger_than_total_row",
-										desc: "The row belongs to a group where the subtotal exceeds the overall total. {group} is the group name(s), {metric} is the column, {value} is the group total, {totalValue} is the overall total.",
-										msg: "Row belongs to group, for which total [{group}] {metric}={value} exceeds overall total ({totalValue})",
-									},
-									{
-										group: gkNames.join(","),
-										metric,
-										value,
-										totalValue,
-									},
-								),
+							rowErrors.push(
+								new RowError(row.id, "subtotal_larger_than_total", msg),
 							);
-							rowErrors.push(rowErr);
 						}
 					}
 				} else if (value < totalValue) {

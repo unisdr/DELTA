@@ -5,7 +5,7 @@ import { hipHazardTable } from "~/drizzle/schema/hipHazardTable";
 import { hipClusterTable } from "~/drizzle/schema/hipClusterTable";
 import { hipTypeTable } from "~/drizzle/schema/hipTypeTable";
 import { assetTable } from "~/drizzle/schema/assetTable";
-import { isNotNull, eq, sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { createHash } from "crypto";
 
 export type TranslationItem = {
@@ -77,51 +77,12 @@ export async function getTranslationSources(): Promise<TranslationKeyInfo[]> {
 			},
 		},
 		{
-			type: "sector.description",
-			query: async () => {
-				const rows = await dr
-					.select({
-						id: sectorTable.id,
-						msg: sql<string>`(${sectorTable.description}->>'en')`,
-					})
-					.from(sectorTable)
-					.where(isNotNull(sectorTable.description));
-				return rows.map((r) => ({ id: r.id, msg: r.msg || "" }));
-			},
-		},
-		{
 			type: "asset.name",
 			query: async () => {
 				const rows = await dr
 					.select({
 						id: assetTable.id,
 						msg: sql<string>`(${assetTable.builtInName}->>'en')`,
-					})
-					.from(assetTable)
-					.where(eq(assetTable.isBuiltIn, true));
-				return rows;
-			},
-		},
-		{
-			type: "asset.category",
-			query: async () => {
-				const rows = await dr
-					.select({
-						id: assetTable.id,
-						msg: sql<string>`(${assetTable.builtInCategory}->>'en')`,
-					})
-					.from(assetTable)
-					.where(eq(assetTable.isBuiltIn, true));
-				return rows;
-			},
-		},
-		{
-			type: "asset.notes",
-			query: async () => {
-				const rows = await dr
-					.select({
-						id: assetTable.id,
-						msg: sql<string>`(${assetTable.builtInNotes}->>'en')`,
 					})
 					.from(assetTable)
 					.where(eq(assetTable.isBuiltIn, true));

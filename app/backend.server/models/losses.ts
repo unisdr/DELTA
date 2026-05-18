@@ -279,12 +279,12 @@ export function validate(fields: Partial<LossesFields>): Errors<LossesFields> {
 			errors.fields![k] = [msg];
 	};
 	[
-		"publicValue",
-		"publicCostPerUnit",
-		"publicTotalCost",
-		"privateValue",
-		"privateCostPerUnit",
-		"privateTotalCost",
+		"publicUnits",
+		"publicCostUnit",
+		"publicCostTotal",
+		"privateUnits",
+		"privateCostUnit",
+		"privateCostTotal",
 	].forEach((k) => check(k as keyof LossesFields));
 
 	return errors;
@@ -347,10 +347,11 @@ export async function lossesUpdateByIdAndCountryAccountsId(
 
 	let recordId = await getRecordId(tx, id);
 
-	const disasterRecords = await DisasterRecordsRepository.getByIdAndCountryAccountsId(
-		recordId,
-		countryAccountsId,
-	);
+	const disasterRecords =
+		await DisasterRecordsRepository.getByIdAndCountryAccountsId(
+			recordId,
+			countryAccountsId,
+		);
 	if (!disasterRecords || disasterRecords.length === 0) {
 		return {
 			ok: false,
@@ -399,6 +400,7 @@ export async function lossesIdByImportId(tx: Tx, importId: string) {
 		.where(eq(lossesTable.apiImportId, importId));
 	return res.length == 0 ? null : String(res[0].id);
 }
+// BUG: join on sectorId looks wrong — should probably be recordId to link through the disaster record for tenant scoping
 export async function lossesIdByImportIdAndCountryAccountsId(
 	tx: Tx,
 	importId: string,

@@ -39,6 +39,9 @@ RUN HUSKY=0 yarn install --frozen-lockfile --production \
 # Copy all contents from dts_shared_binary into /delta (including dotfiles)
 COPY --from=builder /delta/dts_shared_binary/. ./
 
+# Copy database initialization script
+COPY ./scripts/dts_database/database_init_docker_prod.sql ./dts_database/
+
 # Expose the port that the application will use
 EXPOSE 3000
 
@@ -47,4 +50,4 @@ ENV NODE_ENV=production
 ENV PORT=3000
 
 # Run migrations and start the app
-CMD ["sh", "-c", "yarn start"]
+CMD ["sh", "-c", "psql \"$DATABASE_URL\" -f ./dts_database/database_init_docker_prod.sql && yarn start"]

@@ -71,6 +71,10 @@ function getMappedId(
 	return mappedId;
 }
 
+function getMappedIdOrOriginal(idMap: Map<string, string>, sourceId: string) {
+	return idMap.get(sourceId) ?? sourceId;
+}
+
 function toPosixPath(filePath: string) {
 	return filePath.replace(/\\/g, "/");
 }
@@ -1061,8 +1065,13 @@ export const CountryAccountService = {
 				);
 				damageRows.forEach((row) => damageIdMap.set(row.id, randomUUID()));
 				if (damageRows.length > 0) {
+					const damageRowsWithAssetId = damageRows.filter(
+						(row): row is (typeof damageRows)[number] & { assetId: string } =>
+							Boolean(row.assetId),
+					);
+
 					await DamagesRepository.createMany(
-						damageRows.map((row) => ({
+						damageRowsWithAssetId.map((row) => ({
 							...row,
 							id: getMappedId(damageIdMap, row.id, "damage"),
 							attachments: cloneAttachmentsForCountryAccount(
@@ -1074,7 +1083,7 @@ export const CountryAccountService = {
 								row.recordId,
 								"disaster record",
 							),
-							assetId: getMappedId(assetIdMap, row.assetId, "asset"),
+							assetId: getMappedIdOrOriginal(assetIdMap, row.assetId),
 						})),
 						tx,
 					);

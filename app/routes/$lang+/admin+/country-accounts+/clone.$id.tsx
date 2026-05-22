@@ -39,12 +39,32 @@ export const action = authActionWithPerm(
             }
 
             const ctx = new BackendContext(actionArgs);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            const lowerErrorMessage = errorMessage.toLowerCase();
+
+            console.error("Country account clone failed", {
+                countryAccountId,
+                shortDescription,
+                errorMessage,
+                error,
+            });
+
+            const isTimeoutError =
+                lowerErrorMessage.includes("timeout") ||
+                lowerErrorMessage.includes("canceling statement due to statement timeout") ||
+                lowerErrorMessage.includes("lock timeout");
+
             return {
                 errors: [
-                    ctx.t({
-                        code: "common.unexpected_error",
-                        msg: "An unexpected error occurred",
-                    }),
+                    isTimeoutError
+                        ? ctx.t({
+                            code: "admin.clone_country_account_timeout",
+                            msg: "Cloning took too long for this instance. Please try again, or clone a smaller dataset.",
+                        })
+                        : ctx.t({
+                            code: "common.unexpected_error",
+                            msg: "An unexpected error occurred",
+                        }),
                 ],
             } satisfies ActionData;
         }

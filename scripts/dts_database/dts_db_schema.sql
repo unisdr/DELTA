@@ -1845,7 +1845,7 @@ INSERT INTO public.countries VALUES ('e681fd57-6ef2-4ef5-ac4f-d6199092941f', 'Zi
 -- Data for Name: dts_system_info; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.dts_system_info VALUES ('73f0defb-4eba-4398-84b3-5e6737fec2b7', NULL, '2026-05-06 15:14:48.195087', '0.2.2', NULL);
+INSERT INTO public.dts_system_info VALUES ('73f0defb-4eba-4398-84b3-5e6737fec2b7', NULL, '2026-05-06 15:14:48.195087', '0.2.3', NULL);
 
 
 --

@@ -190,6 +190,13 @@
       "when": 1778055262697,
       "tag": "20260506081422_update_version_no_to_0_2_2",
       "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1779434291537,
+      "tag": "20260522071811_update_version_no_to_0_2_3",
+      "breakpoints": true
     }
   ]
 }

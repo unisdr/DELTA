@@ -3,7 +3,8 @@ import { Checkbox } from "primereact/checkbox";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
-import { useEffect, useState } from "react";
+import { Toast } from "primereact/toast";
+import { useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { ViewContext } from "../context";
 
@@ -33,6 +34,7 @@ export default function DisasterEventsPage({
     filters,
 }: DisasterEventsPageProps) {
     const ctx = new ViewContext();
+    const toast = useRef<Toast>(null);
     const [searchParams, setSearchParams] = useSearchParams();
     const [disasterEventNameFilter, setDisasterEventNameFilter] = useState(
         filters?.disasterEventName ?? "",
@@ -135,16 +137,25 @@ export default function DisasterEventsPage({
     };
     function shortUuid(value: string) {
         if (!value) return "-";
-        return value.slice(0, 5);
+        return value.slice(0, 6);
     }
     async function copyUuidToClipboard(value: string) {
-        if (!value) {
-            return;
-        }
+        if (!value) return;
         try {
             await navigator.clipboard.writeText(value);
+            toast.current?.show({
+                severity: "success",
+                summary: "Copied",
+                detail: `UUID ${shortUuid(value)}… copied to clipboard`,
+                life: 2000,
+            });
         } catch {
-            // Silently ignore clipboard errors.
+            toast.current?.show({
+                severity: "error",
+                summary: "Failed",
+                detail: "Could not copy to clipboard",
+                life: 3000,
+            });
         }
     }
 
@@ -168,6 +179,7 @@ export default function DisasterEventsPage({
 
     return (
         <div id="disaster-events-page" className="py-8 px-[272px]">
+            <Toast ref={toast} />
             <div>
                 <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
                     <div>
@@ -360,7 +372,7 @@ export default function DisasterEventsPage({
                             headerClassName="min-w-[14rem] bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
                             bodyClassName="min-w-[14rem] px-2 py-3 border-b border-gray-200"
                         />
-                        {<Column
+                        <Column
                             field="id"
                             header="UUID"
                             sortable
@@ -382,7 +394,7 @@ export default function DisasterEventsPage({
                                     />
                                 </div>
                             )}
-                        />}
+                        />
                         <Column
                             field="startDate"
                             header="Event start date"

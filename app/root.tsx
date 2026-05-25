@@ -216,7 +216,7 @@ export default function Screen() {
 					}}
 				>
 					<InactivityWarning ctx={ctx} loggedIn={isLoggedIn} />
-					<div className="min-h-screen flex flex-col  bg-gray-50">
+					<div className="min-h-screen flex flex-col bg-white">
 
 						{/* Header */}
 						<header className="w-full bg-white border-b border-gray-200">

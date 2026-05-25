@@ -1,44 +1,41 @@
-import { disasterEventsLoader } from "~/backend.server/handlers/events/disasterevent";
+import { useLoaderData } from "react-router";
+import { DisasterEventRepository } from "~/db/queries/disasterEventRepository";
+import DisasterEventsPage from "~/frontend/disaster-event/DisasterEventsPage";
+import { authLoaderWithPerm } from "~/utils/auth";
+import { getCountryAccountsIdFromSession } from "~/utils/session";
+import { paginationQueryFromURL } from "~/frontend/pagination/api.server";
+import { CountryRepository } from "~/db/queries/countriesRepository";
+import { CountryAccountsRepository } from "~/db/queries/countryAccountsRepository";
 
-import { ListView } from "~/frontend/events/disastereventlist";
+export const loader = authLoaderWithPerm(
+	"ViewDisasterEvents",
+	async ({ request }) => {
+		const countryAccountsId = await getCountryAccountsIdFromSession(request);
+		if (!countryAccountsId) {
+			throw new Response("Unauthorized", { status: 401 });
+		}
+		const countryAccounts = await CountryAccountsRepository.getById(countryAccountsId);
+		if (!countryAccounts) {
+			throw new Response("Country accounts not found", { status: 404 });
+		}
+		const country = await CountryRepository.getById(countryAccounts.countryId);
+		if (!country) {
+			throw new Response("Country not found", { status: 404 });
+		}
 
-import { authLoaderPublicOrWithPerm } from "~/utils/auth";
+		const { viewData } = paginationQueryFromURL(request, []);
 
-import { MetaFunction } from "react-router";
-import { ViewContext } from "~/frontend/context";
-import { htmlTitle } from "~/utils/htmlmeta";
+		const result = await DisasterEventRepository.getByCountryAccountsIdPaginated(
+			countryAccountsId,
+			viewData.page,
+			viewData.pageSize,
+		);
 
-export const meta: MetaFunction = () => {
-	const ctx = new ViewContext();
-
-	return [
-		{
-			title: htmlTitle(
-				ctx,
-				ctx.t({
-					code: "meta.list_of_disaster_events",
-					msg: "List of disaster events",
-				}),
-			),
-		},
-		{
-			name: "description",
-			content: ctx.t({
-				code: "meta.list_of_disaster_events",
-				msg: "List of disaster events",
-			}),
-		},
-	];
-};
-
-export const loader = authLoaderPublicOrWithPerm(
-	"ViewData",
-	async (loaderArgs) => {
-		return disasterEventsLoader({ loaderArgs });
+		return { ...result, countryName: country.name };
 	},
 );
 
-export default function Data() {
-	const ctx = new ViewContext();
-	return ListView({ ctx });
+export default function DisasterEventIndexRoute() {
+	const { items, pagination, countryName } = useLoaderData<typeof loader>();
+	return <DisasterEventsPage data={items} pagination={pagination} countryName={countryName} />;
 }

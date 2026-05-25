@@ -38,6 +38,15 @@ export const DisasterRecordsRepository = {
 			.from(disasterRecordsTable)
 			.where(eq(disasterRecordsTable.countryAccountsId, countryAccountsId));
 	},
+	countByDisasterEventId: (
+		disasterEventId: string,
+		tx?: Tx,
+	): Promise<number> => {
+		return (tx ?? dr).$count(
+			disasterRecordsTable,
+			eq(disasterRecordsTable.disasterEventId, disasterEventId),
+		);
+	},
 	createMany: (data: InsertDisasterRecord[], tx?: Tx) => {
 		return (tx ?? dr)
 			.insert(disasterRecordsTable)

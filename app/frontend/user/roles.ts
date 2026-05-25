@@ -80,6 +80,7 @@ export type PermissionId =
 	| "InviteUsers"
 	| "EditAPIKeys"
 	| "ViewData"
+	| "ViewDisasterEvents"
 	| "EditData"
 	| "ViewApiDocs"
 	| "EditHumanEffectsCustomDsg"
@@ -146,6 +147,14 @@ export function permissions(ctx: DContext): PermissionOption[] {
 			label: ctx.t({
 				code: "user.permission.view_data.label",
 				msg: "View data",
+			}),
+		},
+		{
+			id: "ViewDisasterEvents",
+			role: "data-viewer",
+			label: ctx.t({
+				code: "user.permission.disaster_event_list.label",
+				msg: "Disaster event list",
 			}),
 		},
 		{
@@ -309,11 +318,17 @@ export function permissionsMap(ctx: DContext): Record<PermissionId, RoleId> {
 export const roles: {
 	[K in RoleId]: PermissionId[];
 } = {
-	"data-viewer": ["ViewData", "ViewApiDocs"],
-	"data-collector": ["ViewData", "ViewApiDocs", "EditData"],
+	"data-viewer": ["ViewData", "ViewApiDocs", "ViewDisasterEvents"],
+	"data-collector": [
+		"ViewData",
+		"ViewApiDocs",
+		"ViewDisasterEvents",
+		"EditData",
+	],
 	"data-validator": [
 		"ViewData",
 		"ViewApiDocs",
+		"ViewDisasterEvents",
 		"EditData",
 		"ValidateData",
 		"DeleteValidatedData",
@@ -321,6 +336,7 @@ export const roles: {
 	admin: [
 		"ViewData",
 		"ViewApiDocs",
+		"ViewDisasterEvents",
 		"EditData",
 		"ValidateData",
 		"DeleteValidatedData",
@@ -460,7 +476,7 @@ export function canEditDataCollectionRecord(
 		return false;
 	}
 
-	// published or validated records cannot be modified 
+	// published or validated records cannot be modified
 	if (
 		approvalStatus &&
 		(approvalStatus.toLowerCase() === "published" ||

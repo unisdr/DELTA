@@ -20,7 +20,7 @@ How to Get Field Definitions
 
 Use the list endpoint to retrieve the actual field definitions for your disaster record:
 
-    curl -X GET "http://localhost:3000/api/human-effects/list?recordId={DISASTER_RECORD_UUID}&table=Deaths" \
+    curl -X GET "http://localhost:3000/en/api/human-effects/list?recordId={DISASTER_RECORD_UUID}&table=Deaths" \
       -H "X-Auth: {YOUR_API_KEY_SECRET}"
 
 The response will contain a defs array with all field definitions. Extract the jsName from each definition to build your columns array.
@@ -71,14 +71,14 @@ Pattern Rules
 
 List Human effects Data
 -----------------------
-GET /api/human-effects/list?recordId={DISASTER_RECORD_UUID}&table=[TABLE]
+GET /en/api/human-effects/list?recordId={DISASTER_RECORD_UUID}&table=[TABLE]
 
 Where [TABLE] can be one of: Deaths, Injured, Missing, Affected, Displaced
 
 Example Request
 --------------
 
-    curl -X GET "http://localhost:3000/api/human-effects/list?recordId={DISASTER_RECORD_UUID}&table=Deaths" \
+    curl -X GET "http://localhost:3000/en/api/human-effects/list?recordId={DISASTER_RECORD_UUID}&table=Deaths" \
       -H "X-Auth: {YOUR_API_KEY_SECRET}"
 
 Actual Response Structure
@@ -128,14 +128,14 @@ Response Fields Explained
 
 Save Human effects Data
 -----------------------
-POST /api/human-effects/save?recordId={DISASTER_RECORD_UUID}
+POST /en/api/human-effects/save?recordId={DISASTER_RECORD_UUID}
 
 Step 1: Get Field Definitions
 ------------------------------
 
 Before saving, always fetch the field definitions for your specific disaster record:
 
-    curl -X GET "http://localhost:3000/api/human-effects/list?recordId={DISASTER_RECORD_UUID}&table=Deaths" \
+    curl -X GET "http://localhost:3000/en/api/human-effects/list?recordId={DISASTER_RECORD_UUID}&table=Deaths" \
       -H "X-Auth: {YOUR_API_KEY_SECRET}"
 
 Extract the jsName values from the defs array to build your columns array. For example, if the response shows:
@@ -157,7 +157,7 @@ Your columns array should be: ["sex", "age", "disability", "globalPovertyLine", 
 Step 2: Save Data with Correct Columns
 --------------------------------------
 
-    curl -X POST "http://localhost:3000/api/human-effects/save?recordId={DISASTER_RECORD_UUID}" \
+    curl -X POST "http://localhost:3000/en/api/human-effects/save?recordId={DISASTER_RECORD_UUID}" \
       -H "X-Auth: {YOUR_API_KEY_SECRET}" \
       -H "Content-Type: application/json" \
       -d '{
@@ -210,14 +210,14 @@ Important Notes for Save Endpoint
 
 Clear Human effects Data
 ------------------------
-POST /api/human-effects/clear?recordId={DISASTER_RECORD_UUID}&table=[TABLE]
+POST /en/api/human-effects/clear?recordId={DISASTER_RECORD_UUID}&table=[TABLE]
 
 Where [TABLE] can be one of: Deaths, Injured, Missing, Affected, Displaced
 
 Example Request
 --------------
 
-    curl -X POST "http://localhost:3000/api/human-effects/clear?recordId={DISASTER_RECORD_UUID}&table=Deaths" \
+    curl -X POST "http://localhost:3000/en/api/human-effects/clear?recordId={DISASTER_RECORD_UUID}&table=Deaths" \
       -H "X-Auth: {YOUR_API_KEY_SECRET}"
 
 Example Response
@@ -231,7 +231,7 @@ Effect: Removes ALL data from the specified table for the given disaster record.
 
 Set Category Presence
 ---------------------
-POST /api/human-effects/category-presence-save?recordId={DISASTER_RECORD_UUID}
+POST /en/api/human-effects/category-presence-save?recordId={DISASTER_RECORD_UUID}
 
 The table parameter determines which metrics are valid:
 - Deaths table: only "deaths" metric
@@ -243,7 +243,7 @@ The table parameter determines which metrics are valid:
 Example Request (Deaths table)
 --------------
 
-    curl -X POST "http://localhost:3000/api/human-effects/category-presence-save?recordId={DISASTER_RECORD_UUID}" \
+    curl -X POST "http://localhost:3000/en/api/human-effects/category-presence-save?recordId={DISASTER_RECORD_UUID}" \
       -H "X-Auth: {YOUR_API_KEY_SECRET}" \
       -H "Content-Type: application/json" \
       -d '{
@@ -256,7 +256,7 @@ Example Request (Deaths table)
 Example Request (Affected table)
 --------------
 
-    curl -X POST "http://localhost:3000/api/human-effects/category-presence-save?recordId={DISASTER_RECORD_UUID}" \
+    curl -X POST "http://localhost:3000/en/api/human-effects/category-presence-save?recordId={DISASTER_RECORD_UUID}" \
       -H "X-Auth: {YOUR_API_KEY_SECRET}" \
       -H "Content-Type: application/json" \
       -d '{
@@ -284,14 +284,14 @@ Important Notes for Category Presence
 Set the total to auto-calculated group
 --------------------------------------
 
-POST /api/human-effects/save?recordId={DISASTER_RECORD_UUID}
+POST /en/api/human-effects/save?recordId={DISASTER_RECORD_UUID}
 
 Use the save endpoint with totalGroupFlags in the data object to set which dimensions should be used for auto-calculating totals.
 
 Example Request
 --------------
 
-    curl -X POST "http://localhost:3000/api/human-effects/save?recordId={DISASTER_RECORD_UUID}" \
+    curl -X POST "http://localhost:3000/en/api/human-effects/save?recordId={DISASTER_RECORD_UUID}" \
       -H "X-Auth: {YOUR_API_KEY_SECRET}" \
       -H "Content-Type: application/json" \
       -d '{

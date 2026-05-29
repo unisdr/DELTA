@@ -155,7 +155,7 @@ const injectStyles = (appendCss?: string) => {
             .tree-dialog .dts-form__body {
                 position: relative;
                 overflow: scroll;
-                // height: 500px;
+                height: 500px;
                 border-bottom: 1px dotted #979797 !important;
             }
             .tree-footer {

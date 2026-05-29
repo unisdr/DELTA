@@ -684,7 +684,7 @@ interface HipInfo {
 
 interface ReturnAssignee {
 	id: string;
-	name: string;
+	label: string;
 }
 
 type DisasterRecordsViewItem = DisasterRecordsViewModel & {

@@ -117,7 +117,8 @@ Proceed only when all artifacts required for apply (`applyRequires`) show `statu
   5. SOLID review — invoke `solid-reviewer` agent
   6. Documentation review — comments explain WHY not WHAT
   7. Project conventions review — check `.github/copilot-instructions.md`
-- After all 7 gates: add a final task to run `opsx:archive` on the same branch before raising the PR
+- After all 7 gates: add a mandatory regression task — `yarn test:run2` (full PGlite suite) MUST pass with no new failures before archiving. Pre-existing failures must be confirmed as pre-existing (not introduced by this change).
+- After the regression task: add a final task to run `opsx:archive` on the same branch before raising the PR
 - DB migrations listed explicitly as `yarn dbsync` — never drizzle-kit push
 
 ## Done condition

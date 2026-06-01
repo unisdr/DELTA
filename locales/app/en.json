@@ -6682,5 +6682,33 @@
 		"id": "your_account_has_been_set_up_successfully.",
 		"translation": "Your account has been set up successfully. You can sign in now",
 		"description": "File: app/routes/$lang+/user+/accept-invite.tsx:171"
+	},
+	{
+		"id": "disaster_event_name",
+		"translation": "Disaster event name"
+	},
+	{
+		"id": "all_types",
+		"translation": "All types"
+	},
+	{
+		"id": "enter_hazard_name_or_hips_code",
+		"translation": "Enter hazard name or HIPS code"
+	},
+	{
+		"id": "all_statuses",
+		"translation": "All statuses"
+	},
+	{
+		"id": "disaster_event_data_management",
+		"translation": "Disaster event data management"
+	},
+	{
+		"id": "linked_records",
+		"translation": "Linked records"
+	},
+	{
+		"id": "search_by_event_name",
+		"translation": "Search by event name..."
 	}
 ]

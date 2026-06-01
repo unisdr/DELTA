@@ -128,11 +128,11 @@ export default function DisasterEventsPage({
     );
 
     const statusOptions = [
-        { label: "Draft", value: "draft" },
-        { label: "Waiting for validation", value: "waiting-for-validation" },
-        { label: "Needs revision", value: "needs-revision" },
-        { label: "Validated", value: "validated" },
-        { label: "Published", value: "published" },
+        { label: ctx.t({ code: "approval_status.draft", msg: "Draft" }), value: "draft" },
+        { label: ctx.t({ code: "approval_status.waiting_for_validation", msg: "Waiting for validation" }), value: "waiting-for-validation" },
+        { label: ctx.t({ code: "approval_status.needs_revision", msg: "Needs revision" }), value: "needs-revision" },
+        { label: ctx.t({ code: "approval_status.validated", msg: "Validated" }), value: "validated" },
+        { label: ctx.t({ code: "approval_status.published", msg: "Published" }), value: "published" },
     ];
 
     useEffect(() => {
@@ -281,13 +281,27 @@ export default function DisasterEventsPage({
                 <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
                     <div>
                         <p className="mt-1 text-base font-semibold text-slate-900">
-                            {pagination?.totalItems} Disaster events in {countryName}
+                            {ctx.t(
+                                {
+                                    code: "disaster_event.count_header",
+                                    msg: "{total} disaster events in {instance_name}",
+                                },
+                                {
+                                    total: pagination?.totalItems,
+                                    instance_name: countryName,
+                                },
+                            )}
                         </p>
-                        <p className="text-[#334155]">Disaster event data management</p>
+                        <p className="text-[#334155]">
+                            {ctx.t({ code: "disaster_event_data_management", msg: "Disaster event data management" })}
+                        </p>
                     </div>
                     <Link to={`/${ctx.lang}/disaster-event/edit/new`}>
                         <Button
-                            label="Add new event "
+                            label={ctx.t({
+                                code: "event.add_new",
+                                msg: "Add new event",
+                            })}
                             icon="pi pi-plus"
                             raised
                         />
@@ -304,13 +318,16 @@ export default function DisasterEventsPage({
                                 htmlFor="disaster-event-name-filter"
                                 className="mb-2 block font-medium text-slate-900"
                             >
-                                Disaster event name
+                                {ctx.t({
+                                    code: "disaster_event_name",
+                                    msg: "Disaster event name",
+                                })}
                             </label>
                             <div className="relative">
                                 <InputText
                                     id="disaster-event-name-filter"
                                     type="text"
-                                    placeholder="Search disaster event name..."
+                                    placeholder={ctx.t({ code: "search_by_event_name", msg: "Search by event name..." })}
                                     className="w-full ltr:pr-10 rtl:pl-10"
                                     value={disasterEventNameFilter}
                                     onChange={(e) => {
@@ -331,13 +348,18 @@ export default function DisasterEventsPage({
                                 htmlFor="recording-organization-filter"
                                 className="mb-2 block font-medium text-slate-900"
                             >
-                                Recording organization
+                                {
+                                    ctx.t({
+                                        code: "disaster_event.recording_organization",
+                                        msg: "Recording organization",
+                                    })
+                                }
                             </label>
                             <div className="relative">
                                 <InputText
                                     id="recording-organization-filter"
                                     type="text"
-                                    placeholder="Search organization"
+                                    placeholder={ctx.t({ code: "disaster_event.search_organization_placeholder", msg: "Search organization" })}
                                     className="w-full ltr:pr-10 rtl:pl-10"
                                     value={recordingOrganizationFilter}
                                     onChange={(e) => {
@@ -353,13 +375,6 @@ export default function DisasterEventsPage({
                             </div>
                         </div>
 
-                        {/* <div className="w-full sm:w-auto sm:min-w-[10rem]"> */}
-                        {/* <span
-                                className="mb-2 block font-medium text-transparent bg-green-500"
-                                aria-hidden="true"
-                            >
-                                Filters
-                            </span> */}
                         <Button
                             type="button"
                             outlined
@@ -370,7 +385,12 @@ export default function DisasterEventsPage({
                         >
                             <span className="flex items-center gap-2">
                                 <i className="pi pi-filter" aria-hidden="true" />
-                                <span>Filters</span>
+                                <span>
+                                    {ctx.t({
+                                        code: "common.filters",
+                                        msg: "Filters",
+                                    })}
+                                </span>
                                 <i
                                     className={`pi ${isFiltersExpanded ? "pi-chevron-up" : "pi-chevron-down"}`}
                                     aria-hidden="true"
@@ -391,7 +411,10 @@ export default function DisasterEventsPage({
                                         htmlFor="hazard-type-filter"
                                         className="mb-2 block font-medium text-slate-900"
                                     >
-                                        Hazard type
+                                        {ctx.t({
+                                            code: "hip.hazard_type",
+                                            msg: "Hazard type",
+                                        })}
                                     </label>
                                     <Dropdown
                                         id="hazard-type-filter"
@@ -420,7 +443,10 @@ export default function DisasterEventsPage({
                                                 replace: true,
                                             });
                                         }}
-                                        placeholder="Select hazard type"
+                                        placeholder={ctx.t({
+                                            code: "all_types",
+                                            msg: "All types",
+                                        })}
                                         className="w-full"
                                         filter
                                         filterBy="label"
@@ -433,7 +459,10 @@ export default function DisasterEventsPage({
                                         htmlFor="hazard-cluster-filter"
                                         className="mb-2 block font-medium text-slate-900"
                                     >
-                                        Hazard cluster
+                                        {ctx.t({
+                                            code: "hip.hazard_cluster",
+                                            msg: "Hazard cluster",
+                                        })}
                                     </label>
                                     <Dropdown
                                         id="hazard-cluster-filter"
@@ -478,7 +507,10 @@ export default function DisasterEventsPage({
                                                 replace: true,
                                             });
                                         }}
-                                        placeholder="Select hazard cluster"
+                                        placeholder={ctx.t({
+                                            code: "hip.all_clusters",
+                                            msg: "All clusters",
+                                        })}
                                         className="w-full"
                                         filter
                                         filterBy="label"
@@ -491,7 +523,10 @@ export default function DisasterEventsPage({
                                         htmlFor="specific-hazard-filter"
                                         className="mb-2 block font-medium text-slate-900"
                                     >
-                                        Specific hazard
+                                        {ctx.t({
+                                            code: "hip.specific_hazard",
+                                            msg: "Specific hazard",
+                                        })}
                                     </label>
                                     <Dropdown
                                         id="specific-hazard-filter"
@@ -550,7 +585,7 @@ export default function DisasterEventsPage({
                                                 replace: true,
                                             });
                                         }}
-                                        placeholder="Enter hazard name or HIPS code"
+                                        placeholder={ctx.t({ code: "enter_hazard_name_or_hips_code", msg: "Enter hazard name or HIPS code" })}
                                         className="w-full"
                                         filter
                                         filterBy="label"
@@ -569,7 +604,10 @@ export default function DisasterEventsPage({
                                         htmlFor="record-status-filter"
                                         className="mb-2 block font-medium text-slate-900"
                                     >
-                                        Record Status
+                                        {ctx.t({
+                                            code: "record.status",
+                                            msg: "Record status",
+                                        })}
                                     </label>
                                     <Dropdown
                                         id="record-status-filter"
@@ -583,7 +621,7 @@ export default function DisasterEventsPage({
                                             setStatusFilter(nextValue || null);
                                             updateFilterParam("recordStatus", nextValue);
                                         }}
-                                        placeholder="All statuses"
+                                        placeholder={ctx.t({ code: "all_statuses", msg: "All statuses" })}
                                         className="w-full"
                                         showClear
                                     />
@@ -645,7 +683,10 @@ export default function DisasterEventsPage({
                                 htmlFor="view-my-records-filter"
                                 className="font-medium text-slate-900"
                             >
-                                View my records
+                                {ctx.t({
+                                    code: "list.filter.view_my_records",
+                                    msg: "View my records",
+                                })}
                             </label>
                         </div>
 
@@ -666,7 +707,10 @@ export default function DisasterEventsPage({
                                 htmlFor="pending-my-action-filter"
                                 className="font-medium text-slate-900"
                             >
-                                Pending my action
+                                {ctx.t({
+                                    code: "list.filter.pending_my_action",
+                                    msg: "Pending my action",
+                                })}
                             </label>
                         </div>
                     </div>
@@ -676,26 +720,26 @@ export default function DisasterEventsPage({
                     id="statusLegend"
                     className="flex flex-wrap items-center gap-x-4 gap-y-2 text-slate-700"
                 >
-                    <span className="font-semibold text-slate-900">Status Legend</span>
+                    <span className="font-semibold text-slate-900">{ctx.t({ code: "common.status_legend", msg: "Status legend" })}</span>
                     <span className="inline-flex items-center gap-2">
                         <span className={getStatusCircleClassName("draft")} />
-                        <span>Draft</span>
+                        <span>{ctx.t({ code: "approval_status.draft", msg: "Draft" })}</span>
                     </span>
                     <span className="inline-flex items-center gap-2">
                         <span className={getStatusCircleClassName("waiting-for-validation")} />
-                        <span>Waiting for validation</span>
+                        <span>{ctx.t({ code: "approval_status.waiting_for_validation", msg: "Waiting for validation" })}</span>
                     </span>
                     <span className="inline-flex items-center gap-2">
                         <span className={getStatusCircleClassName("needs-revision")} />
-                        <span>Needs revision</span>
+                        <span>{ctx.t({ code: "approval_status.needs_revision", msg: "Needs revision" })}</span>
                     </span>
                     <span className="inline-flex items-center gap-2">
                         <span className={getStatusCircleClassName("validated")} />
-                        <span>Validated</span>
+                        <span>{ctx.t({ code: "approval_status.validated", msg: "Validated" })}</span>
                     </span>
                     <span className="inline-flex items-center gap-2">
                         <span className={getStatusCircleClassName("published")} />
-                        <span>Published</span>
+                        <span>{ctx.t({ code: "approval_status.published", msg: "Published" })}</span>
                     </span>
                 </div>
 
@@ -705,7 +749,7 @@ export default function DisasterEventsPage({
                     <DataTable
                         value={data}
                         dataKey="id"
-                        emptyMessage="No disaster events found"
+                        emptyMessage={ctx.t({ code: "no_disaster_events_found", msg: "No disaster events found" })}
                         sortMode="multiple"
                         removableSort
                         size="small"
@@ -714,7 +758,7 @@ export default function DisasterEventsPage({
                     >
                         <Column
                             field="approvalStatus"
-                            header="Status"
+                            header={ctx.t({ code: "common.status", msg: "Status" })}
                             body={statusBodyTemplate}
                             sortable
                             headerClassName="min-w-[9rem] bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
@@ -726,22 +770,22 @@ export default function DisasterEventsPage({
                         />
                         <Column
                             field="nameNational"
-                            header="Disaster event name"
+                            header={ctx.t({ code: "disaster_event.name", msg: "Disaster event name" })}
                             sortable
                             body={(row) => getDisasterEventName(row)}
-                            headerClassName="min-w-[14rem] bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
-                            bodyClassName="min-w-[14rem] px-2 py-3 border-b border-gray-200"
+                            headerClassName="min-w-[14rem] bg-gray-100 px-2 py-3 font-medium border-b border-gray-200"
+                            bodyClassName="min-w-[14rem] px-2 py-3 border-b border-gray-200 !text-start"
                         />
                         <Column
                             field="recordingInstitution"
-                            header="Recording organization"
+                            header={ctx.t({ code: "disaster_event.recording_organization", msg: "Recording organization" })}
                             sortable
-                            headerClassName="min-w-[14rem] bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
-                            bodyClassName="min-w-[14rem] px-2 py-3 border-b border-gray-200"
+                            headerClassName="min-w-[14rem] bg-gray-100 px-2 py-3 font-medium border-b border-gray-200"
+                            bodyClassName="min-w-[14rem] px-2 py-3 border-b border-gray-200 !text-start"
                         />
                         <Column
                             field="id"
-                            header="UUID"
+                            header={ctx.t({ code: "common.uuid", msg: "UUID" })}
                             sortable
                             headerClassName="min-w-[9rem] bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
                             bodyClassName="min-w-[9rem] px-2 py-3 border-b border-gray-200"
@@ -768,11 +812,11 @@ export default function DisasterEventsPage({
                             body={(row) => dateBodyTemplate(row.startDate)}
                             sortable
                             headerClassName="min-w-[10rem] bg-gray-100 px-2 py-3 text-left font-medium border-b border-gray-200"
-                            bodyClassName="min-w-[10rem] px-2 py-3 border-b border-gray-200"
+                            bodyClassName="min-w-[10rem] px-2 py-3 border-b border-gray-200 !text-start"
                         />
                         <Column
                             field="linkedRecordsCount"
-                            header="Linked records"
+                            header={ctx.t({ code: "linked_records", msg: "Linked records" })}
                             sortable
                             body={(row) => (
                                 <Link

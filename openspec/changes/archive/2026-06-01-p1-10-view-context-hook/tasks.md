@@ -2,7 +2,7 @@
 
 - [x] 1.1 Create the directory `tests/unit/frontend/` if it does not exist
 - [x] 1.2 Create `tests/unit/frontend/useViewContext.test.ts` with a `vi.mock("react-router", ...)` stub for `useRouteLoaderData` and a `vi.stubGlobal` for `globalThis.createTranslationGetter`; import `useViewContext` from `~/frontend/context` and write test cases for: (a) happy path with lang + user returning correct `{ t, lang, user, url }` shape, (b) happy path with `user: null`, (c) missing lang throws an Error whose message contains "lang", (d) `useRouteLoaderData` returns `undefined` — hook MUST throw (not silently return undefined fields)
-- [x] 1.3 Confirm the tests are red: `yarn vitest run tests/unit/frontend/useViewContext.test.ts` — all three test cases MUST fail (import resolves but `useViewContext` does not exist yet)
+- [x] 1.3 Confirm the tests are red: `yarn vitest run tests/unit/frontend/useViewContext.test.ts` — all four test cases MUST fail (import resolves but `useViewContext` does not exist yet)
 
 ## 2. Green — Implement useViewContext and ViewContextResult
 

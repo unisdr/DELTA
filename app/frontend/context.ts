@@ -47,8 +47,8 @@ export function useViewContext(): ViewContextResult {
 		t,
 		lang,
 		user,
-		// url is a closure over lang so callers get a stable function reference
-		// that reflects the language of the current route without extra arguments.
+		// url closes over the current render's lang value so callers can build
+		// language-prefixed paths without threading lang through every call site.
 		url: (path: string) => urlLang(lang, path),
 	};
 }

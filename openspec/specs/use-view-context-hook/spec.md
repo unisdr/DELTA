@@ -1,7 +1,12 @@
 # use-view-context-hook Specification
 
 ## Purpose
-TBD - created by archiving change p1-10-view-context-hook. Update Purpose after archive.
+Specifies the contract for `useViewContext()`, a custom React hook exported from
+`app/frontend/context.ts` that replaces the `ViewContext` class. The hook reads
+root loader data via `useRouteLoaderData` and returns a fully resolved view context
+`{ t, lang, user, url }` for use by presentation-layer components. This spec also
+covers the backward-compatible `ViewContext` class shim retained during the
+incremental callsite migration, and the exported `ViewContextResult` interface.
 ## Requirements
 ### Requirement: useViewContext MUST return correct shape from root loader data
 `useViewContext()` SHALL return an object conforming to `ViewContextResult`:

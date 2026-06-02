@@ -127,5 +127,10 @@ All seven gates pass, `yarn test:run2` (full PGlite suite) shows no regressions,
 `opsx:archive` has been run to move the change artifacts to `openspec/changes/archive/`.
 Archive on the same branch as a final commit before raising the PR — no separate branch needed.
 
+**Regression rule:** Run `yarn test:run2` on the base branch (before your changes) to establish
+a baseline failure count. After implementation, run it again. Any failure present after your
+changes that was NOT present on the base branch is a regression introduced by this change and
+MUST be fixed before archiving. Pre-existing failures are documented and excluded.
+
 If the test tier check required Playwright: `yarn playwright test tests/e2e/<affected-spec>`
 passes with no regressions before archiving.

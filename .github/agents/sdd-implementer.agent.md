@@ -57,6 +57,10 @@ change — not just at archival.
 Work through `tasks.md` in the specified order. Each task should be small and independently
 verifiable. After each task, run the relevant test to confirm progress.
 
+**Checkbox discipline:** After completing each task, update its checkbox in `tasks.md` from
+`- [ ]` to `- [x]` BEFORE proceeding to the next task. Do not batch updates at the end.
+An unticked checkbox means the task is not done — even if the code exists.
+
 **If tasks.md includes test-writing tasks and no test file exists yet:** invoke the
 `tdd-test-writer` agent first. Do not begin the Green phase until failing tests exist and are
 confirmed to fail for the right reason.
@@ -123,9 +127,13 @@ request-lifecycle changes (see test tier check above).
 
 ## Done criteria
 
-All seven gates pass, `yarn test:run2` (full PGlite suite) shows no regressions, and
-`opsx:archive` has been run to move the change artifacts to `openspec/changes/archive/`.
-Archive on the same branch as a final commit before raising the PR — no separate branch needed.
+All seven gates pass and `yarn test:run2` (full PGlite suite) shows no regressions.
+
+**Archive and PR tasks are user-controlled — stop when you reach them.** Any task whose
+body invokes `opsx:archive` (or `openspec archive`) or asks to raise a PR is outside your
+scope, regardless of its task number. When you reach the first such task: mark the regression
+gate task `[x]`, report the final state (gates passed, files changed, regression comparison),
+and stop. Do not attempt the archive or PR.
 
 **Regression rule:** Run `yarn test:run2` on the base branch (before your changes) to establish
 a baseline failure count. After implementation, run it again. Any failure present after your
@@ -133,4 +141,4 @@ changes that was NOT present on the base branch is a regression introduced by th
 MUST be fixed before archiving. Pre-existing failures are documented and excluded.
 
 If the test tier check required Playwright: `yarn playwright test tests/e2e/<affected-spec>`
-passes with no regressions before archiving.
+passes with no regressions before stopping.

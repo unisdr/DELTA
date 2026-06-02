@@ -96,6 +96,13 @@ Proceed only when all artifacts required for apply (`applyRequires`) show `statu
 - Covers both happy path and all meaningful failure paths
 - References the exact function or route being specified by name
 - Describes observable behaviour only — no implementation details
+- **Concurrent access rule:** For any requirement involving shared mutable state accessed
+  by async operations (caches, counters, stores, queues), always include a "concurrent
+  callers" scenario: what happens when two callers invoke the operation simultaneously
+  before the first resolves? State the expected outcome explicitly (e.g. "exactly one DB
+  query fires; both callers receive the same result"). Sequential scenarios alone do not
+  cover this class of bug — the concurrent scenario is mandatory whenever the state can
+  be observed by more than one async caller at the same time.
 
 **design.md**
 - Names every TypeScript type, interface, or Drizzle schema change

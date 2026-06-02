@@ -341,7 +341,7 @@ export default function RegularMenuBar({
                 {
                     label: ctx.t({ code: "nav.faq", msg: "FAQ" }),
                     icon: "pi pi-question-circle",
-                    command: () => navigate(ctx.url("/faq")),
+                    command: () => navigate(ctx.url("/about/faq")),
                     template: itemRenderer,
                 },
             ],

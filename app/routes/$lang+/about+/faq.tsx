@@ -1,9 +1,12 @@
 ﻿import { MainContainer } from "~/frontend/container";
 import { Accordion, AccordionTab } from "primereact/accordion";
+import { NavSettings } from "~/frontend/components/NavSettings";
+import { useViewContext } from "~/frontend/context";
 
 export default function FaqPage() {
+	const ctx = useViewContext();
 	return (
-		<MainContainer title="Frequently Asked Questions">
+		<MainContainer title="Frequently Asked Questions" headerExtra={<NavSettings ctx={ctx} />}>
 			<div className="pb-8">
 				<div className="space-y-8">
 					<section className="space-y-4">

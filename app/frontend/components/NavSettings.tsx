@@ -106,6 +106,10 @@ export function NavSettings({ ctx, userRole = "" }: NavSettingsProps) {
                     link: "about/support",
                     text: ctx.t({ code: "nav.support", msg: "Support" }),
                 },
+                {
+                    link: "about/faq",
+                    text: ctx.t({ code: "nav.faq", msg: "FAQ" }),
+                },
             ];
         }
 

@@ -147,7 +147,7 @@ why it remains unresolved. Do not loop indefinitely.
 
 ## Done criteria
 
-All seven gates pass and `yarn test:run2` (full PGlite suite) shows no regressions.
+All eight gates pass and `yarn test:run2` (full PGlite suite) shows no regressions.
 
 **Archive and PR tasks are user-controlled — stop when you reach them.** Any task whose
 body invokes `opsx:archive` (or `openspec archive`) or asks to raise a PR is outside your

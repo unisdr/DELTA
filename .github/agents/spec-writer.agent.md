@@ -116,7 +116,7 @@ Proceed only when all artifacts required for apply (`applyRequires`) show `statu
 - Test files use `*.test.ts` naming — never `*_test.ts`
 - Setup import: `import "./setup"` for files in `tests/integration/db/`;
   `import "../setup"` for files in subdirectories (e.g. `tests/integration/db/queries/`)
-- The verification section MUST include all 7 quality gates in this order:
+- The verification section MUST include all 8 quality gates in this order:
   1. `yarn vitest run <test-file>` — tests still green
   2. `yarn tsc` — zero TypeScript errors
   3. `yarn format:check` — Prettier clean
@@ -124,7 +124,8 @@ Proceed only when all artifacts required for apply (`applyRequires`) show `statu
   5. SOLID review — invoke `solid-reviewer` agent
   6. Documentation review — comments explain WHY not WHAT
   7. Project conventions review — check `.github/copilot-instructions.md`
-- After all 7 gates: add a final task to run `opsx:archive` on the same branch before raising the PR
+  8. Code review — run `.github/skills/code-review/SKILL.md` in full
+- After all 8 gates: add a final task to run `opsx:archive` on the same branch before raising the PR
 - DB migrations listed explicitly as `yarn dbsync` — never drizzle-kit push
 
 ## Done condition

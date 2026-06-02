@@ -237,13 +237,19 @@ export async function getUserFromSession(
 		ctx.sessionCachePromise = lookupPromise;
 	}
 
-	const result = await lookupPromise;
-	if (ctx !== undefined) {
-		ctx.sessionCache = result;
-		ctx.sessionCachePromise = undefined;
+	try {
+		const result = await lookupPromise;
+		if (ctx !== undefined) {
+			ctx.sessionCache = result;
+		}
+		return result ?? undefined;
+	} finally {
+		// Always clear the in-flight marker so a rejection doesn't leave a
+		// permanently-stale rejected Promise in the store.
+		if (ctx !== undefined) {
+			ctx.sessionCachePromise = undefined;
+		}
 	}
-
-	return result ?? undefined;
 }
 
 export function flashMessage(session: Session, message: FlashMessage) {

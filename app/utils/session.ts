@@ -5,6 +5,7 @@ import {
 	SessionData,
 } from "react-router";
 import { dr } from "~/db.server";
+import { getRequestContext } from "~/utils/requestContext.server";
 
 import { InferSelectModel, eq, and } from "drizzle-orm";
 import { sessionActivityTimeoutMinutes } from "~/utils/session-activity-config";
@@ -162,14 +163,32 @@ export interface SuperAdminSession {
 export async function getUserFromSession(
 	request: Request,
 ): Promise<UserSession | undefined> {
+	// Check the per-request cache before hitting the DB. Within a single
+	// withRequestContext() scope this avoids redundant session queries — e.g.
+	// authLoaderWithPerm calls getUserFromSession twice per request (once via
+	// requireUser and again via getUserRoleFromSession). See ADR-004 for the
+	// broader request-context strategy.
+	const ctx = getRequestContext();
+	if (ctx !== undefined && ctx.sessionCache !== undefined) {
+		// ctx.sessionCache is UserSession | null here; convert null → undefined
+		// because this function's return type is Promise<UserSession | undefined>.
+		return ctx.sessionCache ?? undefined;
+	}
+
 	const session = await sessionCookie().getSession(
 		request.headers.get("Cookie"),
 	);
 	const sessionId = session.get("sessionId");
 
-	if (!sessionId) return;
+	if (!sessionId) {
+		if (ctx !== undefined) ctx.sessionCache = null;
+		return;
+	}
 
-	if (typeof sessionId != "string") return;
+	if (typeof sessionId != "string") {
+		if (ctx !== undefined) ctx.sessionCache = null;
+		return;
+	}
 
 	// TODO: currently sessions are not deleted when users are deleted, fix this
 
@@ -181,6 +200,7 @@ export async function getUserFromSession(
 	});
 
 	if (!sessionData) {
+		if (ctx !== undefined) ctx.sessionCache = null;
 		return;
 	}
 
@@ -189,6 +209,7 @@ export async function getUserFromSession(
 		(now.getTime() - sessionData?.lastActiveAt.getTime()) / (1000 * 60);
 
 	if (minutesSinceLastActivity > sessionActivityTimeoutMinutes) {
+		if (ctx !== undefined) ctx.sessionCache = null;
 		return;
 	}
 
@@ -197,11 +218,15 @@ export async function getUserFromSession(
 		.set({ lastActiveAt: now })
 		.where(eq(sessionTable.id, sessionId));
 
-	return {
+	const result: UserSession = {
 		user: sessionData.user,
 		sessionId: sessionId,
 		session: sessionData,
 	};
+
+	if (ctx !== undefined) ctx.sessionCache = result;
+
+	return result;
 }
 
 export function flashMessage(session: Session, message: FlashMessage) {

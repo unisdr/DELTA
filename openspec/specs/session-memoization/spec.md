@@ -1,7 +1,11 @@
 # session-memoization Specification
 
 ## Purpose
-TBD - created by archiving change p1-14-session-memoization. Update Purpose after archive.
+Specifies the caching behaviour of `getUserFromSession()` in `app/utils/session.ts` when
+called within a `withRequestContext()` scope. The function MUST issue at most one Drizzle
+`sessionTable.findFirst` query and one `lastActiveAt` UPDATE per request, regardless of how
+many times it is called. Outside a `withRequestContext` scope the function falls back to the
+pre-memoization behaviour — one DB round-trip per invocation — with no error thrown.
 ## Requirements
 ### Requirement: getUserFromSession hits the DB at most once per withRequestContext scope
 

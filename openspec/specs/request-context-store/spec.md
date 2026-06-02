@@ -1,7 +1,13 @@
 # request-context-store Specification
 
 ## Purpose
-TBD - created by archiving change p1-14-session-memoization. Update Purpose after archive.
+Defines the contract for the request-scoped `AsyncLocalStorage` store in
+`app/utils/requestContext.server.ts`. The store is created once per request via
+`withRequestContext()` and exposes a live mutable reference through `getRequestContext()`.
+Its primary consumer is `getUserFromSession()`, which uses the store to memoize the session
+DB lookup for the duration of a request. The store type (`RequestContextStore`) is designed
+as an extension point — additional per-request fields (e.g. `traceId` for ADR-004) can be
+added without modifying existing consumers.
 ## Requirements
 ### Requirement: withRequestContext creates an isolated per-call store
 

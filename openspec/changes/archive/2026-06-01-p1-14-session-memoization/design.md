@@ -188,7 +188,8 @@ type-only imports are erased at compile time; the runtime module graph has no cy
 2. Modify `getUserFromSession()` in `app/utils/session.ts` to call `getRequestContext()` and
    apply the three-state cache logic.
 3. Write unit tests confirming memoization within scope and fallback without scope.
-4. All 7 quality gates pass; `yarn test:run2` remains green.
+4. All 7 quality gates pass; `yarn test:run2` has 3 pre-existing failures unrelated to this
+   change (confirmed via baseline comparison on the base branch before implementation).
 5. Wire `withRequestContext()` into Express middleware in a follow-on change (ADR-004).
 
 **Rollback:** `requestContext.server.ts` can be deleted and the three lines added to

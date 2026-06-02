@@ -62,7 +62,7 @@ run purely in-process. One test calls `getUserFromSession()` twice inside the sa
 - The request context store holds a `UserSession` reference for the lifetime of one request.
   Because Node.js async contexts are isolated per async chain, there is no cross-request leakage
   risk as long as `withRequestContext()` creates a new store on every call (not a shared
-  singleton). The implementation MUST call `als.run({}, ...)` — not `als.enterWith({})` — to
+  singleton). The implementation MUST call `als.run({ sessionCache: undefined, sessionCachePromise: undefined }, ...)` — not `als.enterWith({})` — to
   ensure isolation.
 - No impact on multi-tenancy scoping (`countryAccountsId` checks remain in each route's auth
   wrapper and are unaffected by this caching layer).

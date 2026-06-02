@@ -103,9 +103,10 @@ and re-run from that gate. Loop until all pass:
 5. SOLID review                                  — invoke solid-reviewer agent
 6. documentation review (see below)             — comments balanced and purposeful
 7. project conventions review (see below)       — DELTA-specific rules followed
+8. code review                                   — invoke code-review skill at high effort
 ```
 
-Only exit the loop when all seven gates pass without changes needed.
+Only exit the loop when all eight gates pass without changes needed.
 
 ## Gate details
 
@@ -124,6 +125,25 @@ summary here — the skill is the authoritative source.
 on every tenant query, `authLoaderWithPerm` on every loader, `yarn dbsync` for migrations,
 new tests under `tests/` — Vitest for unit/integration, Playwright for routing/auth/
 request-lifecycle changes (see test tier check above).
+
+**Code review:** Invoke the `code-review` skill at `high` effort on the changed files.
+Treat every finding as a potential gate failure — classify each one (see Review comment
+resolution below) and act accordingly before exiting the loop.
+
+## Review comment resolution
+
+When Gate 8 (or an external PR review) produces findings, classify each before acting:
+
+| Finding type | Examples | Action |
+|---|---|---|
+| **Spec gap / missing scenario** | Race condition not in spec; edge case uncovered | Invoke `spec-writer` to update the spec, then re-implement and re-run gates 1–8 |
+| **Architectural / design flaw** | Wrong abstraction, SRP violation, rejected alternative used | Update `design.md`, invoke `spec-writer` if behaviour changes, re-implement, re-run gates 1–8 |
+| **Documentation / artifact inaccuracy** | TBD Purpose in spec, inaccurate migration note | Fix the artifact directly; re-run gate 1 (tests) + gate 2 (tsc) only |
+| **Nitpick / style** | Missing language tag, wrong type shape in example | Fix directly; re-run gate 1 (tests) + gate 2 (tsc) only |
+
+**Loop limit:** Track a fix-attempt counter per finding. If a finding is not resolved after
+**3 fix attempts**, stop and escalate to the user: describe the finding, what was tried, and
+why it remains unresolved. Do not loop indefinitely.
 
 ## Done criteria
 

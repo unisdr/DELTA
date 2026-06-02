@@ -155,5 +155,10 @@ scope, regardless of its task number. When you reach the first such task: mark t
 gate task `[x]`, report the final state (gates passed, files changed, regression comparison),
 and stop. Do not attempt the archive or PR.
 
+**Regression rule:** Run `yarn test:run2` on the base branch (before your changes) to establish
+a baseline failure count. After implementation, run it again. Any failure present after your
+changes that was NOT present on the base branch is a regression introduced by this change and
+MUST be fixed before archiving. Pre-existing failures are documented and excluded.
+
 If the test tier check required Playwright: `yarn playwright test tests/e2e/<affected-spec>`
 passes with no regressions before stopping.

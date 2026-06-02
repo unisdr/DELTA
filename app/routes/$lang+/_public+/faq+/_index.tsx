@@ -217,7 +217,7 @@ export default function FaqPage() {
 											purposes was to account for the impacts of disasters. The
 											name DesInventar itself reflects this concept: in Spanish,
 											it evokes the idea of an inventory system, where the
-											prefix &amp;quot;Des-&amp;quot; implies undoing or
+											prefix &quot;Des-&quot; implies undoing or
 											removing, symbolising the depletion of assets caused by
 											disasters.
 										</p>

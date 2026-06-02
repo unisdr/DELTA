@@ -173,4 +173,45 @@ describe("getUserFromSession — session memoization", () => {
 		// The where() terminator of the update chain fires exactly once
 		expect(updateWhereMock).toHaveBeenCalledTimes(1);
 	});
+
+	// Concurrent callers — parallel loaders firing simultaneously within the same scope.
+	// These tests would fail without the sessionCachePromise in-flight guard.
+	it("hits the DB exactly once when two callers fire concurrently inside the same scope", async () => {
+		const request = makeRequest();
+
+		let result1: Awaited<ReturnType<typeof getUserFromSession>>;
+		let result2: Awaited<ReturnType<typeof getUserFromSession>>;
+
+		await withRequestContext(async () => {
+			[result1, result2] = await Promise.all([
+				getUserFromSession(request),
+				getUserFromSession(request),
+			]);
+		});
+
+		expect(result1).toBeDefined();
+		expect(result2).toBeDefined();
+		expect(result1!.sessionId).toBe(SESSION_ID);
+		expect(result2!.sessionId).toBe(SESSION_ID);
+		expect(findFirstMock).toHaveBeenCalledTimes(1);
+	});
+
+	it("caches unauthenticated result for concurrent callers: findFirst called once, both return undefined", async () => {
+		findFirstMock.mockResolvedValue(null);
+		const request = makeRequest();
+
+		let result1: Awaited<ReturnType<typeof getUserFromSession>>;
+		let result2: Awaited<ReturnType<typeof getUserFromSession>>;
+
+		await withRequestContext(async () => {
+			[result1, result2] = await Promise.all([
+				getUserFromSession(request),
+				getUserFromSession(request),
+			]);
+		});
+
+		expect(result1).toBeUndefined();
+		expect(result2).toBeUndefined();
+		expect(findFirstMock).toHaveBeenCalledTimes(1);
+	});
 });

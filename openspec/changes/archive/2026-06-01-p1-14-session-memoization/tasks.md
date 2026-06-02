@@ -80,7 +80,7 @@
 ## 5. Refactor and quality gates
 
 - [x] 5.1 **Gate 1** — Run both test files:
-  ```
+  ```bash
   yarn vitest run tests/unit/utils/requestContext.test.ts
   yarn vitest run tests/unit/utils/session.test.ts
   ```

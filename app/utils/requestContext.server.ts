@@ -21,17 +21,27 @@ import type { UserSession } from "~/utils/session";
 
 export type RequestContextStore = {
 	/**
-	 * Cached result of getUserFromSession().
+	 * Resolved result of getUserFromSession().
 	 *
 	 * Three-state semantics:
-	 *   - `undefined` — lookup not yet performed for this request
-	 *   - `null`      — lookup performed; no valid session (unauthenticated / timed out)
+	 *   - `undefined`   — lookup not yet performed for this request
+	 *   - `null`        — lookup performed; no valid session (unauthenticated / timed out)
 	 *   - `UserSession` — lookup performed; valid authenticated session found
 	 *
 	 * The three-state design ensures exactly one DB call per request regardless
 	 * of session validity — including the common unauthenticated case.
 	 */
 	sessionCache: UserSession | null | undefined;
+
+	/**
+	 * In-flight DB lookup promise, stored before `findFirst` is called.
+	 *
+	 * Parallel route loaders may call `getUserFromSession` concurrently before
+	 * the first lookup resolves. When this field is set, subsequent callers
+	 * await this promise instead of issuing their own DB query. Cleared to
+	 * `undefined` once the promise settles and `sessionCache` is populated.
+	 */
+	sessionCachePromise: Promise<UserSession | null> | undefined;
 };
 
 // Module-private singleton — one ALS instance for the entire process lifetime.
@@ -48,7 +58,7 @@ const als = new AsyncLocalStorage<RequestContextStore>();
  * async context in-place, allowing state to bleed between requests/tests.
  */
 export function withRequestContext<T>(fn: () => Promise<T>): Promise<T> {
-	return als.run({ sessionCache: undefined }, fn);
+	return als.run({ sessionCache: undefined, sessionCachePromise: undefined }, fn);
 }
 
 /**

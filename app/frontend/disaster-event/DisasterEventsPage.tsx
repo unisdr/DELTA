@@ -677,55 +677,57 @@ export default function DisasterEventsPage({
                         </>
                     )}
 
-                    <div className="mt-4 flex flex-wrap items-center gap-6">
-                        <div className="flex items-center gap-2">
-                            <Checkbox
-                                inputId="view-my-records-filter"
-                                checked={viewMyRecordsChecked}
-                                onChange={(e) => {
-                                    const isChecked = Boolean(e.checked);
-                                    setViewMyRecordsChecked(isChecked);
-                                    updateFilterParam(
-                                        "viewMyRecords",
-                                        isChecked ? "true" : "",
-                                    );
-                                }}
-                            />
-                            <label
-                                htmlFor="view-my-records-filter"
-                                className="font-medium text-slate-900"
-                            >
-                                {ctx.t({
-                                    code: "list.filter.view_my_records",
-                                    msg: "View my records",
-                                })}
-                            </label>
-                        </div>
+                    {canEdit ? (
+                        <div className="mt-4 flex flex-wrap items-center gap-6">
+                            <div className="flex items-center gap-2">
+                                <Checkbox
+                                    inputId="view-my-records-filter"
+                                    checked={viewMyRecordsChecked}
+                                    onChange={(e) => {
+                                        const isChecked = Boolean(e.checked);
+                                        setViewMyRecordsChecked(isChecked);
+                                        updateFilterParam(
+                                            "viewMyRecords",
+                                            isChecked ? "true" : "",
+                                        );
+                                    }}
+                                />
+                                <label
+                                    htmlFor="view-my-records-filter"
+                                    className="font-medium text-slate-900"
+                                >
+                                    {ctx.t({
+                                        code: "list.filter.view_my_records",
+                                        msg: "View my records",
+                                    })}
+                                </label>
+                            </div>
 
-                        <div className="flex items-center gap-2">
-                            <Checkbox
-                                inputId="pending-my-action-filter"
-                                checked={pendingMyActionChecked}
-                                onChange={(e) => {
-                                    const isChecked = Boolean(e.checked);
-                                    setPendingMyActionChecked(isChecked);
-                                    updateFilterParam(
-                                        "pendingMyAction",
-                                        isChecked ? "true" : "",
-                                    );
-                                }}
-                            />
-                            <label
-                                htmlFor="pending-my-action-filter"
-                                className="font-medium text-slate-900"
-                            >
-                                {ctx.t({
-                                    code: "list.filter.pending_my_action",
-                                    msg: "Pending my action",
-                                })}
-                            </label>
+                            <div className="flex items-center gap-2">
+                                <Checkbox
+                                    inputId="pending-my-action-filter"
+                                    checked={pendingMyActionChecked}
+                                    onChange={(e) => {
+                                        const isChecked = Boolean(e.checked);
+                                        setPendingMyActionChecked(isChecked);
+                                        updateFilterParam(
+                                            "pendingMyAction",
+                                            isChecked ? "true" : "",
+                                        );
+                                    }}
+                                />
+                                <label
+                                    htmlFor="pending-my-action-filter"
+                                    className="font-medium text-slate-900"
+                                >
+                                    {ctx.t({
+                                        code: "list.filter.pending_my_action",
+                                        msg: "Pending my action",
+                                    })}
+                                </label>
+                            </div>
                         </div>
-                    </div>
+                    ) : null}
                 </div>
 
                 <div

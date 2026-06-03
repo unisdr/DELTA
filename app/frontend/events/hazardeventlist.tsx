@@ -1,9 +1,8 @@
 import { useEffect, useRef } from "react";
-import { useLoaderData, useRouteLoaderData } from "react-router";
 import { Pagination } from "~/frontend/pagination/view";
 import { HazardousEventFilters } from "~/frontend/events/hazardevent-filters";
 
-import { hazardousEventsLoader } from "~/backend.server/handlers/events/hazardevent";
+import type { hazardousEventsLoader } from "~/backend.server/handlers/events/hazardevent";
 import { formatDateDisplay } from "~/utils/date";
 import { route } from "~/frontend/events/hazardeventform";
 import { ViewContext } from "../context";
@@ -12,14 +11,23 @@ import { Tooltip } from "primereact/tooltip";
 import { ListLegend } from "~/components/ListLegend";
 import { approvalStatusKeyToLabel } from "../approval";
 import { DataCollectionActionLinks } from "../components/data-collection/ActionLinks";
+import type { PageProps } from "~/frontend/page-props";
 
-interface ListViewArgs {
-	ctx: ViewContext;
+/**
+ * Derived from the server handler so the type stays in sync automatically —
+ * any change to hazardousEventsLoader's return shape surfaces here at compile
+ * time rather than silently diverging.
+ */
+export type HazardousEventListLoaderData = Awaited<
+	ReturnType<typeof hazardousEventsLoader>
+>;
+
+type HazardousEventListPageProps = PageProps<HazardousEventListLoaderData> & {
 	isPublic: boolean;
 	basePath: string;
 	linksNewTab?: boolean;
 	actions?: (item: any) => React.ReactNode;
-}
+};
 
 /**
  * Helper function to get the appropriate hazard name based on hierarchy
@@ -36,28 +44,22 @@ function getHazardDisplayName(item: any): string {
 	return "";
 }
 
-export function ListView(args: ListViewArgs) {
-	const ld = useLoaderData<Awaited<ReturnType<typeof hazardousEventsLoader>>>();
-	const ctx = args.ctx;
+export function HazardousEventListPage(args: HazardousEventListPageProps) {
+	// ViewContext is constructed internally — consistent with other page
+	// components in the codebase; the ctx.user value is the correct full
+	// UserForFrontend object from the root loader (via useViewContext).
+	const ctx = new ViewContext();
 
-	const rootData = useRouteLoaderData("root") as any; // Get user data from root loader
-
-	// Get user data with role from root loader
-	const user = {
-		...rootData?.user,
-		role: rootData?.userRole || rootData?.user?.role, // Use userRole from root data if available
-	};
-
-	const { hip, filters } = ld;
-	const { items } = ld.data;
+	const { hip, filters } = args.data;
+	const { items } = args.data.data;
 
 	const pagination = Pagination({
 		ctx,
-		...ld.data.pagination,
+		...args.data.data.pagination,
 	});
 
 	// Store the total count in a ref that persists across renders
-	const totalCountRef = useRef(ld.data.pagination.totalItems);
+	const totalCountRef = useRef(args.data.data.pagination.totalItems);
 
 	// Check if this is an unfiltered view
 	const isUnfiltered =
@@ -68,13 +70,22 @@ export function ListView(args: ListViewArgs) {
 
 	// Use effect to update the ref when we see an unfiltered view with a higher count
 	useEffect(() => {
-		if (isUnfiltered && ld.data.pagination.totalItems > totalCountRef.current) {
-			totalCountRef.current = ld.data.pagination.totalItems;
+		if (
+			isUnfiltered &&
+			args.data.data.pagination.totalItems > totalCountRef.current
+		) {
+			totalCountRef.current = args.data.data.pagination.totalItems;
 		}
-	}, [isUnfiltered, ld.data.pagination.totalItems]);
+	}, [isUnfiltered, args.data.data.pagination.totalItems]);
 
 	// Refs for the status elements
 	const statusRefs = useRef(new Map<number, HTMLElement>());
+
+	// ctx.user is the full UserForFrontend object from the root loader — the
+	// former useRouteLoaderData("root") call in this file was accessing the
+	// wrong path (rootData?.user was undefined; the real user is at
+	// rootData.common.user, which ViewContext already resolves).
+	const user = ctx.user;
 
 	return (
 		<div>
@@ -93,7 +104,7 @@ export function ListView(args: ListViewArgs) {
 				pendingMyAction={filters.pendingMyAction}
 				search={filters.search}
 				hip={hip}
-				organizations={ld.organizations || []}
+				organizations={args.data.organizations || []}
 				clearFiltersUrl={ctx.url(args.basePath)}
 			/>
 
@@ -127,7 +138,7 @@ export function ListView(args: ListViewArgs) {
 					</>
 				)}
 
-				{ld.data.pagination.totalItems ? (
+				{args.data.data.pagination.totalItems ? (
 					<>
 						<Tooltip
 							target=".custom-target-icon"

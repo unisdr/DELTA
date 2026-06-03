@@ -1,8 +1,10 @@
 import { hazardousEventsLoader } from "~/backend.server/handlers/events/hazardevent";
 import { MainContainer } from "~/frontend/container";
-import { ListView } from "~/frontend/events/hazardeventlist";
+import { HazardousEventListPage } from "~/frontend/events/hazardeventlist";
 import { authLoaderWithPerm } from "~/utils/auth";
 import { getCountryAccountsIdFromSession } from "~/utils/session";
+
+import { useLoaderData } from "react-router";
 
 import { ViewContext } from "~/frontend/context";
 import { LangLink } from "~/utils/link";
@@ -25,6 +27,7 @@ export interface HazardousEventPickerType {
 }
 
 export default function Data() {
+	const ld = useLoaderData<typeof loader>();
 	const ctx = new ViewContext();
 
 	return (
@@ -34,12 +37,12 @@ export default function Data() {
 				msg: "Select parent for event",
 			})}
 		>
-			{ListView({
-				ctx,
-				isPublic: false,
-				basePath: `/hazardous-event/picker`,
-				linksNewTab: true,
-				actions: (item) => (
+			<HazardousEventListPage
+				data={ld}
+				isPublic={false}
+				basePath="/hazardous-event/picker"
+				linksNewTab={true}
+				actions={(item) => (
 					<LangLink
 						lang={ctx.lang}
 						to="#"
@@ -47,7 +50,7 @@ export default function Data() {
 							if (window.opener) {
 								window.opener.postMessage(
 									{ selected: item, type: "select_hazard" },
-									"*",
+									window.location.origin,
 								);
 								window.close();
 							} else {
@@ -62,8 +65,8 @@ export default function Data() {
 							msg: "Select",
 						})}
 					</LangLink>
-				),
-			})}
+				)}
+			/>
 		</MainContainer>
 	);
 }

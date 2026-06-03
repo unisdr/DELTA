@@ -2,7 +2,7 @@ import { DataMainLinks } from "~/frontend/data_screen";
 
 import { hazardousEventsLoader } from "~/backend.server/handlers/events/hazardevent";
 
-import { ListView } from "~/frontend/events/hazardeventlist";
+import { HazardousEventListPage } from "~/frontend/events/hazardeventlist";
 import { HazardEventHeader } from "~/components/EventCounter";
 
 import { MetaFunction, useLoaderData } from "react-router";
@@ -81,11 +81,11 @@ export default function Data() {
 					})}
 					csvExportLinks={false} /* CSV Export and Import buttons disabled */
 				/>
-				<ListView
-					ctx={ctx}
+				<HazardousEventListPage
+					data={ld}
 					isPublic={ld.isPublic}
 					basePath="/hazardous-event"
-				></ListView>
+				/>
 			</>
 		</MainContainer>
 	);

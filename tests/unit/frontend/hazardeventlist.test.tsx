@@ -33,15 +33,15 @@ vi.mock("react-router", () => ({
 		);
 	}),
 	useNavigate: vi.fn(() => vi.fn()),
-	Link: ({ children, ...props }: { children: React.ReactNode; to: string }) =>
-		`<a href="${props.to}">${children}</a>`,
+	Link: ({ children, to }: { children: React.ReactNode; to: string }) =>
+		React.createElement("a", { href: to }, children),
 	Form: ({
 		children,
-		...props
+		method,
 	}: {
 		children: React.ReactNode;
 		method?: string;
-	}) => `<form method="${props.method ?? "get"}">${children}</form>`,
+	}) => React.createElement("form", { method: method ?? "get" }, children),
 }));
 
 import type { HazardousEventListLoaderData } from "~/frontend/events/hazardeventlist";
@@ -169,7 +169,10 @@ describe("HazardousEventListPage", () => {
 				/>,
 			);
 
-			expect(html).not.toContain("Record status");
+			// "Record status" also appears in the filter panel labels regardless
+			// of isPublic, so we assert on the table-specific guard: the dts-status
+			// dot spans that only render when !isPublic.
+			expect(html).not.toContain("dts-status");
 		});
 	});
 

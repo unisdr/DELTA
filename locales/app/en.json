@@ -6165,7 +6165,7 @@
 	},
 	{
 		"id": "user_select_instance.instances_found",
-		"translation": "We found {n} instance(s) associated with your email ID. Please select the instance you want to review.",
+		"translation": "We found {n} instances associated with your email ID. Please select the instance you want to review.",
 		"description": "File: app/routes/$lang+/user+/select-instance.tsx:245"
 	},
 	{

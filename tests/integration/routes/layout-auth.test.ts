@@ -21,9 +21,10 @@ function makeRequest(url = BASE_URL): Request {
 function makeRouteArgs(url = BASE_URL): LoaderFunctionArgs {
 	return {
 		request: makeRequest(url),
+		url: new URL(url),
 		params: { lang: "en" },
 		context: {},
-		unstable_pattern: "/:lang/hazardous-event",
+		pattern: "/:lang/hazardous-event",
 	};
 }
 

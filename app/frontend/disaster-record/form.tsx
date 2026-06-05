@@ -683,7 +683,7 @@ interface HipInfo {
 }
 
 interface ReturnAssignee {
-	id: string;
+	value: string;
 	label: string;
 }
 

@@ -126,8 +126,8 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
 	const returnAssignees = userSession
 		? (await getReturnAssigneeUsers(countryAccountsId, userId)).map((user) => ({
-				id: user.id,
 				label: `${user.firstName} ${user.lastName}`.trim(),
+				value: user.id,
 			}))
 		: [];
 

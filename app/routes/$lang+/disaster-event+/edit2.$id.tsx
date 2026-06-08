@@ -4,6 +4,9 @@ import {
 	disasterEventCreate,
 	disasterEventUpdate,
 } from "~/backend.server/models/event";
+import {
+	disasterRecordsUpdate,
+} from "~/backend.server/models/disaster_record";
 
 import {
 	fieldsDef,
@@ -30,9 +33,11 @@ import {
 	getUserIdFromSession,
 	getUserRoleFromSession,
 } from "~/utils/session";
-import { and, eq, isNotNull, isNull, sql } from "drizzle-orm";
+import { and, desc, eq, isNotNull, isNull, sql } from "drizzle-orm";
 import { dr } from "~/db.server";
 import { divisionTable } from "~/drizzle/schema/divisionTable";
+import { disasterEventTable } from "~/drizzle/schema/disasterEventTable";
+import { disasterRecordsTable } from "~/drizzle/schema/disasterRecordsTable";
 import { buildTree } from "~/components/TreeView";
 import { SpatialFootprintFormView2 } from "~/frontend/spatialFootprintFormView2";
 
@@ -84,6 +89,30 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const userSession = authActionGetAuth(actionArgs);
 
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const linkedDisasterRecordIdsRaw = String(
+		formData.get("linkedDisasterRecordIds") ?? "[]",
+	);
+	const linkedDisasterEventIdsRaw = String(
+		formData.get("linkedDisasterEventIds") ?? "[]",
+	);
+	let linkedDisasterRecordIds: string[] = [];
+	let linkedDisasterEventIds: string[] = [];
+	try {
+		const parsed = JSON.parse(linkedDisasterRecordIdsRaw);
+		linkedDisasterRecordIds = Array.isArray(parsed)
+			? parsed.filter((value): value is string => typeof value === "string")
+			: [];
+	} catch {
+		linkedDisasterRecordIds = [];
+	}
+	try {
+		const parsed = JSON.parse(linkedDisasterEventIdsRaw);
+		linkedDisasterEventIds = Array.isArray(parsed)
+			? parsed.filter((value): value is string => typeof value === "string")
+			: [];
+	} catch {
+		linkedDisasterEventIds = [];
+	}
 
 	console.log("FormData entries:", Array.from(formData.entries()));
 	return formSave({
@@ -95,10 +124,112 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 				countryAccountsId,
 				updatedByUserId: userSession.user.id,
 			};
+				const syncLinkedDisasterEvents = async (eventId: string) => {
+					const selectedIds = new Set(linkedDisasterEventIds);
+					const currentLinkedEvents = await tx
+						.select({ id: disasterEventTable.id })
+						.from(disasterEventTable)
+						.where(
+							and(
+								eq(disasterEventTable.countryAccountsId, countryAccountsId),
+								eq(disasterEventTable.disasterEventId, eventId),
+							),
+						);
+
+					const currentLinkedIds = new Set(
+						currentLinkedEvents.map((event) => event.id),
+					);
+
+					for (const linkedEventId of linkedDisasterEventIds) {
+						const updateResult = await tx
+							.update(disasterEventTable)
+							.set({
+								disasterEventId: eventId,
+								updatedAt: new Date(),
+							})
+							.where(
+								and(
+									eq(disasterEventTable.id, linkedEventId),
+									eq(disasterEventTable.countryAccountsId, countryAccountsId),
+								),
+							)
+							.returning({ id: disasterEventTable.id });
+						if (updateResult.length === 0) {
+							throw new Error(
+								`Failed to link disaster event ${linkedEventId} to disaster event ${eventId}`,
+							);
+						}
+					}
+
+					for (const linkedEventId of currentLinkedIds) {
+						if (!selectedIds.has(linkedEventId)) {
+							const updateResult = await tx
+								.update(disasterEventTable)
+								.set({
+									disasterEventId: null,
+									updatedAt: new Date(),
+								})
+								.where(
+									and(
+										eq(disasterEventTable.id, linkedEventId),
+										eq(disasterEventTable.countryAccountsId, countryAccountsId),
+									),
+								)
+								.returning({ id: disasterEventTable.id });
+							if (updateResult.length === 0) {
+								throw new Error(
+									`Failed to unlink disaster event ${linkedEventId} from disaster event ${eventId}`,
+								);
+							}
+						}
+					}
+				};
+				const syncLinkedDisasterRecords = async (eventId: string) => {
+					const selectedIds = new Set(linkedDisasterRecordIds);
+					const recordsLinkedToCurrentEvent = await tx
+						.select({ id: disasterRecordsTable.id })
+						.from(disasterRecordsTable)
+						.where(
+							and(
+								eq(disasterRecordsTable.countryAccountsId, countryAccountsId),
+								eq(disasterRecordsTable.disasterEventId, eventId),
+							),
+						);
+
+					const currentLinkedIds = new Set(
+						recordsLinkedToCurrentEvent.map((record) => record.id),
+					);
+
+					for (const linkedRecordId of linkedDisasterRecordIds) {
+						const updateResult = await disasterRecordsUpdate(ctx, tx, linkedRecordId, {
+							disasterEventId: eventId,
+						}, countryAccountsId);
+						if (updateResult.ok !== true) {
+							throw new Error(
+								`Failed to link disaster record ${linkedRecordId} to disaster event ${eventId}`,
+							);
+						}
+					}
+
+					for (const linkedRecordId of currentLinkedIds) {
+						if (!selectedIds.has(linkedRecordId)) {
+							const updateResult = await disasterRecordsUpdate(ctx, tx, linkedRecordId, {
+								disasterEventId: null,
+							}, countryAccountsId);
+							if (updateResult.ok !== true) {
+								throw new Error(
+									`Failed to unlink disaster record ${linkedRecordId} from disaster event ${eventId}`,
+								);
+							}
+						}
+					}
+				};
 			if (id) {
 				const returnValue = await disasterEventUpdate(ctx, tx, id, updatedData);
 
 				if (returnValue.ok === true) {
+						await syncLinkedDisasterEvents(id);
+						await syncLinkedDisasterRecords(id);
 					await handleApprovalWorkflowService(ctx, tx, id, "disaster_event", {
 						...updatedData,
 						tempValidatorUserIds: formData.get("tempValidatorUserIds"),
@@ -114,6 +245,8 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 				});
 
 				if (returnValue.ok === true) {
+						await syncLinkedDisasterEvents(returnValue.id);
+						await syncLinkedDisasterRecords(returnValue.id);
 					await handleApprovalWorkflowService(
 						ctx,
 						tx,
@@ -196,6 +329,10 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			treeData: treeData,
 			ctryIso3: ctryIso3,
 			divisionGeoJSON: divisionGeoJSON || [],
+			disasterRecordOptions: [],
+			linkedDisasterRecords: [],
+				disasterEventOptions: [],
+				linkedDisasterEvents: [],
 			user: await authLoaderGetUserForFrontend(loaderArgs),
 			usersWithValidatorRole: filteredUsersWithValidatorRole,
 		};
@@ -256,12 +393,74 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	// Get division GeoJSON data
 	const divisionGeoJSON = await getDivisionGeoJSON(countryAccountsId);
 
+	const disasterEvents = await dr
+		.select({
+			id: disasterEventTable.id,
+			disasterEventId: disasterEventTable.disasterEventId,
+			nameNational: disasterEventTable.nameNational,
+			nameGlobalOrRegional: disasterEventTable.nameGlobalOrRegional,
+		})
+		.from(disasterEventTable)
+		.where(eq(disasterEventTable.countryAccountsId, countryAccountsId))
+		.orderBy(desc(disasterEventTable.updatedAt));
+
+	const formatDisasterEventDisplayName = (event: {
+		id: string;
+		nameNational: string | null;
+		nameGlobalOrRegional: string | null;
+	}) => {
+		const displayName =
+			event.nameNational?.trim() || event.nameGlobalOrRegional?.trim() ||
+			`Disaster event ${event.id.slice(0, 8)}`;
+
+		return {
+			id: event.id,
+			name: displayName,
+			code: `${event.id}`,
+		};
+	};
+
+	const disasterEventOptions = disasterEvents
+		.filter((event) => event.id !== item.id)
+		.map(formatDisasterEventDisplayName);
+
+	const linkedDisasterEvents = disasterEvents
+		.filter((event) => event.disasterEventId === item.id)
+		.map(formatDisasterEventDisplayName);
+
+	const disasterRecords = await dr
+		.select({
+			id: disasterRecordsTable.id,
+			disasterEventId: disasterRecordsTable.disasterEventId,
+		})
+		.from(disasterRecordsTable)
+		.where(eq(disasterRecordsTable.countryAccountsId, countryAccountsId))
+		.orderBy(desc(disasterRecordsTable.updatedAt));
+
+	const disasterRecordOptions = disasterRecords.map((record) => ({
+		id: record.id,
+		name: `Record ${record.id.slice(0, 8)}`,
+		code: record.id,
+	}));
+
+	const linkedDisasterRecords = disasterRecords
+		.filter((record) => record.disasterEventId === item.id)
+		.map((record) => ({
+			id: record.id,
+			name: `Record ${record.id.slice(0, 8)}`,
+			code: record.id,
+		}));
+
 	return {
 		item,
 		hip,
 		treeData,
 		ctryIso3,
 		divisionGeoJSON: divisionGeoJSON || [],
+		disasterRecordOptions,
+		linkedDisasterRecords,
+			disasterEventOptions,
+			linkedDisasterEvents,
 		user: await authLoaderGetUserForFrontend(loaderArgs),
 		usersWithValidatorRole: filteredUsersWithValidatorRole,
 	};
@@ -300,6 +499,10 @@ export default function Screen() {
 				treeData={ld.treeData}
 				ctryIso3={ld.ctryIso3}
 				divisionGeoJSON={ld.divisionGeoJSON}
+				disasterRecordOptions={ld.disasterRecordOptions ?? []}
+				linkedDisasterRecords={ld.linkedDisasterRecords ?? []}
+				disasterEventOptions={ld.disasterEventOptions ?? []}
+				linkedDisasterEvents={ld.linkedDisasterEvents ?? []}
 				user={ld.user}
 				usersWithValidatorRole={ld.usersWithValidatorRole ?? []}
 			/>
@@ -675,6 +878,10 @@ type StepperValidationProps = {
 	treeData: unknown;
 	ctryIso3: string;
 	divisionGeoJSON: unknown;
+	disasterRecordOptions: LinkedEventOption[];
+	linkedDisasterRecords: LinkedEventOption[];
+	disasterEventOptions: LinkedEventOption[];
+	linkedDisasterEvents: LinkedEventOption[];
 	user: {
 		role?: string | null;
 	} | null;
@@ -693,6 +900,10 @@ function StepperValidation({
 	treeData,
 	ctryIso3,
 	divisionGeoJSON,
+	disasterRecordOptions,
+	linkedDisasterRecords,
+	disasterEventOptions,
+	linkedDisasterEvents,
 	user,
 	usersWithValidatorRole,
 }: StepperValidationProps) {
@@ -1105,12 +1316,26 @@ function StepperValidation({
 	const [linkedEventTarget, setLinkedEventTarget] = useState<LinkedEventOption[]>([]);
 	const [linkedDisasterEventSearch, setLinkedDisasterEventSearch] = useState("");
 	const [linkedDisasterEventLoading, setLinkedDisasterEventLoading] = useState(false);
-	const [linkedDisasterEventSource, setLinkedDisasterEventSource] = useState<LinkedEventOption[]>([]);
-	const [linkedDisasterEventTarget, setLinkedDisasterEventTarget] = useState<LinkedEventOption[]>([]);
+	const [linkedDisasterEventSource, setLinkedDisasterEventSource] =
+		useState<LinkedEventOption[]>(() => {
+			const linkedIds = new Set(linkedDisasterEvents.map((event) => event.id));
+			return disasterEventOptions
+				.filter((event) => !linkedIds.has(event.id))
+				.slice(0, 10);
+		});
+	const [linkedDisasterEventTarget, setLinkedDisasterEventTarget] =
+		useState<LinkedEventOption[]>(() => linkedDisasterEvents);
 	const [linkedDisasterRecordSearch, setLinkedDisasterRecordSearch] = useState("");
 	const [linkedDisasterRecordLoading, setLinkedDisasterRecordLoading] = useState(false);
-	const [linkedDisasterRecordSource, setLinkedDisasterRecordSource] = useState<LinkedEventOption[]>([]);
-	const [linkedDisasterRecordTarget, setLinkedDisasterRecordTarget] = useState<LinkedEventOption[]>([]);
+	const [linkedDisasterRecordSource, setLinkedDisasterRecordSource] =
+		useState<LinkedEventOption[]>(() => {
+			const linkedIds = new Set(linkedDisasterRecords.map((record) => record.id));
+			return disasterRecordOptions
+				.filter((record) => !linkedIds.has(record.id))
+				.slice(0, 10);
+		});
+	const [linkedDisasterRecordTarget, setLinkedDisasterRecordTarget] =
+		useState<LinkedEventOption[]>(() => linkedDisasterRecords);
 
 	const formatBackendDate = (value: string | Date | null | undefined): string => {
 		if (!value) {
@@ -1519,36 +1744,6 @@ function StepperValidation({
 		{ id: "20", name: "River Contamination", code: "HE-2024-052" },
 	];
 
-	const mockBackendLinkedDisasterEvents: LinkedEventOption[] = [
-		{ id: "d1", name: "Monsoon Flooding - Northern Basin", code: "DI-2024-101" },
-		{ id: "d2", name: "Severe Drought - Central Plains", code: "DI-2024-103" },
-		{ id: "d3", name: "Cyclone Aurora", code: "DI-2024-106" },
-		{ id: "d4", name: "Earthquake Swarm - Western Ridge", code: "DI-2024-109" },
-		{ id: "d5", name: "Volcanic Ash Dispersion", code: "DI-2024-112" },
-		{ id: "d6", name: "Cross-Border River Flood", code: "DI-2024-115" },
-		{ id: "d7", name: "Seasonal Heatwave Emergency", code: "DI-2024-118" },
-		{ id: "d8", name: "Landslide Cluster - Hill District", code: "DI-2024-121" },
-		{ id: "d9", name: "Tropical Storm Kendra", code: "DI-2024-124" },
-		{ id: "d10", name: "Coastal Surge Impact", code: "DI-2024-127" },
-		{ id: "d11", name: "Wildfire Expansion - South Range", code: "DI-2024-130" },
-		{ id: "d12", name: "Urban Flood Emergency", code: "DI-2024-133" },
-	];
-
-	const mockBackendLinkedDisasterRecords: LinkedEventOption[] = [
-		{ id: "r1", name: "Emergency Shelter Activation Record", code: "DR-2024-201" },
-		{ id: "r2", name: "Damage Assessment Batch A", code: "DR-2024-204" },
-		{ id: "r3", name: "Relief Distribution Log - East", code: "DR-2024-207" },
-		{ id: "r4", name: "Casualty Verification Register", code: "DR-2024-210" },
-		{ id: "r5", name: "Road Access Clearance Report", code: "DR-2024-213" },
-		{ id: "r6", name: "Temporary Housing Intake", code: "DR-2024-216" },
-		{ id: "r7", name: "Medical Supply Movement Sheet", code: "DR-2024-219" },
-		{ id: "r8", name: "Livelihood Support Request File", code: "DR-2024-222" },
-		{ id: "r9", name: "Water Trucking Operations Record", code: "DR-2024-225" },
-		{ id: "r10", name: "Flood Barrier Deployment Note", code: "DR-2024-228" },
-		{ id: "r11", name: "Power Restoration Tracking File", code: "DR-2024-231" },
-		{ id: "r12", name: "Community Incident Consolidation", code: "DR-2024-234" },
-	];
-
 	const isStep1Complete =
 		form.nameNational.trim().length > 0;
 
@@ -1730,6 +1925,14 @@ function StepperValidation({
 		pushValue("startDateLocal", startDateLocal);
 		pushValue("endDateLocal", endDateLocal);
 		pushValue("spatialFootprint", JSON.stringify(spatialFootprintValue ?? []));
+		pushValue(
+			"linkedDisasterRecordIds",
+			JSON.stringify(linkedDisasterRecordTarget.map((record) => record.id)),
+		);
+		pushValue(
+			"linkedDisasterEventIds",
+			JSON.stringify(linkedDisasterEventTarget.map((event) => event.id)),
+		);
 
 		const earlyActions = responses.filter(
 			(item) => normalizeDetailTypeValue(item.type) === "early_action",
@@ -2304,6 +2507,21 @@ function StepperValidation({
 		);
 	};
 
+	const reviewLinkedDisasterEventRows = linkedDisasterEventTarget.map((event) => (
+		<div
+			key={event.id}
+			className="space-y-1"
+		>
+			<div className="space-y-1">
+				<p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-500">
+					Subsequent Disaster Event
+				</p>
+				<p className="text-[14px] font-semibold text-slate-800">{event.name || "-"}</p>
+				<p className="text-[13px] text-slate-500">{event.code || "-"}</p>
+			</div>
+		</div>
+	));
+
 	const renderStep4SectionCard = (
 		title: string,
 		iconClass: string,
@@ -2335,8 +2553,6 @@ function StepperValidation({
 	const searchLinkedEvents = async (query: string) => {
 		setLinkedEventLoading(true);
 
-		await new Promise((resolve) => setTimeout(resolve, 450));
-
 		const lowerQuery = query.trim().toLowerCase();
 		const matched = mockBackendLinkedEvents.filter((item) => {
 			if (!lowerQuery) {
@@ -2362,10 +2578,8 @@ function StepperValidation({
 	const searchLinkedDisasterEvents = async (query: string) => {
 		setLinkedDisasterEventLoading(true);
 
-		await new Promise((resolve) => setTimeout(resolve, 450));
-
 		const lowerQuery = query.trim().toLowerCase();
-		const matched = mockBackendLinkedDisasterEvents.filter((item) => {
+		const matched = disasterEventOptions.filter((item) => {
 			if (!lowerQuery) {
 				return true;
 			}
@@ -2389,10 +2603,8 @@ function StepperValidation({
 	const searchLinkedDisasterRecords = async (query: string) => {
 		setLinkedDisasterRecordLoading(true);
 
-		await new Promise((resolve) => setTimeout(resolve, 450));
-
 		const lowerQuery = query.trim().toLowerCase();
-		const matched = mockBackendLinkedDisasterRecords.filter((item) => {
+		const matched = disasterRecordOptions.filter((item) => {
 			if (!lowerQuery) {
 				return true;
 			}
@@ -2427,6 +2639,14 @@ function StepperValidation({
 	useEffect(() => {
 		firstNameTooltipRef.current?.updateTargetEvents();
 	}, [activeStep]);
+
+	useEffect(() => {
+		const linkedIds = new Set(linkedDisasterEvents.map((event) => event.id));
+		setLinkedDisasterEventTarget(linkedDisasterEvents);
+		setLinkedDisasterEventSource(
+			disasterEventOptions.filter((event) => !linkedIds.has(event.id)).slice(0, 10),
+		);
+	}, [disasterEventOptions, linkedDisasterEvents]);
 
 	useEffect(() => {
 		searchLinkedEvents("");
@@ -2933,7 +3153,7 @@ function StepperValidation({
 
 						
 
-						<div className="flex items-center justify-between w-full mt-6">
+						<div className="flex items-center justify-between w-full mt-20">
 							<Button
 								type="button"
 								label="Cancel"
@@ -3112,7 +3332,7 @@ function StepperValidation({
 							/>
 						</div>
 
-						<div className="flex items-center justify-between w-full mt-6">
+						<div className="flex items-center justify-between w-full mt-20">
 							<Button
 								type="button"
 								label="Cancel"
@@ -3435,7 +3655,7 @@ function StepperValidation({
 							</div>
 						</Dialog>
 
-						<div className="flex items-center justify-between w-full mt-6">
+						<div className="flex items-center justify-between w-full mt-20">
 							<Button
 								type="button"
 								label="Cancel"
@@ -3579,6 +3799,14 @@ function StepperValidation({
 						)}
 
 						{renderStep4SectionCard(
+							"Linked events",
+							"pi pi-link text-blue-600",
+							"No linked disaster events selected yet",
+							reviewLinkedDisasterEventRows,
+							reviewLinkedDisasterEventRows.length > 0,
+						)}
+
+						{renderStep4SectionCard(
 							"Linked disaster records",
 							"pi pi-file text-blue-600",
 							"No disaster records linked yet",
@@ -3616,7 +3844,7 @@ function StepperValidation({
 						)}
 						</div>
 
-						<div className="flex items-center justify-between w-full mt-6">
+						<div className="flex items-center justify-between w-full mt-20">
 							<Button
 								type="button"
 								label="Cancel"

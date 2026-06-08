@@ -494,6 +494,12 @@ const declarationStatusOptions: AdditionalDetailTypeOption[] = [
 	{ value: "no", label: "No" },
 ];
 
+const datePrecisionOptions = [
+	{ value: "yyyy-mm-dd", label: "Full date" },
+	{ value: "yyyy-mm", label: "Year and month" },
+	{ value: "yyyy", label: "Year only" },
+];
+
 const legacyDetailTypeToKey: Record<string, string> = {
 	"Early action": "early_action",
 	"Response operation": "response_operation",
@@ -870,11 +876,17 @@ function StepperValidation({
 					<label htmlFor={`${prefix}Format`} className="mb-1 inline-flex items-center gap-2">
 						{label} format
 					</label>
-					<select
+					<Dropdown
 						id={`${prefix}Format`}
-						value={state.precision}
+						value={state.precision || null}
+						options={datePrecisionOptions}
+						optionLabel="label"
+						optionValue="value"
 						onChange={(event) => {
-							const precision = event.target.value as DatePrecision;
+							const precision =
+								typeof event.value === "string"
+									? (event.value as DatePrecision)
+									: ("yyyy-mm-dd" as DatePrecision);
 							setState((current) => ({
 								...current,
 								precision,
@@ -882,12 +894,9 @@ function StepperValidation({
 								day: precision === "yyyy-mm-dd" ? current.day : "",
 							}));
 						}}
-						className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700"
-					>
-						<option value="yyyy-mm-dd">Full date</option>
-						<option value="yyyy-mm">Year and month</option>
-						<option value="yyyy">Year only</option>
-					</select>
+						placeholder="Select format"
+						className="w-full"
+					/>
 				</div>
 
 				<div className="col-span-12 md:col-span-6">
@@ -896,19 +905,23 @@ function StepperValidation({
 							<label htmlFor={`${prefix}Date`} className="mb-1 inline-flex items-center gap-2">
 								{label} date
 							</label>
-							<input
-								id={`${prefix}Date`}
-								type="date"
+							<Calendar
+								id={`${prefix}DateCalendar`}
+								inputId={`${prefix}Date`}
 								value={
 									state.year.length === 4 &&
 									state.month.length === 2 &&
 									state.day.length === 2
-										? `${state.year}-${state.month}-${state.day}`
-										: ""
+										? new Date(
+												Number(state.year),
+												Number(state.month) - 1,
+												Number(state.day),
+										  )
+										: null
 								}
 								onChange={(event) => {
-									const value = event.target.value;
-									if (!value) {
+									const selected = event.value;
+									if (!(selected instanceof Date) || Number.isNaN(selected.getTime())) {
 										setState((current) => ({
 											...current,
 											year: "",
@@ -918,7 +931,9 @@ function StepperValidation({
 										return;
 									}
 
-									const [year, month, day] = value.split("-");
+									const year = String(selected.getFullYear());
+									const month = String(selected.getMonth() + 1).padStart(2, "0");
+									const day = String(selected.getDate()).padStart(2, "0");
 									setState((current) => ({
 										...current,
 										year,
@@ -926,7 +941,10 @@ function StepperValidation({
 										day,
 									}));
 								}}
-								className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700"
+								dateFormat="yy-mm-dd"
+								placeholder="YYYY-MM-DD"
+								showIcon
+								className="w-full"
 							/>
 						</>
 					) : null}
@@ -937,37 +955,38 @@ function StepperValidation({
 								<label htmlFor={`${prefix}Year`} className="mb-1 inline-flex items-center gap-2">
 									{label} year
 								</label>
-								<input
+								<InputText
 									id={`${prefix}Year`}
-									type="text"
-									inputMode="numeric"
 									value={state.year}
 									onChange={(event) => {
 										const year = event.target.value.replace(/\D/g, "").slice(0, 4);
 										setState((current) => ({ ...current, year }));
 									}}
-									className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700"
+									keyfilter="int"
+									maxLength={4}
+									className="w-full"
 								/>
 							</div>
 							<div>
 								<label htmlFor={`${prefix}Month`} className="mb-1 inline-flex items-center gap-2">
 									{label} month
 								</label>
-								<select
+								<Dropdown
 									id={`${prefix}Month`}
-									value={state.month}
+									value={state.month || null}
+									options={monthOptions}
+									optionLabel="label"
+									optionValue="value"
 									onChange={(event) => {
-										setState((current) => ({ ...current, month: event.target.value }));
+										setState((current) => ({
+											...current,
+											month: typeof event.value === "string" ? event.value : "",
+										}));
 									}}
-									className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700"
+									placeholder="Select month"
+									className="w-full"
 								>
-									<option value="">Select month</option>
-									{monthOptions.map((month) => (
-										<option key={month.value} value={month.value}>
-											{month.label}
-										</option>
-									))}
-								</select>
+								</Dropdown>
 							</div>
 						</div>
 					) : null}
@@ -977,16 +996,16 @@ function StepperValidation({
 							<label htmlFor={`${prefix}Year`} className="mb-1 inline-flex items-center gap-2">
 								{label} year
 							</label>
-							<input
+							<InputText
 								id={`${prefix}Year`}
-								type="text"
-								inputMode="numeric"
 								value={state.year}
 								onChange={(event) => {
 									const year = event.target.value.replace(/\D/g, "").slice(0, 4);
 									setState((current) => ({ ...current, year }));
 								}}
-								className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700"
+								keyfilter="int"
+								maxLength={4}
+								className="w-full"
 							/>
 						</>
 					) : null}

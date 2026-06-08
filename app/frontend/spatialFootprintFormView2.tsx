@@ -2,6 +2,19 @@ import { useRef } from "react";
 import { ContentRepeater } from "~/components/ContentRepeater";
 import { ViewContext } from "./context";
 
+function normalizeMapCoordinateItems(items: any[]): any[] {
+	return items
+		.filter(
+			(item) =>
+				item &&
+				(!item.map_option || item.map_option === "Map coordinates"),
+		)
+		.map((item) => ({
+			...item,
+			map_option: item?.map_option ?? "Map coordinates",
+		}));
+}
+
 export function SpatialFootprintFormView2({
 	ctx,
 	divisions = [],
@@ -17,16 +30,13 @@ export function SpatialFootprintFormView2({
 }) {
 	const contentRepeaterRef = useRef<any>(null);
 
-    console.log("SpatialFootprintFormView2 - initialData:", initialData);
-
-	const mapOnlyItems = (items: any[]) =>
-		items.filter((item) => item?.map_option === "Map coordinates");
-
 	const parsedData = (() => {
 		try {
-			if (Array.isArray(initialData)) return mapOnlyItems(initialData);
+			if (Array.isArray(initialData)) {
+				return normalizeMapCoordinateItems(initialData);
+			}
 			if (typeof initialData === "string") {
-				return mapOnlyItems(JSON.parse(initialData) || []);
+				return normalizeMapCoordinateItems(JSON.parse(initialData) || []);
 			}
 			return [];
 		} catch {
@@ -126,7 +136,11 @@ export function SpatialFootprintFormView2({
 					data={parsedData}
 					onChange={(items: any) => {
 						try {
-							onChange?.(Array.isArray(items) ? items : []);
+							onChange?.(
+								normalizeMapCoordinateItems(
+									Array.isArray(items) ? items : [],
+								),
+							);
 						} catch {
 							console.error("Failed to process items.");
 						}

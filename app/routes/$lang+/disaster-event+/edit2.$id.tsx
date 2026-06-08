@@ -14,7 +14,7 @@ import { formSave } from "~/backend.server/handlers/form/form";
 
 import { route } from "~/frontend/events/disastereventform";
 
-import { useLoaderData } from "react-router";
+import { Form as RouterForm, useLoaderData } from "react-router";
 
 import { getItem2 } from "~/backend.server/handlers/view";
 import { dataForHazardPicker } from "~/backend.server/models/hip_hazard_picker";
@@ -27,6 +27,8 @@ import {
 import {
 	getCountryAccountsIdFromSession,
 	getCountrySettingsFromSession,
+	getUserIdFromSession,
+	getUserRoleFromSession,
 } from "~/utils/session";
 import { and, eq, isNotNull, isNull, sql } from "drizzle-orm";
 import { dr } from "~/db.server";
@@ -37,6 +39,12 @@ import { SpatialFootprintFormView2 } from "~/frontend/spatialFootprintFormView2"
 import { ViewContext } from "~/frontend/context";
 
 import { BackendContext } from "~/backend.server/context";
+import {
+	getUserCountryAccountsWithAdminRole,
+	getUserCountryAccountsWithValidatorRole,
+} from "~/db/queries/userCountryAccountsRepository";
+import { handleApprovalWorkflowService } from "~/backend.server/services/approvalWorkflowService";
+import { canEditDataCollectionRecord } from "~/frontend/user/roles";
 import { InputTextarea } from 'primereact/inputtextarea';
 
 export const handle = {
@@ -70,11 +78,14 @@ async function getDivisionGeoJSON(countryAccountsId: string) {
 
 export const action = authActionWithPerm("EditData", async (actionArgs) => {
 	const { request } = actionArgs;
+	const cloned = request.clone();
+	const formData = await cloned.formData();
 	const ctx = new BackendContext(actionArgs);
 	const userSession = authActionGetAuth(actionArgs);
 
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
 
+	console.log("FormData entries:", Array.from(formData.entries()));
 	return formSave({
 		actionArgs,
 		fieldsDef: fieldsDef(ctx),
@@ -82,13 +93,41 @@ export const action = authActionWithPerm("EditData", async (actionArgs) => {
 			const updatedData = {
 				...data,
 				countryAccountsId,
-				createdBy: userSession.user.id,
-				updatedBy: userSession.user.id,
+				updatedByUserId: userSession.user.id,
 			};
 			if (id) {
-				return disasterEventUpdate(ctx, tx, id, updatedData);
+				const returnValue = await disasterEventUpdate(ctx, tx, id, updatedData);
+
+				if (returnValue.ok === true) {
+					await handleApprovalWorkflowService(ctx, tx, id, "disaster_event", {
+						...updatedData,
+						tempValidatorUserIds: formData.get("tempValidatorUserIds"),
+						tempAction: formData.get("tempAction"),
+					});
+				}
+
+				return returnValue;
 			} else {
-				return disasterEventCreate(ctx, tx, updatedData);
+				const returnValue = await disasterEventCreate(ctx, tx, {
+					...updatedData,
+					createdByUserId: userSession.user.id,
+				});
+
+				if (returnValue.ok === true) {
+					await handleApprovalWorkflowService(
+						ctx,
+						tx,
+						returnValue.id,
+						"disaster_event",
+						{
+							...updatedData,
+							tempValidatorUserIds: formData.get("tempValidatorUserIds"),
+							tempAction: formData.get("tempAction"),
+						},
+					);
+				}
+
+				return returnValue;
 			}
 		},
 		redirectTo: (id: string) => route + "/" + id,
@@ -100,6 +139,26 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 	const ctx = new BackendContext(loaderArgs);
 	const ctryIso3 = await getCountryIso3(request);
 	const countryAccountsId = await getCountryAccountsIdFromSession(request);
+	const userId = await getUserIdFromSession(request);
+
+	const usersWithValidatorRole =
+		await getUserCountryAccountsWithValidatorRole(countryAccountsId);
+
+	let filteredUsersWithValidatorRole: typeof usersWithValidatorRole = [];
+
+	if (usersWithValidatorRole.length > 0) {
+		filteredUsersWithValidatorRole = usersWithValidatorRole.filter(
+			(userAccount) => userAccount.id !== userId,
+		);
+	}
+
+	if (filteredUsersWithValidatorRole.length === 0) {
+		const usersWithAdminRole =
+			await getUserCountryAccountsWithAdminRole(countryAccountsId);
+		filteredUsersWithValidatorRole = usersWithAdminRole.filter(
+			(userAccount) => userAccount.id !== userId,
+		);
+	}
 
 	// Handle 'new' case without DB query
 	if (params.id === "new") {
@@ -138,6 +197,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 			ctryIso3: ctryIso3,
 			divisionGeoJSON: divisionGeoJSON || [],
 			user: await authLoaderGetUserForFrontend(loaderArgs),
+			usersWithValidatorRole: filteredUsersWithValidatorRole,
 		};
 	}
 
@@ -159,6 +219,12 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		}
 		// Re-throw other errors
 		throw error;
+	}
+
+	const userRole = await getUserRoleFromSession(request) as string;
+
+	if (canEditDataCollectionRecord(userRole, item.approvalStatus) === false) {
+		throw new Response("Access forbidden", { status: 403 });
 	}
 
 	// Fetch division data & build tree
@@ -197,6 +263,7 @@ export const loader = authLoaderWithPerm("EditData", async (loaderArgs) => {
 		ctryIso3,
 		divisionGeoJSON: divisionGeoJSON || [],
 		user: await authLoaderGetUserForFrontend(loaderArgs),
+		usersWithValidatorRole: filteredUsersWithValidatorRole,
 	};
 });
 
@@ -234,6 +301,7 @@ export default function Screen() {
 				ctryIso3={ld.ctryIso3}
 				divisionGeoJSON={ld.divisionGeoJSON}
 				user={ld.user}
+				usersWithValidatorRole={ld.usersWithValidatorRole ?? []}
 			/>
 		</>
 	);
@@ -270,6 +338,10 @@ import { Dropdown } from "primereact/dropdown";
 import { Tree } from "primereact/tree";
 import type { TreeProps } from "primereact/tree";
 import type { TreeNode } from "primereact/treenode";
+import {
+	SaveSubmitDialog,
+	type SaveAction,
+} from "~/frontend/components/approval-workflow/SaveSubmitDialog";
 
 type Errors = {
 	nameNational?: string;
@@ -603,7 +675,15 @@ type StepperValidationProps = {
 	treeData: unknown;
 	ctryIso3: string;
 	divisionGeoJSON: unknown;
-	user: unknown;
+	user: {
+		role?: string | null;
+	} | null;
+	usersWithValidatorRole: Array<{
+		id: string;
+		firstName: string;
+		lastName: string;
+		email: string;
+	}>;
 };
 
 function StepperValidation({
@@ -613,6 +693,8 @@ function StepperValidation({
 	treeData,
 	ctryIso3,
 	divisionGeoJSON,
+	user,
+	usersWithValidatorRole,
 }: StepperValidationProps) {
 	ctryIso3;
 	divisionGeoJSON;
@@ -1311,6 +1393,8 @@ function StepperValidation({
 	const canSaveDetail =
 		hasDetailType && hasDetailContent && passesOfficialWarningRule;
 	const [errors, setErrors] = useState<Errors>({});
+	const [visibleModalSubmit, setVisibleModalSubmit] =
+		useState<boolean>(false);
 	const [selectedHipTypeId, setSelectedHipTypeId] = useState(
 		disasterEvent?.hipTypeId ?? "",
 	);
@@ -1579,6 +1663,174 @@ function StepperValidation({
 	const saveAsDraft = () => {
 		saveCurrentFormState();
 	};
+
+	const formatDateForSubmit = (value: Date | null): string => {
+		if (!value) {
+			return "";
+		}
+
+		const day = String(value.getDate()).padStart(2, "0");
+		const month = String(value.getMonth() + 1).padStart(2, "0");
+		const year = String(value.getFullYear());
+		return `${year}-${month}-${day}`;
+	};
+
+	const handleSubmitAction = (action: SaveAction, validatorIds?: string) => {
+		const tempActionField = document.getElementById(
+			"tempAction",
+		) as HTMLInputElement | null;
+		if (tempActionField) {
+			tempActionField.value = action;
+		}
+
+		const tempValidatorField = document.getElementById(
+			"tempValidatorUserIds",
+		) as HTMLInputElement | null;
+		if (tempValidatorField) {
+			tempValidatorField.value = validatorIds || "";
+		}
+
+		const formElement = document.getElementById(
+			"disaster-event-stepper-form",
+		) as HTMLFormElement | null;
+		if (formElement) {
+			if (!formElement.checkValidity()) {
+				formElement.reportValidity();
+				return;
+			}
+
+			setVisibleModalSubmit(false);
+			formElement.requestSubmit();
+		}
+	};
+
+	const usersWithValidatorRoleOptions = usersWithValidatorRole.map((userAccount) => ({
+		name: `${userAccount.firstName} ${userAccount.lastName}`,
+		id: userAccount.id,
+		email: userAccount.email,
+	}));
+
+	const hiddenFormValues = useMemo(() => {
+		const values: Array<{ name: string; value: string }> = [];
+		const pushValue = (name: string, value: string | null | undefined) => {
+			values.push({ name, value: value ?? "" });
+		};
+
+		pushValue("id", form.id);
+		pushValue("nameNational", form.nameNational);
+		pushValue("nameGlobalOrRegional", form.nameGlobalOrRegional);
+		pushValue("nationalDisasterId", form.nationalDisasterId);
+		pushValue("glide", form.glide);
+		pushValue("recordingInstitution", form.recordingInstitution);
+		pushValue("hipTypeId", selectedHipTypeId);
+		pushValue("hipClusterId", selectedHipClusterId);
+		pushValue("hipHazardId", selectedHipHazardId);
+		pushValue("startDate", toDateWithPrecisionValue(startDateState));
+		pushValue("endDate", toDateWithPrecisionValue(endDateState));
+		pushValue("startDateLocal", startDateLocal);
+		pushValue("endDateLocal", endDateLocal);
+		pushValue("spatialFootprint", JSON.stringify(spatialFootprintValue ?? []));
+
+		const earlyActions = responses.filter(
+			(item) => normalizeDetailTypeValue(item.type) === "early_action",
+		);
+		for (let index = 0; index < 5; index++) {
+			const item = earlyActions[index];
+			pushValue(`earlyActionDescription${index + 1}`, item?.description ?? "");
+			pushValue(
+				`earlyActionDate${index + 1}`,
+				item?.date ? formatDateForSubmit(parseDetailDate(item.date)) : "",
+			);
+		}
+
+		const responseOperation = responses.find(
+			(item) => normalizeDetailTypeValue(item.type) === "response_operation",
+		);
+		pushValue("responseOperations", responseOperation?.description ?? "");
+
+		const assessmentConfigs = [
+			{
+				type: "rapid_preliminary_assessment",
+				descriptionPrefix: "rapidOrPreliminaryAssessmentDescription",
+				datePrefix: "rapidOrPreliminaryAssessmentDate",
+			},
+			{
+				type: "post_disaster_assessment",
+				descriptionPrefix: "postDisasterAssessmentDescription",
+				datePrefix: "postDisasterAssessmentDate",
+			},
+			{
+				type: "other_assessment",
+				descriptionPrefix: "otherAssessmentDescription",
+				datePrefix: "otherAssessmentDate",
+			},
+		] as const;
+
+		for (const config of assessmentConfigs) {
+			const items = assessments.filter(
+				(item) => normalizeDetailTypeValue(item.type) === config.type,
+			);
+			for (let index = 0; index < 5; index++) {
+				const item = items[index];
+				pushValue(`${config.descriptionPrefix}${index + 1}`, item?.description ?? "");
+				pushValue(
+					`${config.datePrefix}${index + 1}`,
+					item?.date ? formatDateForSubmit(parseDetailDate(item.date)) : "",
+				);
+			}
+		}
+
+		const declarationStatusItem = declarations.find(
+			(item) => normalizeDetailTypeValue(item.type) === "disaster_declaration",
+		);
+		pushValue(
+			"disasterDeclaration",
+			declarationStatusItem?.meta?.declarationStatus ?? "",
+		);
+
+		const declarationEffects = declarations.filter(
+			(item) =>
+				normalizeDetailTypeValue(item.type) === "disaster_declaration_effects",
+		);
+		for (let index = 0; index < 5; index++) {
+			const item = declarationEffects[index];
+			pushValue(
+				`disasterDeclarationTypeAndEffect${index + 1}`,
+				item?.description ?? "",
+			);
+			pushValue(
+				`disasterDeclarationDate${index + 1}`,
+				item?.date ? formatDateForSubmit(parseDetailDate(item.date)) : "",
+			);
+		}
+
+		const officialWarning = declarations.find(
+			(item) => normalizeDetailTypeValue(item.type) === "official_warning",
+		);
+		pushValue(
+			"hadOfficialWarningOrWeatherAdvisory",
+			officialWarning?.meta?.hadOfficialWarningOrWeatherAdvisory ? "true" : "off",
+		);
+		pushValue(
+			"officialWarningAffectedAreas",
+			officialWarning?.meta?.officialWarningAffectedAreas ?? "",
+		);
+
+		return values;
+	}, [
+		assessments,
+		declarations,
+		endDateLocal,
+		endDateState,
+		form,
+		responses,
+		selectedHipClusterId,
+		selectedHipHazardId,
+		selectedHipTypeId,
+		spatialFootprintValue,
+		startDateLocal,
+		startDateState,
+	]);
 
 	const renderReviewItem = (label: string, value: string) => (
 		<div className="space-y-1">
@@ -1981,6 +2233,7 @@ function StepperValidation({
 						</p>
 					</div>
 					<Button
+						type="button"
 						icon="pi pi-pencil"
 						text
 						rounded
@@ -2182,6 +2435,16 @@ function StepperValidation({
 	}, []);
 
 	return (<>
+		<div className="card flex justify-content-center">
+			<SaveSubmitDialog
+				ctx={ctx}
+				visible={visibleModalSubmit}
+				onHide={() => setVisibleModalSubmit(false)}
+				onSubmit={handleSubmitAction}
+				usersWithValidatorRole={usersWithValidatorRoleOptions}
+				userRole={user?.role ?? undefined}
+			/>
+		</div>
 		<style>{`
 			.status-stepper .p-stepper-title::after {
 				content: attr(data-status);
@@ -2229,6 +2492,21 @@ function StepperValidation({
 		`}</style>
 		<div className="mg-container">
 			<section className="dts-page-section">
+				<RouterForm id="disaster-event-stepper-form" method="post">
+					<input
+						type="hidden"
+						id="tempValidatorUserIds"
+						name="tempValidatorUserIds"
+					/>
+					<input type="hidden" id="tempAction" name="tempAction" />
+					{hiddenFormValues.map((field) => (
+						<input
+							key={field.name}
+							type="hidden"
+							name={field.name}
+							value={field.value}
+						/>
+					))}
 				<div className="mb-4">
 					<div className="flex items-center justify-between px-4 py-2">
 						<h2 className="text-[16px] font-semibold text-slate-800">
@@ -2238,6 +2516,7 @@ function StepperValidation({
 							})}
 						</h2>
 						<Button
+							type="button"
 							icon="pi pi-times"
 							text
 							aria-label="Close"
@@ -2293,6 +2572,7 @@ function StepperValidation({
 									</label>
 									<InputText
 										id="nameNational"
+										name="nameNational"
 										defaultValue={form.nameNational}
 										placeholder="For example, Hurricane Mitch"
 										className="w-full"
@@ -2309,6 +2589,7 @@ function StepperValidation({
 									</label>
 									<InputText
 										id="nameGlobalOrRegional"
+										name="nameGlobalOrRegional"
 										defaultValue={form.nameGlobalOrRegional}
 										placeholder="Add event name"
 										className="w-full"
@@ -2321,6 +2602,7 @@ function StepperValidation({
 									</label>
 									<InputText
 										id="nationalDisasterId"
+										name="nationalDisasterId"
 										defaultValue={form.nationalDisasterId}
 										placeholder="Add event ID"
 										className="w-full"
@@ -2336,6 +2618,7 @@ function StepperValidation({
 									</label>
 									<InputText
 										id="glide"
+										name="glide"
 										defaultValue={form.glide}
 										placeholder="Add GLIDE number"
 										className="w-full"
@@ -2349,6 +2632,7 @@ function StepperValidation({
 									<div className="flex items-center gap-2">
 										<InputText
 											id="id"
+											name="id"
 											defaultValue={form.id}
 											readOnly
 											className="w-full"
@@ -2356,6 +2640,7 @@ function StepperValidation({
 	
 
 										<Button
+											type="button"
 											icon="pi pi-copy"
 											text
 											rounded
@@ -2371,6 +2656,7 @@ function StepperValidation({
 									</label>
 									<InputText
 										id="recordingInstitution"
+										name="recordingInstitution"
 										defaultValue={form.recordingInstitution}
 										className="w-full"
 									/>
@@ -2545,6 +2831,7 @@ function StepperValidation({
 												Select the administrative areas where the disaster event was experienced.
 											</p>
 											<Button
+												type="button"
 												className="mt-4"
 												label="Add affected areas"
 												outlined
@@ -2621,6 +2908,7 @@ function StepperValidation({
 											{selectedDivisionCount === 1 ? " selected" : "s selected"}
 										</div>
 										<Button
+											type="button"
 											label="Clear all"
 											text
 											size="small"
@@ -2646,10 +2934,26 @@ function StepperValidation({
 						
 
 						<div className="flex items-center justify-between w-full mt-6">
-							<Button label="Cancel" outlined onClick={() => document.location.href = ctx.url("/disaster-event")} />
+							<Button
+								type="button"
+								label="Cancel"
+								outlined
+								onClick={() => document.location.href = ctx.url("/disaster-event")}
+							/>
 							<div className="flex gap-2">
-								<Button label="Save as draft" outlined onClick={saveAsDraft} />
-								<Button label="Next" icon="pi pi-chevron-right" iconPos="right" onClick={goNext} />
+								<Button
+									type="button"
+									label="Save as draft"
+									outlined
+									onClick={saveAsDraft}
+								/>
+								<Button
+									type="button"
+									label="Next"
+									icon="pi pi-chevron-right"
+									iconPos="right"
+									onClick={goNext}
+								/>
 							</div>
 						</div>
 					</StepperPanel>
@@ -2685,6 +2989,7 @@ function StepperValidation({
 										/>
 									</div>
 									<Button
+										type="button"
 										label={linkedEventLoading ? "Searching..." : "Search"}
 										onClick={() => searchLinkedEvents(linkedEventSearch)}
 										disabled={linkedEventLoading}
@@ -2733,6 +3038,7 @@ function StepperValidation({
 										/>
 									</div>
 									<Button
+										type="button"
 										label={linkedDisasterEventLoading ? "Searching..." : "Search"}
 										onClick={() => searchLinkedDisasterEvents(linkedDisasterEventSearch)}
 										disabled={linkedDisasterEventLoading}
@@ -2780,6 +3086,7 @@ function StepperValidation({
 										/>
 									</div>
 									<Button
+										type="button"
 										label={linkedDisasterRecordLoading ? "Searching..." : "Search"}
 										onClick={() => searchLinkedDisasterRecords(linkedDisasterRecordSearch)}
 										disabled={linkedDisasterRecordLoading}
@@ -2807,13 +3114,20 @@ function StepperValidation({
 
 						<div className="flex items-center justify-between w-full mt-6">
 							<Button
+								type="button"
 								label="Cancel"
 								outlined
 								onClick={() => (document.location.href = ctx.url("/disaster-event"))}
 							/>
 							<div className="flex gap-2">
-								<Button label="Save as draft" outlined onClick={saveAsDraft} />
 								<Button
+									type="button"
+									label="Save as draft"
+									outlined
+									onClick={saveAsDraft}
+								/>
+								<Button
+									type="button"
 									label="Back"
 									outlined
 									icon="pi pi-chevron-left"
@@ -2823,7 +3137,13 @@ function StepperValidation({
 										setActiveStep(0);
 									}}
 								/>
-								<Button label="Next" icon="pi pi-chevron-right" iconPos="right" onClick={goToAdditionalDetails} />
+								<Button
+									type="button"
+									label="Next"
+									icon="pi pi-chevron-right"
+									iconPos="right"
+									onClick={goToAdditionalDetails}
+								/>
 							</div>
 						</div>
 					</StepperPanel>
@@ -2854,6 +3174,7 @@ function StepperValidation({
 									</div>
 								</div>
 								<Button
+									type="button"
 									label="Add response"
 									icon="pi pi-plus"
 									outlined
@@ -2883,6 +3204,7 @@ function StepperValidation({
 									</div>
 								</div>
 								<Button
+									type="button"
 									label="Add assessment"
 									icon="pi pi-plus"
 									outlined
@@ -2912,6 +3234,7 @@ function StepperValidation({
 									</div>
 								</div>
 								<Button
+									type="button"
 									label="Add declaration"
 									icon="pi pi-plus"
 									outlined
@@ -3085,12 +3408,24 @@ function StepperValidation({
 								<div className="flex items-center justify-between gap-2 pt-2">
 									<div>
 										{editingDetailId ? (
-											<Button label="Delete" severity="danger" outlined onClick={deleteDetail} />
+											<Button
+												type="button"
+												label="Delete"
+												severity="danger"
+												outlined
+												onClick={deleteDetail}
+											/>
 										) : null}
 									</div>
 									<div className="flex gap-2">
-										<Button label="Cancel" outlined onClick={() => setDetailDialogVisible(false)} />
 										<Button
+											type="button"
+											label="Cancel"
+											outlined
+											onClick={() => setDetailDialogVisible(false)}
+										/>
+										<Button
+											type="button"
 											label={editingDetailId ? `Save ${detailDialogCategory}` : `Add ${detailDialogCategory}`}
 											disabled={!canSaveDetail}
 											onClick={saveDetail}
@@ -3102,13 +3437,20 @@ function StepperValidation({
 
 						<div className="flex items-center justify-between w-full mt-6">
 							<Button
+								type="button"
 								label="Cancel"
 								outlined
 								onClick={() => (document.location.href = ctx.url("/disaster-event"))}
 							/>
 							<div className="flex gap-2">
-								<Button label="Save as draft" outlined onClick={saveAsDraft} />
 								<Button
+									type="button"
+									label="Save as draft"
+									outlined
+									onClick={saveAsDraft}
+								/>
+								<Button
+									type="button"
 									label="Back"
 									outlined
 									icon="pi pi-chevron-left"
@@ -3118,7 +3460,13 @@ function StepperValidation({
 										setActiveStep(1);
 									}}
 								/>
-								<Button label="Next" icon="pi pi-chevron-right" iconPos="right" onClick={goToReview} />
+								<Button
+									type="button"
+									label="Next"
+									icon="pi pi-chevron-right"
+									iconPos="right"
+									onClick={goToReview}
+								/>
 							</div>
 						</div>
 					</StepperPanel>
@@ -3270,13 +3618,20 @@ function StepperValidation({
 
 						<div className="flex items-center justify-between w-full mt-6">
 							<Button
+								type="button"
 								label="Cancel"
 								outlined
 								onClick={() => (document.location.href = ctx.url("/disaster-event"))}
 							/>
 							<div className="flex gap-2">
-								<Button label="Save as draft" outlined onClick={saveAsDraft} />
 								<Button
+									type="button"
+									label="Save as draft"
+									outlined
+									onClick={saveAsDraft}
+								/>
+								<Button
+									type="button"
 									label="Back"
 									outlined
 									icon="pi pi-chevron-left"
@@ -3287,16 +3642,20 @@ function StepperValidation({
 									}}
 								/>
 								<Button
+									type="button"
 									label="Save"
 									onClick={() => {
 										const snapshot = saveCurrentFormState();
-										window.alert(JSON.stringify(snapshot, null, 2));
+										if (validateStep1(snapshot)) {
+											setVisibleModalSubmit(true);
+										}
 									}}
 								/>
 							</div>
 						</div>
 					</StepperPanel>
 				</Stepper>
+				</RouterForm>
 			</section>
 		</div>
 	</>);

@@ -82,9 +82,9 @@
 
 ## 6. Archive and PR
 
-- [ ] 6.1 Tick all checkboxes in this tasks.md (including this one) so the incomplete-task
+- [x] 6.1 Tick all checkboxes in this tasks.md (including this one) so the incomplete-task
        guard does not block the archive step.
-- [ ] 6.2 Run `/opsx:archive` on branch `feature/ca-domain-error-hierarchy` to finalise the
+- [x] 6.2 Run `/opsx:archive` on branch `feature/ca-domain-error-hierarchy` to finalise the
        OpenSpec change artifacts and mark the change complete.
-- [ ] 6.3 Raise a PR from `feature/ca-domain-error-hierarchy` targeting `dev` with title:
+- [x] 6.3 Raise a PR from `feature/ca-domain-error-hierarchy` targeting `dev` with title:
        `Feature: add shared DomainError hierarchy (ADR-003 Layer 1)`

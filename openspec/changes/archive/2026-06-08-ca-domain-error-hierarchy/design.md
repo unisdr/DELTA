@@ -125,7 +125,7 @@ Unit tests only. No PGlite, no real DB. Test file:
 `tests/unit/shared/errors/DomainError.test.ts`
 
 No setup import is needed (no DB context). Run with:
-```
+```bash
 yarn vitest run tests/unit/shared/errors/DomainError.test.ts
 ```
 

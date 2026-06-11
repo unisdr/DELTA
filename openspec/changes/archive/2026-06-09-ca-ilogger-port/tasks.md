@@ -20,7 +20,7 @@
   `new NoOpLogger()` and zero arguments, as specified in `specs/noop-logger/spec.md`.
 
 - [x] 2.3 Create `app/shared/logging/index.ts` — barrel that uses explicit named exports
-  (`export { ILogger } from "./ILogger"` and `export { NoOpLogger } from "./NoOpLogger"`),
+  (`export type { ILogger } from "./ILogger"` and `export { NoOpLogger } from "./NoOpLogger"`),
   following the pattern in `app/shared/errors/index.ts` and
   `specs/logging-barrel/spec.md`.
 

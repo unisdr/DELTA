@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { PassThrough } from "node:stream";
 
 import type { EntryContext } from "react-router";

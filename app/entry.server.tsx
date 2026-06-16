@@ -11,7 +11,7 @@ import { renderToPipeableStream } from "react-dom/server";
 
 import { initServer } from "./init.server";
 console.log("entry.server.tsx starting...");
-initServer();
+initServer().catch(console.error);
 
 // END OF OUR CODE
 

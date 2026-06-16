@@ -40,7 +40,14 @@ export async function initServer() {
 			logger: false,
 		});
 	}
-	appContext = await bootstrapPromise;
+	try {
+		appContext = await bootstrapPromise;
+	} catch (err) {
+		// Reset so a subsequent call can retry rather than re-awaiting a permanently
+		// rejected Promise.
+		bootstrapPromise = undefined;
+		throw err;
+	}
 
 	console.log("Initing cookie storage...");
 	initCookieStorage();

@@ -2,8 +2,8 @@
 // is in place before any NestJS decorator metadata is evaluated.
 import "reflect-metadata";
 
-import { Test } from "@nestjs/testing";
-import { describe, it, expect } from "vitest";
+import { Test, type TestingModule } from "@nestjs/testing";
+import { describe, it, expect, afterEach } from "vitest";
 
 import {
 	DRIZZLE_CLIENT,
@@ -25,11 +25,19 @@ describe("getAppContext", () => {
 });
 
 describe("CoreModule", () => {
+	const modulesToClose: TestingModule[] = [];
+
+	afterEach(async () => {
+		await Promise.all(modulesToClose.map((m) => m.close()));
+		modulesToClose.length = 0;
+	});
+
 	it("compiles without error", async () => {
 		// Verifies core-module spec: CoreModule compiles.
 		const module = await Test.createTestingModule({
 			imports: [CoreModule],
 		}).compile();
+		modulesToClose.push(module);
 
 		expect(module).toBeDefined();
 	});
@@ -42,6 +50,7 @@ describe("CoreModule", () => {
 		const module = await Test.createTestingModule({
 			imports: [CoreModule],
 		}).compile();
+		modulesToClose.push(module);
 
 		const resolvedDr = module.get(DRIZZLE_CLIENT);
 		expect(resolvedDr).toBe(dr);
@@ -53,6 +62,7 @@ describe("CoreModule", () => {
 		const module = await Test.createTestingModule({
 			imports: [CoreModule],
 		}).compile();
+		modulesToClose.push(module);
 
 		const first = module.get(DRIZZLE_CLIENT);
 		const second = module.get(DRIZZLE_CLIENT);
@@ -61,7 +71,7 @@ describe("CoreModule", () => {
 
 	it("DrizzleProvider descriptor has the correct provide key and a useFactory function", () => {
 		// Verifies drizzle-provider spec: Provider descriptor has the correct provide key.
-		// This also ensures the DrizzleProvider export is valid at import time.
+		// No module created — descriptor is a plain object, no lifecycle to close.
 		expect(DrizzleProvider.provide).toBe(DRIZZLE_CLIENT);
 		expect(typeof DrizzleProvider.useFactory).toBe("function");
 	});
@@ -75,6 +85,7 @@ describe("CoreModule", () => {
 			Test.createTestingModule({ imports: [CoreModule] }).compile(),
 			Test.createTestingModule({ imports: [CoreModule] }).compile(),
 		]);
+		modulesToClose.push(moduleA, moduleB);
 
 		const drA = moduleA.get(DRIZZLE_CLIENT);
 		const drB = moduleB.get(DRIZZLE_CLIENT);

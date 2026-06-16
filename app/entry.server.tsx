@@ -11,7 +11,10 @@ import { renderToPipeableStream } from "react-dom/server";
 
 import { initServer } from "./init.server";
 console.log("entry.server.tsx starting...");
-initServer().catch(console.error);
+initServer().catch((err) => {
+	console.error("[initServer] Fatal bootstrap failure — halting process:", err);
+	process.exit(1);
+});
 
 // END OF OUR CODE
 

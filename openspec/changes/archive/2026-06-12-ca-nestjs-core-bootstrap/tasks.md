@@ -32,14 +32,16 @@
 
 ## 3. Implement DrizzleProvider (Green — token + provider)
 
-- [x] 3.1 Create `app/infrastructure/DrizzleProvider.ts`. Export:
+- [x] 3.1 Create `app/infrastructure/DrizzleProvider.server.ts`. Export:
 
   - `DRIZZLE_CLIENT` — a typed injection token:
-    `export const DRIZZLE_CLIENT = new InjectionToken<Dr>("DRIZZLE_CLIENT");`
+    `export const DRIZZLE_CLIENT: InjectionToken<Dr> = Symbol("DRIZZLE_CLIENT");`
     Import `InjectionToken` from `@nestjs/common` and `Dr` from `~/db.server`.
+    NOTE: NestJS v11 `InjectionToken<T>` is a type alias, not a constructable class.
+    `new InjectionToken<Dr>(...)` is Angular syntax and will throw at runtime in NestJS.
 
   - `DrizzleProvider` — a provider descriptor:
-    ```
+    ```typescript
     export const DrizzleProvider: Provider = {
       provide: DRIZZLE_CLIENT,
       useFactory: (): Dr => dr,

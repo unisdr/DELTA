@@ -28,6 +28,11 @@
 		"paths": {
 			"~/*": ["./app/*"]
 		},
+		// Required for NestJS @Module(), @Injectable(), and @Inject() decorators.
+		// emitDecoratorMetadata enables Reflect.metadata calls that NestJS DI uses
+		// to resolve constructor-injected types at runtime.
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
 		// Vite takes care of building everything, not tsc.
 		"noEmit": true
 	},

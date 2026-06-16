@@ -66,7 +66,7 @@ describe("CoreModule", () => {
 		expect(typeof DrizzleProvider.useFactory).toBe("function");
 	});
 
-	it("compiles the same module instance when Test.createTestingModule is called concurrently", async () => {
+	it("concurrent TestingModule instances both resolve DRIZZLE_CLIENT to the same underlying dr singleton", async () => {
 		// Verifies that concurrent resolution of the same module does not produce
 		// divergent DRIZZLE_CLIENT values — both callers must get the same singleton.
 		// NestJS TestingModule isolation means each compile() creates a fresh container,

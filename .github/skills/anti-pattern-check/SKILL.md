@@ -65,6 +65,34 @@ or use them as implementation templates.
 
 ---
 
+## NestJS Checks
+
+These apply to any file that touches NestJS bootstrap, providers, modules, or tests.
+
+- [ ] **Fatal bootstrap errors must halt the process** — any fire-and-forget call to an
+      `async` init function on a server entry point (e.g. `initServer()` in `entry.server.tsx`)
+      MUST use `.catch((err) => { console.error(err); process.exit(1); })`.
+      `.catch(console.error)` alone is forbidden — it lets the app continue with no DB and no
+      DI container, producing silent failures on every subsequent request.
+
+- [ ] **Singleton bootstrap Promise must reset on failure** — any module-level
+      `let bootstrapPromise: Promise<T> | undefined` guard MUST reset to `undefined` inside
+      a `catch` block before re-throwing. If it is not reset, the first transient failure makes
+      the Promise permanently rejected and all subsequent retry attempts fail instantly without
+      ever calling `NestFactory` again.
+
+- [ ] **NestJS TestingModule must be closed after each test** — every
+      `Test.createTestingModule(...).compile()` call MUST be paired with `await module.close()`
+      in an `afterEach` hook. Unclosed modules leak NestJS lifecycle resources (timers, connections,
+      event emitters). Use a `const modulesToClose: TestingModule[] = []` array + `afterEach` to
+      handle tests that create multiple modules (e.g. concurrent-resolution tests).
+
+- [ ] **NestJS v11 injection tokens are not constructable** — `new InjectionToken<T>(...)` is
+      Angular syntax and throws at runtime in NestJS v11 (`InjectionToken is not a constructor`).
+      Use `Symbol("TOKEN_NAME") as InjectionToken<T>` instead.
+
+---
+
 ## Code Quality Checks
 
 - [ ] No `any` types without an explicit justification comment

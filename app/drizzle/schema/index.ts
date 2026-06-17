@@ -29,6 +29,7 @@ export * from "./instanceSystemSettingsTable";
 export * from "./lossesTable";
 export * from "./missingTable";
 export * from "./nonecoLossesTable";
+export * from "./noticesTable";
 export * from "./organizationTable";
 export * from "./sectorDisasterRecordsRelationTable";
 export * from "./sectorTable";

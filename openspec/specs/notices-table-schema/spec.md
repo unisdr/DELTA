@@ -9,7 +9,7 @@ types and constraints:
 - `id` — UUID primary key, default `gen_random_uuid()`, NOT NULL.
 - `countryAccountsId` — UUID, NOT NULL, foreign key referencing `countryAccountsTable.id`
   with `onDelete: "cascade"`.
-- `titleJson` — JSONB, nullable (no default).
+- `titleJson` — JSONB, NOT NULL (a notice must always have a title; drafts use `isPublished = false`, not missing fields).
 - `bodyJson` — JSONB, nullable (no default).
 - `isPublished` — boolean, NOT NULL, default `false`.
 - `publishedAt` — TIMESTAMPTZ, nullable (no default).
@@ -26,8 +26,8 @@ The file MUST also export `SelectNotice` (inferred from `noticesTable.$inferSele
 - **GIVEN** a valid `countryAccountsId` exists in the database
 - **WHEN** a row is inserted into `notices` with only `countryAccountsId` provided
 - **THEN** the inserted row SHALL have `isPublished = false`, `audience = 'private'`,
-  `publishedAt = null`, `titleJson = null`, `bodyJson = null`, and non-null values
-  for `id`, `createdAt`
+  `publishedAt = null`, `bodyJson = null`, and non-null values for `id`, `createdAt`,
+  and `titleJson` (which must be supplied — it is NOT NULL)
 
 #### Scenario: Insert a fully populated notice
 

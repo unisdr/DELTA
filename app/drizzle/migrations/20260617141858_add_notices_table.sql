@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS "notices" (
 	"audience" text DEFAULT 'private' NOT NULL,
 	"published_at" timestamp with time zone,
 	"created_at" timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	"updated_at" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+	"updated_at" timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	CONSTRAINT "notices_country_accounts_id_fk" FOREIGN KEY ("country_accounts_id")
 		REFERENCES "country_accounts"("id")
 		ON DELETE CASCADE

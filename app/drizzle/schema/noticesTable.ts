@@ -27,9 +27,9 @@ export const noticesTable = pgTable("notices", {
 	createdAt: timestamp("created_at", { withTimezone: true })
 		.notNull()
 		.default(sql`CURRENT_TIMESTAMP`),
-	updatedAt: timestamp("updated_at", { withTimezone: true }).default(
-		sql`CURRENT_TIMESTAMP`,
-	),
+	updatedAt: timestamp("updated_at", { withTimezone: true })
+		.notNull()
+		.default(sql`CURRENT_TIMESTAMP`),
 });
 
 export type SelectNotice = typeof noticesTable.$inferSelect;

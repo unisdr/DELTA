@@ -35,14 +35,14 @@ describe("noticesTable", () => {
 
 		const [row] = await dr
 			.insert(noticesTable)
-			.values({ countryAccountsId })
+			.values({ countryAccountsId, titleJson: { en: "Draft Notice" } })
 			.returning();
 
 		expect(row.id).toBeTruthy();
 		expect(row.isPublished).toBe(false);
 		expect(row.audience).toBe("private");
 		expect(row.publishedAt).toBeNull();
-		expect(row.titleJson).toBeNull();
+		expect(row.titleJson).toEqual({ en: "Draft Notice" });
 		expect(row.bodyJson).toBeNull();
 		expect(row.createdAt).toBeInstanceOf(Date);
 	});
@@ -92,11 +92,11 @@ describe("noticesTable", () => {
 		const [result1, result2] = await Promise.all([
 			dr
 				.insert(noticesTable)
-				.values({ countryAccountsId: countryAccountsId1 })
+				.values({ countryAccountsId: countryAccountsId1, titleJson: { en: "Notice 1" } })
 				.returning(),
 			dr
 				.insert(noticesTable)
-				.values({ countryAccountsId: countryAccountsId2 })
+				.values({ countryAccountsId: countryAccountsId2, titleJson: { en: "Notice 2" } })
 				.returning(),
 		]);
 
@@ -117,7 +117,7 @@ describe("noticesTable", () => {
 
 		const [inserted] = await dr
 			.insert(noticesTable)
-			.values({ countryAccountsId })
+			.values({ countryAccountsId, titleJson: { en: "Cascade Test" } })
 			.returning({ id: noticesTable.id });
 
 		// Delete the parent tenant row — cascade should remove its notices automatically.

@@ -15,7 +15,7 @@ export const noticesTable = pgTable("notices", {
 	countryAccountsId: uuid("country_accounts_id")
 		.notNull()
 		.references(() => countryAccountsTable.id, { onDelete: "cascade" }),
-	titleJson: jsonb("title_json"),
+	titleJson: jsonb("title_json").notNull(),
 	bodyJson: jsonb("body_json"),
 	isPublished: boolean("is_published").notNull().default(false),
 	// audience exists from day one to avoid a breaking migration when public/hybrid support is added

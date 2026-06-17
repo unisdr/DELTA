@@ -15,6 +15,8 @@ export default mergeConfig(
 				"tests/unit/**/*.test.{ts,tsx}",
 				"tests/integration/**/*.test.{ts,tsx}",
 				"app/routes/**/*.test.{ts,tsx}",
+				// Pure unit tests co-located with domain entities (no DB dependency)
+				"app/domains/**/*.test.{ts,tsx}",
 			],
 			exclude: [
 				"tests/e2e/**",

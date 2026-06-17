@@ -44,6 +44,20 @@ describe("Notice.create()", () => {
 
 			expect(() => Notice.create(props)).not.toThrow();
 		});
+
+		it("returns a Notice instance without throwing when isPublished is true and publishedAt is null (pre-tracking data is valid)", () => {
+			// A published notice with no publishedAt is intentionally allowed —
+			// it represents notices written before timestamp tracking was introduced.
+			// Only the reverse is an invariant: a DRAFT must never carry a publishedAt.
+			const props: NoticeProps = {
+				...baseProps,
+				titleJson: { en: "Published without timestamp" },
+				isPublished: true,
+				publishedAt: null,
+			};
+
+			expect(() => Notice.create(props)).not.toThrow();
+		});
 	});
 
 	describe("Failure paths", () => {

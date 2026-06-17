@@ -182,3 +182,12 @@ by reverting the branch.
   uses a PostgreSQL `text` constraint, so the DB will reject invalid values anyway. For
   now, the invariant is deferred (TypeScript's string union provides compile-time safety).
   Revisit when use-cases are written in Phase 4d+.
+
+- **[Phase 4g] Add a database-level CHECK constraint for the publishedAt/isPublished invariant.**
+  The application layer enforces `publishedAt IS NULL when isPublished = false` via
+  `Notice.create()`. A DB-level `CHECK (is_published = true OR published_at IS NULL)`
+  constraint would enforce this at the persistence layer too, guarding against rows written
+  directly to the DB (e.g. via migrations or admin tools) that bypass domain validation.
+  Data verification before adding the constraint: the `notices` table was created in Phase 4a
+  with no seed data, so no existing rows can violate the invariant — a backfill is not needed.
+  Implement as a separate migration in Phase 4g alongside `DrizzleNoticeRepository`.

@@ -73,20 +73,19 @@ MUST be mutable after construction.
 module-level variable, cache, counter, or singleton. Every invocation MUST be
 independently deterministic.
 
-#### Scenario: Concurrent callers both succeed independently
+#### Scenario: Two sequential calls with valid input return independent instances
 
-- **GIVEN** two concurrent callers each invoking `Notice.create(props)` with identical
-  valid input at the same time (i.e. both Promises resolve in the same event-loop turn)
+- **GIVEN** two sequential calls to `Notice.create(props)` with identical valid input
 - **WHEN** both calls complete
-- **THEN** each MUST receive its own independent `Notice` instance
-- **AND** neither call MUST interfere with the other (no shared state)
+- **THEN** each MUST return its own independent `Notice` instance
+- **AND** the two results MUST NOT be the same object reference
 - **AND** both results MUST reflect the input props correctly
 
-#### Scenario: Concurrent callers with invalid input both receive independent errors
+#### Scenario: Two sequential calls with invalid input each throw their own independent error
 
-- **GIVEN** two concurrent callers each invoking `Notice.create(props)` with identical
-  invalid input (empty `titleJson`) at the same time
+- **GIVEN** two sequential calls to `Notice.create(props)` with identical invalid input
+  (empty `titleJson`)
 - **WHEN** both calls complete
 - **THEN** each MUST throw its own `ValidationError` independently
-- **AND** one caller's error MUST NOT suppress or alter the other's
+- **AND** one call's error MUST NOT suppress or alter the other's
 

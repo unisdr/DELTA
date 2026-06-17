@@ -18,12 +18,15 @@ after this file is created.
 - **WHEN** `yarn tsc` is run
 - **THEN** it MUST exit with code 0 and zero type errors referencing this file
 
-### Requirement: INoticeRepository.findById is scoped by tenantId
+### Requirement: INoticeRepository.findById is scoped by tenantId and MUST throw NotFoundError when no match exists
 
 `INoticeRepository.findById(id: string, tenantId: string): Promise<Notice>` MUST be
 declared on the interface. The `tenantId` parameter SHALL be the second argument and is
 REQUIRED — the method signature MUST NOT make it optional. The implementation (Phase 4g)
-MUST use `tenantId` to scope the lookup to a single tenant.
+MUST use `tenantId` to scope the lookup to a single tenant. When no notice exists for the
+given `id` + `tenantId` pair, the implementation MUST throw `NotFoundError` (from
+`app/shared/errors/`) — it MUST NOT return `null` or `undefined`. Callers catch
+`NotFoundError` rather than checking for a null return value.
 
 #### Scenario: Method signature is present with correct arity
 
@@ -31,6 +34,14 @@ MUST use `tenantId` to scope the lookup to a single tenant.
 - **WHEN** a TypeScript class declares `implements INoticeRepository` and omits
   `tenantId` from `findById`
 - **THEN** `yarn tsc` MUST report a type error
+
+#### Scenario: No matching notice throws NotFoundError
+
+- **GIVEN** an implementation of `INoticeRepository`
+- **WHEN** `findById` is called with an `id` + `tenantId` pair that does not exist in
+  the store
+- **THEN** it MUST throw `NotFoundError`
+- **AND** it MUST NOT return `null`, `undefined`, or resolve the `Promise` silently
 
 ### Requirement: INoticeRepository.findAll MUST be scoped by tenantId and MUST accept Pagination
 
@@ -71,18 +82,27 @@ return type MUST be `Promise<void>` — callers MUST NOT expect a return value.
   of `Promise<void>`
 - **THEN** `yarn tsc` MUST report a type error
 
-### Requirement: All INoticeRepository methods are explicitly scoped to a single tenant
+### Requirement: INoticeRepository methods MUST enforce single-tenant scoping — save is the sole explicit exception
 
-Every method on `INoticeRepository` that reads from or writes to persistence MUST accept
-`tenantId: string` as an explicit parameter. No method MUST assume a global or ambient
-tenant context. This enforces the project-wide multi-tenancy rule at the type level.
+`findById`, `findAll`, and `delete` MUST each accept `tenantId: string` as an explicit
+parameter. No implementation of these three methods MUST assume a global or ambient
+tenant context. `save` is the sole intentional exception: it receives tenant context
+implicitly via `notice.tenantId` on the entity itself, because the entity already carries
+its own tenant identity and adding a redundant parameter would create a mismatch risk if
+the two values diverged. This enforces the project-wide multi-tenancy rule at the type
+level for all four methods.
 
-#### Scenario: All read and write methods carry tenantId
+#### Scenario: Read and delete methods carry explicit tenantId
 
 - **GIVEN** the `INoticeRepository` interface signature
 - **WHEN** the method list is inspected
 - **THEN** `findById`, `findAll`, and `delete` MUST each have `tenantId: string` as a
-  parameter
-- **AND** `save` receives tenancy implicitly via the `Notice` entity's `tenantId`
-  property (the entity itself carries its tenant context)
+  required parameter
+
+#### Scenario: save is explicitly exempted — tenancy is carried by the entity
+
+- **GIVEN** the `INoticeRepository` interface signature
+- **WHEN** `save(notice: Notice)` is inspected
+- **THEN** it MUST NOT have a separate `tenantId` parameter
+- **AND** the implementation MUST derive the tenant from `notice.tenantId`
 

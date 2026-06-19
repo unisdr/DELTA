@@ -284,7 +284,7 @@ the `DRIZZLE_CLIENT` token and returns the Drizzle instance.
 **Branch:** `feature/ca-nestjs-http-server`
 
 **Intent for `/opsx:propose`:**
-```
+```bash
 Enable NestFactory.create(CoreModule) in app/init.server.tsx on process.env.API_PORT
 (default 3001) alongside the existing applicationContext so Remix loaders are unaffected —
 set global prefix /api/v2, register a global DomainErrorFilter that maps each DomainError
@@ -567,7 +567,7 @@ the error boundary renders with a visible, copyable error reference ID.
 **Depends on:** 3c (HTTP server) + 4h (NoticesModule wired into DI)
 
 **Intent for `/opsx:propose`:**
-```
+```typescript
 Add NoticesController in app/domains/notices/presentation/NoticesController.ts as a
 NestJS @Controller('notices') registered in NoticesModule — three endpoints:
 GET / (ListNoticesUseCase), GET /:id (GetNoticeByIdUseCase), POST / (CreateNoticeUseCase) —

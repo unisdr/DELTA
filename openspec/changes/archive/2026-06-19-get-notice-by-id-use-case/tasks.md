@@ -84,8 +84,8 @@
   (run the suite on `dev` to establish a baseline) — do not label it pre-existing
   without verification.
 
-- [ ] 4.2 **Archive**: On the same branch, run `/opsx:archive` to archive this change
+- [x] 4.2 **Archive**: On the same branch, run `/opsx:archive` to archive this change
   before raising the PR.
 
-- [ ] 4.3 **PR**: Raise a PR targeting `dev` with prefix `Feature:`. Include a brief
+- [x] 4.3 **PR**: Raise a PR targeting `dev` with prefix `Feature:`. Include a brief
   summary of the two new files and the spec scenarios covered.

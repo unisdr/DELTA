@@ -6,7 +6,11 @@ import {
 	type Notice,
 } from "~/domains/notices/domain/Notice";
 import { NotFoundError } from "~/shared/errors/DomainError";
-import { GetNoticeByIdUseCase, NoticeNotFoundError, type GetNoticeByIdQuery } from "./GetNoticeById";
+import {
+	GetNoticeByIdUseCase,
+	NoticeNotFoundError,
+	type GetNoticeByIdQuery,
+} from "./GetNoticeById";
 
 // ---------------------------------------------------------------------------
 // Helpers

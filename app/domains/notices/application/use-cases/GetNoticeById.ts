@@ -1,6 +1,9 @@
 import type { ILogger } from "~/shared/logging/ILogger";
 import type { INoticeRepository } from "~/domains/notices/application/ports/INoticeRepository";
-import { toNoticeDto, type NoticeDto } from "~/domains/notices/application/dto/NoticeDto";
+import {
+	toNoticeDto,
+	type NoticeDto,
+} from "~/domains/notices/application/dto/NoticeDto";
 import { NotFoundError } from "~/shared/errors/DomainError";
 
 /**
@@ -63,7 +66,7 @@ export class GetNoticeByIdUseCase {
 
 		// Defence-in-depth tenant check: even though the repository receives tenantId
 		// as an explicit parameter, this guard catches a misconfigured or future adapter
-		// that fails to enforce tenant scoping. 
+		// that fails to enforce tenant scoping.
 		if (notice.tenantId !== query.tenantId) {
 			throw new NoticeNotFoundError(query.id);
 		}

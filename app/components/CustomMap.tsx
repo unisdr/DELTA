@@ -293,6 +293,30 @@ const formatValue = (
 	}
 };
 
+/**
+ * Normalizes a GeoFeature so its geometry is never a FeatureCollection.
+ * OpenLayers' GeoJSON.readFeature() does not support FeatureCollection as a
+ * geometry type. When such data is encountered (invalid entry), we extract the
+ * geometries from the nested features and wrap them in a GeometryCollection so
+ * the map can still render the shape.
+ */
+const normalizeGeoFeature = (feature: GeoFeature): GeoFeature => {
+	const geom = feature.geometry;
+	if (geom?.type !== "FeatureCollection") return feature;
+
+	const geometries = (geom.features ?? [])
+		.map((f: any) => f?.geometry)
+		.filter(Boolean);
+
+	return {
+		...feature,
+		geometry:
+			geometries.length === 1
+				? geometries[0]
+				: { type: "GeometryCollection", geometries },
+	};
+};
+
 const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 	ctx,
 	geoData,
@@ -653,7 +677,8 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 
 		if (nationalFeature) {
 			const format = new GeoJSON();
-			const olFeature = format.readFeature(nationalFeature, {
+			const normalizedNational = normalizeGeoFeature(nationalFeature);
+			const olFeature = format.readFeature(normalizedNational, {
 				featureProjection: "EPSG:3857",
 				dataProjection: "EPSG:4326",
 			}) as Feature<Geometry>;
@@ -683,7 +708,11 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 		setMap(newMap);
 
 		const format = new GeoJSON();
-		const features = format.readFeatures(geoData, {
+		const sanitizedGeoData = {
+			...geoData,
+			features: geoData.features.map(normalizeGeoFeature),
+		};
+		const features = format.readFeatures(sanitizedGeoData, {
 			featureProjection: "EPSG:3857",
 			dataProjection: "EPSG:4326",
 		});
@@ -807,7 +836,11 @@ const ExtendedCustomMap: React.FC<CustomMapProps> = ({
 		source.clear();
 
 		const format = new GeoJSON();
-		const features = format.readFeatures(geoData, {
+		const sanitizedGeoData = {
+			...geoData,
+			features: geoData.features.map(normalizeGeoFeature),
+		};
+		const features = format.readFeatures(sanitizedGeoData, {
 			featureProjection: "EPSG:3857",
 			dataProjection: "EPSG:4326",
 		});

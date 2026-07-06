@@ -2,9 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // ---------------------------------------------------------------------------
 // Mock ~/utils/session — the middleware's only external dependency besides
-// requestContext.server itself. Isolates this test from DB/cookie plumbing;
-// session.ts's own behaviour (memoization, cookie parsing) is covered by
-// tests/unit/utils/session.test.ts.
+// requestContext.server itself.
 // ---------------------------------------------------------------------------
 const { getUserFromSessionMock, getCountryAccountsIdFromSessionMock } =
 	vi.hoisted(() => ({
@@ -15,6 +13,23 @@ const { getUserFromSessionMock, getCountryAccountsIdFromSessionMock } =
 vi.mock("~/utils/session", () => ({
 	getUserFromSession: getUserFromSessionMock,
 	getCountryAccountsIdFromSession: getCountryAccountsIdFromSessionMock,
+}));
+
+// ---------------------------------------------------------------------------
+// Mock ~/infrastructure/logging/PinoLogger.server so tests can spy on the
+// singleton's error() method directly.
+// ---------------------------------------------------------------------------
+const { pinoErrorMock } = vi.hoisted(() => ({
+	pinoErrorMock: vi.fn(),
+}));
+
+vi.mock("~/infrastructure/logging/PinoLogger.server", () => ({
+	getPinoLogger: () => ({
+		info: vi.fn(),
+		warn: vi.fn(),
+		error: pinoErrorMock,
+		debug: vi.fn(),
+	}),
 }));
 
 import { requestContextMiddleware } from "~/middleware/requestContext.server";
@@ -35,6 +50,7 @@ function makeArgs(): Route.MiddlewareFunction extends (
 describe("requestContextMiddleware", () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
+		pinoErrorMock.mockClear();
 	});
 
 	it("makes traceId/tenantId/userId visible via getRequestContext() from inside the next stub", async () => {
@@ -128,5 +144,42 @@ describe("requestContextMiddleware", () => {
 		expect(next).toHaveBeenCalledTimes(1);
 		expect(captured!.userId).toBeNull();
 		expect(captured!.tenantId).toBeNull();
+	});
+
+	it("logs a rejected getUserFromSession via getPinoLogger().error, not console.error", async () => {
+		const consoleErrorSpy = vi
+			.spyOn(console, "error")
+			.mockImplementation(() => {});
+		const rejectionError = new Error("transient DB error");
+		getUserFromSessionMock.mockRejectedValue(rejectionError);
+		getCountryAccountsIdFromSessionMock.mockResolvedValue("tenant-1");
+
+		await requestContextMiddleware(makeArgs(), async () => new Response());
+
+		// Asserts on both `err` and `reason`
+		expect(pinoErrorMock).toHaveBeenCalledWith(
+			expect.objectContaining({ err: rejectionError, reason: rejectionError }),
+		);
+		expect(consoleErrorSpy).not.toHaveBeenCalled();
+
+		consoleErrorSpy.mockRestore();
+	});
+
+	it("logs a rejected getCountryAccountsIdFromSession via getPinoLogger().error, not console.error", async () => {
+		const consoleErrorSpy = vi
+			.spyOn(console, "error")
+			.mockImplementation(() => {});
+		const rejectionError = new Error("transient DB error");
+		getUserFromSessionMock.mockResolvedValue({ user: { id: "user-1" } });
+		getCountryAccountsIdFromSessionMock.mockRejectedValue(rejectionError);
+
+		await requestContextMiddleware(makeArgs(), async () => new Response());
+
+		expect(pinoErrorMock).toHaveBeenCalledWith(
+			expect.objectContaining({ err: rejectionError, reason: rejectionError }),
+		);
+		expect(consoleErrorSpy).not.toHaveBeenCalled();
+
+		consoleErrorSpy.mockRestore();
 	});
 });

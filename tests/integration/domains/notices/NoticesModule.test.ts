@@ -15,6 +15,7 @@ import { CreateNoticeUseCase } from "~/domains/notices/application/use-cases/Cre
 import { ListNoticesUseCase } from "~/domains/notices/application/use-cases/ListNotices";
 import { GetNoticeByIdUseCase } from "~/domains/notices/application/use-cases/GetNoticeById";
 import { CoreModule } from "~/infrastructure/CoreModule.server";
+import { getPinoLogger } from "~/infrastructure/logging/PinoLogger.server";
 
 describe("NoticesModule", () => {
 	const modulesToClose: TestingModule[] = [];
@@ -39,7 +40,9 @@ describe("NoticesModule", () => {
 
 	it("NOTICE_REPOSITORY resolves to an instance of DrizzleNoticeRepository", () => {
 		// Verifies notices-module-wiring spec: Token resolves to the correct adapter.
-		expect(module.get(NOTICE_REPOSITORY)).toBeInstanceOf(DrizzleNoticeRepository);
+		expect(module.get(NOTICE_REPOSITORY)).toBeInstanceOf(
+			DrizzleNoticeRepository,
+		);
 	});
 
 	it("NOTICE_REPOSITORY token resolves to the same singleton on repeated gets", () => {
@@ -70,12 +73,35 @@ describe("NoticesModule", () => {
 		expect(module.get(GetNoticeByIdUseCase)).toBeDefined();
 	});
 
+	it("CreateNoticeUseCase's useFactory constructs its logger via getPinoLogger(), not NoOpLogger", () => {
+		// Verifies notices-module-wiring spec: the factory-injected logger is the exact
+		// singleton getPinoLogger() returns.
+		const useCase = module.get(CreateNoticeUseCase) as unknown as {
+			logger: unknown;
+		};
+		expect(useCase.logger).toBe(getPinoLogger());
+	});
+
+	it("ListNoticesUseCase's useFactory constructs its logger via getPinoLogger(), not NoOpLogger", () => {
+		// Verifies notices-module-wiring spec: same identity check as above for ListNoticesUseCase.
+		const useCase = module.get(ListNoticesUseCase) as unknown as {
+			logger: unknown;
+		};
+		expect(useCase.logger).toBe(getPinoLogger());
+	});
+
+	it("GetNoticeByIdUseCase's useFactory constructs its logger via getPinoLogger(), not NoOpLogger", () => {
+		// Verifies notices-module-wiring spec: same identity check as above for GetNoticeByIdUseCase.
+		const useCase = module.get(GetNoticeByIdUseCase) as unknown as {
+			logger: unknown;
+		};
+		expect(useCase.logger).toBe(getPinoLogger());
+	});
+
 	describe("concurrent compilation", () => {
 		it("produces independent containers that do not share singleton instances", async () => {
 			// Verifies notices-module-wiring spec: Concurrent compilation produces independent containers.
-			// Each compile() creates an isolated NestJS DI container — providers must resolve
-			// to defined values in both, and each container's singleton instances must be
-			// independent objects (not.toBe) proving the two containers do not share state.
+			// Each compile() creates an isolated NestJS DI container
 			const [moduleA, moduleB] = await Promise.all([
 				Test.createTestingModule({ imports: [NoticesModule] }).compile(),
 				Test.createTestingModule({ imports: [NoticesModule] }).compile(),
@@ -95,12 +121,18 @@ describe("NoticesModule", () => {
 
 			// Each container's singleton instances are distinct objects — the two containers
 			// are truly isolated and do not share provider instances across compile() calls.
-			expect(moduleA.get(CreateNoticeUseCase)).not.toBe(moduleB.get(CreateNoticeUseCase));
-			expect(moduleA.get(ListNoticesUseCase)).not.toBe(moduleB.get(ListNoticesUseCase));
+			expect(moduleA.get(CreateNoticeUseCase)).not.toBe(
+				moduleB.get(CreateNoticeUseCase),
+			);
+			expect(moduleA.get(ListNoticesUseCase)).not.toBe(
+				moduleB.get(ListNoticesUseCase),
+			);
 			expect(moduleA.get(GetNoticeByIdUseCase)).not.toBe(
 				moduleB.get(GetNoticeByIdUseCase),
 			);
-			expect(moduleA.get(NOTICE_REPOSITORY)).not.toBe(moduleB.get(NOTICE_REPOSITORY));
+			expect(moduleA.get(NOTICE_REPOSITORY)).not.toBe(
+				moduleB.get(NOTICE_REPOSITORY),
+			);
 		});
 	});
 });

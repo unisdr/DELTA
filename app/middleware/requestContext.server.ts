@@ -12,6 +12,7 @@ import {
 	getUserFromSession,
 	getCountryAccountsIdFromSession,
 } from "~/utils/session";
+import { getPinoLogger } from "~/infrastructure/logging/PinoLogger.server";
 
 export const requestContextMiddleware: Route.MiddlewareFunction = (
 	{ request },
@@ -29,18 +30,20 @@ export const requestContextMiddleware: Route.MiddlewareFunction = (
 			]);
 
 			// Log rejections so recurring session-lookup failures are visible,
-			// without letting them block the request (see the comment above).
+			// without letting them block the request
 			if (userResult.status === "rejected") {
-				console.error(
-					"requestContextMiddleware: getUserFromSession failed",
-					userResult.reason,
-				);
+				getPinoLogger().error({
+					msg: "requestContextMiddleware: getUserFromSession failed",
+					err: userResult.reason,
+					reason: userResult.reason,
+				});
 			}
 			if (tenantIdResult.status === "rejected") {
-				console.error(
-					"requestContextMiddleware: getCountryAccountsIdFromSession failed",
-					tenantIdResult.reason,
-				);
+				getPinoLogger().error({
+					msg: "requestContextMiddleware: getCountryAccountsIdFromSession failed",
+					err: tenantIdResult.reason,
+					reason: tenantIdResult.reason,
+				});
 			}
 
 			// Mutate the live store (not a second als.run()) so tenantId/userId land

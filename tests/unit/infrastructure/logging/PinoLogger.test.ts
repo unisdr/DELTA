@@ -7,6 +7,7 @@ import {
 	getPinoLogger,
 	__getBasePinoInstanceForTest,
 	REDACT_PATHS,
+	contextMixin,
 } from "~/infrastructure/logging/PinoLogger.server";
 import {
 	withRequestContext,
@@ -88,6 +89,7 @@ describe("PinoLogger — core delegation", () => {
 });
 
 describe("PinoLogger — ADR-004 configuration", () => {
+	// pino-pretty's worker is unref()'d (verified) — no cleanup needed here.
 	const originalNodeEnv = process.env.NODE_ENV;
 
 	beforeEach(() => {
@@ -156,7 +158,7 @@ describe("PinoLogger — redaction (ADR-004)", () => {
 
 describe("PinoLogger — error object serialization", () => {
 	it("preserves message and stack when an Error is logged under the 'err' key", () => {
-		// Pino's built-in serializer only expands Error properties (message, stack, type) 
+		// Pino's built-in serializer only expands Error properties (message, stack, type)
 		// for a field literally named `err`.
 		const { instance, getLines } = createTestPino();
 		const logger = new PinoLogger(instance);
@@ -185,8 +187,9 @@ describe("PinoLogger — error object serialization", () => {
 });
 
 describe("PinoLogger — request context enrichment", () => {
+	// Enrichment is now the Pino instance's own mixin, not PinoLogger's job.
 	it("attaches traceId, tenantId, and userId inside an active withRequestContext scope", async () => {
-		const { instance, getLines } = createTestPino();
+		const { instance, getLines } = createTestPino({ mixin: contextMixin });
 		const logger = new PinoLogger(instance);
 
 		await withRequestContext(
@@ -209,7 +212,7 @@ describe("PinoLogger — request context enrichment", () => {
 	});
 
 	it("does not throw and omits context fields when no scope is active", () => {
-		const { instance, getLines } = createTestPino();
+		const { instance, getLines } = createTestPino({ mixin: contextMixin });
 		const logger = new PinoLogger(instance);
 
 		expect(() => logger.info({ msg: "Server started" })).not.toThrow();
@@ -222,7 +225,7 @@ describe("PinoLogger — request context enrichment", () => {
 	});
 
 	it("does not leak context between two concurrent withRequestContext scopes", async () => {
-		const { instance, getLines } = createTestPino();
+		const { instance, getLines } = createTestPino({ mixin: contextMixin });
 		const logger = new PinoLogger(instance);
 
 		const scopeA = withRequestContext(

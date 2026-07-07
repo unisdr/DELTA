@@ -9,44 +9,31 @@ export class PinoLogger implements ILogger {
 	constructor(private readonly logger: pino.Logger) {}
 
 	info(data: Record<string, unknown>): void {
-		this.withContext().info(data);
+		this.logger.info(data);
 	}
 
 	warn(data: Record<string, unknown>): void {
-		this.withContext().warn(data);
+		this.logger.warn(data);
 	}
 
 	error(data: Record<string, unknown>): void {
-		this.withContext().error(data);
+		this.logger.error(data);
 	}
 
 	debug(data: Record<string, unknown>): void {
-		this.withContext().debug(data);
-	}
-
-	/**
-	 * Returns a logger enriched with the active request's traceId/tenantId/userId,
-	 * or the base logger unchanged when no request scope is active.
-	 */
-	private withContext(): pino.Logger {
-		const ctx = getRequestContext();
-		if (!ctx) {
-			return this.logger;
-		}
-		return this.logger.child({
-			traceId: ctx.traceId,
-			tenantId: ctx.tenantId,
-			userId: ctx.userId,
-		});
+		this.logger.debug(data);
 	}
 }
 
-/**
- * Redact paths exported so tests assert against this exact array.
- *
- * WHY these wildcards only redact one level deep: Pino's `redact` option is
- * backed by `fast-redact`, which does not support a recursive/glob wildcard 
- */
+/** Pino `mixin` — merges request context into each log line; exported so tests reuse it. */
+export function contextMixin(): Record<string, unknown> {
+	const ctx = getRequestContext();
+	return ctx
+		? { traceId: ctx.traceId, tenantId: ctx.tenantId, userId: ctx.userId }
+		: {};
+}
+
+/** Exported so tests assert this exact array. Wildcards only redact one level deep (fast-redact has no recursive glob) — see design.md Risks. */
 export const REDACT_PATHS = [
 	"req.headers.authorization",
 	"req.headers.cookie",
@@ -66,6 +53,7 @@ const basePinoInstance = pino({
 			: undefined,
 	timestamp: () => `,"time":"${new Date().toISOString()}"`,
 	redact: REDACT_PATHS,
+	mixin: contextMixin,
 });
 
 // Memoized wrapper around basePinoInstance — constructed once, returned by

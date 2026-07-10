@@ -5,3 +5,4 @@ export {
 	NotFoundError,
 	ValidationError,
 } from "./DomainError";
+export type { ErrorResponse } from "./ErrorResponse";

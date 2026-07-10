@@ -6734,5 +6734,50 @@
 	{
 		"id": "upload_files",
 		"translation": "Upload files"
+	},
+	{
+		"id": "notices",
+		"translation": "Notices",
+		"description": "File: app/routes/$lang+/_authenticated+/notices+/_index.tsx:33"
+	},
+	{
+		"id": "notices.actions",
+		"translation": "Actions",
+		"description": "File: app/domains/notices/presentation/NoticeListPage.tsx:56"
+	},
+	{
+		"id": "notices.empty",
+		"translation": "No notices found.",
+		"description": "File: app/domains/notices/presentation/NoticeListPage.tsx:27"
+	},
+	{
+		"id": "notices.published_at",
+		"translation": "Published",
+		"description": "File: app/domains/notices/presentation/NoticeListPage.tsx:45"
+	},
+	{
+		"id": "notices.status",
+		"translation": "Status",
+		"description": "File: app/domains/notices/presentation/NoticeListPage.tsx:36"
+	},
+	{
+		"id": "notices.status_draft",
+		"translation": "Draft",
+		"description": "File: app/domains/notices/presentation/NoticeDetailPage.tsx:24"
+	},
+	{
+		"id": "notices.status_published",
+		"translation": "Published",
+		"description": "File: app/domains/notices/presentation/NoticeDetailPage.tsx:23"
+	},
+	{
+		"id": "notices.title",
+		"translation": "Title",
+		"description": "File: app/domains/notices/presentation/NoticeListPage.tsx:31"
+	},
+	{
+		"id": "notices.updated_at",
+		"translation": "Last updated",
+		"description": "File: app/domains/notices/presentation/NoticeListPage.tsx:52"
 	}
 ]

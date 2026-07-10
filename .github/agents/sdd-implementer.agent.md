@@ -104,9 +104,13 @@ and re-run from that gate. Loop until all pass:
 6. documentation review (see below)             — comments balanced and purposeful
 7. project conventions review (see below)       — DELTA-specific rules followed
 8. code review                                   — invoke code-review skill at high effort
+9. visual/UX parity review (see below)          — REQUIRED if this change touches
+                                                    app/domains/*/presentation/ or app/routes/
 ```
 
-Only exit the loop when all eight gates pass without changes needed.
+Only exit the loop when every applicable gate passes without changes needed. Gate 9 is not
+applicable to changes with no rendered output (pure backend/API changes) — skip it only in
+that case, and say so explicitly rather than silently omitting it.
 
 ## Gate details
 
@@ -125,6 +129,30 @@ summary here — the skill is the authoritative source.
 on every tenant query, `authLoaderWithPerm` on every loader, `yarn dbsync` for migrations,
 new tests under `tests/` — Vitest for unit/integration, Playwright for routing/auth/
 request-lifecycle changes (see test tier check above).
+
+**Visual/UX parity review (Gate 9):** Passing tests and `tsc` prove code correctness, not
+feature correctness — they do not catch a missing page-header wrapper, an unstyled heading,
+or a list with no way to reach its own detail page. Presentation-layer styling and layout must
+be in-line with other pages in the app — use the same shared layout components, heading
+classes, and navigation patterns as existing pages, not a page-specific invention. Do this for
+real, don't just assert you did:
+1. Name a real, existing reference page of the same page-type already in the app (a list page
+   for a new list page, a detail/form page for a new detail/form page) — not a hypothetical.
+2. Start `yarn dev`, seed minimal real data if the page needs it to render meaningfully, and
+   actually render both the new page and the reference page — via a real browser screenshot
+   (Playwright: `chromium.launch()` + `page.screenshot()`), not a mental simulation.
+3. Read the screenshot image yourself (the `Read` tool renders images) and compare: page-header/
+   layout wrapper present, headings using the app's real typography classes (not bare `<h1>`),
+   and any navigation affordance a user would expect (e.g. a list page needs a way to reach its
+   detail view — check how the cited reference page solves this, copy that exact pattern).
+4. If you don't have a login session handy, create one: insert a temporary user row (bcrypt
+   password hash) tied to an existing tenant directly via SQL/the DB client, log in through the
+   real `/en/user/login` form with Playwright, take your screenshots, then delete the temporary
+   user afterward. Do not skip this step because "the tests already cover the behavior" — tests
+   assert on text content, not layout.
+5. Fix anything that doesn't match, citing the real precedent you compared against (not an
+   invented pattern) — same rigor as any other design decision: verify against real code, don't
+   guess.
 
 **Code review:** Before invoking the `code-review` skill, explicitly switch cognitive mode.
 You are no longer the implementer whose goal is to make the code work — you are a skeptical

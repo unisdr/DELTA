@@ -44,7 +44,7 @@ Don't add agents for one-off tasks, or for things the generic assistant handles 
 | `tdd-test-writer` | Writing failing Vitest tests from an OpenSpec proposal (Red phase of TDD). Stops before any implementation. |
 | `sdd-implementer` | Implementing a change from its OpenSpec proposal and failing tests, running the Green → Refactor loop until all quality gates pass. |
 | `test-writer` | Writing comprehensive test suites across all tiers — unit, PGlite integration, real-DB integration, and Playwright E2E. Knows when to use each tier and DELTA's full test infrastructure. |
-| `migration-validator` | Validating PostgreSQL backup restores in a fresh local PostgreSQL database, running Drizzle migrations, checking data integrity against the migration scripts, and emitting a tabular pass/fail report. |
+| `migration-validator` | Validating PostgreSQL backup restores in a fresh Docker PostgreSQL 17 + PostGIS database, running the ordered migration files, checking data integrity against the migration scripts, and emitting a tabular pass/fail report. |
 | `solid-reviewer` | Reviewing code changes against SOLID principles, with primary focus on SRP and DIP. Reports violations with concrete refactoring steps. Invoked by sdd-implementer during the Refactor phase. |
 
 ## Skills

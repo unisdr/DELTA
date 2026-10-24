@@ -25,6 +25,8 @@
 		"test:e2e": "playwright test",
 		"test:e2e:ui": "playwright test --ui",
 		"test:e2e:headed": "playwright test --headed",
+		"migration:validate:docker": "tsx ./scripts/db_migration_validation/load-dts-db-docker.ts",
+		"migration:validate": "yarn migration:validate:docker",
 		"prepare": "husky",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",

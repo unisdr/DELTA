@@ -3,7 +3,6 @@ import path from "node:path";
 import { execFileSync, spawnSync } from "node:child_process";
 import pg from "pg";
 import {
-	evaluateSpatialValidation,
 	gatherSpatialValidationMetrics,
 } from "./spatialValidation";
 
@@ -34,6 +33,15 @@ const TARGETED_MIGRATION_FILES = [
 
 type CheckStatus = "Pass" | "Fail" | "Warn" | "Incomplete";
 
+type RecordMetrics = {
+  expected: number | string;
+  inScope: number | string;
+  matched: number | string;
+  missing: number | string;
+  unexpected: number | string;
+  mismatched: number | string;
+};
+
 type ReportRow = {
   Check: string;
   Status: CheckStatus;
@@ -43,6 +51,7 @@ type ReportRow = {
   MismatchCount: string;
   Details: string;
   EvidenceQuery?: string;
+  Records?: RecordMetrics;
 };
 
 type ExecutionSummary = {
@@ -79,6 +88,7 @@ type BaselineSnapshot = {
   workflowInstanceIds: Set<string>;
   workflowNotificationById: Map<string, string>;
   workflowHistoryById: Map<string, string>;
+  causalityPairs: Set<string>;
 };
 
 type RegressionEvidence = {
@@ -132,6 +142,23 @@ function runDocker(args: string[], input?: string): string {
 function truncateForReport(text: string, maxLength = 2000): string {
   if (text.length <= maxLength) return text;
   return `${text.slice(0, maxLength - 80)}? [truncated ${text.length - maxLength + 80} chars]`;
+}
+
+function renderRecordSummary(rows: ReportRow[]): string {
+  const header =
+    `| Check | Status | Expected records | Post-migration records in scope | Matched records | Missing records | Unexpected records | Mismatched records |\n` +
+    `| --- | --- | --- | --- | --- | --- | --- | --- |`;
+  const body = rows
+    .map((row) => {
+      const r = row.Records;
+      const cell = (v: number | string | undefined) => (v === undefined ? "N/A" : String(v));
+      return (
+        `| ${row.Check} | ${row.Status} | ${cell(r?.expected)} | ${cell(r?.inScope)} | ` +
+        `${cell(r?.matched)} | ${cell(r?.missing)} | ${cell(r?.unexpected)} | ${cell(r?.mismatched)} |`
+      );
+    })
+    .join("\n");
+  return `${header}\n${body}`;
 }
 
 function renderRowsTable(rows: ReportRow[]): string {
@@ -194,6 +221,15 @@ ${execution.migrationFilesExecuted.map((file, index) => `${index + 1}. \`${file}
 - Fail checks: ${failRows.length}
 - Incomplete required checks: ${incompleteRows.length}
 - Warning checks: ${warnRows.length}
+
+## Record-level match summary
+Record counts answer Angesh's review: for each record-level check, how many expected
+records were actually found and matched (identity + all fields covered by the check),
+versus missing, unexpected, or mismatched. \`N/A\` means record counts do not apply to
+that check (e.g. constraint or rollback checks). Equal row counts alone never count as
+matched — a target row counts as matched only when its key and all compared fields agree.
+
+${renderRecordSummary(rows)}
 
 ## Pass
 ${renderRowsTable(passRows)}
@@ -559,6 +595,18 @@ async function captureBaselineSnapshot(): Promise<BaselineSnapshot> {
     workflowHistoryById.set(String(row.id), String(row.row_hash));
   }
 
+  // Pre-existing causality pairs (table may already hold rows in the backup); the
+  // migration only inserts eligible pairs NOT already present. Capturing the baseline
+  // keeps pre-existing rows from being counted as migrated or unexpected.
+  const causalityPairRows = await getRows(`
+    SELECT cause_hazardous_event_id::text AS cause_id, effect_hazardous_event_id::text AS effect_id
+    FROM public.hazardous_event_causality
+  `);
+  const causalityPairs = new Set<string>();
+  for (const row of causalityPairRows) {
+    causalityPairs.add(`${row.cause_id}->${row.effect_id}`);
+  }
+
   return {
     notificationCounts,
     notificationPresence,
@@ -570,6 +618,7 @@ async function captureBaselineSnapshot(): Promise<BaselineSnapshot> {
     workflowInstanceIds,
     workflowNotificationById,
     workflowHistoryById,
+    causalityPairs,
   };
 }
 
@@ -577,7 +626,7 @@ function runRegressionTestsForEvidence(): RegressionEvidence {
   const vitestEntry = path.resolve(PROJECT_ROOT, "node_modules", "vitest", "vitest.mjs");
   const result = spawnSync(
     process.execPath,
-    [vitestEntry, "run", "tests/unit/scripts/spatialValidation.test.ts"],
+    [vitestEntry, "run", "tests/unit/scripts/spatialValidation.test.ts", "tests/unit/scripts/recordMatching.test.ts"],
     {
       cwd: PROJECT_ROOT,
       encoding: "utf8",
@@ -727,11 +776,15 @@ const ROLLBACK_LABELS = [
   "workflow",
 ] as const;
 
-// Runs all 8 rollback tests on a SINGLE disposable DB with zero database cloning.
-// Each injected failure rolls back cleanly (transactional DDL+DML), leaving the DB
-// at stage k; we then apply the REAL migration k to advance to stage k+1 and test k+1.
-// After the loop the DB is fully migrated and is reused for the negative self-tests
-// (each mutation is wrapped in BEGIN/ROLLBACK so the DB stays clean between checks).
+// Runs the prioritized rollback tests (HIPs, Spatial, Workflow) on a SINGLE disposable
+// DB with zero database cloning. We walk migrations in order; at each prioritized index
+// we inject a pre-COMMIT failure (which rolls back cleanly, leaving the DB at stage k),
+// confirm the schema + full row-content signature is unchanged, then apply the REAL
+// migration to advance to stage k+1. Non-prioritized migrations are only applied (their
+// rollback tests remain explicitly INCOMPLETE). After the loop the DB is fully migrated
+// and is reused for the negative self-tests (each mutation wrapped in BEGIN/ROLLBACK).
+const PRIORITIZED_ROLLBACK_INDICES = new Set<number>([0, 5, 7]);
+
 async function runAllRollbackAndNegativeTests(): Promise<{
   results: RollbackTargetResult[];
   negatives: NegativeCheckResult[];
@@ -746,59 +799,62 @@ async function runAllRollbackAndNegativeTests(): Promise<{
     for (let k = 0; k < TARGETED_MIGRATION_FILES.length; k += 1) {
       const migrationFile = TARGETED_MIGRATION_FILES[k];
       const migrationPath = path.resolve(PROJECT_ROOT, "app", "drizzle", "migrations", migrationFile);
-      let injectedPath: string | null = null;
-      try {
-        const beforeSig = await getDatabaseStateSignature(dbName);
 
-        injectedPath = buildInjectedFailureCopy(migrationPath);
-        const remoteInjected = "/tmp/" + path.basename(injectedPath);
-        runDocker(["cp", injectedPath, `${CONTAINER_NAME}:${remoteInjected}`]);
-
-        let failureObserved = false;
-        let failureReason = "";
+      if (PRIORITIZED_ROLLBACK_INDICES.has(k)) {
+        let injectedPath: string | null = null;
         try {
-          runDocker([
-            "exec", CONTAINER_NAME, "psql", "-U", "postgres", "-d", dbName, "-v", "ON_ERROR_STOP=1", "-f", remoteInjected,
-          ]);
-        } catch (error) {
-          failureObserved = true;
-          failureReason = error instanceof Error ? error.message : String(error);
-        }
+          const beforeSig = await getDatabaseStateSignature(dbName);
 
-        const afterSig = await getDatabaseStateSignature(dbName);
-        const rolledBack = beforeSig === afterSig;
-        const injectedConfirmed = /INJECTED_ROLLBACK_TEST_FAILURE/.test(failureReason);
-        const passed = failureObserved && injectedConfirmed && rolledBack;
+          injectedPath = buildInjectedFailureCopy(migrationPath);
+          const remoteInjected = "/tmp/" + path.basename(injectedPath);
+          runDocker(["cp", injectedPath, `${CONTAINER_NAME}:${remoteInjected}`]);
 
-        results.push({
-          label: ROLLBACK_LABELS[k],
-          migrationFile,
-          executed: true,
-          failureObserved,
-          rolledBack,
-          passed,
-          summary:
-            `predecessors_committed=${k}; failure_observed=${failureObserved}; ` +
-            `injected_error_confirmed=${injectedConfirmed}; ` +
-            `schema_and_full_row_content_signature_unchanged=${rolledBack}; ` +
-            `failure_reason=${truncateForReport(failureReason, 200)}`,
-        });
-      } catch (error) {
-        results.push({
-          label: ROLLBACK_LABELS[k],
-          migrationFile,
-          executed: true,
-          failureObserved: false,
-          rolledBack: false,
-          passed: false,
-          summary: `rollback test execution error: ${truncateForReport(error instanceof Error ? error.message : String(error), 400)}`,
-        });
-      } finally {
-        if (injectedPath) {
+          let failureObserved = false;
+          let failureReason = "";
           try {
-            fs.rmSync(injectedPath, { force: true });
-          } catch {
-            // best-effort cleanup
+            runDocker([
+              "exec", CONTAINER_NAME, "psql", "-U", "postgres", "-d", dbName, "-v", "ON_ERROR_STOP=1", "-f", remoteInjected,
+            ]);
+          } catch (error) {
+            failureObserved = true;
+            failureReason = error instanceof Error ? error.message : String(error);
+          }
+
+          const afterSig = await getDatabaseStateSignature(dbName);
+          const rolledBack = beforeSig === afterSig;
+          const injectedConfirmed = /INJECTED_ROLLBACK_TEST_FAILURE/.test(failureReason);
+          const passed = failureObserved && injectedConfirmed && rolledBack;
+
+          results.push({
+            label: ROLLBACK_LABELS[k],
+            migrationFile,
+            executed: true,
+            failureObserved,
+            rolledBack,
+            passed,
+            summary:
+              `predecessors_committed=${k}; failure_observed=${failureObserved}; ` +
+              `injected_error_confirmed=${injectedConfirmed}; ` +
+              `schema_and_full_row_content_signature_unchanged=${rolledBack}; ` +
+              `failure_reason=${truncateForReport(failureReason, 200)}`,
+          });
+        } catch (error) {
+          results.push({
+            label: ROLLBACK_LABELS[k],
+            migrationFile,
+            executed: true,
+            failureObserved: false,
+            rolledBack: false,
+            passed: false,
+            summary: `rollback test execution error: ${truncateForReport(error instanceof Error ? error.message : String(error), 400)}`,
+          });
+        } finally {
+          if (injectedPath) {
+            try {
+              fs.rmSync(injectedPath, { force: true });
+            } catch {
+              // best-effort cleanup
+            }
           }
         }
       }
@@ -880,6 +936,80 @@ async function runAllRollbackAndNegativeTests(): Promise<{
         try { await client.query("ROLLBACK"); } catch { /* ignore */ }
         negatives.push({
           label: "Mismatched field detection",
+          detected: false,
+          summary: `negative self-test error: ${truncateForReport(error instanceof Error ? error.message : String(error), 240)}`,
+        });
+      }
+
+      // Causality direction-reversal: keep hazardous_event_causality row COUNT unchanged
+      // but swap cause/effect on one eligible pair, then confirm the causality checker
+      // reports the reversed pair as a mismatch and does NOT count it as matched.
+      try {
+        await client.query("BEGIN");
+        const before = await client.query(
+          "SELECT count(*)::int AS c FROM public.hazardous_event_causality",
+        );
+        const beforeCount = Number(before.rows[0]?.c ?? 0);
+        await client.query(`
+          WITH target AS (
+            SELECT hec.id, hec.cause_hazardous_event_id AS cause_id, hec.effect_hazardous_event_id AS effect_id
+            FROM public.hazardous_event_causality hec
+            JOIN public.event_relationship er
+              ON er.parent_id = hec.cause_hazardous_event_id
+             AND er.child_id = hec.effect_hazardous_event_id
+            WHERE hec.cause_hazardous_event_id <> hec.effect_hazardous_event_id
+              AND NOT EXISTS (
+                SELECT 1 FROM public.hazardous_event_causality x
+                WHERE x.cause_hazardous_event_id = hec.effect_hazardous_event_id
+                  AND x.effect_hazardous_event_id = hec.cause_hazardous_event_id
+              )
+            ORDER BY hec.id LIMIT 1
+          )
+          UPDATE public.hazardous_event_causality hec
+          SET cause_hazardous_event_id = t.effect_id,
+              effect_hazardous_event_id = t.cause_id
+          FROM target t
+          WHERE hec.id = t.id
+        `);
+        const after = await client.query(
+          "SELECT count(*)::int AS c FROM public.hazardous_event_causality",
+        );
+        const afterCount = Number(after.rows[0]?.c ?? 0);
+        // Checker: count eligible pairs present only in the REVERSED direction (mismatched).
+        const d = await client.query(`
+          WITH eligible AS (
+            SELECT DISTINCT er.parent_id AS cause_id, er.child_id AS effect_id
+            FROM public.event_relationship er
+            JOIN public.hazardous_event p ON p.id = er.parent_id
+            JOIN public.hazardous_event c ON c.id = er.child_id
+            WHERE er.parent_id <> er.child_id
+          )
+          SELECT count(*)::int AS c
+          FROM eligible e
+          WHERE NOT EXISTS (
+                  SELECT 1 FROM public.hazardous_event_causality h
+                  WHERE h.cause_hazardous_event_id = e.cause_id
+                    AND h.effect_hazardous_event_id = e.effect_id
+                )
+            AND EXISTS (
+                  SELECT 1 FROM public.hazardous_event_causality h
+                  WHERE h.cause_hazardous_event_id = e.effect_id
+                    AND h.effect_hazardous_event_id = e.cause_id
+                )
+        `);
+        const reversedMismatch = Number(d.rows[0]?.c ?? 0);
+        negatives.push({
+          label: "Reversed causality detection (row count unchanged)",
+          detected: reversedMismatch > 0 && beforeCount === afterCount,
+          summary:
+            `reversed 1 causality pair; row_count_before=${beforeCount}, row_count_after=${afterCount} (unchanged); ` +
+            `checker reversed_direction_mismatches=${reversedMismatch} (expected > 0, affected pair NOT counted as matched)`,
+        });
+        await client.query("ROLLBACK");
+      } catch (error) {
+        try { await client.query("ROLLBACK"); } catch { /* ignore */ }
+        negatives.push({
+          label: "Reversed causality detection (row count unchanged)",
           detected: false,
           summary: `negative self-test error: ${truncateForReport(error instanceof Error ? error.message : String(error), 240)}`,
         });
@@ -1119,6 +1249,8 @@ async function validateMigrationState(
     )
     SELECT
       (SELECT count(*)::int FROM expected_map) AS hip_hazard_id_rows,
+      (SELECT count(*)::int FROM public.hazardous_event WHERE specific_hazard_id IS NOT NULL) AS in_scope_mapped_rows,
+      (SELECT count(*)::int FROM expected_map WHERE expected_specific_hazard_id IS NOT NULL AND actual_specific_hazard_id IS NOT DISTINCT FROM expected_specific_hazard_id) AS matched_rows,
       (SELECT count(*)::int FROM expected_map WHERE expected_specific_hazard_id IS NULL OR actual_specific_hazard_id IS NULL) AS missing_mapping_rows,
       (SELECT count(*)::int FROM expected_map WHERE expected_specific_hazard_id IS NOT NULL AND actual_specific_hazard_id IS NOT NULL AND actual_specific_hazard_id IS DISTINCT FROM expected_specific_hazard_id) AS incorrect_mapping_rows,
       (SELECT count(*)::int FROM public.hazardous_event WHERE hip_hazard_id IS NULL AND specific_hazard_id IS NOT NULL) AS legacy_null_with_specific_hazard
@@ -1126,22 +1258,32 @@ async function validateMigrationState(
   const hazardousMappingRows = await getRows(hazardousMappingQuery);
   const hazardousMapping = hazardousMappingRows[0] ?? {};
   const hazardousEventsWithHipHazardId = Number(hazardousMapping.hip_hazard_id_rows ?? 0);
+  const hazardInScopeMapped = Number(hazardousMapping.in_scope_mapped_rows ?? 0);
+  const hazardMatched = Number(hazardousMapping.matched_rows ?? 0);
   const missingHazardMappings = Number(hazardousMapping.missing_mapping_rows ?? 0);
   const incorrectHazardMappings = Number(hazardousMapping.incorrect_mapping_rows ?? 0);
   const legacyNullWithSpecific = Number(hazardousMapping.legacy_null_with_specific_hazard ?? 0);
   const hazardousEventSpecificHazardOk = missingHazardMappings === 0 && incorrectHazardMappings === 0 && legacyNullWithSpecific === 0;
 
   rows.push({
-    Check: "Hazardous event -> specific hazard migration",
+    Check: "Hazardous event -> specific hazard mapping",
     Status: hazardousEventSpecificHazardOk ? "Pass" : "Fail",
-    Table: "public.hazardous_event, public.specific_hazard",
+    Table: "public.hazardous_event (specific_hazard_id) keyed by hazardous_event.id; matched vs specific_hazard.source_ref_id = hip_hazard_id",
     Expected: "For every non-null hip_hazard_id, specific_hazard_id equals the specific_hazard.id whose source_ref_id matches hip_hazard_id; legacy-null rows remain unmapped",
-    Actual: `hip_hazard_id_rows=${hazardousEventsWithHipHazardId}, missing_mapping_rows=${missingHazardMappings}, incorrect_mapping_rows=${incorrectHazardMappings}, legacy_null_with_specific_hazard=${legacyNullWithSpecific}`,
+    Actual: `expected=${hazardousEventsWithHipHazardId}, in_scope_mapped=${hazardInScopeMapped}, matched=${hazardMatched}, missing=${missingHazardMappings}, unexpected(legacy_null_mapped)=${legacyNullWithSpecific}, mismatched(wrong_target)=${incorrectHazardMappings}`,
     MismatchCount: `${missingHazardMappings + incorrectHazardMappings + legacyNullWithSpecific}`,
     Details: hazardousEventSpecificHazardOk
-      ? "Each hazardous event is mapped to the exact expected specific_hazard by source_ref_id; no legacy-null rows were incorrectly populated."
+      ? "Each hazardous event with a legacy hip_hazard_id is mapped to the exact expected specific_hazard by source_ref_id (identity + value verified); no legacy-null rows were incorrectly populated."
       : "Missing or incorrect specific_hazard mappings were detected for legacy hip_hazard_id references.",
     EvidenceQuery: hazardousMappingQuery.trim(),
+    Records: {
+      expected: hazardousEventsWithHipHazardId,
+      inScope: hazardInScopeMapped,
+      matched: hazardMatched,
+      missing: missingHazardMappings,
+      unexpected: legacyNullWithSpecific,
+      mismatched: incorrectHazardMappings,
+    },
   });
 
   const hipClassCount = await getCount("SELECT count(*)::int as c FROM public.hip_class");
@@ -1245,37 +1387,139 @@ async function validateMigrationState(
   });
 
   const spatialMetrics = await gatherSpatialValidationMetrics(getCount);
-  const spatialEvaluation = evaluateSpatialValidation(spatialMetrics);
 
+  const sm = spatialMetrics;
+  const obsMatched = sm.expectedObservations - sm.observationAssociationMismatches;
+  const obsUnexpected = Math.max(0, sm.actualObservations - sm.expectedObservations) + sm.observationsWithNoLinks;
+  const obsOk =
+    sm.observationAssociationMismatches === 0 &&
+    sm.observationTimeOrNoteNonNull === 0 &&
+    sm.observationsWithNoLinks === 0 &&
+    sm.actualObservations === sm.expectedObservations;
   rows.push({
-    Check: "Spatial observation migration",
-    Status: spatialEvaluation.passed ? "Pass" : "Fail",
-    Table: "public.hazardous_event_spatial_observation, public.hazardous_event_spatial_observation_geom, public.hazardous_event_spatial_observation_division",
-    Expected: "Spatial observations must match source baseline: deterministic observation mapping, complete geometry/division links, exact EWKB/title/event/division associations, and deduplicated division links preserving the lowest legacy UUID per event/division pair",
-    Actual: spatialEvaluation.actualSummary,
-    MismatchCount: `${spatialEvaluation.failureReasons.length}`,
-    Details: spatialEvaluation.passed
-      ? "Spatial migration matches source baseline across link coverage, geometry EWKB/title, hazardous-event associations, and deduplicated division links."
-      : `Spatial validation mismatch: ${spatialEvaluation.failureReasons.join("; ")}.`,
-    EvidenceQuery: "See scripts/db_migration_validation/spatialValidation.ts for exact coverage and baseline SQL checks using hazardous_event_spatial_observation_geom and hazardous_event_spatial_observation_division.",
+    Check: "Spatial — hazardous-event spatial observations",
+    Status: obsOk ? "Pass" : "Fail",
+    Table: "public.hazardous_event_spatial_observation keyed by deterministic observation id = md5('delta:hazardous-event:initial-spatial-observation:'||hazardous_event_id)",
+    Expected: "Exactly one observation per distinct hazardous_event appearing in source geom/division data; deterministic id + correct hazardous_event association; observation_time and note NULL",
+    Actual: `expected=${sm.expectedObservations}, in_scope=${sm.actualObservations}, matched=${obsMatched}, missing=${sm.observationAssociationMismatches}, unexpected=${obsUnexpected}, observation_time_or_note_nonnull=${sm.observationTimeOrNoteNonNull}`,
+    MismatchCount: `${sm.observationAssociationMismatches + obsUnexpected + sm.observationTimeOrNoteNonNull}`,
+    Details: obsOk
+      ? "Each expected observation exists with the deterministic id and correct hazardous_event association; counts here are OBSERVATIONS only (geometry and division links are reported separately)."
+      : "One or more spatial observations are missing, unexpected, or have wrong association/non-null time/note.",
+    EvidenceQuery: "scripts/db_migration_validation/spatialValidation.ts — observation coverage + association queries over public.hazardous_event_spatial_observation.",
+    Records: {
+      expected: sm.expectedObservations,
+      inScope: sm.actualObservations,
+      matched: obsMatched,
+      missing: sm.observationAssociationMismatches,
+      unexpected: obsUnexpected,
+      mismatched: 0,
+    },
   });
 
-  const causalityCount = await getCount("SELECT count(*)::int as c FROM public.hazardous_event_causality");
-  const eligibleCausalityPairs = await getCount(`SELECT count(*)::int as c FROM (SELECT DISTINCT er.parent_id AS cause_hazardous_event_id, er.child_id AS effect_hazardous_event_id FROM public.event_relationship er INNER JOIN public.hazardous_event parent_he ON parent_he.id = er.parent_id INNER JOIN public.hazardous_event child_he ON child_he.id = er.child_id WHERE er.parent_id <> er.child_id) src`);
-  const missingCausalityPairs = await getCount(`SELECT count(*)::int as c FROM (SELECT DISTINCT er.parent_id AS cause_hazardous_event_id, er.child_id AS effect_hazardous_event_id FROM public.event_relationship er INNER JOIN public.hazardous_event parent_he ON parent_he.id = er.parent_id INNER JOIN public.hazardous_event child_he ON child_he.id = er.child_id WHERE er.parent_id <> er.child_id) src LEFT JOIN public.hazardous_event_causality hec ON hec.cause_hazardous_event_id = src.cause_hazardous_event_id AND hec.effect_hazardous_event_id = src.effect_hazardous_event_id WHERE hec.id IS NULL`);
-  const causalityCompleteness = eligibleCausalityPairs === causalityCount && missingCausalityPairs === 0;
-
+  const geomMatched = sm.geomSourceCount - sm.geomMissingInTarget - sm.geomContentOrAssociationMismatches;
+  const geomOk = sm.geomMissingInTarget === 0 && sm.geomExtraInTarget === 0 && sm.geomContentOrAssociationMismatches === 0;
   rows.push({
-    Check: "Event causality mapping completeness",
-    Status: causalityCompleteness ? "Pass" : "Fail",
-    Table: "public.event_relationship, public.hazardous_event_causality",
-    Expected: "Every eligible event_relationship pair where both endpoints are hazardous events should be copied to hazardous_event_causality with the same cause/effect direction",
-    Actual: `eligible_pairs=${eligibleCausalityPairs}, migrated_pairs=${causalityCount}, missing_pairs=${missingCausalityPairs}`,
-    MismatchCount: `${Math.abs(eligibleCausalityPairs - causalityCount) + missingCausalityPairs}`,
-    Details: causalityCompleteness
-      ? "All eligible event_relationship pairs were migrated into hazardous_event_causality with the correct cause/effect direction."
-      : "One or more eligible event_relationship pairs are missing from hazardous_event_causality or were copied with the wrong cause/effect direction.",
-    EvidenceQuery: "SELECT count(*)::int as c FROM public.hazardous_event_causality; SELECT count(*)::int as c FROM (SELECT DISTINCT er.parent_id AS cause_hazardous_event_id, er.child_id AS effect_hazardous_event_id FROM public.event_relationship er INNER JOIN public.hazardous_event parent_he ON parent_he.id = er.parent_id INNER JOIN public.hazardous_event child_he ON child_he.id = er.child_id WHERE er.parent_id <> er.child_id) src; SELECT count(*)::int as c FROM (SELECT DISTINCT er.parent_id AS cause_hazardous_event_id, er.child_id AS effect_hazardous_event_id FROM public.event_relationship er INNER JOIN public.hazardous_event parent_he ON parent_he.id = er.parent_id INNER JOIN public.hazardous_event child_he ON child_he.id = er.child_id WHERE er.parent_id <> er.child_id) src LEFT JOIN public.hazardous_event_causality hec ON hec.cause_hazardous_event_id = src.cause_hazardous_event_id AND hec.effect_hazardous_event_id = src.effect_hazardous_event_id WHERE hec.id IS NULL;",
+    Check: "Spatial — geometry links",
+    Status: geomOk ? "Pass" : "Fail",
+    Table: "public.hazardous_event_spatial_observation_geom keyed by geometry id; matched vs public.hazardous_event_geom",
+    Expected: "Every source geometry copied with identical UUID, NULL-safe ST_AsEWKB geometry, title, and correct observation association",
+    Actual: `expected=${sm.geomSourceCount}, in_scope=${sm.geomTargetCount}, matched=${geomMatched}, missing=${sm.geomMissingInTarget}, unexpected=${sm.geomExtraInTarget}, mismatched(ewkb/title/assoc)=${sm.geomContentOrAssociationMismatches}`,
+    MismatchCount: `${sm.geomMissingInTarget + sm.geomExtraInTarget + sm.geomContentOrAssociationMismatches}`,
+    Details: geomOk
+      ? "Every source geometry row is matched by id with identical EWKB, title, and observation association. Counts here are GEOMETRY LINKS only."
+      : "One or more geometry links are missing, unexpected, or differ in EWKB/title/association.",
+    EvidenceQuery: "scripts/db_migration_validation/spatialValidation.ts — geometry baseline comparison (ST_AsEWKB NULL-safe) over hazardous_event_spatial_observation_geom vs hazardous_event_geom.",
+    Records: {
+      expected: sm.geomSourceCount,
+      inScope: sm.geomTargetCount,
+      matched: geomMatched,
+      missing: sm.geomMissingInTarget,
+      unexpected: sm.geomExtraInTarget,
+      mismatched: sm.geomContentOrAssociationMismatches,
+    },
+  });
+
+  const divMismatched = sm.divisionContentOrAssociationMismatches + sm.divisionLowestIdMismatches;
+  const divMatched = sm.divisionSourceDistinctPairs - sm.divisionMissingInTarget - divMismatched;
+  const divOk = sm.divisionMissingInTarget === 0 && sm.divisionExtraInTarget === 0 && divMismatched === 0;
+  rows.push({
+    Check: "Spatial — administrative division links",
+    Status: divOk ? "Pass" : "Fail",
+    Table: "public.hazardous_event_spatial_observation_division keyed by distinct (hazardous_event, division); matched vs deduped hazardous_event_division",
+    Expected: "One link per distinct (event, division) pair, deduplicated keeping the lowest legacy UUID, with correct observation association and division_id",
+    Actual: `expected(distinct_pairs)=${sm.divisionSourceDistinctPairs}, in_scope=${sm.divisionTargetCount}, matched=${divMatched}, missing=${sm.divisionMissingInTarget}, unexpected=${sm.divisionExtraInTarget}, mismatched(assoc/division/dedup)=${divMismatched}`,
+    MismatchCount: `${sm.divisionMissingInTarget + sm.divisionExtraInTarget + divMismatched}`,
+    Details: divOk
+      ? "Every distinct (event, division) pair is matched with correct association, division_id, and lowest-UUID dedup rule. Counts here are DIVISION LINKS only — distinct pairs, not raw source rows."
+      : "One or more division links are missing, unexpected, or violate association/division/dedup expectations.",
+    EvidenceQuery: "scripts/db_migration_validation/spatialValidation.ts — division dedup + baseline comparison over hazardous_event_spatial_observation_division.",
+    Records: {
+      expected: sm.divisionSourceDistinctPairs,
+      inScope: sm.divisionTargetCount,
+      matched: divMatched,
+      missing: sm.divisionMissingInTarget,
+      unexpected: sm.divisionExtraInTarget,
+      mismatched: divMismatched,
+    },
+  });
+
+  // Causality — direction-aware, baseline-aware record-level comparison.
+  const eligiblePairRows = await getRows(`
+    SELECT DISTINCT er.parent_id::text AS cause_id, er.child_id::text AS effect_id
+    FROM public.event_relationship er
+    JOIN public.hazardous_event p ON p.id = er.parent_id
+    JOIN public.hazardous_event c ON c.id = er.child_id
+    WHERE er.parent_id <> er.child_id
+  `);
+  const currentPairRows = await getRows(`
+    SELECT cause_hazardous_event_id::text AS cause_id, effect_hazardous_event_id::text AS effect_id
+    FROM public.hazardous_event_causality
+  `);
+  const eligibleKeys = new Set(eligiblePairRows.map((r) => `${r.cause_id}->${r.effect_id}`));
+  const currentKeys = new Set(currentPairRows.map((r) => `${r.cause_id}->${r.effect_id}`));
+  const reverseKey = (k: string) => {
+    const [a, b] = k.split("->");
+    return `${b}->${a}`;
+  };
+  let causMatched = 0;
+  let causMissing = 0;
+  let causMismatched = 0;
+  for (const k of eligibleKeys) {
+    if (currentKeys.has(k)) causMatched += 1;
+    else if (currentKeys.has(reverseKey(k))) causMismatched += 1;
+    else causMissing += 1;
+  }
+  // Newly inserted rows = current minus pre-existing baseline; unexpected = newly inserted
+  // rows that correspond to no eligible pair (neither direction).
+  let causInScopeNew = 0;
+  let causUnexpected = 0;
+  for (const k of currentKeys) {
+    if (baseline.causalityPairs.has(k)) continue;
+    causInScopeNew += 1;
+    if (!eligibleKeys.has(k) && !eligibleKeys.has(reverseKey(k))) causUnexpected += 1;
+  }
+  const causalityOk = causMissing === 0 && causMismatched === 0 && causUnexpected === 0;
+  rows.push({
+    Check: "Event causality relationships (direction-aware)",
+    Status: causalityOk ? "Pass" : "Fail",
+    Table: "public.hazardous_event_causality keyed by (cause_hazardous_event_id -> effect_hazardous_event_id); matched vs eligible event_relationship (parent->cause, child->effect)",
+    Expected: "Each eligible event_relationship pair (both endpoints hazardous events, parent<>child) is present with parent mapped to CAUSE and child mapped to EFFECT; a reversed pair counts as mismatched, not matched",
+    Actual: `expected=${eligibleKeys.size}, in_scope(newly_inserted)=${causInScopeNew}, matched=${causMatched}, missing=${causMissing}, unexpected=${causUnexpected}, mismatched(reversed_direction)=${causMismatched}`,
+    MismatchCount: `${causMissing + causUnexpected + causMismatched}`,
+    Details: causalityOk
+      ? "Every eligible pair is present in the correct cause->effect direction (direction verified per pair); pre-existing baseline rows are excluded from in-scope/unexpected counts."
+      : "One or more causality pairs are missing, reversed (mismatched), or unexpected.",
+    EvidenceQuery:
+      "eligible = DISTINCT event_relationship(parent->cause, child->effect) with both endpoints in hazardous_event and parent<>child; compared in-runtime against hazardous_event_causality with direction and baseline-aware (pre-existing pairs excluded).",
+    Records: {
+      expected: eligibleKeys.size,
+      inScope: causInScopeNew,
+      matched: causMatched,
+      missing: causMissing,
+      unexpected: causUnexpected,
+      mismatched: causMismatched,
+    },
   });
 
   const hipUuidHierarchyMismatches = await getCount(hipUuidHierarchyQuery);
@@ -1791,30 +2035,41 @@ async function validateMigrationState(
         ? "Fault injected after the migration's changes but before COMMIT; the schema + full row-content state signature matched the pre-migration signature, confirming complete rollback with predecessor migrations intact, and the injected exception caused the failure."
         : "Rollback test did not confirm complete rollback; see Actual for failure/signature details.",
       EvidenceQuery:
-        "Disposable DB = cumulative stage template (backup + migrations 0..k-1 committed). Capture schema + full row-content signature (information_schema.columns + pg_constraint defs + per-table md5(string_agg(md5(to_jsonb(row))))). Run a labelled TEST COPY of the migration with a RAISE EXCEPTION injected immediately before the final COMMIT (original migration SQL unchanged). Expect failure, re-capture signature; pass iff failure observed, injected error confirmed, and signature unchanged.",
+        "Single disposable DB walked migration-by-migration (no cloning). At each prioritized index k capture schema + full row-content signature (information_schema.columns + pg_constraint defs + per-table md5(string_agg(md5(to_jsonb(row))))). Run a labelled TEST COPY of the migration with a RAISE EXCEPTION injected immediately before the final COMMIT (original migration SQL unchanged). Expect failure, re-capture signature; pass iff failure observed, injected error confirmed, and signature unchanged. Then apply the REAL migration to advance.",
     });
   }
 
+  rows.push({
+    Check: "Rollback under injected failure — remaining 5 migrations",
+    Status: "Incomplete",
+    Table: "20261009091033, 20261011000000, 20261012000000, 20261015095931, 20261015100055",
+    Expected: "Rollback-under-failure tests for the five non-prioritized migrations are executed on disposable fixtures",
+    Actual: "Not executed this run (prioritized scope: HIPs, Spatial, Workflow)",
+    MismatchCount: "N/A",
+    Details: "Per the current scope only HIPs, Spatial, and Workflow rollback tests were executed. The remaining five rollback tests are explicitly marked INCOMPLETE until separately run (the same single-DB fault-injection harness can cover them).",
+    EvidenceQuery: "Pending: enable migration indices 1,2,3,4,6 in PRIORITIZED_ROLLBACK_INDICES to execute the remaining rollback tests.",
+  });
+
   for (const neg of negativeResults) {
     rows.push({
-      Check: `Acceptance — validator ${neg.label}`,
+      Check: `Acceptance — validator detects ${neg.label}`,
       Status: neg.detected ? "Pass" : "Fail",
-      Table: "disposable fixture DB (post-migration, deliberately corrupted)",
-      Expected: "The validator's own checks flag the deliberately introduced defect (detection count > 0)",
+      Table: "disposable fixture DB (post-migration, deliberately corrupted in BEGIN/ROLLBACK)",
+      Expected: "The validator's own checks flag the deliberately introduced defect (detection count > 0); for the reversed-causality case the row count stays unchanged yet the affected pair is NOT counted as matched",
       Actual: neg.summary,
       MismatchCount: neg.detected ? "0" : "1",
       Details: neg.detected
-        ? "Validator correctly detected the injected defect in a disposable fixture, proving the checks are not vacuously passing."
+        ? "Validator correctly detected the injected defect in a disposable fixture, proving the checks are not vacuously passing (equal counts alone do not imply matched)."
         : "Validator failed to detect the injected defect; the corresponding check may be ineffective.",
-      EvidenceQuery: "On a disposable fully-migrated fixture: inject one defect (broken hazard reference / corrupted HIP original_text), then run the matching validation query and confirm it reports a nonzero mismatch.",
+      EvidenceQuery: "On a disposable fully-migrated fixture (BEGIN/ROLLBACK): inject one defect (broken hazard reference / corrupted HIP original_text / reversed causality with unchanged row count), then run the matching validation query and confirm it reports a nonzero mismatch.",
     });
   }
 
   rows.push({
     Check: "Checker regression tests",
     Status: regressionEvidence.executed ? (regressionEvidence.passed ? "Pass" : "Fail") : "Incomplete",
-    Table: "tests/unit/scripts/spatialValidation.test.ts",
-    Expected: "Regression tests for false negatives and association mismatches are executed and captured in report evidence",
+    Table: "tests/unit/scripts/spatialValidation.test.ts, tests/unit/scripts/recordMatching.test.ts",
+    Expected: "Regression tests for false negatives, association mismatches, altered mapped values, and reversed causality (row count unchanged) are executed and captured in report evidence",
     Actual: `executed=${regressionEvidence.executed}, exit_code=${regressionEvidence.exitCode}`,
     MismatchCount: regressionEvidence.executed ? (regressionEvidence.passed ? "0" : "1") : "N/A",
     Details: regressionEvidence.executed

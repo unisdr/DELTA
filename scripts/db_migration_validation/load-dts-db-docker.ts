@@ -200,7 +200,11 @@ function buildReport(rows: ReportRow[], execution: ExecutionSummary): string {
   const warnRows = rows.filter((row) => row.Status === "Warn");
   const incompleteRows = rows.filter((row) => row.Status === "Incomplete");
   const overallStatus =
-    failRows.length === 0 && incompleteRows.length === 0 ? "PASS" : "INCOMPLETE";
+    failRows.length > 0
+      ? "FAIL"
+      : incompleteRows.length === 0 && execution.migrationsCompleted
+        ? "COMPLETE"
+        : "INCOMPLETE";
 
   return `# Migration validation report
 
@@ -776,14 +780,19 @@ const ROLLBACK_LABELS = [
   "workflow",
 ] as const;
 
-// Runs the prioritized rollback tests (HIPs, Spatial, Workflow) on a SINGLE disposable
-// DB with zero database cloning. We walk migrations in order; at each prioritized index
-// we inject a pre-COMMIT failure (which rolls back cleanly, leaving the DB at stage k),
-// confirm the schema + full row-content signature is unchanged, then apply the REAL
-// migration to advance to stage k+1. Non-prioritized migrations are only applied (their
-// rollback tests remain explicitly INCOMPLETE). After the loop the DB is fully migrated
-// and is reused for the negative self-tests (each mutation wrapped in BEGIN/ROLLBACK).
-const PRIORITIZED_ROLLBACK_INDICES = new Set<number>([0, 5, 7]);
+// Runs a rollback-under-injected-failure test for EACH of the eight migrations on a
+// SINGLE disposable DB with zero database cloning. We walk the migrations in order; at
+// each index we capture the pre-migration schema + full row-content signature, run a
+// labelled TEST COPY of the migration with a RAISE EXCEPTION injected immediately before
+// the transaction-level COMMIT (the DO-block BEGINs are not transaction boundaries), and
+// confirm the whole migration rolled back (signature unchanged) and the injected error —
+// not an unrelated error — caused the failure. We then apply the REAL (unmodified)
+// migration to advance to the next pre-migration stage. After the loop the DB is fully
+// migrated and is reused for the negative self-tests (each mutation wrapped in
+// BEGIN/ROLLBACK so the DB stays clean between checks).
+const ROLLBACK_TEST_INDICES = new Set<number>(
+  TARGETED_MIGRATION_FILES.map((_, index) => index),
+);
 
 async function runAllRollbackAndNegativeTests(): Promise<{
   results: RollbackTargetResult[];
@@ -800,7 +809,7 @@ async function runAllRollbackAndNegativeTests(): Promise<{
       const migrationFile = TARGETED_MIGRATION_FILES[k];
       const migrationPath = path.resolve(PROJECT_ROOT, "app", "drizzle", "migrations", migrationFile);
 
-      if (PRIORITIZED_ROLLBACK_INDICES.has(k)) {
+      if (ROLLBACK_TEST_INDICES.has(k)) {
         let injectedPath: string | null = null;
         try {
           const beforeSig = await getDatabaseStateSignature(dbName);
@@ -2035,20 +2044,9 @@ async function validateMigrationState(
         ? "Fault injected after the migration's changes but before COMMIT; the schema + full row-content state signature matched the pre-migration signature, confirming complete rollback with predecessor migrations intact, and the injected exception caused the failure."
         : "Rollback test did not confirm complete rollback; see Actual for failure/signature details.",
       EvidenceQuery:
-        "Single disposable DB walked migration-by-migration (no cloning). At each prioritized index k capture schema + full row-content signature (information_schema.columns + pg_constraint defs + per-table md5(string_agg(md5(to_jsonb(row))))). Run a labelled TEST COPY of the migration with a RAISE EXCEPTION injected immediately before the final COMMIT (original migration SQL unchanged). Expect failure, re-capture signature; pass iff failure observed, injected error confirmed, and signature unchanged. Then apply the REAL migration to advance.",
+        "Single disposable Docker test DB walked migration-by-migration (no cloning). At each index k capture schema + full row-content signature (information_schema.columns + pg_constraint defs + per-table md5(string_agg(md5(to_jsonb(row))))). Run a labelled TEST COPY of the migration with a RAISE EXCEPTION injected immediately before the transaction-level COMMIT — the DO-block BEGINs are not transaction boundaries (original migration SQL unchanged). Expect failure, re-capture signature; pass iff the INJECTED error (not an unrelated error) occurred and the schema+row signature is unchanged. Then apply the REAL migration to advance to the next pre-migration stage.",
     });
   }
-
-  rows.push({
-    Check: "Rollback under injected failure — remaining 5 migrations",
-    Status: "Incomplete",
-    Table: "20261009091033, 20261011000000, 20261012000000, 20261015095931, 20261015100055",
-    Expected: "Rollback-under-failure tests for the five non-prioritized migrations are executed on disposable fixtures",
-    Actual: "Not executed this run (prioritized scope: HIPs, Spatial, Workflow)",
-    MismatchCount: "N/A",
-    Details: "Per the current scope only HIPs, Spatial, and Workflow rollback tests were executed. The remaining five rollback tests are explicitly marked INCOMPLETE until separately run (the same single-DB fault-injection harness can cover them).",
-    EvidenceQuery: "Pending: enable migration indices 1,2,3,4,6 in PRIORITIZED_ROLLBACK_INDICES to execute the remaining rollback tests.",
-  });
 
   for (const neg of negativeResults) {
     rows.push({
